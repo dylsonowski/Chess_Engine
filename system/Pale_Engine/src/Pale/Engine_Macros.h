@@ -9,3 +9,8 @@
 #else
 	#error This app can only run on Windows OS!
 #endif // PLATFORM_WINDOWS
+
+//--- Errors codes ---//
+#define VEC_OUT_OF_RANGE "Read attempt from out of vector range!"
+
+//--- Warnings codes ---//

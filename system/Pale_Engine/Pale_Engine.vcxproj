@@ -99,12 +99,14 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Pale\Chess_Module\Board_Representation.h" />
     <ClInclude Include="src\Pale.h" />
     <ClInclude Include="src\Pale\Application.h" />
     <ClInclude Include="src\Pale\Engine_Macros.h" />
     <ClInclude Include="src\Pale\Log_System.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Pale\Chess_Module\Board_Representation.cpp" />
     <ClCompile Include="src\Pale\Application.cpp" />
     <ClCompile Include="src\Pale\Log_System.cpp" />
   </ItemGroup>
