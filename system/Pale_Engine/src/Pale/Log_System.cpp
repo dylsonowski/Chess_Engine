@@ -1,5 +1,5 @@
+#include "palepch.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
-#include "Log_System.h"
 
 namespace Pale {
 	std::shared_ptr<spdlog::logger> Log_System::s_coreLogger;

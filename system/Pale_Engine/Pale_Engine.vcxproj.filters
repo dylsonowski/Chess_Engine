@@ -5,7 +5,10 @@
       <UniqueIdentifier>{C7988A7C-B3CF-8B0D-5CBC-711048D2070F}</UniqueIdentifier>
     </Filter>
     <Filter Include="Pale\Chess_Module">
-      <UniqueIdentifier>{0abf6cd6-892c-4b2c-a97d-0862359162bf}</UniqueIdentifier>
+      <UniqueIdentifier>{1116EC27-7D2C-EABD-C6A3-75DF32F9BA45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pale\Chess_Module\Pieces">
+      <UniqueIdentifier>{797449C3-6599-9843-8EE4-7DD37A689761}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -13,25 +16,39 @@
     <ClInclude Include="src\Pale\Application.h">
       <Filter>Pale</Filter>
     </ClInclude>
+    <ClInclude Include="src\Pale\Chess_Module\Board_Representation.h">
+      <Filter>Pale\Chess_Module</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Pale\Chess_Module\Pieces\Piece_Types.h">
+      <Filter>Pale\Chess_Module\Pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Pale\Chess_Module\Pieces\Pieces.h">
+      <Filter>Pale\Chess_Module\Pieces</Filter>
+    </ClInclude>
     <ClInclude Include="src\Pale\Engine_Macros.h">
       <Filter>Pale</Filter>
     </ClInclude>
     <ClInclude Include="src\Pale\Log_System.h">
       <Filter>Pale</Filter>
     </ClInclude>
-    <ClInclude Include="src\Pale\Chess_Module\Board_Representation.h">
-      <Filter>Pale\Chess_Module</Filter>
-    </ClInclude>
+    <ClInclude Include="src\palepch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pale\Application.cpp">
       <Filter>Pale</Filter>
     </ClCompile>
-    <ClCompile Include="src\Pale\Log_System.cpp">
-      <Filter>Pale</Filter>
-    </ClCompile>
     <ClCompile Include="src\Pale\Chess_Module\Board_Representation.cpp">
       <Filter>Pale\Chess_Module</Filter>
     </ClCompile>
+    <ClCompile Include="src\Pale\Chess_Module\Pieces\Piece_Types.cpp">
+      <Filter>Pale\Chess_Module\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Pale\Chess_Module\Pieces\Pieces.cpp">
+      <Filter>Pale\Chess_Module\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Pale\Log_System.cpp">
+      <Filter>Pale</Filter>
+    </ClCompile>
+    <ClCompile Include="src\palepch.cpp" />
   </ItemGroup>
 </Project>

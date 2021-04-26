@@ -7,11 +7,16 @@ workspace "Chess_Engine"
 
 project "Pale_Engine"
     location "Pale_Engine"
-    kind "SharedLib"
+    kind "StaticLib"
     language "C++"
+    cppdialect "C++17"
+    staticruntime "on"
 
     targetdir ("bin/%{prj.name}_%{cfg.architecture}/%{cfg.buildcfg}")
     objdir ("bin-int/%{prj.name}_%{cfg.architecture}/%{cfg.buildcfg}")
+
+    pchheader "palepch.h"
+    pchsource "Pale_Engine/src/palepch.cpp"
 
     files {
         "%{prj.name}/src/**.h",
@@ -19,40 +24,36 @@ project "Pale_Engine"
     }
 
     includedirs {
-        "%{prj.name}/vendor/spdlog/include"
+        "%{prj.name}/vendor/spdlog/include",
+        "%{prj.name}/src"
     }
 
     filter "system:windows"
-        cppdialect "C++17"
-        staticruntime "On"
         systemversion "latest"
 
         defines {
-            "PLATFORM_WINDOWS",
-            "BUILD_DLL"
-        }
-
-        postbuildcommands {
-            ("{COPY} %{cfg.buildtarget.relpath} ../bin/Chess_Game_%{cfg.architecture}/%{cfg.buildcfg}")
+            "PLATFORM_WINDOWS"
         }
 
     filter "configurations:Debug"
         defines "_DEBUG_"
-        symbols "On"
+        symbols "on"
 
     filter "configurations:Release"
         defines "_RELEASE_"
-        optimize "On"
+        optimize "on"
 
 
 project "Chess_Game"
     location "Chess_Game"
     kind "ConsoleApp"
     language "C++"
+    cppdialect "C++17"
+    staticruntime "On"
     
     targetdir ("bin/%{prj.name}_%{cfg.architecture}/%{cfg.buildcfg}")
     objdir ("bin-int/%{prj.name}_%{cfg.architecture}/%{cfg.buildcfg}")
-    
+
     files {
         "%{prj.name}/src/**.h",
         "%{prj.name}/src/**.cpp"
@@ -68,8 +69,6 @@ project "Chess_Game"
     }
     
     filter "system:windows"
-        cppdialect "C++17"
-        staticruntime "On"
         systemversion "latest"
 
         defines {
@@ -78,8 +77,8 @@ project "Chess_Game"
 
     filter "configurations:Debug"
         defines "_DEBUG_"
-        symbols "On"
+        symbols "on"
 
     filter "configurations:Release"
         defines "_RELEASE_"
-        optimize "On"
+        optimize "on"

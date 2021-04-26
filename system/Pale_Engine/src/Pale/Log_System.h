@@ -1,10 +1,9 @@
 #pragma once
-#include <memory>
 #include "spdlog/spdlog.h"
 #include "Engine_Macros.h"
 
 namespace Pale {
-	class PALE_API Log_System {
+	class Log_System {
 
 	public:
 		Log_System() = default;

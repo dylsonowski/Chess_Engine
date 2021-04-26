@@ -19,13 +19,13 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v142</PlatformToolset>
@@ -41,25 +41,24 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LinkIncremental>true</LinkIncremental>
     <OutDir>..\bin\Pale_Engine_x86_64\Debug\</OutDir>
     <IntDir>..\bin-int\Pale_Engine_x86_64\Debug\</IntDir>
     <TargetName>Pale_Engine</TargetName>
-    <TargetExt>.dll</TargetExt>
+    <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LinkIncremental>false</LinkIncremental>
     <OutDir>..\bin\Pale_Engine_x86_64\Release\</OutDir>
     <IntDir>..\bin-int\Pale_Engine_x86_64\Release\</IntDir>
     <TargetName>Pale_Engine</TargetName>
-    <TargetExt>.dll</TargetExt>
+    <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>palepch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>PLATFORM_WINDOWS;BUILD_DLL;_DEBUG_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>vendor\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>PLATFORM_WINDOWS;_DEBUG_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>vendor\spdlog\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -68,18 +67,15 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ImportLibrary>..\bin\Pale_Engine_x86_64\Debug\Pale_Engine.lib</ImportLibrary>
     </Link>
-    <PostBuildEvent>
-      <Command>IF EXIST ..\bin\Pale_Engine_x86_64\Debug\Pale_Engine.dll\ (xcopy /Q /E /Y /I ..\bin\Pale_Engine_x86_64\Debug\Pale_Engine.dll ..\bin\Chess_Game_x86_64\Debug &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Pale_Engine_x86_64\Debug\Pale_Engine.dll ..\bin\Chess_Game_x86_64\Debug &gt; nul)</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>palepch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>PLATFORM_WINDOWS;BUILD_DLL;_RELEASE_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>vendor\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>PLATFORM_WINDOWS;_RELEASE_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>vendor\spdlog\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -92,23 +88,27 @@
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <ImportLibrary>..\bin\Pale_Engine_x86_64\Release\Pale_Engine.lib</ImportLibrary>
     </Link>
-    <PostBuildEvent>
-      <Command>IF EXIST ..\bin\Pale_Engine_x86_64\Release\Pale_Engine.dll\ (xcopy /Q /E /Y /I ..\bin\Pale_Engine_x86_64\Release\Pale_Engine.dll ..\bin\Chess_Game_x86_64\Release &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Pale_Engine_x86_64\Release\Pale_Engine.dll ..\bin\Chess_Game_x86_64\Release &gt; nul)</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\Pale\Chess_Module\Board_Representation.h" />
     <ClInclude Include="src\Pale.h" />
     <ClInclude Include="src\Pale\Application.h" />
+    <ClInclude Include="src\Pale\Chess_Module\Board_Representation.h" />
+    <ClInclude Include="src\Pale\Chess_Module\Pieces\Piece_Types.h" />
+    <ClInclude Include="src\Pale\Chess_Module\Pieces\Pieces.h" />
     <ClInclude Include="src\Pale\Engine_Macros.h" />
     <ClInclude Include="src\Pale\Log_System.h" />
+    <ClInclude Include="src\palepch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Pale\Chess_Module\Board_Representation.cpp" />
     <ClCompile Include="src\Pale\Application.cpp" />
+    <ClCompile Include="src\Pale\Chess_Module\Board_Representation.cpp" />
+    <ClCompile Include="src\Pale\Chess_Module\Pieces\Piece_Types.cpp" />
+    <ClCompile Include="src\Pale\Chess_Module\Pieces\Pieces.cpp" />
     <ClCompile Include="src\Pale\Log_System.cpp" />
+    <ClCompile Include="src\palepch.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,16 +1,10 @@
 #pragma once
 
-#ifdef PLATFORM_WINDOWS
-	#ifdef BUILD_DLL
-		#define PALE_API __declspec(dllexport)
-	#else
-		#define PALE_API __declspec(dllimport)
-	#endif // BUILD_DLL
-#else
-	#error This app can only run on Windows OS!
-#endif // PLATFORM_WINDOWS
-
 //--- Errors codes ---//
 #define VEC_OUT_OF_RANGE "Read attempt from out of vector range!"
+#define FIGURE_BAD_OWNER "If the figure was created it needs proper owning side!"
+#define COPY_LIMIT_EXCEEDED "Attempt to create to many instancies of the chess piece!"
+#define BAD_TYPE_INSERTION "Attempt to insert value of the type different than board representaion!"
 
 //--- Warnings codes ---//
+#define INVALID_PIECE_ID "No coresponding chess piece of the given ID! Insertion failed!"

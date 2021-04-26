@@ -1,8 +1,9 @@
 #pragma once
 #include "Engine_Macros.h"
+#include "Chess_Module/Board_Representation.h"
 
 namespace Pale {
-	class PALE_API Application {
+	class Application {
 
 	public:
 		Application() = default;
