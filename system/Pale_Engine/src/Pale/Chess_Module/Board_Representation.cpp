@@ -1,4 +1,5 @@
 #include "palepch.h"
+#include "Board_Representation.h"
 /*#include "Board_Representation.h"
 
 namespace Pale {

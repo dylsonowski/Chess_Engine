@@ -15,12 +15,12 @@ namespace Pale {
 
 		//--- Structure containing data passed by move command ---//
 		struct MoveCommand {
-			std::string m_piece;
+			char m_piece;
 			PIECE_OWNER m_owner;
 			std::pair<unsigned int, unsigned int> m_startPos, m_endPos;
 		};
 
-		static MoveCommand ProcessMoveCommand(std::string move); //todo: Complete definition of this function.
+		static const MoveCommand& ProcessMoveCommand(const std::string move); //todo: Complete definition of this function.
 
 		//--- Base board representation template class (T :== int, string or Piece) ---//
 		template<typename T>
@@ -61,6 +61,9 @@ namespace Pale {
 				else
 					return false;
 			}
+
+			//<--- Convertion functions --->//
+			//std::shared_ptr<
 
 		private:
 			unsigned int _row, _column;
@@ -215,6 +218,80 @@ namespace Pale {
 				else if (errorMessage.first == 'e')
 					PALE_ENGINE_ERROR(errorMessage.second);
 			}
+		}
+
+		const MoveCommand& ProcessMoveCommand(const std::string move) {
+			try {
+				MoveCommand processedMove;
+				//Specifying owner of the piece.
+				if (std::tolower(move[0]) == 'b')
+					processedMove.m_owner = PIECE_OWNER::BLACK;
+				else if (std::tolower(move[0]) == 'w')
+					processedMove.m_owner = PIECE_OWNER::WHITE;
+				else
+					throw MOVE_COMMAND__WRONG_OWNER;
+
+				//Specifying type of the piece.
+				if (std::toupper(move[1]) != 'K' && std::toupper(move[1]) != 'Q' && std::toupper(move[1]) != 'B' && std::toupper(move[1]) != 'N' && std::toupper(move[1]) != 'R' && std::toupper(move[1]) != 'P')
+					throw MOVE_COMMAND__WRONG_PIECE;
+				else
+					processedMove.m_piece = std::toupper(move[1]);
+
+				int startX, startY, endX, endY;
+				switch (move[2]) { //X cord for start position.
+				case 'a': startX = 0;	break;
+				case 'b': startX = 1;	break;
+				case 'c': startX = 2;	break;
+				case 'd': startX = 3;	break;
+				case 'e': startX = 4;	break;
+				case 'f': startX = 5;	break;
+				case 'g': startX = 6;	break;
+				case 'h': startX = 7;	break;
+				default: throw MOVE_COMMAND__COORDINATE_OUT_OF_RANGE;	break;
+				}
+
+				switch (move[3]) { //Y cord for start position.
+				case '1': startY = 7;	break;
+				case '2': startY = 6;	break;
+				case '3': startY = 5;	break;
+				case '4': startY = 4;	break;
+				case '5': startY = 3;	break;
+				case '6': startY = 2;	break;
+				case '7': startY = 1;	break;
+				case '8': startY = 0;	break;
+				default: throw MOVE_COMMAND__COORDINATE_OUT_OF_RANGE;	break;
+				}
+
+				switch (move[4]) { //X cord for end position.
+				case 'a': endX = 0;	break;
+				case 'b': endX = 1;	break;
+				case 'c': endX = 2;	break;
+				case 'd': endX = 3;	break;
+				case 'e': endX = 4;	break;
+				case 'f': endX = 5;	break;
+				case 'g': endX = 6;	break;
+				case 'h': endX = 7;	break;
+				default: throw MOVE_COMMAND__COORDINATE_OUT_OF_RANGE;	break;
+				}
+
+				switch (move[5]) { //Y cord for end position.
+				case '1': endY = 7;	break;
+				case '2': endY = 6;	break;
+				case '3': endY = 5;	break;
+				case '4': endY = 4;	break;
+				case '5': endY = 3;	break;
+				case '6': endY = 2;	break;
+				case '7': endY = 1;	break;
+				case '8': endY = 0;	break;
+				default: throw MOVE_COMMAND__COORDINATE_OUT_OF_RANGE;	break;
+				}
+
+				processedMove.m_startPos = std::make_pair(startY, startX); //first cord := row, second cord := column
+				processedMove.m_endPos = std::make_pair(endY, endX);
+				PALE_ENGINE_INFO("Move was successfully processed.");
+				return processedMove; //todo: Check if work properly.
+			}
+			catch (std::string errorMessage) { PALE_ENGINE_ERROR(errorMessage); }
 		}
 	}
 }
