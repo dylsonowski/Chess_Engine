@@ -19,7 +19,7 @@ namespace Pale {
 			virtual void SpecialLogic() = 0;
 			void UpdatePosition(std::pair<unsigned int, unsigned int> newPosition) { _positionCords = newPosition; }
 
-			virtual bool MoveLogic(std::string move, std::vector<std::vector<int>>& board) const = 0;
+			virtual bool MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) const = 0;
 			inline std::pair<unsigned int, unsigned int> GetPosition() const { return _positionCords; }
 			inline PIECE_OWNER IsWhite() const { return _owner; }
 			inline int GetValue() const { return _value; }

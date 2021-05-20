@@ -8,3 +8,4 @@
 
 //--- Warnings codes ---//
 #define INVALID_PIECE_ID "No coresponding chess piece of the given ID! Insertion failed!"
+#define INVALID_OCCUPATION "Incorrect command! This plate is occupied by different piece!"
