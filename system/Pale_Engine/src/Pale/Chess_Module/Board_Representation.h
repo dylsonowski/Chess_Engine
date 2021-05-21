@@ -43,7 +43,7 @@ namespace Pale {
 				catch (std::string errorMessage) { PALE_ENGINE_WARN(errorMessage); std::cin.get(); }
 			}
 
-			inline unsigned int GetRowNumbers() const { return _row; }
+			inline unsigned int GetRowNumber() const { return _row; }
 			inline unsigned int GetColumnNumber() const { return _column; }
 			inline BOARD_TYPE GetBoardType() const { return _representationType; }
 			inline T GetPlateValue(unsigned int rowIt, unsigned int columnIt) const {
@@ -62,8 +62,46 @@ namespace Pale {
 					return false;
 			}
 
-			//<--- Convertion functions --->//
-			//std::shared_ptr<
+			//--- Convertion functions ---//
+			template<typename D>
+			operator std::shared_ptr<Board_Representation<D>>() const {
+				try {
+					if (typeid(D) == typeid(T)) {
+						std::shared_ptr<Board_Representation<std::shared_ptr<Pieces>>> newBoard;
+						for (int rowIt = 0; rowIt < this->GetRowNumber(); rowIt++) {
+							for (int columnIt = 0; columnIt < this->GetColumnNumber(); columnIt++) {
+								newBoard->SetPlateValue(rowIt, columnIt, this->GetPlateValue(rowIt, columnIt));
+							}
+						}
+						PALE_ENGINE_TRACE("No convertion made!");
+						return newBoard;
+					}
+
+					if (typeid(D) == typeid(int)) {
+						std::shared_ptr<Board_Representation<int>> newBoard;
+						for (int rowIt = 0; rowIt < this->GetRowNumber(); rowIt++) {
+							for (int columnIt = 0; columnIt < this->GetColumnNumber(); columnIt++) {
+								newBoard->SetPlateValue(rowIt, columnIt, this->GetPlateValue(rowIt, columnIt)->GetValue());
+							}
+						}
+						PALE_ENGINE_TRACE("Convertion on int type!");
+						return newBoard;
+					}
+					else if (typeid(D) == typeid(std::string)) {
+						std::shared_ptr<Board_Representation<std::string>> newBoard;
+						for (int rowIt = 0; rowIt < this->GetRowNumber(); rowIt++) {
+							for (int columnIt = 0; columnIt < this->GetColumnNumber(); columnIt++) {
+								newBoard->SetPlateValue(rowIt, columnIt, this->GetPlateValue(rowIt, columnIt)->GetName());
+							}
+						}
+						PALE_ENGINE_TRACE("Convertion on string type!");
+						return newBoard;
+					}
+					else
+						throw BAD_TYPE_CONVERTION;
+				}
+				catch (std::string errorMessage) { PALE_ENGINE_ERROR(errorMessage); std::cin.get(); }
+			}
 
 		private:
 			unsigned int _row, _column;
@@ -232,7 +270,8 @@ namespace Pale {
 					throw MOVE_COMMAND__WRONG_OWNER;
 
 				//Specifying type of the piece.
-				if (std::toupper(move[1]) != 'K' && std::toupper(move[1]) != 'Q' && std::toupper(move[1]) != 'B' && std::toupper(move[1]) != 'N' && std::toupper(move[1]) != 'R' && std::toupper(move[1]) != 'P')
+				if (std::toupper(move[1]) != 'K' && std::toupper(move[1]) != 'Q' && std::toupper(move[1]) != 'B' 
+					&& std::toupper(move[1]) != 'N' && std::toupper(move[1]) != 'R' && std::toupper(move[1]) != 'P')
 					throw MOVE_COMMAND__WRONG_PIECE;
 				else
 					processedMove.m_piece = std::toupper(move[1]);
@@ -291,7 +330,7 @@ namespace Pale {
 				PALE_ENGINE_INFO("Move was successfully processed.");
 				return processedMove; //todo: Check if work properly.
 			}
-			catch (std::string errorMessage) { PALE_ENGINE_ERROR(errorMessage); }
+			catch (std::string errorMessage) { PALE_ENGINE_ERROR(errorMessage); std::cin.get(); }
 		}
 	}
 }

@@ -40,12 +40,14 @@ namespace Pale {
 
 				if (owner == PIECE_OWNER::BLACK) {
 					_value = -7;
+					_name = "bK";
 
 					_positionCords = std::make_pair(Piece_Starting_Positions::m_kingStartPos.first.at(numberOfCopy).first,
 						Piece_Starting_Positions::m_kingStartPos.first.at(numberOfCopy).second);
 				}
 				else if (owner == PIECE_OWNER::WHITE) {
 					_value = 7;
+					_name = "wK";
 
 					_positionCords = std::make_pair(Piece_Starting_Positions::m_kingStartPos.second.at(numberOfCopy).first,
 						Piece_Starting_Positions::m_kingStartPos.second.at(numberOfCopy).second);
@@ -65,12 +67,14 @@ namespace Pale {
 
 				if (owner == PIECE_OWNER::BLACK) {
 					_value = -5;
+					_name = "bQ";
 
 					_positionCords = std::make_pair(Piece_Starting_Positions::m_queenStartPos.first.at(numberOfCopy).first,
 						Piece_Starting_Positions::m_queenStartPos.first.at(numberOfCopy).second);
 				}
 				else if (owner == PIECE_OWNER::WHITE) {
 					_value = 5;
+					_name = "wQ";
 
 					_positionCords = std::make_pair(Piece_Starting_Positions::m_queenStartPos.second.at(numberOfCopy).first,
 						Piece_Starting_Positions::m_queenStartPos.second.at(numberOfCopy).second);
@@ -90,12 +94,14 @@ namespace Pale {
 
 				if (owner == PIECE_OWNER::BLACK) {
 					_value = -4;
+					_name = "bB";
 
 					_positionCords = std::make_pair(Piece_Starting_Positions::m_bishopStartPos.first.at(numberOfCopy).first,
 						Piece_Starting_Positions::m_bishopStartPos.first.at(numberOfCopy).second);
 				}
 				else if (owner == PIECE_OWNER::WHITE) {
 					_value = 4;
+					_name = "wB";
 
 					_positionCords = std::make_pair(Piece_Starting_Positions::m_bishopStartPos.second.at(numberOfCopy).first,
 						Piece_Starting_Positions::m_bishopStartPos.second.at(numberOfCopy).second);
@@ -115,12 +121,14 @@ namespace Pale {
 
 				if (owner == PIECE_OWNER::BLACK) {
 					_value = -3;
+					_name = "bN";
 
 					_positionCords = std::make_pair(Piece_Starting_Positions::m_knightStartPos.first.at(numberOfCopy).first,
 						Piece_Starting_Positions::m_knightStartPos.first.at(numberOfCopy).second);
 				}
 				else if (owner == PIECE_OWNER::WHITE) {
 					_value = 3;
+					_name = "wN";
 
 					_positionCords = std::make_pair(Piece_Starting_Positions::m_knightStartPos.second.at(numberOfCopy).first,
 						Piece_Starting_Positions::m_knightStartPos.second.at(numberOfCopy).second);
@@ -140,12 +148,14 @@ namespace Pale {
 
 				if (owner == PIECE_OWNER::BLACK) {
 					_value = -2;
+					_name = "bR";
 
 					_positionCords = std::make_pair(Piece_Starting_Positions::m_rookStartPos.first.at(numberOfCopy).first,
 						Piece_Starting_Positions::m_rookStartPos.first.at(numberOfCopy).second);
 				}
 				else if (owner == PIECE_OWNER::WHITE) {
 					_value = 2;
+					_name = "wR";
 
 					_positionCords = std::make_pair(Piece_Starting_Positions::m_rookStartPos.second.at(numberOfCopy).first,
 						Piece_Starting_Positions::m_rookStartPos.second.at(numberOfCopy).second);
@@ -165,12 +175,14 @@ namespace Pale {
 
 				if (owner == PIECE_OWNER::BLACK) {
 					_value = -1;
+					_name = "bP";
 
 					_positionCords = std::make_pair(Piece_Starting_Positions::m_pawnStartPos.first.at(numberOfCopy).first,
 						Piece_Starting_Positions::m_pawnStartPos.first.at(numberOfCopy).second);
 				}
 				else if (owner == PIECE_OWNER::WHITE) {
 					_value = 1;
+					_name = "wP";
 
 					_positionCords = std::make_pair(Piece_Starting_Positions::m_pawnStartPos.second.at(numberOfCopy).first,
 						Piece_Starting_Positions::m_pawnStartPos.second.at(numberOfCopy).second);

@@ -109,6 +109,7 @@ namespace Pale {
 			Blank() = delete;
 			Blank(unsigned int rowCord, unsigned int columnCord) : Pieces(PIECE_OWNER::NONE, 64) {
 				_value = 0;
+				_name = "x";
 				_positionCords = std::make_pair(rowCord, columnCord);
 				_specialMove = std::make_shared<None>();
 			}

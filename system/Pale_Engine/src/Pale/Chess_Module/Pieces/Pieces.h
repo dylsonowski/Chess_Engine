@@ -23,11 +23,13 @@ namespace Pale {
 			inline std::pair<unsigned int, unsigned int> GetPosition() const { return _positionCords; }
 			inline PIECE_OWNER IsWhite() const { return _owner; }
 			inline int GetValue() const { return _value; }
+			inline std::string GetName() const { return _name; }
 
 		protected:
 			Pieces(PIECE_OWNER owner, unsigned int limitOfCopies) : _value(0), _owner(owner), _limitOfCopies(limitOfCopies) {}
 
 			int _value;
+			std::string _name;
 			unsigned int _limitOfCopies; //Limit for 1 player.
 			std::pair<unsigned int, unsigned int> _positionCords;
 			PIECE_OWNER _owner;

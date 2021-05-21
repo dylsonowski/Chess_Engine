@@ -5,6 +5,7 @@
 #define FIGURE_BAD_OWNER "If the figure was created it needs proper owning side!"
 #define COPY_LIMIT_EXCEEDED "Attempt to create to many instancies of the chess piece!"
 #define BAD_TYPE_INSERTION "Attempt to insert value of the type different than board representaion!"
+#define BAD_TYPE_CONVERTION "Attempt to convert on incorrect type!"
 #define MOVE_COMMAND__WRONG_OWNER "Incorrect owner specify in move command!"
 #define MOVE_COMMAND__WRONG_PIECE "Specified piece do not exist!"
 #define MOVE_COMMAND__COORDINATE_OUT_OF_RANGE "Specified coordinate was from out of range!"
