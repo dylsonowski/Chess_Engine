@@ -28,10 +28,11 @@ namespace Pale {
 
 		public:
 			Board_Representation() = delete;
-			Board_Representation(unsigned int row, unsigned int column);
+			Board_Representation(unsigned int row, unsigned int column, BOARD_TYPE type);
 			~Board_Representation() = default;
 
 			void SetPlateValue(unsigned int rowIt, unsigned int columnIt, T value);
+			void SetBoardType(BOARD_TYPE type) { _representationType = type; }
 			void MovePiece(std::pair<unsigned int, unsigned int> startPos, std::pair<unsigned int, unsigned int> endPos, Pieces& piece);
 			static void AddToDeathList(int figure) { 
 				try {
@@ -64,13 +65,14 @@ namespace Pale {
 
 			//--- Convertion functions ---//
 			template<typename D>
-			operator std::shared_ptr<Board_Representation<D>>() const {
+			operator Board_Representation<D>() const {
 				try {
 					if (typeid(D) == typeid(T)) {
-						std::shared_ptr<Board_Representation<std::shared_ptr<Pieces>>> newBoard;
+						Board_Representation<std::shared_ptr<Pieces>> newBoard(this->GetRowNumber(), this->GetColumnNumber());
+						newBoard.SetBoardType(BOARD_TYPE::OBJECT_TYPE);
 						for (int rowIt = 0; rowIt < this->GetRowNumber(); rowIt++) {
 							for (int columnIt = 0; columnIt < this->GetColumnNumber(); columnIt++) {
-								newBoard->SetPlateValue(rowIt, columnIt, this->GetPlateValue(rowIt, columnIt));
+								newBoard.SetPlateValue(rowIt, columnIt, this->GetPlateValue(rowIt, columnIt));
 							}
 						}
 						PALE_ENGINE_TRACE("No convertion made!");
@@ -78,20 +80,22 @@ namespace Pale {
 					}
 
 					if (typeid(D) == typeid(int)) {
-						std::shared_ptr<Board_Representation<int>> newBoard;
+						Board_Representation<int> newBoard(this->GetRowNumber(), this->GetColumnNumber());
+						newBoard.SetBoardType(BOARD_TYPE::INT_TYPE);
 						for (int rowIt = 0; rowIt < this->GetRowNumber(); rowIt++) {
 							for (int columnIt = 0; columnIt < this->GetColumnNumber(); columnIt++) {
-								newBoard->SetPlateValue(rowIt, columnIt, this->GetPlateValue(rowIt, columnIt)->GetValue());
+								newBoard.SetPlateValue(rowIt, columnIt, this->GetPlateValue(rowIt, columnIt)->GetValue());
 							}
 						}
 						PALE_ENGINE_TRACE("Convertion on int type!");
 						return newBoard;
 					}
 					else if (typeid(D) == typeid(std::string)) {
-						std::shared_ptr<Board_Representation<std::string>> newBoard;
+						Board_Representation<std::string> newBoard(this->GetRowNumber(), this->GetColumnNumber());
+						newBoard.SetBoardType(BOARD_TYPE::STRING_TYPE);
 						for (int rowIt = 0; rowIt < this->GetRowNumber(); rowIt++) {
 							for (int columnIt = 0; columnIt < this->GetColumnNumber(); columnIt++) {
-								newBoard->SetPlateValue(rowIt, columnIt, this->GetPlateValue(rowIt, columnIt)->GetName());
+								newBoard.SetPlateValue(rowIt, columnIt, this->GetPlateValue(rowIt, columnIt)->GetName());
 							}
 						}
 						PALE_ENGINE_TRACE("Convertion on string type!");
@@ -111,8 +115,8 @@ namespace Pale {
 		};
 
 		template<typename T>
-		Board_Representation<T>::Board_Representation(unsigned int row, unsigned int column) //todo: Make it diiferent way (first representation = object, object define value and start cords)
-			: _row(row), _column(column), _representationType(BOARD_TYPE::BASE) {
+		Board_Representation<T>::Board_Representation(unsigned int row, unsigned int column, BOARD_TYPE type) //todo: Have to choose type (vector<T> stay and fill regarding on a type
+			: _row(row), _column(column), _representationType(type) {
 			//--- Piece starting positions :== <piece name>.<black = first, white = second>.<copy number>.<row cord = first, column cord = second> ---//
 			for (int rowIt = 0; rowIt < row; rowIt++) {
 				std::vector<std::shared_ptr<Pieces>> temp;
@@ -179,7 +183,7 @@ namespace Pale {
 			_board.at(Piece_Starting_Positions::m_kingStartPos.second.at(0).first).at(Piece_Starting_Positions::m_kingStartPos.second.at(0).second)
 				= std::make_shared<King>(PIECE_OWNER::WHITE, 0);
 
-			PALE_ENGINE_INFO("Board was successfully created.");
+			PALE_ENGINE_INFO("Board was successfully created! Board type: Object.");		
 		}
 
 		template<typename T>
