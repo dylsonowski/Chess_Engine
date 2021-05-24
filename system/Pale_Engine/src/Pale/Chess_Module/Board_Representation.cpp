@@ -211,18 +211,18 @@ namespace Pale {
 		void Board_Representation<std::shared_ptr<Pieces>>::SetPlateValue(unsigned int rowIt, unsigned int columnIt, std::shared_ptr<Pieces> value) {
 			try {
 				if (rowIt >= _row || columnIt >= _column)
-					throw std::make_pair('e', VEC_OUT_OF_RANGE);
+					throw PaleEngineException("Exception happened!", 'e', "Board_Representation.cpp", 214, "SetPlateValue", VEC_OUT_OF_RANGE);
 
 				if (_representationType != BOARD_TYPE::OBJECT_TYPE && _representationType != BOARD_TYPE::BASE)
-					throw std::make_pair('e', BAD_TYPE_INSERTION);
+					throw PaleEngineException("Exception happened!", 'e', "Board_Representation.cpp", 217, "SetPlateValue", BAD_TYPE_INSERTION);
 
 				_board.at(rowIt).at(columnIt) = value;
 			}
-			catch (std::pair<char, std::string> eventMessage) {
-				if (eventMessage.first == 'e')
-					PALE_ENGINE_ERROR(eventMessage.second);
-				else if (eventMessage.first == 'w')
-					PALE_ENGINE_WARN(eventMessage.second);
+			catch (PaleEngineException& exception) {
+				if (exception.GetType() == 'e')
+					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+				else if (exception.GetType() == 'w')
+					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
 
 				std::cin.get();
 			}
@@ -232,21 +232,21 @@ namespace Pale {
 		void Board_Representation<int>::SetPlateValue(unsigned int rowIt, unsigned int columnIt, int value) {
 			try {
 				if (rowIt >= _row || columnIt >= _column)
-					throw std::make_pair('e', VEC_OUT_OF_RANGE);
+					throw PaleEngineException("Exception happened!", 'e', "Board_Representation.cpp", 235, "SetPlateValue", VEC_OUT_OF_RANGE);
 
 				if (_representationType != BOARD_TYPE::INT_TYPE)
-					throw std::make_pair('e', BAD_TYPE_INSERTION);
+					throw PaleEngineException("Exception happened!", 'e', "Board_Representation.cpp", 238, "SetPlateValue", BAD_TYPE_INSERTION);
 
 				if (value > 7 || value == 6 || value < -7 || value == -6)
-					throw std::make_pair('w', INVALID_PIECE_ID);
+					throw PaleEngineException("Exception happened!", 'w', "Board_representation.cpp", 241, "SetPlateValue", INVALID_PIECE_ID);
 
 				_board.at(rowIt).at(columnIt) = value;
 			}
-			catch (std::pair<char, std::string> eventMessage) {
-				if (eventMessage.first == 'e')
-					PALE_ENGINE_ERROR(eventMessage.second);
-				else if (eventMessage.first == 'w')
-					PALE_ENGINE_WARN(eventMessage.second);
+			catch (PaleEngineException& exception) {
+				if (exception.GetType() == 'e')
+					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+				else if (exception.GetType() == 'w')
+					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
 
 				std::cin.get();
 			}
@@ -256,22 +256,22 @@ namespace Pale {
 		void Board_Representation<std::string>::SetPlateValue(unsigned int rowIt, unsigned int columnIt, std::string value) {
 			try {
 				if (rowIt >= _row || columnIt >= _column)
-					throw std::make_pair('e', VEC_OUT_OF_RANGE);
+					throw PaleEngineException("Exception happened!", 'e', "Board_Representation.cpp", 259, "SetPlateValue", VEC_OUT_OF_RANGE);
 
 				if (_representationType != BOARD_TYPE::STRING_TYPE)
-					throw std::make_pair('e', BAD_TYPE_INSERTION);
+					throw PaleEngineException("Exception happened!", 'e', "Board_Representation.cpp", 262, "SetPlateValue", BAD_TYPE_INSERTION);
 
 				if (value != "bP" && value != "bR" && value != "bN" && value != "bB" && value != "bQ" && value != "bK"
 					&& value != "wP" && value != "wR" && value != "wN" && value != "wB" && value != "wQ" && value != "wK" && value != "x")
-					throw std::make_pair('w', INVALID_PIECE_ID);
+					throw PaleEngineException("Exception happened!", 'w', "Board_representation.cpp", 266, "SetPlateValue", INVALID_PIECE_ID);
 
 				_board.at(rowIt).at(columnIt) = value;
 			}
-			catch (std::pair<char, std::string> eventMessage) { //todo: Exeption handling do not work! Create custom exception class.
-				if (eventMessage.first == 'e')
-					PALE_ENGINE_ERROR(eventMessage.second);
-				else if (eventMessage.first == 'w')
-					PALE_ENGINE_WARN(eventMessage.second);
+			catch (PaleEngineException& exception) {
+				if (exception.GetType() == 'e')
+					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+				else if (exception.GetType() == 'w')
+					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
 
 				std::cin.get();
 			}

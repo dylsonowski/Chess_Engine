@@ -58,9 +58,16 @@ namespace Pale {
 					if (rowIt < _row && columnIt < _column)
 						return _board.at(rowIt).at(columnIt);
 					else
-						throw VEC_OUT_OF_RANGE;
+						throw PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 61, "GetPlateValue", VEC_OUT_OF_RANGE);
 				}
-				catch (std::string errorMessage) { PALE_ENGINE_ERROR(errorMessage); std::cin.get(); }
+				catch (PaleEngineException& exception) {
+					if (exception.GetType() == 'e')
+						PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+					else if (exception.GetType() == 'w')
+						PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+
+					std::cin.get();
+				}
 			}
 			inline static bool IsFigureDead(int figure) {
 				if (std::find(s_deathList.begin(), s_deathList.end(), figure) != s_deathList.end())
@@ -87,11 +94,11 @@ namespace Pale {
 		void Board_Representation<T>::MovePiece(std::pair<unsigned int, unsigned int> startPos, std::pair<unsigned int, unsigned int> endPos, Pieces& piece) {
 			try {
 				if (_board.at(startPos.first).at(startPos.second)->GetValue() != piece.GetValue())
-					throw std::make_pair('w', INVALID_OCCUPATION);
+					throw PaleEngineException("Exception happened!", 'w', "Board_Representation.h", 90, "MovePiece", INVALID_OCCUPATION);
 
 				if (startPos.first < 0 || startPos.first >= _row || startPos.second < 0 || startPos.second >= _column ||
 					endPos.first < 0 || endPos.first >= _row || endPos.second < 0 || endPos.second >= _column)
-					throw std::make_pair('e', VEC_OUT_OF_RANGE);
+					throw PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 94, "MovePiece", VEC_OUT_OF_RANGE);
 
 				if (piece.MoveLogic(endPos, _board)) {
 					PALE_ENGINE_INFO("Move was successfully made.");
@@ -103,11 +110,13 @@ namespace Pale {
 					_board.at(endPos.first).at(endPos.second)->UpdatePosition(endPos);
 				}
 			}
-			catch (std::pair<char, std::string> errorMessage) {
-				if (errorMessage.first == 'w')
-					PALE_ENGINE_WARN(errorMessage.second);
-				else if (errorMessage.first == 'e')
-					PALE_ENGINE_ERROR(errorMessage.second);
+			catch (PaleEngineException& exception) {
+				if (exception.GetType() == 'e')
+					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+				else if (exception.GetType() == 'w')
+					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+
+				std::cin.get();
 			}
 		}
 
@@ -185,9 +194,9 @@ namespace Pale {
 			}
 			catch (PaleEngineException& exception) {
 				if (exception.GetType() == 'e')
-					PALE_ENGINE_ERROR("{0}[{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
 				else if (exception.GetType() == 'w')
-					PALE_ENGINE_WARN("{0}[{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
 
 				std::cin.get(); 
 			}
