@@ -13,3 +13,22 @@
 //--- Warnings codes ---//
 #define INVALID_PIECE_ID "No coresponding chess piece of the given ID! Insertion failed!"
 #define INVALID_OCCUPATION "Incorrect command! This plate is occupied by different piece!"
+
+//--- Exception class ---//
+class PaleEngineException : public std::exception {
+
+public:
+	PaleEngineException(const char* msg, char type, std::string file, int line, std::string function, std::string info) 
+		: std::exception(msg), _type(type), _file(file), _line(line), _function(function), _info(info) {}
+
+	char GetType() const { return _type; }
+	std::string GetFile() const { return _file; }
+	int GetLine() const { return _line; }
+	std::string GetFunction() const { return _function; }
+	std::string GetInfo() const { return _info; }
+
+private:
+	char _type;
+	int _line;
+	std::string _file, _function, _info;
+};

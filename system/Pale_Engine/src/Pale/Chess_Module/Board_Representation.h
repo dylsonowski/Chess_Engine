@@ -36,11 +36,18 @@ namespace Pale {
 			static void AddToDeathList(int figure) { 
 				try {
 					if (figure > 7 || figure == 6 || figure < -7 || figure == -6)
-						throw INVALID_PIECE_ID;
+						throw PaleEngineException("Exception happened!", 'w', "Board_Representation.h", 39, "AddToDeathList", INVALID_PIECE_ID);
 					else
 						s_deathList.emplace_back(figure);
 				}
-				catch (std::string errorMessage) { PALE_ENGINE_WARN(errorMessage); std::cin.get(); }
+				catch (PaleEngineException& exception) {
+					if (exception.GetType() == 'e')
+						PALE_ENGINE_ERROR("{0}[{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+					else if (exception.GetType() == 'w')
+						PALE_ENGINE_WARN("{0}[{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+
+					std::cin.get();
+				}
 			}
 
 			inline unsigned int GetRowNumber() const { return _row; }
@@ -113,12 +120,12 @@ namespace Pale {
 				else if (std::tolower(move[0]) == 'w')
 					processedMove.m_owner = PIECE_OWNER::WHITE;
 				else
-					throw MOVE_COMMAND__WRONG_OWNER;
+					throw PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 116, "ProcessMoveCommand", MOVE_COMMAND__WRONG_OWNER);
 
 				//Specifying type of the piece.
-				if (std::toupper(move[1]) != 'K' && std::toupper(move[1]) != 'Q' && std::toupper(move[1]) != 'B' 
+				if (std::toupper(move[1]) != 'K' && std::toupper(move[1]) != 'Q' && std::toupper(move[1]) != 'B'
 					&& std::toupper(move[1]) != 'N' && std::toupper(move[1]) != 'R' && std::toupper(move[1]) != 'P')
-					throw MOVE_COMMAND__WRONG_PIECE;
+					throw PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 121, "ProcessMoveCommand", MOVE_COMMAND__WRONG_PIECE);
 				else
 					processedMove.m_piece = std::toupper(move[1]);
 
@@ -132,7 +139,7 @@ namespace Pale {
 				case 'f': startX = 5;	break;
 				case 'g': startX = 6;	break;
 				case 'h': startX = 7;	break;
-				default: throw MOVE_COMMAND__COORDINATE_OUT_OF_RANGE;	break;
+				default: throw PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 135, "ProcessMoveCommand", MOVE_COMMAND__COORDINATE_OUT_OF_RANGE);	break;
 				}
 
 				switch (move[3]) { //Y cord for start position.
@@ -144,7 +151,7 @@ namespace Pale {
 				case '6': startY = 2;	break;
 				case '7': startY = 1;	break;
 				case '8': startY = 0;	break;
-				default: throw MOVE_COMMAND__COORDINATE_OUT_OF_RANGE;	break;
+				default: PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 135, "ProcessMoveCommand", MOVE_COMMAND__COORDINATE_OUT_OF_RANGE); break;
 				}
 
 				switch (move[4]) { //X cord for end position.
@@ -156,7 +163,7 @@ namespace Pale {
 				case 'f': endX = 5;	break;
 				case 'g': endX = 6;	break;
 				case 'h': endX = 7;	break;
-				default: throw MOVE_COMMAND__COORDINATE_OUT_OF_RANGE;	break;
+				default: PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 135, "ProcessMoveCommand", MOVE_COMMAND__COORDINATE_OUT_OF_RANGE); break;
 				}
 
 				switch (move[5]) { //Y cord for end position.
@@ -168,15 +175,22 @@ namespace Pale {
 				case '6': endY = 2;	break;
 				case '7': endY = 1;	break;
 				case '8': endY = 0;	break;
-				default: throw MOVE_COMMAND__COORDINATE_OUT_OF_RANGE;	break;
+				default: PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 135, "ProcessMoveCommand", MOVE_COMMAND__COORDINATE_OUT_OF_RANGE); break;
 				}
 
 				processedMove.m_startPos = std::make_pair(startY, startX); //first cord := row, second cord := column
 				processedMove.m_endPos = std::make_pair(endY, endX);
 				PALE_ENGINE_INFO("Move was successfully processed.");
-				return processedMove; //todo: Check if work properly.
+				return processedMove;
 			}
-			catch (std::string errorMessage) { PALE_ENGINE_ERROR(errorMessage); std::cin.get(); }
+			catch (PaleEngineException& exception) {
+				if (exception.GetType() == 'e')
+					PALE_ENGINE_ERROR("{0}[{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+				else if (exception.GetType() == 'w')
+					PALE_ENGINE_WARN("{0}[{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+
+				std::cin.get(); 
+			}
 		}
 	}
 }
