@@ -20,7 +20,7 @@ namespace Pale {
 			std::pair<unsigned int, unsigned int> m_startPos, m_endPos;
 		};
 
-		static const MoveCommand& ProcessMoveCommand(const std::string move); //todo: Complete definition of this function.
+		static const MoveCommand& ProcessMoveCommand(const std::string move);
 
 		//--- Base board representation template class (T :== int, string or Piece) ---//
 		template<typename T>
@@ -28,11 +28,10 @@ namespace Pale {
 
 		public:
 			Board_Representation() = delete;
-			Board_Representation(unsigned int row, unsigned int column, BOARD_TYPE type);
+			Board_Representation(unsigned int row, unsigned int column);
 			~Board_Representation() = default;
 
 			void SetPlateValue(unsigned int rowIt, unsigned int columnIt, T value);
-			void SetBoardType(BOARD_TYPE type) { _representationType = type; }
 			void MovePiece(std::pair<unsigned int, unsigned int> startPos, std::pair<unsigned int, unsigned int> endPos, Pieces& piece);
 			static void AddToDeathList(int figure) { 
 				try {
@@ -63,50 +62,6 @@ namespace Pale {
 					return false;
 			}
 
-			//--- Convertion functions ---//
-			template<typename D>
-			operator Board_Representation<D>() const {
-				try {
-					if (typeid(D) == typeid(T)) {
-						Board_Representation<std::shared_ptr<Pieces>> newBoard(this->GetRowNumber(), this->GetColumnNumber());
-						newBoard.SetBoardType(BOARD_TYPE::OBJECT_TYPE);
-						for (int rowIt = 0; rowIt < this->GetRowNumber(); rowIt++) {
-							for (int columnIt = 0; columnIt < this->GetColumnNumber(); columnIt++) {
-								newBoard.SetPlateValue(rowIt, columnIt, this->GetPlateValue(rowIt, columnIt));
-							}
-						}
-						PALE_ENGINE_TRACE("No convertion made!");
-						return newBoard;
-					}
-
-					if (typeid(D) == typeid(int)) {
-						Board_Representation<int> newBoard(this->GetRowNumber(), this->GetColumnNumber());
-						newBoard.SetBoardType(BOARD_TYPE::INT_TYPE);
-						for (int rowIt = 0; rowIt < this->GetRowNumber(); rowIt++) {
-							for (int columnIt = 0; columnIt < this->GetColumnNumber(); columnIt++) {
-								newBoard.SetPlateValue(rowIt, columnIt, this->GetPlateValue(rowIt, columnIt)->GetValue());
-							}
-						}
-						PALE_ENGINE_TRACE("Convertion on int type!");
-						return newBoard;
-					}
-					else if (typeid(D) == typeid(std::string)) {
-						Board_Representation<std::string> newBoard(this->GetRowNumber(), this->GetColumnNumber());
-						newBoard.SetBoardType(BOARD_TYPE::STRING_TYPE);
-						for (int rowIt = 0; rowIt < this->GetRowNumber(); rowIt++) {
-							for (int columnIt = 0; columnIt < this->GetColumnNumber(); columnIt++) {
-								newBoard.SetPlateValue(rowIt, columnIt, this->GetPlateValue(rowIt, columnIt)->GetName());
-							}
-						}
-						PALE_ENGINE_TRACE("Convertion on string type!");
-						return newBoard;
-					}
-					else
-						throw BAD_TYPE_CONVERTION;
-				}
-				catch (std::string errorMessage) { PALE_ENGINE_ERROR(errorMessage); std::cin.get(); }
-			}
-
 		private:
 			unsigned int _row, _column;
 			std::vector<std::vector<T>> _board;
@@ -114,125 +69,12 @@ namespace Pale {
 			static std::vector<int> s_deathList; //List which holds captured pieces. 
 		};
 
-		template<typename T>
-		Board_Representation<T>::Board_Representation(unsigned int row, unsigned int column, BOARD_TYPE type) //todo: Have to choose type (vector<T> stay and fill regarding on a type
-			: _row(row), _column(column), _representationType(type) {
-			//--- Piece starting positions :== <piece name>.<black = first, white = second>.<copy number>.<row cord = first, column cord = second> ---//
-			for (int rowIt = 0; rowIt < row; rowIt++) {
-				std::vector<std::shared_ptr<Pieces>> temp;
-				for (int columnIt = 0; columnIt < column; columnIt++) {
-					if (rowIt == Piece_Starting_Positions::m_pawnStartPos.first.at(0).first) //If <pawn_start_cords>.<black>.X.<row cord>
-						temp.emplace_back(std::make_shared<Pawn>(PIECE_OWNER::BLACK, columnIt));
-					else if (rowIt == Piece_Starting_Positions::m_pawnStartPos.second.at(0).first) //If <pawn_start_cords>.<white>.X.<row cord>
-						temp.emplace_back(std::make_shared<Pawn>(PIECE_OWNER::WHITE, columnIt));
-					else
-						temp.emplace_back(std::make_shared<Blank>(rowIt, columnIt));
-				}
-				_board.emplace_back(temp);
-			}
-
-			//--- Placing black rook ---//
-			_board.at(Piece_Starting_Positions::m_rookStartPos.first.at(0).first).at(Piece_Starting_Positions::m_rookStartPos.first.at(0).second)
-				= std::make_shared<Rook>(PIECE_OWNER::BLACK, 0);
-			_board.at(Piece_Starting_Positions::m_rookStartPos.first.at(1).first).at(Piece_Starting_Positions::m_rookStartPos.first.at(1).second)
-				= std::make_shared<Rook>(PIECE_OWNER::BLACK, 1);
-
-			//--- Placing white rook ---//
-			_board.at(Piece_Starting_Positions::m_rookStartPos.second.at(0).first).at(Piece_Starting_Positions::m_rookStartPos.second.at(0).second)
-				= std::make_shared<Rook>(PIECE_OWNER::WHITE, 0);
-			_board.at(Piece_Starting_Positions::m_rookStartPos.second.at(1).first).at(Piece_Starting_Positions::m_rookStartPos.second.at(1).second)
-				= std::make_shared<Rook>(PIECE_OWNER::WHITE, 1);
-
-			//--- Placing black knight ---//
-			_board.at(Piece_Starting_Positions::m_knightStartPos.first.at(0).first).at(Piece_Starting_Positions::m_knightStartPos.first.at(0).second)
-				= std::make_shared<Knight>(PIECE_OWNER::BLACK, 0);
-			_board.at(Piece_Starting_Positions::m_knightStartPos.first.at(1).first).at(Piece_Starting_Positions::m_knightStartPos.first.at(1).second)
-				= std::make_shared<Knight>(PIECE_OWNER::BLACK, 1);
-
-			//--- Placing white knight ---//
-			_board.at(Piece_Starting_Positions::m_knightStartPos.second.at(0).first).at(Piece_Starting_Positions::m_knightStartPos.second.at(0).second)
-				= std::make_shared<Knight>(PIECE_OWNER::WHITE, 0);
-			_board.at(Piece_Starting_Positions::m_knightStartPos.second.at(1).first).at(Piece_Starting_Positions::m_knightStartPos.second.at(1).second)
-				= std::make_shared<Knight>(PIECE_OWNER::WHITE, 1);
-
-			//--- Placing black bishop ---//
-			_board.at(Piece_Starting_Positions::m_bishopStartPos.first.at(0).first).at(Piece_Starting_Positions::m_bishopStartPos.first.at(0).second)
-				= std::make_shared<Bishop>(PIECE_OWNER::BLACK, 0);
-			_board.at(Piece_Starting_Positions::m_bishopStartPos.first.at(1).first).at(Piece_Starting_Positions::m_bishopStartPos.first.at(1).second)
-				= std::make_shared<Bishop>(PIECE_OWNER::BLACK, 1);
-
-			//--- Placing white bishop ---//
-			_board.at(Piece_Starting_Positions::m_bishopStartPos.second.at(0).first).at(Piece_Starting_Positions::m_bishopStartPos.second.at(0).second)
-				= std::make_shared<Bishop>(PIECE_OWNER::WHITE, 0);
-			_board.at(Piece_Starting_Positions::m_bishopStartPos.second.at(1).first).at(Piece_Starting_Positions::m_bishopStartPos.second.at(1).second)
-				= std::make_shared<Bishop>(PIECE_OWNER::WHITE, 1);
-
-			//--- Placing black queen ---//
-			_board.at(Piece_Starting_Positions::m_queenStartPos.first.at(0).first).at(Piece_Starting_Positions::m_queenStartPos.first.at(0).second)
-				= std::make_shared<Queen>(PIECE_OWNER::BLACK, 0);
-
-			//--- Placing white queen ---//
-			_board.at(Piece_Starting_Positions::m_queenStartPos.second.at(0).first).at(Piece_Starting_Positions::m_queenStartPos.second.at(0).second)
-				= std::make_shared<Queen>(PIECE_OWNER::WHITE, 0);
-
-			//--- Placing black king ---//
-			_board.at(Piece_Starting_Positions::m_kingStartPos.first.at(0).first).at(Piece_Starting_Positions::m_kingStartPos.first.at(0).second)
-				= std::make_shared<King>(PIECE_OWNER::BLACK, 0);
-
-			//--- Placing white king ---//
-			_board.at(Piece_Starting_Positions::m_kingStartPos.second.at(0).first).at(Piece_Starting_Positions::m_kingStartPos.second.at(0).second)
-				= std::make_shared<King>(PIECE_OWNER::WHITE, 0);
-
-			PALE_ENGINE_INFO("Board was successfully created! Board type: Object.");		
-		}
+		//--- Convertion functions ---//
+		template<typename D, typename T>
+		Board_Representation<D> ConvertBoard(const Board_Representation<T>& board);
 
 		template<typename T>
-		void Board_Representation<T>::SetPlateValue(unsigned int rowIt, unsigned int columnIt, T value) { //todo: Different! Only object will move.
-			try {
-				if (rowIt >= _row || columnIt >= _column)
-					throw std::make_pair('e', VEC_OUT_OF_RANGE);
-
-				switch (_representationType) {
-				case BOARD_TYPE::INT_TYPE:
-					if (typeid(value) != typeid(int))
-						throw std::make_pair('e', BAD_TYPE_INSERTION);
-
-					if (value > 7 || value == 6 || value < -7 || value == -6)
-						throw std::make_pair('w', INVALID_PIECE_ID);
-
-					_board.at(rowIt).at(columnIt) = value;
-					break;
-
-				case BOARD_TYPE::STRING_TYPE:
-					if (typeid(value) != typeid(std::string))
-						throw std::make_pair('e', BAD_TYPE_INSERTION);
-
-					if (value != "bP" && value != "bR" && value != "bN" && value != "bB" && value != "bQ" && value != "bK"
-						&& value != "wP" && value != "wR" && value != "wN" && value != "wB" && value != "wQ" && value != "wK" && value != "x")
-						throw std::make_pair('w', INVALID_PIECE_ID);
-
-					_board.at(rowIt).at(columnIt) = value;
-					break;
-
-				default:
-					if (typeid(value) != typeid(std::shared_ptr<Pawn>) && typeid(value) != typeid(std::shared_ptr<Rook>) && typeid(value) != typeid(std::shared_ptr<Knight>)
-						&& typeid(value) != typeid(std::shared_ptr<Bishop>) && typeid(value) != typeid(std::shared_ptr<Queen>) && typeid(value) != typeid(std::shared_ptr<King>)
-						&& typeid(value) != typeid(std::shared_ptr<Blank>))
-						throw std::make_pair('e', BAD_TYPE_INSERTION);
-
-					_board.at(rowIt).at(columnIt) = value;
-					break;
-				}
-			}
-			catch (std::pair<char, std::string> eventMessage) {
-				if (eventMessage.first == 'e')
-					PALE_ENGINE_ERROR(eventMessage.second);
-				else if (eventMessage.first == 'w')
-					PALE_ENGINE_WARN(eventMessage.second);
-
-				std::cin.get();
-			}
-		}
+		void Board_Representation<T>::SetPlateValue(unsigned int rowIt, unsigned int columnIt, T value);
 
 		template<typename T>
 		void Board_Representation<T>::MovePiece(std::pair<unsigned int, unsigned int> startPos, std::pair<unsigned int, unsigned int> endPos, Pieces& piece) {
