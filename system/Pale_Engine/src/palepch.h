@@ -3,6 +3,7 @@
 #include <memory>
 #include <typeinfo>
 #include <iostream>
+#include <sstream>
 
 #include <vector>
 #include <utility>
