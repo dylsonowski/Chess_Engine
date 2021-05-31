@@ -15,16 +15,7 @@ namespace Pale {
 			OBJECT_TYPE
 		};
 
-		//--- Structure containing data passed by move command ---//
-		struct MoveCommand {
-			MOVE_TYPES m_moveType;
-			char m_piece;
-			OWNERS m_owner;
-			std::pair<unsigned int, unsigned int> m_startPos, m_endPos;
-			std::optional<char> m_newPiece;
-		};
-
-		static const MoveCommand& ProcessMoveCommand(const std::string move, OWNERS whichTurn);
+		static const Move_Command& ProcessMoveCommand(const std::string move, OWNERS whichTurn);
 		static void AddToDeathList(int figure);
 
 		//--- Base board representation template class (T :== int, string or Piece) ---//
@@ -37,7 +28,7 @@ namespace Pale {
 			~Board_Representation() = default;
 
 			void SetPlateValue(unsigned int rowIt, unsigned int columnIt, T value);
-			void MovePiece(MoveCommand& command, Pieces& piece);
+			void MovePiece(Move_Command& command, Pieces& piece);
 
 			inline unsigned int GetRowNumber() const { return _row; }
 			inline unsigned int GetColumnNumber() const { return _column; }
@@ -123,7 +114,7 @@ namespace Pale {
 		void Board_Representation<T>::SetPlateValue(unsigned int rowIt, unsigned int columnIt, T value);
 
 		template<typename T>
-		void Board_Representation<T>::MovePiece(MoveCommand& command, Pieces& piece) {
+		void Board_Representation<T>::MovePiece(Move_Command& command, Pieces& piece) {
 			try {
 				if(command.m_startPos == command.m_endPos)
 					throw PaleEngineException("Exception happened!", 'w', "Board_Representation.h", 141, "MovePiece", MOVE_COMMAND__NO_MOVE_NEEDED);
@@ -195,9 +186,9 @@ namespace Pale {
 			}
 		}
 
-		const MoveCommand& ProcessMoveCommand(const std::string move, OWNERS whichTurn) {
+		const Move_Command& ProcessMoveCommand(const std::string move, OWNERS whichTurn) {
 			try {
-				MoveCommand processedMove;
+				Move_Command processedMove;
 				int startX, startY, endX, endY;
 				//Specifying owner of the piece.
 				processedMove.m_owner = whichTurn;

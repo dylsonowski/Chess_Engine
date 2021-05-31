@@ -194,6 +194,16 @@ namespace Pale {
 			//todo: Check if work properly
 			return canPerform;
 		}
+		
+		std::vector<Move_Command> King::GenerateLegitMoves(std::vector<std::vector<std::shared_ptr<Pieces>>>& board) const {
+			std::vector<Move_Command> tempMoveList;
+			//--- Traditional moves ---//
+
+			//--- Special moves ---//
+
+			PALE_ENGINE_TRACE("Number of moves for piece on cordinats ({0}, {1}): {2}", _positionCords.first, _positionCords.second, tempMoveList.size());
+			return tempMoveList;
+		}
 
 		Queen::Queen(OWNERS owner, unsigned int numberOfCopy) : Pieces(owner, 1) {
 			try {

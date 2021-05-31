@@ -21,6 +21,29 @@
 #define MOVE_COMMAND__NO_MOVE_NEEDED "Start and end coordinates are the same so no move is needed!"
 #define MOVE_COMMAND__INVALID_SPECIAL_USE "Given piece cannot perform this speciam move!"
 
+//--- Enum of avaliable players ---//
+enum class OWNERS {
+	NONE = 0,
+	WHITE,
+	BLACK
+};
+
+enum class MOVE_TYPES {
+	BASIC = 0,
+	PROMOTION,
+	CASTLING,
+	EN_PASSANT
+};
+
+//--- Structure containing data passed by move command ---//
+struct Move_Command {
+	MOVE_TYPES m_moveType;
+	char m_piece;
+	OWNERS m_owner;
+	std::pair<unsigned int, unsigned int> m_startPos, m_endPos;
+	std::optional<char> m_newPiece;
+};
+
 //--- Exception class ---//
 class PaleEngineException : public std::exception {
 
