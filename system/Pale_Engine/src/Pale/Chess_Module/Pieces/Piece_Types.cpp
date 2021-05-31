@@ -97,6 +97,59 @@ namespace Pale {
 			return canMove;
 		}
 
+		bool King::SpecialLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board, std::optional<char> newPiece) {
+			bool canPerform = true;			
+			if (endPos.second < _positionCords.second) { //Long castling
+				//--- King can perform long castling if it didn't move in this game ---//
+				if ((_owner == OWNERS::BLACK && _positionCords != Piece_Starting_Positions::m_kingStartPos.first.at(0)) ||
+					(_owner == OWNERS::WHITE && _positionCords != Piece_Starting_Positions::m_kingStartPos.second.at(0)))
+					canPerform = false;
+
+				//--- King can perform long castling if left rook didn't move in this game ---//
+				if ((_owner == OWNERS::BLACK && board.at(Piece_Starting_Positions::m_rookStartPos.first.at(0).first).at(Piece_Starting_Positions::m_rookStartPos.first.at(0).first)->GetValue() != -2) ||
+					(_owner == OWNERS::WHITE && board.at(Piece_Starting_Positions::m_rookStartPos.second.at(0).first).at(Piece_Starting_Positions::m_rookStartPos.second.at(0).first)->GetValue() != 2))
+					canPerform = false;
+
+				//--- King can perform long castling if path between it and left rook is clear ---//
+				if (_owner == OWNERS::BLACK) {
+					std::pair<unsigned int, unsigned int> tempEndPos = std::make_pair(Piece_Starting_Positions::m_rookStartPos.first.at(0).first, 
+						Piece_Starting_Positions::m_rookStartPos.first.at(0).second + 1);
+					if (!IsPathClear(_positionCords, tempEndPos, board))
+						canPerform = false;
+				}
+				else {
+					std::pair<unsigned int, unsigned int> tempEndPos = std::make_pair(Piece_Starting_Positions::m_rookStartPos.second.at(0).first, 
+						Piece_Starting_Positions::m_rookStartPos.second.at(0).second + 1);
+					if (!IsPathClear(_positionCords, tempEndPos, board))
+						canPerform = false;
+				}
+
+				if()
+
+				if (!canPerform)
+					PALE_ENGINE_TRACE("King piece cannot perform special move.");
+				else {
+					if (_owner == OWNERS::BLACK) //Black perform castling
+						_specialMove = std::make_shared<Castling>(_positionCords, Piece_Starting_Positions::m_rookStartPos.first.at(0), board);
+					else //White perform castling
+						_specialMove = std::make_shared<Castling>(_positionCords, Piece_Starting_Positions::m_rookStartPos.second.at(0), board);
+				}
+			}
+			else { //Short castling
+
+				if (!canPerform)
+					PALE_ENGINE_TRACE("King piece cannot perform special move.");
+				else {
+					if (_owner == OWNERS::BLACK) //Black perform castling
+						_specialMove = std::make_shared<Castling>(_positionCords, Piece_Starting_Positions::m_rookStartPos.first.at(1), board);
+					else //White perform castling
+						_specialMove = std::make_shared<Castling>(_positionCords, Piece_Starting_Positions::m_rookStartPos.second.at(1), board);
+				}
+			}
+			//todo: Check if work properly
+			return canPerform;
+		}
+
 		Queen::Queen(OWNERS owner, unsigned int numberOfCopy) : Pieces(owner, 1) {
 			try {
 				if (numberOfCopy > _limitOfCopies - 1)

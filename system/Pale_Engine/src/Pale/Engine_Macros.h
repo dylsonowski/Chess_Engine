@@ -11,6 +11,7 @@
 #define MOVE_COMMAND__COORDINATE_OUT_OF_RANGE "Specified coordinate was from out of range!"
 #define MOVE_COMMAND__NO_KING_ON_BOARD "Unable to find correct king piece on given board!"
 #define MOVE_COMMAND__INVALID_MOVE_DIRECTION "Given move is not rectilinear!"
+#define MOVE_COMMAND__NO_NEW_PIECE "Piece to change into wasn't specify!"
 
 //--- Warnings codes ---//
 #define INVALID_PIECE_ID "No coresponding chess piece of the given ID! Insertion failed!"
@@ -18,6 +19,7 @@
 #define MOVE_COMMAND__INVALID_STARTING_POS "Given coordinates do not contains correct piece!"
 #define MOVE_COMMAND__INCOMPATIBLE_CORDS "Given coordinats are different than in piece object!"
 #define MOVE_COMMAND__NO_MOVE_NEEDED "Start and end coordinates are the same so no move is needed!"
+#define MOVE_COMMAND__INVALID_SPECIAL_USE "Given piece cannot perform this speciam move!"
 
 //--- Exception class ---//
 class PaleEngineException : public std::exception {
