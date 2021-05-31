@@ -33,19 +33,19 @@ namespace Pale {
 				{ {6, 0}, {6, 1}, {6, 2}, {6, 3}, {6, 4}, {6, 5}, {6, 6}, {6, 7} }
 		};
 
-		King::King(PIECE_OWNER owner, unsigned int numberOfCopy) : Pieces(owner, 1), _check(false), _checkMate(false) {
+		King::King(OWNERS owner, unsigned int numberOfCopy) : Pieces(owner, 1), _check(false), _checkMate(false) {
 			try {
 				if (numberOfCopy > _limitOfCopies - 1)
 					throw PaleEngineException("Exception happened!", 'e', "Piece_Types.cpp", 39, "King", COPY_LIMIT_EXCEEDED);
 
-				if (owner == PIECE_OWNER::BLACK) {
+				if (owner == OWNERS::BLACK) {
 					_value = -7;
 					_name = "bK";
 
 					_positionCords = std::make_pair(Piece_Starting_Positions::m_kingStartPos.first.at(numberOfCopy).first,
 						Piece_Starting_Positions::m_kingStartPos.first.at(numberOfCopy).second);
 				}
-				else if (owner == PIECE_OWNER::WHITE) {
+				else if (owner == OWNERS::WHITE) {
 					_value = 7;
 					_name = "wK";
 
@@ -67,19 +67,35 @@ namespace Pale {
 			}
 		}
 
-		Queen::Queen(PIECE_OWNER owner, unsigned int numberOfCopy) : Pieces(owner, 1) {
+		bool King::MoveLogic(std::pair<unsigned int, unsigned int> startPos, std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) const {
+			try {
+				bool canMove = true;
+				//todo: Complete definition of King move logic.
+				return canMove;
+			}
+			catch (PaleEngineException& exception) {
+				if (exception.GetType() == 'e')
+					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+				else if (exception.GetType() == 'w')
+					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+
+				std::cin.get();
+			}
+		}
+
+		Queen::Queen(OWNERS owner, unsigned int numberOfCopy) : Pieces(owner, 1) {
 			try {
 				if (numberOfCopy > _limitOfCopies - 1)
 					throw PaleEngineException("Exception happened!", 'e', "Piece_Types.cpp", 66, "Queen", COPY_LIMIT_EXCEEDED);
 
-				if (owner == PIECE_OWNER::BLACK) {
+				if (owner == OWNERS::BLACK) {
 					_value = -5;
 					_name = "bQ";
 
 					_positionCords = std::make_pair(Piece_Starting_Positions::m_queenStartPos.first.at(numberOfCopy).first,
 						Piece_Starting_Positions::m_queenStartPos.first.at(numberOfCopy).second);
 				}
-				else if (owner == PIECE_OWNER::WHITE) {
+				else if (owner == OWNERS::WHITE) {
 					_value = 5;
 					_name = "wQ";
 
@@ -101,19 +117,19 @@ namespace Pale {
 			}
 		}
 
-		Bishop::Bishop(PIECE_OWNER owner, unsigned int numberOfCopy) : Pieces(owner, 2) {
+		Bishop::Bishop(OWNERS owner, unsigned int numberOfCopy) : Pieces(owner, 2) {
 			try {
 				if (numberOfCopy > _limitOfCopies - 1)
 					throw PaleEngineException("Exception happened!", 'e', "Piece_Types.cpp", 93, "Bishop", COPY_LIMIT_EXCEEDED);
 
-				if (owner == PIECE_OWNER::BLACK) {
+				if (owner == OWNERS::BLACK) {
 					_value = -4;
 					_name = "bB";
 
 					_positionCords = std::make_pair(Piece_Starting_Positions::m_bishopStartPos.first.at(numberOfCopy).first,
 						Piece_Starting_Positions::m_bishopStartPos.first.at(numberOfCopy).second);
 				}
-				else if (owner == PIECE_OWNER::WHITE) {
+				else if (owner == OWNERS::WHITE) {
 					_value = 4;
 					_name = "wB";
 
@@ -135,19 +151,19 @@ namespace Pale {
 			}
 		}
 
-		Knight::Knight(PIECE_OWNER owner, unsigned int numberOfCopy) : Pieces(owner, 2) {
+		Knight::Knight(OWNERS owner, unsigned int numberOfCopy) : Pieces(owner, 2) {
 			try {
 				if (numberOfCopy > _limitOfCopies - 1)
 					throw PaleEngineException("Exception happened!", 'e', "Piece_Types.cpp", 120, "Knight", COPY_LIMIT_EXCEEDED);
 
-				if (owner == PIECE_OWNER::BLACK) {
+				if (owner == OWNERS::BLACK) {
 					_value = -3;
 					_name = "bN";
 
 					_positionCords = std::make_pair(Piece_Starting_Positions::m_knightStartPos.first.at(numberOfCopy).first,
 						Piece_Starting_Positions::m_knightStartPos.first.at(numberOfCopy).second);
 				}
-				else if (owner == PIECE_OWNER::WHITE) {
+				else if (owner == OWNERS::WHITE) {
 					_value = 3;
 					_name = "wN";
 
@@ -169,19 +185,19 @@ namespace Pale {
 			}
 		}
 
-		Rook::Rook(PIECE_OWNER owner, unsigned int numberOfCopy) : Pieces(owner, 2) {
+		Rook::Rook(OWNERS owner, unsigned int numberOfCopy) : Pieces(owner, 2) {
 			try {
 				if (numberOfCopy > _limitOfCopies - 1)
 					throw PaleEngineException("Exception happened!", 'e', "Piece_Types.cpp", 147, "Rook", COPY_LIMIT_EXCEEDED);
 
-				if (owner == PIECE_OWNER::BLACK) {
+				if (owner == OWNERS::BLACK) {
 					_value = -2;
 					_name = "bR";
 
 					_positionCords = std::make_pair(Piece_Starting_Positions::m_rookStartPos.first.at(numberOfCopy).first,
 						Piece_Starting_Positions::m_rookStartPos.first.at(numberOfCopy).second);
 				}
-				else if (owner == PIECE_OWNER::WHITE) {
+				else if (owner == OWNERS::WHITE) {
 					_value = 2;
 					_name = "wR";
 
@@ -203,19 +219,19 @@ namespace Pale {
 			}
 		}
 
-		Pawn::Pawn(PIECE_OWNER owner, unsigned int numberOfCopy) : Pieces(owner, 8), _firstMove(true) {
+		Pawn::Pawn(OWNERS owner, unsigned int numberOfCopy) : Pieces(owner, 8), _firstMove(true) {
 			try {
 				if (numberOfCopy > _limitOfCopies - 1)
 					throw PaleEngineException("Exception happened!", 'e', "Piece_Types.cpp", 174, "Pawn", COPY_LIMIT_EXCEEDED);
 
-				if (owner == PIECE_OWNER::BLACK) {
+				if (owner == OWNERS::BLACK) {
 					_value = -1;
 					_name = "bP";
 
 					_positionCords = std::make_pair(Piece_Starting_Positions::m_pawnStartPos.first.at(numberOfCopy).first,
 						Piece_Starting_Positions::m_pawnStartPos.first.at(numberOfCopy).second);
 				}
-				else if (owner == PIECE_OWNER::WHITE) {
+				else if (owner == OWNERS::WHITE) {
 					_value = 1;
 					_name = "wP";
 

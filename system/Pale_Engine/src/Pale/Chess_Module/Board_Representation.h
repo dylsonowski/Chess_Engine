@@ -16,7 +16,7 @@ namespace Pale {
 		//--- Structure containing data passed by move command ---//
 		struct MoveCommand {
 			char m_piece;
-			PIECE_OWNER m_owner;
+			OWNERS m_owner;
 			std::pair<unsigned int, unsigned int> m_startPos, m_endPos;
 		};
 
@@ -138,13 +138,13 @@ namespace Pale {
 		void Board_Representation<T>::MovePiece(std::pair<unsigned int, unsigned int> startPos, std::pair<unsigned int, unsigned int> endPos, Pieces& piece) {
 			try {
 				if (_board.at(startPos.first).at(startPos.second)->GetValue() != piece.GetValue())
-					throw PaleEngineException("Exception happened!", 'w', "Board_Representation.h", 141, "MovePiece", INVALID_OCCUPATION);
+					throw PaleEngineException("Exception happened!", 'w', "Board_Representation.h", 141, "MovePiece", MOVE_COMMAND__INVALID_OCCUPATION);
 
 				if (startPos.first < 0 || startPos.first >= _row || startPos.second < 0 || startPos.second >= _column ||
 					endPos.first < 0 || endPos.first >= _row || endPos.second < 0 || endPos.second >= _column)
-					throw PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 145, "MovePiece", VEC_OUT_OF_RANGE);
+					throw PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 145, "MovePiece", MOVE_COMMAND__COORDINATE_OUT_OF_RANGE);
 
-				if (piece.MoveLogic(endPos, _board)) {
+				if (piece.MoveLogic(startPos, endPos, _board)) {
 					PALE_ENGINE_INFO("Move was successfully made.");
 					if (_board.at(endPos.first).at(endPos.second)->GetValue() != 0)
 						_board.at(endPos.first).at(endPos.second) = std::make_shared<Blank>(endPos.first, endPos.second); //If capture set plate to blank
@@ -169,9 +169,9 @@ namespace Pale {
 				MoveCommand processedMove;
 				//Specifying owner of the piece.
 				if (std::tolower(move[0]) == 'b')
-					processedMove.m_owner = PIECE_OWNER::BLACK;
+					processedMove.m_owner = OWNERS::BLACK;
 				else if (std::tolower(move[0]) == 'w')
-					processedMove.m_owner = PIECE_OWNER::WHITE;
+					processedMove.m_owner = OWNERS::WHITE;
 				else
 					throw PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 176, "ProcessMoveCommand", MOVE_COMMAND__WRONG_OWNER);
 

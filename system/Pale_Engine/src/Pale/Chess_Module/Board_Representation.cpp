@@ -11,9 +11,9 @@ namespace Pale {
 				std::vector<std::shared_ptr<Pieces>> temp;
 				for (int columnIt = 0; columnIt < column; columnIt++) {
 					if (rowIt == Piece_Starting_Positions::m_pawnStartPos.first.at(0).first) //If <pawn_start_cords>.<black>.X.<row cord>
-						temp.emplace_back(std::make_shared<Pawn>(PIECE_OWNER::BLACK, columnIt));
+						temp.emplace_back(std::make_shared<Pawn>(OWNERS::BLACK, columnIt));
 					else if (rowIt == Piece_Starting_Positions::m_pawnStartPos.second.at(0).first) //If <pawn_start_cords>.<white>.X.<row cord>
-						temp.emplace_back(std::make_shared<Pawn>(PIECE_OWNER::WHITE, columnIt));
+						temp.emplace_back(std::make_shared<Pawn>(OWNERS::WHITE, columnIt));
 					else
 						temp.emplace_back(std::make_shared<Blank>(rowIt, columnIt)); //Else blank plate
 				}
@@ -22,55 +22,55 @@ namespace Pale {
 
 			//--- Placing black rook ---//
 			_board.at(Piece_Starting_Positions::m_rookStartPos.first.at(0).first).at(Piece_Starting_Positions::m_rookStartPos.first.at(0).second)
-				= std::make_shared<Rook>(PIECE_OWNER::BLACK, 0);
+				= std::make_shared<Rook>(OWNERS::BLACK, 0);
 			_board.at(Piece_Starting_Positions::m_rookStartPos.first.at(1).first).at(Piece_Starting_Positions::m_rookStartPos.first.at(1).second)
-				= std::make_shared<Rook>(PIECE_OWNER::BLACK, 1);
+				= std::make_shared<Rook>(OWNERS::BLACK, 1);
 
 			//--- Placing white rook ---//
 			_board.at(Piece_Starting_Positions::m_rookStartPos.second.at(0).first).at(Piece_Starting_Positions::m_rookStartPos.second.at(0).second)
-				= std::make_shared<Rook>(PIECE_OWNER::WHITE, 0);
+				= std::make_shared<Rook>(OWNERS::WHITE, 0);
 			_board.at(Piece_Starting_Positions::m_rookStartPos.second.at(1).first).at(Piece_Starting_Positions::m_rookStartPos.second.at(1).second)
-				= std::make_shared<Rook>(PIECE_OWNER::WHITE, 1);
+				= std::make_shared<Rook>(OWNERS::WHITE, 1);
 
 			//--- Placing black knight ---//
 			_board.at(Piece_Starting_Positions::m_knightStartPos.first.at(0).first).at(Piece_Starting_Positions::m_knightStartPos.first.at(0).second)
-				= std::make_shared<Knight>(PIECE_OWNER::BLACK, 0);
+				= std::make_shared<Knight>(OWNERS::BLACK, 0);
 			_board.at(Piece_Starting_Positions::m_knightStartPos.first.at(1).first).at(Piece_Starting_Positions::m_knightStartPos.first.at(1).second)
-				= std::make_shared<Knight>(PIECE_OWNER::BLACK, 1);
+				= std::make_shared<Knight>(OWNERS::BLACK, 1);
 
 			//--- Placing white knight ---//
 			_board.at(Piece_Starting_Positions::m_knightStartPos.second.at(0).first).at(Piece_Starting_Positions::m_knightStartPos.second.at(0).second)
-				= std::make_shared<Knight>(PIECE_OWNER::WHITE, 0);
+				= std::make_shared<Knight>(OWNERS::WHITE, 0);
 			_board.at(Piece_Starting_Positions::m_knightStartPos.second.at(1).first).at(Piece_Starting_Positions::m_knightStartPos.second.at(1).second)
-				= std::make_shared<Knight>(PIECE_OWNER::WHITE, 1);
+				= std::make_shared<Knight>(OWNERS::WHITE, 1);
 
 			//--- Placing black bishop ---//
 			_board.at(Piece_Starting_Positions::m_bishopStartPos.first.at(0).first).at(Piece_Starting_Positions::m_bishopStartPos.first.at(0).second)
-				= std::make_shared<Bishop>(PIECE_OWNER::BLACK, 0);
+				= std::make_shared<Bishop>(OWNERS::BLACK, 0);
 			_board.at(Piece_Starting_Positions::m_bishopStartPos.first.at(1).first).at(Piece_Starting_Positions::m_bishopStartPos.first.at(1).second)
-				= std::make_shared<Bishop>(PIECE_OWNER::BLACK, 1);
+				= std::make_shared<Bishop>(OWNERS::BLACK, 1);
 
 			//--- Placing white bishop ---//
 			_board.at(Piece_Starting_Positions::m_bishopStartPos.second.at(0).first).at(Piece_Starting_Positions::m_bishopStartPos.second.at(0).second)
-				= std::make_shared<Bishop>(PIECE_OWNER::WHITE, 0);
+				= std::make_shared<Bishop>(OWNERS::WHITE, 0);
 			_board.at(Piece_Starting_Positions::m_bishopStartPos.second.at(1).first).at(Piece_Starting_Positions::m_bishopStartPos.second.at(1).second)
-				= std::make_shared<Bishop>(PIECE_OWNER::WHITE, 1);
+				= std::make_shared<Bishop>(OWNERS::WHITE, 1);
 
 			//--- Placing black queen ---//
 			_board.at(Piece_Starting_Positions::m_queenStartPos.first.at(0).first).at(Piece_Starting_Positions::m_queenStartPos.first.at(0).second)
-				= std::make_shared<Queen>(PIECE_OWNER::BLACK, 0);
+				= std::make_shared<Queen>(OWNERS::BLACK, 0);
 
 			//--- Placing white queen ---//
 			_board.at(Piece_Starting_Positions::m_queenStartPos.second.at(0).first).at(Piece_Starting_Positions::m_queenStartPos.second.at(0).second)
-				= std::make_shared<Queen>(PIECE_OWNER::WHITE, 0);
+				= std::make_shared<Queen>(OWNERS::WHITE, 0);
 
 			//--- Placing black king ---//
 			_board.at(Piece_Starting_Positions::m_kingStartPos.first.at(0).first).at(Piece_Starting_Positions::m_kingStartPos.first.at(0).second)
-				= std::make_shared<King>(PIECE_OWNER::BLACK, 0);
+				= std::make_shared<King>(OWNERS::BLACK, 0);
 
 			//--- Placing white king ---//
 			_board.at(Piece_Starting_Positions::m_kingStartPos.second.at(0).first).at(Piece_Starting_Positions::m_kingStartPos.second.at(0).second)
-				= std::make_shared<King>(PIECE_OWNER::WHITE, 0);
+				= std::make_shared<King>(OWNERS::WHITE, 0);
 
 			PALE_ENGINE_INFO("Board was successfully created! Board type: Object.");
 		}
