@@ -40,8 +40,13 @@ struct Move_Command {
 	MOVE_TYPES m_moveType;
 	char m_piece;
 	OWNERS m_owner;
+	bool m_capture;
 	std::pair<unsigned int, unsigned int> m_startPos, m_endPos;
 	std::optional<char> m_newPiece;
+
+	Move_Command() = default;
+	Move_Command(MOVE_TYPES moveType, char piece, OWNERS owner, bool capture, std::pair<unsigned int, unsigned int> startPos, std::pair<unsigned int, unsigned int> endPos)
+		: m_moveType(moveType), m_piece(piece), m_owner(owner), m_capture(capture), m_startPos(startPos), m_endPos(endPos) {}
 };
 
 //--- Exception class ---//

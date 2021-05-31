@@ -22,7 +22,7 @@ namespace Pale {
 
 			virtual bool SpecialLogic(MOVE_TYPES type, std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board, std::optional<char> newPiece) { return true; }
 			virtual bool MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) = 0;
-			virtual std::vector<Move_Command> GenerateLegitMoves(std::vector<std::vector<std::shared_ptr<Pieces>>>& board) const = 0;
+			virtual std::vector<Move_Command> GenerateLegitMoves(std::vector<std::vector<std::shared_ptr<Pieces>>>& board) = 0;
 			inline std::pair<unsigned int, unsigned int> GetPosition() const { return _positionCords; }
 			inline OWNERS GetOwner() const { return _owner; }
 			inline int GetValue() const { return _value; }

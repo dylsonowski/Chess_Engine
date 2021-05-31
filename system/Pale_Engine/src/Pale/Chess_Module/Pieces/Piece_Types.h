@@ -30,16 +30,17 @@ namespace Pale {
 
 			bool SpecialLogic(MOVE_TYPES type, std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board, std::optional<char> newPiece) override;
 			bool MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) override;
-			std::vector<Move_Command> GenerateLegitMoves(std::vector<std::vector<std::shared_ptr<Pieces>>>& board) const override;
+			std::vector<Move_Command> GenerateLegitMoves(std::vector<std::vector<std::shared_ptr<Pieces>>>& board) override;
 			inline bool GetKingStatus(bool getCheck) const {
 				if (getCheck)
 					return _check;
 				else
 					return _checkMate;
 			}
+			inline bool DidNotMove() const { return _firstMove; }
 
 		private:
-			bool _check, _checkMate;
+			bool _check, _checkMate, _firstMove;
 		};
 
 		class Queen : public Pieces {
@@ -53,7 +54,7 @@ namespace Pale {
 			void ExecuteSpecialMove() override { _specialMove->Execute(); }
 
 			bool MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) override;
-			std::vector<Move_Command> GenerateLegitMoves(std::vector<std::vector<std::shared_ptr<Pieces>>>& board) const override;
+			std::vector<Move_Command> GenerateLegitMoves(std::vector<std::vector<std::shared_ptr<Pieces>>>& board) override;
 		};
 
 		class Bishop : public Pieces {
@@ -67,7 +68,7 @@ namespace Pale {
 			void ExecuteSpecialMove() override { _specialMove->Execute(); }
 
 			bool MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) override;
-			std::vector<Move_Command> GenerateLegitMoves(std::vector<std::vector<std::shared_ptr<Pieces>>>& board) const override;
+			std::vector<Move_Command> GenerateLegitMoves(std::vector<std::vector<std::shared_ptr<Pieces>>>& board) override;
 		};
 
 		class Knight : public Pieces {
@@ -81,7 +82,7 @@ namespace Pale {
 			void ExecuteSpecialMove() override { _specialMove->Execute(); }
 
 			bool MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) override;
-			std::vector<Move_Command> GenerateLegitMoves(std::vector<std::vector<std::shared_ptr<Pieces>>>& board) const override;
+			std::vector<Move_Command> GenerateLegitMoves(std::vector<std::vector<std::shared_ptr<Pieces>>>& board) override;
 		};
 
 		class Rook : public Pieces {
@@ -96,7 +97,11 @@ namespace Pale {
 
 			bool SpecialLogic(MOVE_TYPES type, std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board, std::optional<char> newPiece) override;
 			bool MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) override;
-			std::vector<Move_Command> GenerateLegitMoves(std::vector<std::vector<std::shared_ptr<Pieces>>>& board) const override;
+			std::vector<Move_Command> GenerateLegitMoves(std::vector<std::vector<std::shared_ptr<Pieces>>>& board) override;
+			inline bool DidNotMove() const { return _firstMove; }
+
+		private:
+			bool _firstMove;
 		};
 
 		class Pawn : public Pieces {
@@ -110,7 +115,7 @@ namespace Pale {
 
 			bool SpecialLogic(MOVE_TYPES type, std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board, std::optional<char> newPiece) override;
 			bool MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) override;
-			std::vector<Move_Command> GenerateLegitMoves(std::vector<std::vector<std::shared_ptr<Pieces>>>& board) const override;
+			std::vector<Move_Command> GenerateLegitMoves(std::vector<std::vector<std::shared_ptr<Pieces>>>& board) override { return std::vector<Move_Command>(); }
 
 			inline bool MovedByTwo() const { return _movedByTwo; }
 
@@ -133,7 +138,7 @@ namespace Pale {
 			void ExecuteSpecialMove() override { _specialMove->Execute(); }
 
 			bool MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) override { return false; }
-			std::vector<Move_Command> GenerateLegitMoves(std::vector<std::vector<std::shared_ptr<Pieces>>>& board) const override { return std::vector<Move_Command>(); }
+			std::vector<Move_Command> GenerateLegitMoves(std::vector<std::vector<std::shared_ptr<Pieces>>>& board) override { return {}; }
 		};
 	}
 }
