@@ -80,20 +80,23 @@ namespace Pale {
 				std::stringstream ss;
 				for (int rowIt = 0; rowIt < _row; rowIt++) {
 					for (int columnIt = 0; columnIt < _column; columnIt++) {
-						ss << " -- ";
+						if(columnIt == 0)
+							ss << "  --  ";
+						else
+							ss << " --  ";
 					}
 
 					ss << "\n";
 					for (int columnIt = 0; columnIt < _column; columnIt++) {
 						if (columnIt == _column - 1) {
 							if(_board.at(rowIt).at(columnIt)->GetValue() == 0)
-								ss << "|  " << _board.at(rowIt).at(columnIt)->GetName() << " |";
+								ss << "|    |";
 							else
 								ss << "| " << _board.at(rowIt).at(columnIt)->GetName() << " |";
 						}
 						else {
 							if (_board.at(rowIt).at(columnIt)->GetValue() == 0)
-								ss << "|  " << _board.at(rowIt).at(columnIt)->GetName() << " ";
+								ss << "|    ";
 							else
 								ss << "| " << _board.at(rowIt).at(columnIt)->GetName() << " ";
 						}
@@ -102,7 +105,10 @@ namespace Pale {
 					ss << "\n";
 					if (rowIt == _row - 1) {
 						for (int columnIt = 0; columnIt < _column; columnIt++) {
-							ss << " -- ";
+							if (columnIt == 0)
+								ss << "  --  ";
+							else
+								ss << " --  ";
 						}
 					}
 				}
@@ -116,7 +122,10 @@ namespace Pale {
 			static std::vector<int> s_deathList; //List which holds captured pieces. 
 		};
 
-		//std::ostream& operator
+		template<typename T>
+		inline std::ostream& operator<<(std::ostream& os, Board_Representation<T> data) {
+			return os << data.ToString();
+		}
 
 		//--- Convertion functions ---//
 		template<typename D, typename T>
@@ -129,11 +138,11 @@ namespace Pale {
 		void Board_Representation<T>::MovePiece(std::pair<unsigned int, unsigned int> startPos, std::pair<unsigned int, unsigned int> endPos, Pieces& piece) {
 			try {
 				if (_board.at(startPos.first).at(startPos.second)->GetValue() != piece.GetValue())
-					throw PaleEngineException("Exception happened!", 'w', "Board_Representation.h", 97, "MovePiece", INVALID_OCCUPATION);
+					throw PaleEngineException("Exception happened!", 'w', "Board_Representation.h", 141, "MovePiece", INVALID_OCCUPATION);
 
 				if (startPos.first < 0 || startPos.first >= _row || startPos.second < 0 || startPos.second >= _column ||
 					endPos.first < 0 || endPos.first >= _row || endPos.second < 0 || endPos.second >= _column)
-					throw PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 101, "MovePiece", VEC_OUT_OF_RANGE);
+					throw PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 145, "MovePiece", VEC_OUT_OF_RANGE);
 
 				if (piece.MoveLogic(endPos, _board)) {
 					PALE_ENGINE_INFO("Move was successfully made.");
@@ -164,12 +173,12 @@ namespace Pale {
 				else if (std::tolower(move[0]) == 'w')
 					processedMove.m_owner = PIECE_OWNER::WHITE;
 				else
-					throw PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 132, "ProcessMoveCommand", MOVE_COMMAND__WRONG_OWNER);
+					throw PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 176, "ProcessMoveCommand", MOVE_COMMAND__WRONG_OWNER);
 
 				//Specifying type of the piece.
 				if (std::toupper(move[1]) != 'K' && std::toupper(move[1]) != 'Q' && std::toupper(move[1]) != 'B'
 					&& std::toupper(move[1]) != 'N' && std::toupper(move[1]) != 'R' && std::toupper(move[1]) != 'P')
-					throw PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 137, "ProcessMoveCommand", MOVE_COMMAND__WRONG_PIECE);
+					throw PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 181, "ProcessMoveCommand", MOVE_COMMAND__WRONG_PIECE);
 				else
 					processedMove.m_piece = std::toupper(move[1]);
 
@@ -183,7 +192,7 @@ namespace Pale {
 				case 'f': startX = 5;	break;
 				case 'g': startX = 6;	break;
 				case 'h': startX = 7;	break;
-				default: throw PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 151, "ProcessMoveCommand", MOVE_COMMAND__COORDINATE_OUT_OF_RANGE);	break;
+				default: throw PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 195, "ProcessMoveCommand", MOVE_COMMAND__COORDINATE_OUT_OF_RANGE);	break;
 				}
 
 				switch (move[3]) { //Y cord for start position.
@@ -195,7 +204,7 @@ namespace Pale {
 				case '6': startY = 2;	break;
 				case '7': startY = 1;	break;
 				case '8': startY = 0;	break;
-				default: PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 163, "ProcessMoveCommand", MOVE_COMMAND__COORDINATE_OUT_OF_RANGE); break;
+				default: PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 207, "ProcessMoveCommand", MOVE_COMMAND__COORDINATE_OUT_OF_RANGE); break;
 				}
 
 				switch (move[4]) { //X cord for end position.
@@ -207,7 +216,7 @@ namespace Pale {
 				case 'f': endX = 5;	break;
 				case 'g': endX = 6;	break;
 				case 'h': endX = 7;	break;
-				default: PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 175, "ProcessMoveCommand", MOVE_COMMAND__COORDINATE_OUT_OF_RANGE); break;
+				default: PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 219, "ProcessMoveCommand", MOVE_COMMAND__COORDINATE_OUT_OF_RANGE); break;
 				}
 
 				switch (move[5]) { //Y cord for end position.
@@ -219,7 +228,7 @@ namespace Pale {
 				case '6': endY = 2;	break;
 				case '7': endY = 1;	break;
 				case '8': endY = 0;	break;
-				default: PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 187, "ProcessMoveCommand", MOVE_COMMAND__COORDINATE_OUT_OF_RANGE); break;
+				default: PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 231, "ProcessMoveCommand", MOVE_COMMAND__COORDINATE_OUT_OF_RANGE); break;
 				}
 
 				processedMove.m_startPos = std::make_pair(startY, startX); //first cord := row, second cord := column
