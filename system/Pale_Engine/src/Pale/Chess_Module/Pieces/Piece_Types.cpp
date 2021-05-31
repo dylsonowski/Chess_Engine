@@ -243,14 +243,110 @@ namespace Pale {
 					std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
 					tempBoard.at(_positionCords.first - 1).at(_positionCords.second) = tempBoard.at(_positionCords.first).at(_positionCords.second);
 					tempBoard.at(_positionCords.first).at(_positionCords.second) = std::make_shared<Blank>(_positionCords.first, _positionCords.second);
-					if (!KingIsChecked(tempBoard, _owner))
-						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'K', _owner, _positionCords, std::make_pair(_positionCords.first - 1, _positionCords.second)));
+					if (!KingIsChecked(tempBoard, _owner)) {
+						if(board.at(_positionCords.first - 1).at(_positionCords.second)->GetOwner() != OWNERS::NONE)
+							tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'K', _owner, true, _positionCords, std::make_pair(_positionCords.first - 1, _positionCords.second)));
+						else
+							tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'K', _owner, false, _positionCords, std::make_pair(_positionCords.first - 1, _positionCords.second)));
+					}
 				}
 			}
 
 			if (_positionCords.first - 1 >= 0 && _positionCords.second + 1 < board.size()) { //Move north-east
 				if (board.at(_positionCords.first - 1).at(_positionCords.second + 1)->GetOwner() != _owner) {
+					std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
+					tempBoard.at(_positionCords.first - 1).at(_positionCords.second + 1) = tempBoard.at(_positionCords.first).at(_positionCords.second);
+					tempBoard.at(_positionCords.first).at(_positionCords.second) = std::make_shared<Blank>(_positionCords.first, _positionCords.second);
+					if (!KingIsChecked(tempBoard, _owner)) {
+						if (board.at(_positionCords.first - 1).at(_positionCords.second + 1)->GetOwner() != OWNERS::NONE)
+							tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'K', _owner, true, _positionCords, std::make_pair(_positionCords.first - 1, _positionCords.second + 1)));
+						else
+							tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'K', _owner, false, _positionCords, std::make_pair(_positionCords.first - 1, _positionCords.second + 1)));
+					}
+				}
+			}
 
+			if (_positionCords.second + 1 < board.size()) { //Move east
+				if (board.at(_positionCords.first).at(_positionCords.second + 1)->GetOwner() != _owner) {
+					std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
+					tempBoard.at(_positionCords.first).at(_positionCords.second + 1) = tempBoard.at(_positionCords.first).at(_positionCords.second);
+					tempBoard.at(_positionCords.first).at(_positionCords.second) = std::make_shared<Blank>(_positionCords.first, _positionCords.second);
+					if (!KingIsChecked(tempBoard, _owner)) {
+						if (board.at(_positionCords.first).at(_positionCords.second + 1)->GetOwner() != OWNERS::NONE)
+							tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'K', _owner, true, _positionCords, std::make_pair(_positionCords.first, _positionCords.second + 1)));
+						else
+							tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'K', _owner, false, _positionCords, std::make_pair(_positionCords.first, _positionCords.second + 1)));
+					}
+				}
+			}
+
+			if (_positionCords.first + 1 < board.size() && _positionCords.second + 1 < board.size()) { //Move souht-east
+				if (board.at(_positionCords.first + 1).at(_positionCords.second + 1)->GetOwner() != _owner) {
+					std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
+					tempBoard.at(_positionCords.first + 1).at(_positionCords.second + 1) = tempBoard.at(_positionCords.first).at(_positionCords.second);
+					tempBoard.at(_positionCords.first).at(_positionCords.second) = std::make_shared<Blank>(_positionCords.first, _positionCords.second);
+					if (!KingIsChecked(tempBoard, _owner)) {
+						if (board.at(_positionCords.first + 1).at(_positionCords.second + 1)->GetOwner() != OWNERS::NONE)
+							tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'K', _owner, true, _positionCords, std::make_pair(_positionCords.first + 1, _positionCords.second + 1)));
+						else
+							tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'K', _owner, false, _positionCords, std::make_pair(_positionCords.first + 1, _positionCords.second + 1)));
+					}
+				}
+			}
+
+			if (_positionCords.first + 1 < board.size()) { //Move south
+				if (board.at(_positionCords.first + 1).at(_positionCords.second)->GetOwner() != _owner) {
+					std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
+					tempBoard.at(_positionCords.first + 1).at(_positionCords.second) = tempBoard.at(_positionCords.first).at(_positionCords.second);
+					tempBoard.at(_positionCords.first).at(_positionCords.second) = std::make_shared<Blank>(_positionCords.first, _positionCords.second);
+					if (!KingIsChecked(tempBoard, _owner)) {
+						if (board.at(_positionCords.first + 1).at(_positionCords.second)->GetOwner() != OWNERS::NONE)
+							tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'K', _owner, true, _positionCords, std::make_pair(_positionCords.first + 1, _positionCords.second)));
+						else
+							tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'K', _owner, false, _positionCords, std::make_pair(_positionCords.first + 1, _positionCords.second)));
+					}
+				}
+			}
+
+			if (_positionCords.first + 1 < board.size() && _positionCords.second - 1 >= 0) { //Move south-west
+				if (board.at(_positionCords.first + 1).at(_positionCords.second - 1)->GetOwner() != _owner) {
+					std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
+					tempBoard.at(_positionCords.first + 1).at(_positionCords.second - 1) = tempBoard.at(_positionCords.first).at(_positionCords.second);
+					tempBoard.at(_positionCords.first).at(_positionCords.second) = std::make_shared<Blank>(_positionCords.first, _positionCords.second);
+					if (!KingIsChecked(tempBoard, _owner)) {
+						if (board.at(_positionCords.first + 1).at(_positionCords.second - 1)->GetOwner() != OWNERS::NONE)
+							tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'K', _owner, true, _positionCords, std::make_pair(_positionCords.first + 1, _positionCords.second - 1)));
+						else
+							tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'K', _owner, false, _positionCords, std::make_pair(_positionCords.first + 1, _positionCords.second - 1)));
+					}
+				}
+			}
+
+			if (_positionCords.second - 1 >= 0) { //Move west
+				if (board.at(_positionCords.first).at(_positionCords.second - 1)->GetOwner() != _owner) {
+					std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
+					tempBoard.at(_positionCords.first).at(_positionCords.second - 1) = tempBoard.at(_positionCords.first).at(_positionCords.second);
+					tempBoard.at(_positionCords.first).at(_positionCords.second) = std::make_shared<Blank>(_positionCords.first, _positionCords.second);
+					if (!KingIsChecked(tempBoard, _owner)) {
+						if (board.at(_positionCords.first).at(_positionCords.second - 1)->GetOwner() != OWNERS::NONE)
+							tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'K', _owner, true, _positionCords, std::make_pair(_positionCords.first, _positionCords.second - 1)));
+						else
+							tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'K', _owner, false, _positionCords, std::make_pair(_positionCords.first, _positionCords.second - 1)));
+					}
+				}
+			}
+
+			if (_positionCords.first - 1 >= 0 && _positionCords.second - 1 >= 0) { //Move north-west
+				if (board.at(_positionCords.first - 1).at(_positionCords.second - 1)->GetOwner() != _owner) {
+					std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
+					tempBoard.at(_positionCords.first - 1).at(_positionCords.second - 1) = tempBoard.at(_positionCords.first).at(_positionCords.second);
+					tempBoard.at(_positionCords.first).at(_positionCords.second) = std::make_shared<Blank>(_positionCords.first, _positionCords.second);
+					if (!KingIsChecked(tempBoard, _owner)) {
+						if (board.at(_positionCords.first - 1).at(_positionCords.second - 1)->GetOwner() != OWNERS::NONE)
+							tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'K', _owner, true, _positionCords, std::make_pair(_positionCords.first - 1, _positionCords.second - 1)));
+						else
+							tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'K', _owner, false, _positionCords, std::make_pair(_positionCords.first - 1, _positionCords.second - 1)));
+					}
 				}
 			}
 
