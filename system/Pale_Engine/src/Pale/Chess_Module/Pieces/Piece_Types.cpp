@@ -733,8 +733,9 @@ namespace Pale {
 
 				if (!canPerform)
 					PALE_ENGINE_TRACE("Rook piece cannot perform special move.");
-				else 
-					_specialMove = std::make_shared<Promotion>(_positionCords, endPos, board, newPiece);
+				else
+					_specialMove = std::make_shared<Promotion>(_positionCords, endPos, board, newPiece.value());
+			}
 			else if (type == MOVE_TYPES::EN_PASSANT) {
 
 			}
