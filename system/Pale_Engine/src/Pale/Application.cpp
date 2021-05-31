@@ -10,8 +10,6 @@ namespace Pale {
 		//Pale::Chess_Logic::MoveCommand command = Pale::Chess_Logic::ProcessMoveCommand("ike2e4");
 		//board.SetPlateValue(1, 4, std::make_shared<Pale::Chess_Logic::Blank>(1, 4));
 		std::cout << board << "\n";
-		board.MovePiece(Pale::Chess_Logic::MoveCommand(), *board.GetPlateValue(0, 4));
-		std::cout << board << "\n";
 		while (1);
 	}
 }

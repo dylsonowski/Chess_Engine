@@ -15,13 +15,14 @@ namespace Pale {
 
 		//--- Structure containing data passed by move command ---//
 		struct MoveCommand {
+			MOVE_TYPES m_moveType;
 			char m_piece;
 			OWNERS m_owner;
 			std::pair<unsigned int, unsigned int> m_startPos, m_endPos;
 			std::optional<char> m_newPiece;
 		};
 
-		static const MoveCommand& ProcessMoveCommand(const std::string move);
+		static const MoveCommand& ProcessMoveCommand(const std::string move, OWNERS whichTurn);
 
 		//--- Base board representation template class (T :== int, string or Piece) ---//
 		template<typename T>
@@ -138,7 +139,7 @@ namespace Pale {
 		template<typename T>
 		void Board_Representation<T>::MovePiece(MoveCommand& command, Pieces& piece) {
 			try {
-				/*if(command.m_startPos == command.m_endPos)
+				if(command.m_startPos == command.m_endPos)
 					throw PaleEngineException("Exception happened!", 'w', "Board_Representation.h", 141, "MovePiece", MOVE_COMMAND__NO_MOVE_NEEDED);
 
 				if (_board.at(command.m_startPos.first).at(command.m_startPos.second)->GetValue() != piece.GetValue())
@@ -151,16 +152,28 @@ namespace Pale {
 					command.m_endPos.first < 0 || command.m_endPos.first >= _row || command.m_endPos.second < 0 || command.m_endPos.second >= _column)
 					throw PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 151, "MovePiece", MOVE_COMMAND__COORDINATE_OUT_OF_RANGE);
 
-				if (piece.MoveLogic(command.m_endPos, _board)) {
-					PALE_ENGINE_INFO("Move was successfully made.");
-					if (_board.at(command.m_endPos.first).at(command.m_endPos.second)->GetValue() != 0)
-						_board.at(command.m_endPos.first).at(command.m_endPos.second) = std::make_shared<Blank>(command.m_endPos.first, command.m_endPos.second); //If capture set plate to blank
+				switch (command.m_moveType) {
+				case MOVE_TYPES::PROMOTION:
+					break;
 
-					_board.at(command.m_startPos.first).at(command.m_startPos.second).swap(_board.at(command.m_endPos.first).at(command.m_endPos.second)); //Swap contents of start and end plates.
-					_board.at(command.m_startPos.first).at(command.m_startPos.second)->UpdatePosition(command.m_startPos); //Update positions for both plates.
-					_board.at(command.m_endPos.first).at(command.m_endPos.second)->UpdatePosition(command.m_endPos);
-				}*/
-				_board.at(0).at(0)->Promotion(_board, std::make_pair(0, 0), std::make_shared<Queen>(OWNERS::BLACK, 0));
+				case MOVE_TYPES::CASTLING:
+					break;
+
+				case MOVE_TYPES::EN_PASSANT:
+					break;
+
+				default:
+					if (piece.MoveLogic(command.m_endPos, _board)) {
+						PALE_ENGINE_INFO("Move was successfully made.");
+						if (_board.at(command.m_endPos.first).at(command.m_endPos.second)->GetValue() != 0)
+							_board.at(command.m_endPos.first).at(command.m_endPos.second) = std::make_shared<Blank>(command.m_endPos.first, command.m_endPos.second); //If capture set plate to blank
+
+						_board.at(command.m_startPos.first).at(command.m_startPos.second).swap(_board.at(command.m_endPos.first).at(command.m_endPos.second)); //Swap contents of start and end plates.
+						_board.at(command.m_startPos.first).at(command.m_startPos.second)->UpdatePosition(command.m_startPos); //Update positions for both plates.
+						_board.at(command.m_endPos.first).at(command.m_endPos.second)->UpdatePosition(command.m_endPos);
+					}
+					break;
+				}
 			}
 			catch (PaleEngineException& exception) {
 				if (exception.GetType() == 'e')
@@ -172,71 +185,181 @@ namespace Pale {
 			}
 		}
 
-		const MoveCommand& ProcessMoveCommand(const std::string move) {
+		const MoveCommand& ProcessMoveCommand(const std::string move, OWNERS whichTurn) {
 			try {
 				MoveCommand processedMove;
+				int startX, startY, endX, endY;
 				//Specifying owner of the piece.
-				if (std::tolower(move[0]) == 'b')
-					processedMove.m_owner = OWNERS::BLACK;
-				else if (std::tolower(move[0]) == 'w')
-					processedMove.m_owner = OWNERS::WHITE;
-				else
-					throw PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 176, "ProcessMoveCommand", MOVE_COMMAND__WRONG_OWNER);
+				processedMove.m_owner = whichTurn;
 
 				//Specifying type of the piece.
-				if (std::toupper(move[1]) != 'K' && std::toupper(move[1]) != 'Q' && std::toupper(move[1]) != 'B'
-					&& std::toupper(move[1]) != 'N' && std::toupper(move[1]) != 'R' && std::toupper(move[1]) != 'P')
+				if (std::toupper(move[0]) != 'K' && std::toupper(move[0]) != 'Q' && std::toupper(move[0]) != 'B'
+					&& std::toupper(move[0]) != 'N' && std::toupper(move[0]) != 'R' && std::toupper(move[0]) != 'P')
 					throw PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 181, "ProcessMoveCommand", MOVE_COMMAND__WRONG_PIECE);
 				else
-					processedMove.m_piece = std::toupper(move[1]);
+					processedMove.m_piece = std::toupper(move[0]);
 
-				int startX, startY, endX, endY;
-				switch (move[2]) { //X cord for start position.
-				case 'a': startX = 0;	break;
-				case 'b': startX = 1;	break;
-				case 'c': startX = 2;	break;
-				case 'd': startX = 3;	break;
-				case 'e': startX = 4;	break;
-				case 'f': startX = 5;	break;
-				case 'g': startX = 6;	break;
-				case 'h': startX = 7;	break;
-				default: throw PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 195, "ProcessMoveCommand", MOVE_COMMAND__COORDINATE_OUT_OF_RANGE);	break;
+				//--- Promotion move. Format := P<starting_cords>-><piece_id> ---//
+				if (move.find("->") != std::string::npos) {
+					processedMove.m_moveType = MOVE_TYPES::PROMOTION;
+					switch (move[1]) { //X cord for start position.
+					case 'a': startX = 0;	break;
+					case 'b': startX = 1;	break;
+					case 'c': startX = 2;	break;
+					case 'd': startX = 3;	break;
+					case 'e': startX = 4;	break;
+					case 'f': startX = 5;	break;
+					case 'g': startX = 6;	break;
+					case 'h': startX = 7;	break;
+					default: throw PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 195, "ProcessMoveCommand", MOVE_COMMAND__COORDINATE_OUT_OF_RANGE);	break;
+					}
+
+					switch (move[2]) { //Y cord for start position.
+					case '1': startY = 7;	break;
+					case '2': startY = 6;	break;
+					case '3': startY = 5;	break;
+					case '4': startY = 4;	break;
+					case '5': startY = 3;	break;
+					case '6': startY = 2;	break;
+					case '7': startY = 1;	break;
+					case '8': startY = 0;	break;
+					default: PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 207, "ProcessMoveCommand", MOVE_COMMAND__COORDINATE_OUT_OF_RANGE); break;
+					}
+
+					endX = startX;
+					if (whichTurn == OWNERS::BLACK)
+						endY = startY + 1;
+					else
+						endY = startY - 1;
+
+					processedMove.m_newPiece = std::toupper(move[5]);
 				}
+				//--- En passant move. Format := P<starting_cords>x<x_ending_cords> ---//
+				else if (move.find("x") != std::string::npos) {
+					processedMove.m_moveType = MOVE_TYPES::EN_PASSANT;
+					switch (move[1]) { //X cord for start position.
+					case 'a': startX = 0;	break;
+					case 'b': startX = 1;	break;
+					case 'c': startX = 2;	break;
+					case 'd': startX = 3;	break;
+					case 'e': startX = 4;	break;
+					case 'f': startX = 5;	break;
+					case 'g': startX = 6;	break;
+					case 'h': startX = 7;	break;
+					default: throw PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 195, "ProcessMoveCommand", MOVE_COMMAND__COORDINATE_OUT_OF_RANGE);	break;
+					}
 
-				switch (move[3]) { //Y cord for start position.
-				case '1': startY = 7;	break;
-				case '2': startY = 6;	break;
-				case '3': startY = 5;	break;
-				case '4': startY = 4;	break;
-				case '5': startY = 3;	break;
-				case '6': startY = 2;	break;
-				case '7': startY = 1;	break;
-				case '8': startY = 0;	break;
-				default: PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 207, "ProcessMoveCommand", MOVE_COMMAND__COORDINATE_OUT_OF_RANGE); break;
+					switch (move[2]) { //Y cord for start position.
+					case '1': startY = 7;	break;
+					case '2': startY = 6;	break;
+					case '3': startY = 5;	break;
+					case '4': startY = 4;	break;
+					case '5': startY = 3;	break;
+					case '6': startY = 2;	break;
+					case '7': startY = 1;	break;
+					case '8': startY = 0;	break;
+					default: PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 207, "ProcessMoveCommand", MOVE_COMMAND__COORDINATE_OUT_OF_RANGE); break;
+					}
+
+					switch (move[4]) { //X cord for end position.
+					case 'a': endX = 0;	break;
+					case 'b': endX = 1;	break;
+					case 'c': endX = 2;	break;
+					case 'd': endX = 3;	break;
+					case 'e': endX = 4;	break;
+					case 'f': endX = 5;	break;
+					case 'g': endX = 6;	break;
+					case 'h': endX = 7;	break;
+					default: PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 219, "ProcessMoveCommand", MOVE_COMMAND__COORDINATE_OUT_OF_RANGE); break;
+					}
+
+					if (whichTurn == OWNERS::BLACK)
+						endY = startY + 1;
+					else
+						endY = startY - 1;
 				}
-
-				switch (move[4]) { //X cord for end position.
-				case 'a': endX = 0;	break;
-				case 'b': endX = 1;	break;
-				case 'c': endX = 2;	break;
-				case 'd': endX = 3;	break;
-				case 'e': endX = 4;	break;
-				case 'f': endX = 5;	break;
-				case 'g': endX = 6;	break;
-				case 'h': endX = 7;	break;
-				default: PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 219, "ProcessMoveCommand", MOVE_COMMAND__COORDINATE_OUT_OF_RANGE); break;
+				//--- Short castling move (right) ---//
+				else if (move == "0-0") {
+					processedMove.m_moveType = MOVE_TYPES::CASTLING;
+					if (whichTurn == OWNERS::BLACK) {
+						startX = Piece_Starting_Positions::m_kingStartPos.first.at(0).first;
+						startY = Piece_Starting_Positions::m_kingStartPos.first.at(0).second;
+						endX = Piece_Starting_Positions::m_rookStartPos.first.at(0).first;
+						endY = Piece_Starting_Positions::m_rookStartPos.first.at(0).second;
+					}
+					else {
+						startX = Piece_Starting_Positions::m_kingStartPos.second.at(0).first;
+						startY = Piece_Starting_Positions::m_kingStartPos.second.at(0).second;
+						endX = Piece_Starting_Positions::m_rookStartPos.second.at(0).first;
+						endY = Piece_Starting_Positions::m_rookStartPos.second.at(0).second;
+					}
 				}
+				//--- Long castling move (left) ---//
+				else if (move == "0-0-0") {
+					processedMove.m_moveType = MOVE_TYPES::CASTLING;
+					if (whichTurn == OWNERS::BLACK) {
+						startX = Piece_Starting_Positions::m_kingStartPos.first.at(0).first;
+						startY = Piece_Starting_Positions::m_kingStartPos.first.at(0).second;
+						endX = Piece_Starting_Positions::m_rookStartPos.first.at(1).first;
+						endY = Piece_Starting_Positions::m_rookStartPos.first.at(1).second;
+					}
+					else {
+						startX = Piece_Starting_Positions::m_kingStartPos.second.at(0).first;
+						startY = Piece_Starting_Positions::m_kingStartPos.second.at(0).second;
+						endX = Piece_Starting_Positions::m_rookStartPos.second.at(1).first;
+						endY = Piece_Starting_Positions::m_rookStartPos.second.at(1).second;
+					}
+				}
+				//--- Traditional move. Format := <piece_id><starting_cords><ending_cords> ---//
+				else {
+				processedMove.m_moveType = MOVE_TYPES::BASIC;
+					switch (move[1]) { //X cord for start position.
+					case 'a': startX = 0;	break;
+					case 'b': startX = 1;	break;
+					case 'c': startX = 2;	break;
+					case 'd': startX = 3;	break;
+					case 'e': startX = 4;	break;
+					case 'f': startX = 5;	break;
+					case 'g': startX = 6;	break;
+					case 'h': startX = 7;	break;
+					default: throw PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 195, "ProcessMoveCommand", MOVE_COMMAND__COORDINATE_OUT_OF_RANGE);	break;
+					}
 
-				switch (move[5]) { //Y cord for end position.
-				case '1': endY = 7;	break;
-				case '2': endY = 6;	break;
-				case '3': endY = 5;	break;
-				case '4': endY = 4;	break;
-				case '5': endY = 3;	break;
-				case '6': endY = 2;	break;
-				case '7': endY = 1;	break;
-				case '8': endY = 0;	break;
-				default: PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 231, "ProcessMoveCommand", MOVE_COMMAND__COORDINATE_OUT_OF_RANGE); break;
+					switch (move[2]) { //Y cord for start position.
+					case '1': startY = 7;	break;
+					case '2': startY = 6;	break;
+					case '3': startY = 5;	break;
+					case '4': startY = 4;	break;
+					case '5': startY = 3;	break;
+					case '6': startY = 2;	break;
+					case '7': startY = 1;	break;
+					case '8': startY = 0;	break;
+					default: PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 207, "ProcessMoveCommand", MOVE_COMMAND__COORDINATE_OUT_OF_RANGE); break;
+					}
+
+					switch (move[3]) { //X cord for end position.
+					case 'a': endX = 0;	break;
+					case 'b': endX = 1;	break;
+					case 'c': endX = 2;	break;
+					case 'd': endX = 3;	break;
+					case 'e': endX = 4;	break;
+					case 'f': endX = 5;	break;
+					case 'g': endX = 6;	break;
+					case 'h': endX = 7;	break;
+					default: PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 219, "ProcessMoveCommand", MOVE_COMMAND__COORDINATE_OUT_OF_RANGE); break;
+					}
+
+					switch (move[4]) { //Y cord for end position.
+					case '1': endY = 7;	break;
+					case '2': endY = 6;	break;
+					case '3': endY = 5;	break;
+					case '4': endY = 4;	break;
+					case '5': endY = 3;	break;
+					case '6': endY = 2;	break;
+					case '7': endY = 1;	break;
+					case '8': endY = 0;	break;
+					default: PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 231, "ProcessMoveCommand", MOVE_COMMAND__COORDINATE_OUT_OF_RANGE); break;
+					}
 				}
 
 				processedMove.m_startPos = std::make_pair(startY, startX); //first cord := row, second cord := column

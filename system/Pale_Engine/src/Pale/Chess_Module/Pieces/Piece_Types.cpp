@@ -54,6 +54,8 @@ namespace Pale {
 				}
 				else
 					throw PaleEngineException("Exception happened!", 'e', "Piece_Types.cpp", 56, "King", FIGURE_BAD_OWNER);
+
+				_specialMove = std::make_shared<Castling>(); //todo: Implement castling
 			}
 			catch (PaleEngineException& exception) {
 				if (exception.GetType() == 'e')
@@ -116,6 +118,8 @@ namespace Pale {
 				}
 				else
 					throw PaleEngineException("Exception happened!", 'e', "Piece_Types.cpp", 83, "Queen", FIGURE_BAD_OWNER);
+
+				_specialMove = std::make_shared<None>();
 			}
 			catch (PaleEngineException& exception) {
 				if (exception.GetType() == 'e')
@@ -178,6 +182,8 @@ namespace Pale {
 				}
 				else
 					throw PaleEngineException("Exception happened!", 'e', "Piece_Types.cpp", 110, "Bishop", FIGURE_BAD_OWNER);
+
+				_specialMove = std::make_shared<None>();
 			}
 			catch (PaleEngineException& exception) {
 				if (exception.GetType() == 'e')
@@ -239,6 +245,8 @@ namespace Pale {
 				}
 				else
 					throw PaleEngineException("Exception happened!", 'e', "Piece_Types.cpp", 138, "Knight", FIGURE_BAD_OWNER);
+
+				_specialMove = std::make_shared<None>();
 			}
 			catch (PaleEngineException& exception) {
 				if (exception.GetType() == 'e')
@@ -299,6 +307,8 @@ namespace Pale {
 				}
 				else
 					throw PaleEngineException("Exception happened!", 'e', "Piece_Types.cpp", 164, "Rook", FIGURE_BAD_OWNER);
+
+				_specialMove = std::make_shared<Castling>(); //todo: Implement castling
 			}
 			catch (PaleEngineException& exception) {
 				if (exception.GetType() == 'e')
@@ -360,6 +370,8 @@ namespace Pale {
 				}
 				else
 					throw PaleEngineException("Exception happened!", 'e', "Piece_Types.cpp", 191, "Pawn", FIGURE_BAD_OWNER);
+
+				_specialMove = std::make_shared<En_Passant>(); //todo: Implement en passant
 			}
 			catch (PaleEngineException& exception) {
 				if (exception.GetType() == 'e')

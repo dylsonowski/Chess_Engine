@@ -23,6 +23,7 @@ namespace Pale {
 			EN_PASSANT
 		};
 
+		class Special_Strategy;
 		class Pieces {
 
 		public:
@@ -30,18 +31,14 @@ namespace Pale {
 			virtual ~Pieces() = default;
 
 			void UpdatePosition(std::pair<unsigned int, unsigned int> newPosition) { _positionCords = newPosition; }
+			virtual void ExecuteSpecialMove() = 0;
 
-			virtual bool SpecialLogic() { PALE_ENGINE_ERROR("This piece do not have special move!"); return false; }
+			virtual bool SpecialLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board, std::optional<char> newPiece) const { return true; }
 			virtual bool MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) const = 0;
 			inline std::pair<unsigned int, unsigned int> GetPosition() const { return _positionCords; }
 			inline OWNERS GetOwner() const { return _owner; }
 			inline int GetValue() const { return _value; }
 			inline std::string GetName() const { return _name; }
-
-			//--- Functions which define pieces special moves ---//
-			void Promotion(std::vector<std::vector<std::shared_ptr<Pieces>>>& board, std::pair<unsigned int, unsigned int> pos, std::shared_ptr<Pieces> newPiece) { 
-				board.at(pos.first).at(pos.second) = newPiece;
-			}
 
 		protected:
 			Pieces(OWNERS owner, unsigned int limitOfCopies) : _value(0), _owner(owner), _limitOfCopies(limitOfCopies) {}
@@ -51,6 +48,7 @@ namespace Pale {
 			unsigned int _limitOfCopies; //Limit for 1 player.
 			std::pair<unsigned int, unsigned int> _positionCords;
 			OWNERS _owner;
+			std::shared_ptr<Special_Strategy> _specialMove;
 		};
 
 		//--- Methods allowing to decide if move is legal or not ---//
@@ -587,6 +585,59 @@ namespace Pale {
 
 				std::cin.get();
 			}
-		}		
+		}	
+
+		//--- Classes which define pieces special moves ---//
+		class Special_Strategy {
+
+		public:
+			virtual ~Special_Strategy() = default;
+			virtual void Execute() = 0;
+
+		protected:
+			Special_Strategy() = default;
+		};
+
+		class Promotion : public Special_Strategy {
+
+		public:
+			Promotion() : Special_Strategy() {}
+			~Promotion() = default;
+
+			void Execute() override {}
+
+		private:
+		};
+
+		class Castling : public Special_Strategy {
+
+		public:
+			Castling() : Special_Strategy() {}
+			~Castling() = default;
+
+			void Execute() override {}
+
+		private:
+		};
+
+		class En_Passant : public Special_Strategy {
+
+		public:
+			En_Passant() : Special_Strategy() {}
+			~En_Passant() = default;
+
+			void Execute() override {}
+
+		private:
+		};
+
+		class None : public Special_Strategy {
+
+		public:
+			None() : Special_Strategy() {}
+			~None() = default;
+
+			void Execute() override { PALE_ENGINE_INFO("This piece do not have any special move to execute!"); }
+		};
 	}
 }

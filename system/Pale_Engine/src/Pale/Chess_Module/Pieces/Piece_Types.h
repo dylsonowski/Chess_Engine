@@ -26,8 +26,9 @@ namespace Pale {
 				else
 					_checkMate = value;
 			}
+			void ExecuteSpecialMove() override { _specialMove->Execute(); }
 
-			bool SpecialLogic() override { return false; } //todo: Implement special move logic.
+			bool SpecialLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board, std::optional<char> newPiece) const override { return false; } //todo: Implement special move logic.
 			bool MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) const override;
 			inline bool GetKingStatus(bool getCheck) const {
 				if (getCheck)
@@ -47,6 +48,8 @@ namespace Pale {
 			Queen(OWNERS owner, unsigned int numberOfCopy);
 			~Queen() = default;
 
+			void ExecuteSpecialMove() override { _specialMove->Execute(); }
+
 			bool MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) const override;
 		};
 
@@ -56,6 +59,8 @@ namespace Pale {
 			Bishop() = delete;
 			Bishop(OWNERS owner, unsigned int numberOfCopy);
 			~Bishop() = default;
+
+			void ExecuteSpecialMove() override { _specialMove->Execute(); }
 
 			bool MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) const override;
 		};
@@ -67,6 +72,8 @@ namespace Pale {
 			Knight(OWNERS owner, unsigned int numberOfCopy);
 			~Knight() = default;
 
+			void ExecuteSpecialMove() override { _specialMove->Execute(); }
+
 			bool MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) const override;
 		};
 
@@ -77,7 +84,9 @@ namespace Pale {
 			Rook(OWNERS owner, unsigned int numberOfCopy);
 			~Rook() = default;
 
-			bool SpecialLogic() override { return false; } //todo: Implement special move logic.
+			void ExecuteSpecialMove() override { _specialMove->Execute(); }
+
+			bool SpecialLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board, std::optional<char> newPiece) const override { return false; } //todo: Implement special move logic.
 			bool MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) const override;
 		};
 
@@ -88,7 +97,9 @@ namespace Pale {
 			Pawn(OWNERS owner, unsigned int numberOfCopy);
 			~Pawn() = default;
 
-			bool SpecialLogic() override { return false; } //todo: Implement special move logic.
+			void ExecuteSpecialMove() override { _specialMove->Execute(); }
+
+			bool SpecialLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board, std::optional<char> newPiece) const override { return false; } //todo: Implement special move logic.
 			bool MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) const override;
 
 		private:
@@ -103,8 +114,11 @@ namespace Pale {
 				_value = 0;
 				_name = "x";
 				_positionCords = std::make_pair(rowCord, columnCord);
+				_specialMove = std::make_shared<None>();
 			}
 			~Blank() = default;
+
+			void ExecuteSpecialMove() override { _specialMove->Execute(); }
 
 			bool MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) const override { return false; }
 		};
