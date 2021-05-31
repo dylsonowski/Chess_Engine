@@ -24,6 +24,11 @@ namespace Pale {
 		};
 
 		class Special_Strategy;
+		//extern class Queen;
+		//extern class Bishop;
+		//extern class Knight;
+		//extern class Rook;
+		//extern class Blank;
 		class Pieces {
 
 		public:
@@ -601,34 +606,48 @@ namespace Pale {
 		class Promotion : public Special_Strategy {
 
 		public:
-			Promotion() : Special_Strategy() {}
+			Promotion() = delete;
+			Promotion(std::pair<unsigned int, unsigned int> startPos, std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board, char newPiece) 
+				: Special_Strategy(), _boardRef(board), _startPos(startPos), _endPos(endPos), _newPiece(newPiece) {}
 			~Promotion() = default;
 
-			void Execute() override {}
+			void Execute() override;
 
 		private:
+			std::vector<std::vector<std::shared_ptr<Pieces>>>& _boardRef;
+			std::pair<unsigned int, unsigned int> _startPos, _endPos;
+			char _newPiece;
 		};
 
 		class Castling : public Special_Strategy {
 
 		public:
-			Castling() : Special_Strategy() {}
+			Castling() = delete;
+			Castling(std::pair<unsigned int, unsigned int> kingPos, std::pair<unsigned int, unsigned int> rookPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) 
+				: Special_Strategy(), _kingPos(kingPos), _rookPos(rookPos), _boardRef(board) {}
 			~Castling() = default;
 
-			void Execute() override {}
+			void Execute() override;
 
 		private:
+			std::vector<std::vector<std::shared_ptr<Pieces>>>& _boardRef;
+			std::pair<unsigned int, unsigned int> _kingPos, _rookPos;
 		};
 
 		class En_Passant : public Special_Strategy {
 
 		public:
-			En_Passant() : Special_Strategy() {}
+			En_Passant() = delete;
+			En_Passant(std::pair<unsigned int, unsigned int> startPos, std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board, OWNERS whichTurn) 
+				: Special_Strategy(), _startPos(startPos), _endPos(endPos), _boardRef(board), _whichTurn(whichTurn) {}
 			~En_Passant() = default;
 
-			void Execute() override {}
+			void Execute() override;
 
 		private:
+			std::pair<unsigned int, unsigned int> _startPos, _endPos;
+			std::vector<std::vector<std::shared_ptr<Pieces>>>& _boardRef;
+			OWNERS _whichTurn;
 		};
 
 		class None : public Special_Strategy {

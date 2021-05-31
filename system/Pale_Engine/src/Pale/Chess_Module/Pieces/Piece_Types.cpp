@@ -131,6 +131,32 @@ namespace Pale {
 			}
 		}
 
+		Queen::Queen(OWNERS owner, std::pair<unsigned int, unsigned int> startingPos) : Pieces(owner, 1) {
+			try {
+				if (owner == OWNERS::BLACK) {
+					_value = -5;
+					_name = "bQ";
+				}
+				else if (owner == OWNERS::WHITE) {
+					_value = 5;
+					_name = "wQ";
+				}
+				else
+					throw PaleEngineException("Exception happened!", 'e', "Piece_Types.cpp", 83, "Queen", FIGURE_BAD_OWNER);
+
+				_positionCords = startingPos;
+				_specialMove = std::make_shared<None>();
+			}
+			catch (PaleEngineException& exception) {
+				if (exception.GetType() == 'e')
+					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+				else if (exception.GetType() == 'w')
+					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+
+				std::cin.get();
+			}
+		}
+
 		bool Queen::MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) const {
 			bool canMove = true;
 
@@ -183,6 +209,32 @@ namespace Pale {
 				else
 					throw PaleEngineException("Exception happened!", 'e', "Piece_Types.cpp", 110, "Bishop", FIGURE_BAD_OWNER);
 
+				_specialMove = std::make_shared<None>();
+			}
+			catch (PaleEngineException& exception) {
+				if (exception.GetType() == 'e')
+					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+				else if (exception.GetType() == 'w')
+					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+
+				std::cin.get();
+			}
+		}
+
+		Bishop::Bishop(OWNERS owner, std::pair<unsigned int, unsigned int> startingPos) : Pieces(owner, 2) {
+			try {
+				if (owner == OWNERS::BLACK) {
+					_value = -4;
+					_name = "bB";
+				}
+				else if (owner == OWNERS::WHITE) {
+					_value = 4;
+					_name = "wB";
+				}
+				else
+					throw PaleEngineException("Exception happened!", 'e', "Piece_Types.cpp", 110, "Bishop", FIGURE_BAD_OWNER);
+
+				_positionCords = startingPos;
 				_specialMove = std::make_shared<None>();
 			}
 			catch (PaleEngineException& exception) {
@@ -258,6 +310,32 @@ namespace Pale {
 			}
 		}
 
+		Knight::Knight(OWNERS owner, std::pair<unsigned int, unsigned int> startingPos) : Pieces(owner, 2) {
+			try {
+				if (owner == OWNERS::BLACK) {
+					_value = -3;
+					_name = "bN";
+				}
+				else if (owner == OWNERS::WHITE) {
+					_value = 3;
+					_name = "wN";
+				}
+				else
+					throw PaleEngineException("Exception happened!", 'e', "Piece_Types.cpp", 138, "Knight", FIGURE_BAD_OWNER);
+
+				_positionCords = startingPos;
+				_specialMove = std::make_shared<None>();
+			}
+			catch (PaleEngineException& exception) {
+				if (exception.GetType() == 'e')
+					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+				else if (exception.GetType() == 'w')
+					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+
+				std::cin.get();
+			}
+		}
+
 		bool Knight::MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) const {
 			bool canMove = true;
 
@@ -308,6 +386,32 @@ namespace Pale {
 				else
 					throw PaleEngineException("Exception happened!", 'e', "Piece_Types.cpp", 164, "Rook", FIGURE_BAD_OWNER);
 
+				_specialMove = std::make_shared<Castling>(); //todo: Implement castling
+			}
+			catch (PaleEngineException& exception) {
+				if (exception.GetType() == 'e')
+					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+				else if (exception.GetType() == 'w')
+					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+
+				std::cin.get();
+			}
+		}
+
+		Rook::Rook(OWNERS owner, std::pair<unsigned int, unsigned int> startingPos) : Pieces(owner, 2) {
+			try {
+				if (owner == OWNERS::BLACK) {
+					_value = -2;
+					_name = "bR";
+				}
+				else if (owner == OWNERS::WHITE) {
+					_value = 2;
+					_name = "wR";
+				}
+				else
+					throw PaleEngineException("Exception happened!", 'e', "Piece_Types.cpp", 164, "Rook", FIGURE_BAD_OWNER);
+
+				_positionCords = startingPos;
 				_specialMove = std::make_shared<Castling>(); //todo: Implement castling
 			}
 			catch (PaleEngineException& exception) {

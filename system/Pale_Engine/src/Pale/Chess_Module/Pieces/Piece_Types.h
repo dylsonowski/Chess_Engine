@@ -46,6 +46,7 @@ namespace Pale {
 		public:
 			Queen() = delete;
 			Queen(OWNERS owner, unsigned int numberOfCopy);
+			Queen(OWNERS owner, std::pair<unsigned int, unsigned int> startingPos);
 			~Queen() = default;
 
 			void ExecuteSpecialMove() override { _specialMove->Execute(); }
@@ -58,6 +59,7 @@ namespace Pale {
 		public:
 			Bishop() = delete;
 			Bishop(OWNERS owner, unsigned int numberOfCopy);
+			Bishop(OWNERS owner, std::pair<unsigned int, unsigned int> startingPos);
 			~Bishop() = default;
 
 			void ExecuteSpecialMove() override { _specialMove->Execute(); }
@@ -70,6 +72,7 @@ namespace Pale {
 		public:
 			Knight() = delete;
 			Knight(OWNERS owner, unsigned int numberOfCopy);
+			Knight(OWNERS owner, std::pair<unsigned int, unsigned int> startingPos);
 			~Knight() = default;
 
 			void ExecuteSpecialMove() override { _specialMove->Execute(); }
@@ -82,6 +85,7 @@ namespace Pale {
 		public:
 			Rook() = delete;
 			Rook(OWNERS owner, unsigned int numberOfCopy);
+			Rook(OWNERS owner, std::pair<unsigned int, unsigned int> startingPos);
 			~Rook() = default;
 
 			void ExecuteSpecialMove() override { _specialMove->Execute(); }
