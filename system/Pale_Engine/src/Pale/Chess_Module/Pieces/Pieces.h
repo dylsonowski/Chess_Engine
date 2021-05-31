@@ -243,38 +243,118 @@ namespace Pale {
 
 				//--- Check by knight ---//
 				if (whichTurn == OWNERS::BLACK) {
-					if ((kingPos.first - 2 >= 0 && kingPos.second - 1 >= 0 && board.at(kingPos.first - 2).at(kingPos.second - 1)->GetValue() == 3) ||
-						(kingPos.first - 2 >= 0 && kingPos.second + 1 < board.size() && board.at(kingPos.first - 2).at(kingPos.second + 1)->GetValue() == 3) ||
-						(kingPos.first - 1 >= 0 && kingPos.second + 2 < board.size() && board.at(kingPos.first - 1).at(kingPos.second + 2)->GetValue() == 3) ||
-						(kingPos.first + 1 < board.size() && kingPos.second + 2 < board.size() && board.at(kingPos.first + 1).at(kingPos.second + 2)->GetValue() == 3) ||
-						(kingPos.first + 2 < board.size() && kingPos.second + 1 < board.size() && board.at(kingPos.first + 2).at(kingPos.second + 1)->GetValue() == 3) ||
-						(kingPos.first + 2 < board.size() && kingPos.second - 1 >= 0 && board.at(kingPos.first + 2).at(kingPos.second - 1)->GetValue() == 3) ||
-						(kingPos.first + 1 < board.size() && kingPos.second - 2 >= 0 && board.at(kingPos.first + 1).at(kingPos.second - 2)->GetValue() == 3) ||
-						(kingPos.first - 1 >= 0 && kingPos.second - 2 >= 0 && board.at(kingPos.first - 1).at(kingPos.second - 2)->GetValue() == 3) || !check)
-						check = true; //todo: out of range exception.
+					if (!check) {
+						if (kingPos.first - 2 >= 0 && kingPos.second - 1 >= 0) {
+							if (board.at(kingPos.first - 2).at(kingPos.second - 1)->GetValue() == 3)
+								check = true;
+						}
+
+						if (kingPos.first - 2 >= 0 && kingPos.second + 1 < board.size()) {
+							if (board.at(kingPos.first - 2).at(kingPos.second + 1)->GetValue() == 3)
+								check = true;
+						}
+
+						if (kingPos.first - 1 >= 0 && kingPos.second + 2 < board.size()) {
+							if (board.at(kingPos.first - 1).at(kingPos.second + 2)->GetValue() == 3)
+								check = true;
+						}
+
+						if (kingPos.first + 1 < board.size() && kingPos.second + 2 < board.size()) {
+							if (board.at(kingPos.first + 1).at(kingPos.second + 2)->GetValue() == 3)
+								check = true;
+						}
+
+						if (kingPos.first + 2 < board.size() && kingPos.second + 1 < board.size()) {
+							if (board.at(kingPos.first + 2).at(kingPos.second + 1)->GetValue() == 3)
+								check = true;
+						}
+
+						if (kingPos.first + 2 < board.size() && kingPos.second - 1 >= 0) {
+							if (board.at(kingPos.first + 2).at(kingPos.second - 1)->GetValue() == 3)
+								check = true;
+						}
+
+						if (kingPos.first + 1 < board.size() && kingPos.second - 2 >= 0) {
+							if (board.at(kingPos.first + 1).at(kingPos.second - 2)->GetValue() == 3)
+								check = true;
+						}
+
+						if (kingPos.first - 1 >= 0 && kingPos.second - 2 >= 0) {
+							if (board.at(kingPos.first - 1).at(kingPos.second - 2)->GetValue() == 3)
+								check = true;
+						}
+					}
 				}
 				else {
-					if ((kingPos.first - 2 >= 0 && kingPos.second - 1 >= 0 && board.at(kingPos.first - 2).at(kingPos.second - 1)->GetValue() == -3) ||
-						(kingPos.first - 2 >= 0 && kingPos.second + 1 < board.size() && board.at(kingPos.first - 2).at(kingPos.second + 1)->GetValue() == -3) ||
-						(kingPos.first - 1 >= 0 && kingPos.second + 2 < board.size() && board.at(kingPos.first - 1).at(kingPos.second + 2)->GetValue() == -3) ||
-						(kingPos.first + 1 < board.size() && kingPos.second + 2 < board.size() && board.at(kingPos.first + 1).at(kingPos.second + 2)->GetValue() == -3) ||
-						(kingPos.first + 2 < board.size() && kingPos.second + 1 < board.size() && board.at(kingPos.first + 2).at(kingPos.second + 1)->GetValue() == -3) ||
-						(kingPos.first + 2 < board.size() && kingPos.second - 1 >= 0 && board.at(kingPos.first + 2).at(kingPos.second - 1)->GetValue() == -3) ||
-						(kingPos.first + 1 < board.size() && kingPos.second - 2 >= 0 && board.at(kingPos.first + 1).at(kingPos.second - 2)->GetValue() == -3) ||
-						(kingPos.first - 1 >= 0 && kingPos.second - 2 >= 0 && board.at(kingPos.first - 1).at(kingPos.second - 2)->GetValue() == 3) || !check)
-						check = true;
+					if (!check) {
+						if (kingPos.first - 2 >= 0 && kingPos.second - 1 >= 0) {
+							if (board.at(kingPos.first - 2).at(kingPos.second - 1)->GetValue() == -3)
+								check = true;
+						}
+
+						if (kingPos.first - 2 >= 0 && kingPos.second + 1 < board.size()) {
+							if (board.at(kingPos.first - 2).at(kingPos.second + 1)->GetValue() == -3)
+								check = true;
+						}
+
+						if (kingPos.first - 1 >= 0 && kingPos.second + 2 < board.size()) {
+							if (board.at(kingPos.first - 1).at(kingPos.second + 2)->GetValue() == -3)
+								check = true;
+						}
+
+						if (kingPos.first + 1 < board.size() && kingPos.second + 2 < board.size()) {
+							if (board.at(kingPos.first + 1).at(kingPos.second + 2)->GetValue() == -3)
+								check = true;
+						}
+
+						if (kingPos.first + 2 < board.size() && kingPos.second + 1 < board.size()) {
+							if (board.at(kingPos.first + 2).at(kingPos.second + 1)->GetValue() == -3)
+								check = true;
+						}
+
+						if (kingPos.first + 2 < board.size() && kingPos.second - 1 >= 0) {
+							if (board.at(kingPos.first + 2).at(kingPos.second - 1)->GetValue() == -3)
+								check = true;
+						}
+
+						if (kingPos.first + 1 < board.size() && kingPos.second - 2 >= 0) {
+							if (board.at(kingPos.first + 1).at(kingPos.second - 2)->GetValue() == -3)
+								check = true;
+						}
+
+						if (kingPos.first - 1 >= 0 && kingPos.second - 2 >= 0) {
+							if (board.at(kingPos.first - 1).at(kingPos.second - 2)->GetValue() == -3)
+								check = true;
+						}
+					}
 				}
 
 				//--- Check by pawn ---//
 				if (whichTurn == OWNERS::BLACK) {
-					if ((kingPos.first + 1 < board.size() && kingPos.second - 1 >= 0 && board.at(kingPos.first + 1).at(kingPos.second - 1)->GetValue() == 1) ||
-						(kingPos.first + 1 < board.size() && kingPos.second + 1 < board.size() && board.at(kingPos.first + 1).at(kingPos.second + 1)->GetValue() == 1) || !check)
-						check = true;
+					if (!check) {
+						if (kingPos.first + 1 < board.size() && kingPos.second - 1 >= 0) {
+							if (board.at(kingPos.first + 1).at(kingPos.second - 1)->GetValue() == 1)
+								check = true;
+						}
+
+						if (kingPos.first + 1 < board.size() && kingPos.second + 1 < board.size()) {
+							if (board.at(kingPos.first + 1).at(kingPos.second + 1)->GetValue() == 1)
+								check = true;
+						}
+					}
 				}
 				else {
-					if ((kingPos.first - 1 < board.size() && kingPos.second - 1 >= 0 && board.at(kingPos.first + 1).at(kingPos.second - 1)->GetValue() == -1) ||
-						(kingPos.first - 1 < board.size() && kingPos.second + 1 < board.size() && board.at(kingPos.first + 1).at(kingPos.second + 1)->GetValue() == -1) || !check)
-						check = true;
+					if (!check) {
+						if (kingPos.first - 1 < board.size() && kingPos.second - 1 >= 0) {
+							if (board.at(kingPos.first - 1).at(kingPos.second - 1)->GetValue() == -1)
+								check = true;
+						}
+
+						if (kingPos.first - 1 < board.size() && kingPos.second + 1 < board.size()) {
+							if (board.at(kingPos.first - 1).at(kingPos.second + 1)->GetValue() == -1)
+								check = true;
+						}
+					}
 				}
 
 				//--- Check by king ---//
