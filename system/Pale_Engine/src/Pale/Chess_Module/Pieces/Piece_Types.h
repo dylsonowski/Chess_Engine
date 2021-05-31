@@ -28,7 +28,7 @@ namespace Pale {
 			}
 			void ExecuteSpecialMove() override { _specialMove->Execute(); }
 
-			bool SpecialLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board, std::optional<char> newPiece) override;
+			bool SpecialLogic(MOVE_TYPES type, std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board, std::optional<char> newPiece) override;
 			bool MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) const override;
 			inline bool GetKingStatus(bool getCheck) const {
 				if (getCheck)
@@ -90,7 +90,7 @@ namespace Pale {
 
 			void ExecuteSpecialMove() override { _specialMove->Execute(); }
 
-			bool SpecialLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board, std::optional<char> newPiece) const override { return false; } //todo: Implement special move logic.
+			bool SpecialLogic(MOVE_TYPES type, std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board, std::optional<char> newPiece) override;
 			bool MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) const override;
 		};
 
@@ -103,7 +103,7 @@ namespace Pale {
 
 			void ExecuteSpecialMove() override { _specialMove->Execute(); }
 
-			bool SpecialLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board, std::optional<char> newPiece) const override { return false; } //todo: Implement special move logic.
+			bool SpecialLogic(MOVE_TYPES type, std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board, std::optional<char> newPiece) override;
 			bool MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) const override;
 
 		private:

@@ -146,7 +146,7 @@ namespace Pale {
 					if(!command.m_newPiece.has_value())
 						throw PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 144, "MovePiece", MOVE_COMMAND__NO_NEW_PIECE);
 
-					if (piece.SpecialLogic(command.m_endPos, _board, command.m_newPiece)) {
+					if (piece.SpecialLogic(command.m_moveType, command.m_endPos, _board, command.m_newPiece)) {
 						PALE_ENGINE_INFO("Move was successfully made.");
 						piece.ExecuteSpecialMove();
 					}
@@ -156,7 +156,7 @@ namespace Pale {
 					if (abs(piece.GetValue()) != 2 && abs(piece.GetValue()) != 7)
 						throw PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 152, "MovePiece", MOVE_COMMAND__INVALID_SPECIAL_USE);
 
-					if (piece.SpecialLogic(command.m_endPos, _board)) { //This last argument is optional!
+					if (piece.SpecialLogic(command.m_moveType, command.m_endPos, _board)) { //This last argument is optional!
 						PALE_ENGINE_INFO("Move was successfully made.");
 						piece.ExecuteSpecialMove();
 					}
@@ -166,7 +166,7 @@ namespace Pale {
 					if (abs(piece.GetValue()) != 1)
 						throw PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 158, "MovePiece", MOVE_COMMAND__INVALID_SPECIAL_USE);
 
-					if (piece.SpecialLogic(command.m_endPos, _board)) { //This last argument is optional!
+					if (piece.SpecialLogic(command.m_moveType, command.m_endPos, _board)) { //This last argument is optional!
 						PALE_ENGINE_INFO("Move was successfully made.");
 						piece.ExecuteSpecialMove();
 					}

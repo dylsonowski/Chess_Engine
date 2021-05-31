@@ -81,14 +81,12 @@ namespace Pale {
 
 			//--- If king is under check ---//
 			if (canMove) {
-				if (KingIsChecked(board, _owner)) {
-					std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
-					std::shared_ptr<Pieces> tempPiece = tempBoard.at(endPos.first).at(endPos.second);
-					tempBoard.at(endPos.first).at(endPos.second) = tempBoard.at(_positionCords.first).at(_positionCords.second);
-					tempBoard.at(_positionCords.first).at(_positionCords.second) = tempPiece;
-					if (KingIsChecked(tempBoard, _owner))
-						canMove = false;
-				}
+				std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
+				std::shared_ptr<Pieces> tempPiece = tempBoard.at(endPos.first).at(endPos.second);
+				tempBoard.at(endPos.first).at(endPos.second) = tempBoard.at(_positionCords.first).at(_positionCords.second);
+				tempBoard.at(_positionCords.first).at(_positionCords.second) = tempPiece;
+				if (KingIsChecked(tempBoard, _owner))
+					canMove = false;
 			}
 
 			if (!canMove)
@@ -97,8 +95,8 @@ namespace Pale {
 			return canMove;
 		}
 
-		bool King::SpecialLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board, std::optional<char> newPiece) {
-			bool canPerform = true;			
+		bool King::SpecialLogic(MOVE_TYPES type, std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board, std::optional<char> newPiece) {
+			bool canPerform = true;
 			if (endPos.second < _positionCords.second) { //Long castling
 				//--- King can perform long castling if it didn't move in this game ---//
 				if ((_owner == OWNERS::BLACK && _positionCords != Piece_Starting_Positions::m_kingStartPos.first.at(0)) ||
@@ -106,25 +104,36 @@ namespace Pale {
 					canPerform = false;
 
 				//--- King can perform long castling if left rook didn't move in this game ---//
-				if ((_owner == OWNERS::BLACK && board.at(Piece_Starting_Positions::m_rookStartPos.first.at(0).first).at(Piece_Starting_Positions::m_rookStartPos.first.at(0).first)->GetValue() != -2) ||
-					(_owner == OWNERS::WHITE && board.at(Piece_Starting_Positions::m_rookStartPos.second.at(0).first).at(Piece_Starting_Positions::m_rookStartPos.second.at(0).first)->GetValue() != 2))
-					canPerform = false;
+				if (canPerform) {
+					if ((_owner == OWNERS::BLACK && board.at(Piece_Starting_Positions::m_rookStartPos.first.at(0).first).at(Piece_Starting_Positions::m_rookStartPos.first.at(0).first)->GetValue() != -2) ||
+						(_owner == OWNERS::WHITE && board.at(Piece_Starting_Positions::m_rookStartPos.second.at(0).first).at(Piece_Starting_Positions::m_rookStartPos.second.at(0).first)->GetValue() != 2))
+						canPerform = false;
+				}
 
 				//--- King can perform long castling if path between it and left rook is clear ---//
-				if (_owner == OWNERS::BLACK) {
-					std::pair<unsigned int, unsigned int> tempEndPos = std::make_pair(Piece_Starting_Positions::m_rookStartPos.first.at(0).first, 
-						Piece_Starting_Positions::m_rookStartPos.first.at(0).second + 1);
-					if (!IsPathClear(_positionCords, tempEndPos, board))
-						canPerform = false;
-				}
-				else {
-					std::pair<unsigned int, unsigned int> tempEndPos = std::make_pair(Piece_Starting_Positions::m_rookStartPos.second.at(0).first, 
-						Piece_Starting_Positions::m_rookStartPos.second.at(0).second + 1);
-					if (!IsPathClear(_positionCords, tempEndPos, board))
-						canPerform = false;
+				if (canPerform) {
+					if (_owner == OWNERS::BLACK) {
+						std::pair<unsigned int, unsigned int> tempEndPos = std::make_pair(Piece_Starting_Positions::m_rookStartPos.first.at(0).first,
+							Piece_Starting_Positions::m_rookStartPos.first.at(0).second + 1);
+						if (!IsPathClear(_positionCords, tempEndPos, board))
+							canPerform = false;
+					}
+					else {
+						std::pair<unsigned int, unsigned int> tempEndPos = std::make_pair(Piece_Starting_Positions::m_rookStartPos.second.at(0).first,
+							Piece_Starting_Positions::m_rookStartPos.second.at(0).second + 1);
+						if (!IsPathClear(_positionCords, tempEndPos, board))
+							canPerform = false;
+					}
 				}
 
-				if()
+				//--- King cannot perform long castling if it will put it under check ---//
+				if (canPerform) {
+					std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
+					std::shared_ptr<Castling> tempSpecialStrategy = std::make_shared<Castling>(_positionCords, Piece_Starting_Positions::m_rookStartPos.first.at(0), tempBoard);
+					tempSpecialStrategy->Execute();
+					if (KingIsChecked(tempBoard, _owner))
+						canPerform = false;
+				}
 
 				if (!canPerform)
 					PALE_ENGINE_TRACE("King piece cannot perform special move.");
@@ -136,6 +145,42 @@ namespace Pale {
 				}
 			}
 			else { //Short castling
+				//--- King can perform short castling if it didn't move in this game ---//
+				if ((_owner == OWNERS::BLACK && _positionCords != Piece_Starting_Positions::m_kingStartPos.first.at(0)) ||
+					(_owner == OWNERS::WHITE && _positionCords != Piece_Starting_Positions::m_kingStartPos.second.at(0)))
+					canPerform = false;
+
+				//--- King can perform short castling if left rook didn't move in this game ---//
+				if (canPerform) {
+					if ((_owner == OWNERS::BLACK && board.at(Piece_Starting_Positions::m_rookStartPos.first.at(1).first).at(Piece_Starting_Positions::m_rookStartPos.first.at(1).first)->GetValue() != -2) ||
+						(_owner == OWNERS::WHITE && board.at(Piece_Starting_Positions::m_rookStartPos.second.at(1).first).at(Piece_Starting_Positions::m_rookStartPos.second.at(1).first)->GetValue() != 2))
+						canPerform = false;
+				}
+
+				//--- King can perform short castling if path between it and left rook is clear ---//
+				if (canPerform) {
+					if (_owner == OWNERS::BLACK) {
+						std::pair<unsigned int, unsigned int> tempEndPos = std::make_pair(Piece_Starting_Positions::m_rookStartPos.first.at(1).first,
+							Piece_Starting_Positions::m_rookStartPos.first.at(1).second - 1);
+						if (!IsPathClear(_positionCords, tempEndPos, board))
+							canPerform = false;
+					}
+					else {
+						std::pair<unsigned int, unsigned int> tempEndPos = std::make_pair(Piece_Starting_Positions::m_rookStartPos.second.at(1).first,
+							Piece_Starting_Positions::m_rookStartPos.second.at(1).second - 1);
+						if (!IsPathClear(_positionCords, tempEndPos, board))
+							canPerform = false;
+					}
+				}
+
+				//--- King cannot perform short castling if it will put it under check ---//
+				if (canPerform) {
+					std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
+					std::shared_ptr<Castling> tempSpecialStrategy = std::make_shared<Castling>(_positionCords, Piece_Starting_Positions::m_rookStartPos.first.at(1), tempBoard);
+					tempSpecialStrategy->Execute();
+					if (KingIsChecked(tempBoard, _owner))
+						canPerform = false;
+				}
 
 				if (!canPerform)
 					PALE_ENGINE_TRACE("King piece cannot perform special move.");
@@ -506,6 +551,106 @@ namespace Pale {
 			return canMove;
 		}
 
+		bool Rook::SpecialLogic(MOVE_TYPES type, std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board, std::optional<char> newPiece) {
+			bool canPerform = true;
+			if (endPos.second < _positionCords.second) {
+				//--- Rook can perform long castling if king didn't move in this game ---//
+				if ((_owner == OWNERS::BLACK && board.at(Piece_Starting_Positions::m_kingStartPos.first.at(0).first).at(Piece_Starting_Positions::m_kingStartPos.first.at(0).second)->GetValue() != -7) ||
+					(_owner == OWNERS::WHITE && board.at(Piece_Starting_Positions::m_kingStartPos.first.at(0).first).at(Piece_Starting_Positions::m_kingStartPos.second.at(0).second)->GetValue() != 7))
+					canPerform = false;
+
+				//--- Rook can perform long castling if it dodn't move in this game ---//
+				if (canPerform) {
+					if ((_owner == OWNERS::BLACK && _positionCords != Piece_Starting_Positions::m_rookStartPos.first.at(0)) ||
+						(_owner == OWNERS::WHITE && _positionCords != Piece_Starting_Positions::m_rookStartPos.second.at(0)))
+						canPerform = false;
+				}
+
+				//--- Rook can perform long castling if path between it and right king is clear ---//
+				if (canPerform) {
+					if (_owner == OWNERS::BLACK) {
+						std::pair<unsigned int, unsigned int> tempEndPos = std::make_pair(Piece_Starting_Positions::m_kingStartPos.first.at(0).first,
+							Piece_Starting_Positions::m_kingStartPos.first.at(0).second - 1);
+						if (!IsPathClear(_positionCords, tempEndPos, board))
+							canPerform = false;
+					}
+					else {
+						std::pair<unsigned int, unsigned int> tempEndPos = std::make_pair(Piece_Starting_Positions::m_kingStartPos.second.at(0).first,
+							Piece_Starting_Positions::m_kingStartPos.second.at(0).second - 1);
+						if (!IsPathClear(_positionCords, tempEndPos, board))
+							canPerform = false;
+					}
+				}
+
+				//--- Rook cannot perform short castling if it will put king under check ---//
+				if (canPerform) {
+					std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
+					std::shared_ptr<Castling> tempSpecialStrategy = std::make_shared<Castling>(_positionCords, Piece_Starting_Positions::m_rookStartPos.first.at(0), tempBoard);
+					tempSpecialStrategy->Execute();
+					if (KingIsChecked(tempBoard, _owner))
+						canPerform = false;
+				}
+
+				if (!canPerform)
+					PALE_ENGINE_TRACE("Rook piece cannot perform special move.");
+				else {
+					if (_owner == OWNERS::BLACK) //Black perform castling
+						_specialMove = std::make_shared<Castling>(Piece_Starting_Positions::m_kingStartPos.first.at(0), _positionCords, board);
+					else //White perform castling
+						_specialMove = std::make_shared<Castling>(Piece_Starting_Positions::m_kingStartPos.second.at(0), _positionCords, board);
+				}
+			}
+			else {
+				//--- Rook can perform short castling if king didn't move in this game ---//
+				if ((_owner == OWNERS::BLACK && board.at(Piece_Starting_Positions::m_kingStartPos.first.at(0).first).at(Piece_Starting_Positions::m_kingStartPos.first.at(0).second)->GetValue() != -7) ||
+					(_owner == OWNERS::WHITE && board.at(Piece_Starting_Positions::m_kingStartPos.first.at(0).first).at(Piece_Starting_Positions::m_kingStartPos.second.at(0).second)->GetValue() != 7))
+					canPerform = false;
+
+				//--- Rook can perform short castling if it dodn't move in this game ---//
+				if (canPerform) {
+					if ((_owner == OWNERS::BLACK && _positionCords != Piece_Starting_Positions::m_rookStartPos.first.at(1)) ||
+						(_owner == OWNERS::WHITE && _positionCords != Piece_Starting_Positions::m_rookStartPos.second.at(1)))
+						canPerform = false;
+				}
+
+				//--- Rook can perform short castling if path between it and right king is clear ---//
+				if (canPerform) {
+					if (_owner == OWNERS::BLACK) {
+						std::pair<unsigned int, unsigned int> tempEndPos = std::make_pair(Piece_Starting_Positions::m_kingStartPos.first.at(0).first,
+							Piece_Starting_Positions::m_kingStartPos.first.at(0).second + 1);
+						if (!IsPathClear(_positionCords, tempEndPos, board))
+							canPerform = false;
+					}
+					else {
+						std::pair<unsigned int, unsigned int> tempEndPos = std::make_pair(Piece_Starting_Positions::m_kingStartPos.second.at(0).first,
+							Piece_Starting_Positions::m_kingStartPos.second.at(0).second + 1);
+						if (!IsPathClear(_positionCords, tempEndPos, board))
+							canPerform = false;
+					}
+				}
+
+				//--- Rook cannot perform short castling if it will put king under check ---//
+				if (canPerform) {
+					std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
+					std::shared_ptr<Castling> tempSpecialStrategy = std::make_shared<Castling>(_positionCords, Piece_Starting_Positions::m_rookStartPos.first.at(1), tempBoard);
+					tempSpecialStrategy->Execute();
+					if (KingIsChecked(tempBoard, _owner))
+						canPerform = false;
+				}
+
+				if (!canPerform)
+					PALE_ENGINE_TRACE("Rook piece cannot perform special move.");
+				else {
+					if (_owner == OWNERS::BLACK) //Black perform castling
+						_specialMove = std::make_shared<Castling>(Piece_Starting_Positions::m_kingStartPos.first.at(0), _positionCords, board);
+					else //White perform castling
+						_specialMove = std::make_shared<Castling>(Piece_Starting_Positions::m_kingStartPos.second.at(0), _positionCords, board);
+				}
+			}
+			//todo: Check if work properly
+			return canPerform;
+		}
+
 		Pawn::Pawn(OWNERS owner, unsigned int numberOfCopy) : Pieces(owner, 8), _firstMove(true) {
 			try {
 				if (numberOfCopy > _limitOfCopies - 1)
@@ -580,6 +725,21 @@ namespace Pale {
 				PALE_ENGINE_TRACE("Pawn piece cannot move to this location.");
 			//todo: Check if work properly
 			return canMove;
+		}
+
+		bool Pawn::SpecialLogic(MOVE_TYPES type, std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board, std::optional<char> newPiece) {
+			bool canPerform = true;
+			if (type == MOVE_TYPES::PROMOTION) {
+
+				if (!canPerform)
+					PALE_ENGINE_TRACE("Rook piece cannot perform special move.");
+				else 
+					_specialMove = std::make_shared<Promotion>(_positionCords, endPos, board, newPiece);
+			else if (type == MOVE_TYPES::EN_PASSANT) {
+
+			}
+			//todo: Check if work properly
+			return canPerform;
 		}
 	}
 }
