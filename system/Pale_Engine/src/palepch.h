@@ -5,6 +5,7 @@
 #include <iostream>
 #include <sstream>
 #include <math.h>
+#include <optional>
 
 #include <vector>
 #include <utility>

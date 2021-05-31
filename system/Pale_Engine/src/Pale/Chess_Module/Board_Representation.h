@@ -5,7 +5,7 @@
 
 namespace Pale {
 	namespace Chess_Logic {
-		//--- Enum with types of board representation. ---//
+		//--- Enum with types of board representation ---//
 		enum class BOARD_TYPE {
 			BASE = 0,
 			INT_TYPE,
@@ -18,6 +18,7 @@ namespace Pale {
 			char m_piece;
 			OWNERS m_owner;
 			std::pair<unsigned int, unsigned int> m_startPos, m_endPos;
+			std::optional<char> m_newPiece;
 		};
 
 		static const MoveCommand& ProcessMoveCommand(const std::string move);
@@ -32,7 +33,7 @@ namespace Pale {
 			~Board_Representation() = default;
 
 			void SetPlateValue(unsigned int rowIt, unsigned int columnIt, T value);
-			void MovePiece(std::pair<unsigned int, unsigned int> startPos, std::pair<unsigned int, unsigned int> endPos, Pieces& piece);
+			void MovePiece(MoveCommand& command, Pieces& piece);
 			static void AddToDeathList(int figure) { 
 				try {
 					if (figure > 7 || figure == 6 || figure < -7 || figure == -6)
@@ -135,30 +136,31 @@ namespace Pale {
 		void Board_Representation<T>::SetPlateValue(unsigned int rowIt, unsigned int columnIt, T value);
 
 		template<typename T>
-		void Board_Representation<T>::MovePiece(std::pair<unsigned int, unsigned int> startPos, std::pair<unsigned int, unsigned int> endPos, Pieces& piece) {
+		void Board_Representation<T>::MovePiece(MoveCommand& command, Pieces& piece) {
 			try {
-				if(startPos == endPos)
+				/*if(command.m_startPos == command.m_endPos)
 					throw PaleEngineException("Exception happened!", 'w', "Board_Representation.h", 141, "MovePiece", MOVE_COMMAND__NO_MOVE_NEEDED);
 
-				if (_board.at(startPos.first).at(startPos.second)->GetValue() != piece.GetValue())
+				if (_board.at(command.m_startPos.first).at(command.m_startPos.second)->GetValue() != piece.GetValue())
 					throw PaleEngineException("Exception happened!", 'w', "Board_Representation.h", 144, "MovePiece", MOVE_COMMAND__INVALID_OCCUPATION);
 
-				if(_board.at(startPos.first).at(startPos.second)->GetPosition() != piece.GetPosition())
+				if(_board.at(command.m_startPos.first).at(command.m_startPos.second)->GetPosition() != piece.GetPosition())
 					throw PaleEngineException("Exception happened!", 'w', "Board_Representation.h", 147, "MovePiece", MOVE_COMMAND__INCOMPATIBLE_CORDS);
 
-				if (startPos.first < 0 || startPos.first >= _row || startPos.second < 0 || startPos.second >= _column ||
-					endPos.first < 0 || endPos.first >= _row || endPos.second < 0 || endPos.second >= _column)
+				if (command.m_startPos.first < 0 || command.m_startPos.first >= _row || command.m_startPos.second < 0 || command.m_startPos.second >= _column ||
+					command.m_endPos.first < 0 || command.m_endPos.first >= _row || command.m_endPos.second < 0 || command.m_endPos.second >= _column)
 					throw PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 151, "MovePiece", MOVE_COMMAND__COORDINATE_OUT_OF_RANGE);
 
-				if (piece.MoveLogic(endPos, _board)) {
+				if (piece.MoveLogic(command.m_endPos, _board)) {
 					PALE_ENGINE_INFO("Move was successfully made.");
-					if (_board.at(endPos.first).at(endPos.second)->GetValue() != 0)
-						_board.at(endPos.first).at(endPos.second) = std::make_shared<Blank>(endPos.first, endPos.second); //If capture set plate to blank
+					if (_board.at(command.m_endPos.first).at(command.m_endPos.second)->GetValue() != 0)
+						_board.at(command.m_endPos.first).at(command.m_endPos.second) = std::make_shared<Blank>(command.m_endPos.first, command.m_endPos.second); //If capture set plate to blank
 
-					_board.at(startPos.first).at(startPos.second).swap(_board.at(endPos.first).at(endPos.second)); //Swap contents of start and end plates.
-					_board.at(startPos.first).at(startPos.second)->UpdatePosition(startPos); //Update positions for both plates.
-					_board.at(endPos.first).at(endPos.second)->UpdatePosition(endPos);
-				}
+					_board.at(command.m_startPos.first).at(command.m_startPos.second).swap(_board.at(command.m_endPos.first).at(command.m_endPos.second)); //Swap contents of start and end plates.
+					_board.at(command.m_startPos.first).at(command.m_startPos.second)->UpdatePosition(command.m_startPos); //Update positions for both plates.
+					_board.at(command.m_endPos.first).at(command.m_endPos.second)->UpdatePosition(command.m_endPos);
+				}*/
+				_board.at(0).at(0)->Promotion(_board, std::make_pair(0, 0), std::make_shared<Queen>(OWNERS::BLACK, 0));
 			}
 			catch (PaleEngineException& exception) {
 				if (exception.GetType() == 'e')

@@ -16,21 +16,32 @@ namespace Pale {
 			DIAGONAL
 		};
 
-		class Special_Strategy;
+		enum class MOVE_TYPES {
+			BASIC = 0,
+			PROMOTION,
+			CASTLING,
+			EN_PASSANT
+		};
+
 		class Pieces {
 
 		public:
 			Pieces() = delete;
 			virtual ~Pieces() = default;
 
-			virtual void SpecialLogic() = 0;
 			void UpdatePosition(std::pair<unsigned int, unsigned int> newPosition) { _positionCords = newPosition; }
 
+			virtual bool SpecialLogic() { PALE_ENGINE_ERROR("This piece do not have special move!"); return false; }
 			virtual bool MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) const = 0;
 			inline std::pair<unsigned int, unsigned int> GetPosition() const { return _positionCords; }
 			inline OWNERS GetOwner() const { return _owner; }
 			inline int GetValue() const { return _value; }
 			inline std::string GetName() const { return _name; }
+
+			//--- Functions which define pieces special moves ---//
+			void Promotion(std::vector<std::vector<std::shared_ptr<Pieces>>>& board, std::pair<unsigned int, unsigned int> pos, std::shared_ptr<Pieces> newPiece) { 
+				board.at(pos.first).at(pos.second) = newPiece;
+			}
 
 		protected:
 			Pieces(OWNERS owner, unsigned int limitOfCopies) : _value(0), _owner(owner), _limitOfCopies(limitOfCopies) {}
@@ -40,7 +51,6 @@ namespace Pale {
 			unsigned int _limitOfCopies; //Limit for 1 player.
 			std::pair<unsigned int, unsigned int> _positionCords;
 			OWNERS _owner;
-			std::shared_ptr<Special_Strategy> _specialMove;
 		};
 
 		//--- Methods allowing to decide if move is legal or not ---//
@@ -485,7 +495,7 @@ namespace Pale {
 				case MOVE_DIRECTION::VERTICAL:
 					//--- Move up ---//
 					if (startPos.first > endPos.first) {
-						for (int it = 1; it < abs(static_cast<int>(startPos.first) - static_cast<int>(endPos.first)); it++) {
+						for (int it = 1; it <= abs(static_cast<int>(startPos.first) - static_cast<int>(endPos.first)); it++) {
 							if (board.at(startPos.first - it).at(startPos.second)->GetValue() != 0) {
 								pathClear = false;
 								break;
@@ -494,7 +504,7 @@ namespace Pale {
 					}
 					//--- Move down ---//
 					else {
-						for (int it = 1; it < abs(static_cast<int>(startPos.first) - static_cast<int>(endPos.first)); it++) {
+						for (int it = 1; it <= abs(static_cast<int>(startPos.first) - static_cast<int>(endPos.first)); it++) {
 							if (board.at(startPos.first + it).at(startPos.second)->GetValue() != 0) {
 								pathClear = false;
 								break;
@@ -506,7 +516,7 @@ namespace Pale {
 				case MOVE_DIRECTION::HORIZONTAL:
 					//--- Move left ---//
 					if (startPos.second > endPos.second) {
-						for (int it = 1; it < abs(static_cast<int>(startPos.second) - static_cast<int>(endPos.second)); it++) {
+						for (int it = 1; it <= abs(static_cast<int>(startPos.second) - static_cast<int>(endPos.second)); it++) {
 							if (board.at(startPos.first).at(startPos.second - it) != 0) {
 								pathClear = false;
 								break;
@@ -515,7 +525,7 @@ namespace Pale {
 					}
 					//--- Move right ---//
 					else {
-						for (int it = 1; it < abs(static_cast<int>(startPos.second) - static_cast<int>(endPos.second)); it++) {
+						for (int it = 1; it <= abs(static_cast<int>(startPos.second) - static_cast<int>(endPos.second)); it++) {
 							if (board.at(startPos.first).at(startPos.second + it) != 0) {
 								pathClear = false;
 								break;
@@ -527,7 +537,7 @@ namespace Pale {
 				case MOVE_DIRECTION::DIAGONAL:
 					//--- Move up left ---//
 					if (startPos.first > endPos.first && startPos.second > endPos.second) {
-						for (int it = 1; it < abs(static_cast<int>(startPos.first) - static_cast<int>(endPos.first)); it++) {
+						for (int it = 1; it <= abs(static_cast<int>(startPos.first) - static_cast<int>(endPos.first)); it++) {
 							if (board.at(startPos.first - it).at(startPos.second - it)) {
 								pathClear = false;
 								break;
@@ -536,7 +546,7 @@ namespace Pale {
 					}
 					//--- Move up right ---/
 					else if (startPos.first > endPos.first && startPos.second < endPos.second) {
-						for (int it = 1; it < abs(static_cast<int>(startPos.first) - static_cast<int>(endPos.first)); it++) {
+						for (int it = 1; it <= abs(static_cast<int>(startPos.first) - static_cast<int>(endPos.first)); it++) {
 							if (board.at(startPos.first - it).at(startPos.second + it)) {
 								pathClear = false;
 								break;
@@ -545,7 +555,7 @@ namespace Pale {
 					}
 					//--- Move down right ---//
 					else if (startPos.first < endPos.first && startPos.second < endPos.second) {
-						for (int it = 1; it < abs(static_cast<int>(startPos.first) - static_cast<int>(endPos.first)); it++) {
+						for (int it = 1; it <= abs(static_cast<int>(startPos.first) - static_cast<int>(endPos.first)); it++) {
 							if (board.at(startPos.first + it).at(startPos.second + it)) {
 								pathClear = false;
 								break;
@@ -554,7 +564,7 @@ namespace Pale {
 					}
 					//--- Move down left ---//
 					else {
-						for (int it = 1; it < abs(static_cast<int>(startPos.first) - static_cast<int>(endPos.first)); it++) {
+						for (int it = 1; it <= abs(static_cast<int>(startPos.first) - static_cast<int>(endPos.first)); it++) {
 							if (board.at(startPos.first + it).at(startPos.second - it)) {
 								pathClear = false;
 								break;
@@ -577,60 +587,6 @@ namespace Pale {
 
 				std::cin.get();
 			}
-		}
-
-		//--- Structure of classes which define pieces special moves ---//
-		class Special_Strategy {
-
-		public:
-			virtual ~Special_Strategy() = default;
-
-			virtual void Execute() = 0;
-
-		protected:
-			Special_Strategy() = default;
-		};
-
-		class Promotion : public Special_Strategy {
-
-		public:
-			Promotion() = default; //todo: "= delete" later + custom Constructor.
-			~Promotion() = default;
-
-			void Execute() override { PALE_ENGINE_TRACE("Execution of Promotion maneuver."); }
-		private:
-			//todo: Finish up Promotion class.
-		};
-
-		class Castling : public Special_Strategy {
-
-		public:
-			Castling() = default; //todo: "= delete" later + custom Constructor.
-			~Castling() = default;
-
-			void Execute() override { PALE_ENGINE_TRACE("Execution of Castling maneuver."); }
-		private:
-			//todo: Finish up Castling class.
-		};
-
-		class En_Passant : public Special_Strategy {
-
-		public:
-			En_Passant() = default; //todo: "= delete" later + custom Constructor.
-			~En_Passant() = default;
-
-			void Execute() override { PALE_ENGINE_TRACE("Execution of En Passant maneuver."); }
-		private:
-			//todo: Finish up En Passant class.
-		};
-
-		class None : public Special_Strategy {
-
-		public:
-			None() = default;
-			~None() = default;
-
-			void Execute() override { PALE_ENGINE_TRACE("No special maneuver assigned."); }
-		};
+		}		
 	}
 }

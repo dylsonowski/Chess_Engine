@@ -54,8 +54,6 @@ namespace Pale {
 				}
 				else
 					throw PaleEngineException("Exception happened!", 'e', "Piece_Types.cpp", 56, "King", FIGURE_BAD_OWNER);
-
-				_specialMove = std::make_shared<Castling>(); //todo: Castling constructor will need arguments after implementing logic.
 			}
 			catch (PaleEngineException& exception) {
 				if (exception.GetType() == 'e')
@@ -72,12 +70,11 @@ namespace Pale {
 				
 			//--- King cannot move more than 1 step ---//
 			if ((abs(static_cast<int>(_positionCords.first) - static_cast<int>(endPos.first)) > 1 || 
-				abs(static_cast<int>(_positionCords.second) - static_cast<int>(endPos.second)) > 1) && canMove)
+				abs(static_cast<int>(_positionCords.second) - static_cast<int>(endPos.second)) > 1))
 				canMove = false;
 
-			//--- King cannot move on plate occupied by the same owners piece ---//
-			if (((_owner == OWNERS::BLACK && board.at(endPos.first).at(endPos.second)->GetOwner() == OWNERS::BLACK) ||
-				(_owner == OWNERS::WHITE && board.at(endPos.first).at(endPos.second)->GetOwner() == OWNERS::WHITE)) && canMove)
+			//--- King piece cannot move on plate occupied by the same owners piece ---//
+			if (board.at(endPos.first).at(endPos.second)->GetOwner() == _owner)
 				canMove = false;
 
 			//--- If king is under check ---//
@@ -119,8 +116,6 @@ namespace Pale {
 				}
 				else
 					throw PaleEngineException("Exception happened!", 'e', "Piece_Types.cpp", 83, "Queen", FIGURE_BAD_OWNER);
-
-				_specialMove = std::make_shared<None>();
 			}
 			catch (PaleEngineException& exception) {
 				if (exception.GetType() == 'e')
@@ -137,7 +132,7 @@ namespace Pale {
 
 			//--- Do not allow queene piece to move different than diagonal, horizontal or verticaly ---//
 			if (abs(static_cast<int>(_positionCords.first) - static_cast<int>(endPos.first)) != abs(static_cast<int>(_positionCords.second) - static_cast<int>(endPos.second)) &&
-				(abs(static_cast<int>(_positionCords.first) - static_cast<int>(endPos.first)) > 0 || abs(static_cast<int>(_positionCords.second) - static_cast<int>(endPos.second)) > 0))
+				abs(static_cast<int>(_positionCords.first) - static_cast<int>(endPos.first)) > 0 && abs(static_cast<int>(_positionCords.second) - static_cast<int>(endPos.second)) > 0)
 				canMove = false;
 
 			//--- Path of queen move have to be clear ---//
@@ -183,8 +178,6 @@ namespace Pale {
 				}
 				else
 					throw PaleEngineException("Exception happened!", 'e', "Piece_Types.cpp", 110, "Bishop", FIGURE_BAD_OWNER);
-
-				_specialMove = std::make_shared<None>();
 			}
 			catch (PaleEngineException& exception) {
 				if (exception.GetType() == 'e')
@@ -246,8 +239,6 @@ namespace Pale {
 				}
 				else
 					throw PaleEngineException("Exception happened!", 'e', "Piece_Types.cpp", 138, "Knight", FIGURE_BAD_OWNER);
-
-				_specialMove = std::make_shared<None>();
 			}
 			catch (PaleEngineException& exception) {
 				if (exception.GetType() == 'e')
@@ -267,6 +258,10 @@ namespace Pale {
 				(abs(static_cast<int>(_positionCords.first) - static_cast<int>(endPos.first)) != 1 && abs(static_cast<int>(_positionCords.second) - static_cast<int>(endPos.second)) != 2))
 				canMove = false;
 
+			//--- Knight piece cannot move on plate occupied by the same owners piece ---//
+			if (board.at(endPos.first).at(endPos.second)->GetOwner() == _owner)
+				canMove = false;
+			
 			//--- Potential move cannot put king under check ---//
 			if (canMove) {
 				std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
@@ -304,8 +299,6 @@ namespace Pale {
 				}
 				else
 					throw PaleEngineException("Exception happened!", 'e', "Piece_Types.cpp", 164, "Rook", FIGURE_BAD_OWNER);
-
-				_specialMove = std::make_shared<Castling>(); //todo: Castling constructor will need arguments after implementing logic.
 			}
 			catch (PaleEngineException& exception) {
 				if (exception.GetType() == 'e')
@@ -315,6 +308,35 @@ namespace Pale {
 
 				std::cin.get();
 			}
+		}
+
+		bool Rook::MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) const {
+			bool canMove = true;
+
+			//--- Do not allow rook piece to move different than linear ---//
+			if (abs(static_cast<int>(_positionCords.first) - static_cast<int>(endPos.first)) > 0 && abs(static_cast<int>(_positionCords.second) - static_cast<int>(endPos.second)) > 0)
+				canMove = false;
+
+			//--- Path of rook move have to be clear ---//
+			if (canMove) {
+				if (!IsPathClear(_positionCords, endPos, board))
+					canMove = false;
+			}
+
+			//--- Potential move cannot put king under check ---//
+			if (canMove) {
+				std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
+				std::shared_ptr<Pieces> tempPiece = tempBoard.at(endPos.first).at(endPos.second);
+				tempBoard.at(endPos.first).at(endPos.second) = tempBoard.at(_positionCords.first).at(_positionCords.second);
+				tempBoard.at(_positionCords.first).at(_positionCords.second) = tempPiece;
+				if (KingIsChecked(tempBoard, _owner))
+					canMove = false;
+			}
+
+			if (!canMove)
+				PALE_ENGINE_TRACE("Rook piece cannot move to this location.");
+			//todo: Check if work properly
+			return canMove;
 		}
 
 		Pawn::Pawn(OWNERS owner, unsigned int numberOfCopy) : Pieces(owner, 8), _firstMove(true) {
@@ -338,8 +360,6 @@ namespace Pale {
 				}
 				else
 					throw PaleEngineException("Exception happened!", 'e', "Piece_Types.cpp", 191, "Pawn", FIGURE_BAD_OWNER);
-
-				_specialMove = std::make_shared<En_Passant>(); //todo: En Passant constructor will need arguments after implementing logic.
 			}
 			catch (PaleEngineException& exception) {
 				if (exception.GetType() == 'e')
@@ -349,6 +369,48 @@ namespace Pale {
 
 				std::cin.get();
 			}
+		}
+
+		bool Pawn::MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) const {
+			bool canMove = true;
+
+			//--- If pawn do not have first move it cannot move more than 1 plate ---//
+			if (!_firstMove && abs(static_cast<int>(_positionCords.first) - static_cast<int>(endPos.first)) > 1)
+				canMove = false;
+
+			//-- Change on x cord can happened only if pawn want to capture enemy piece ---//
+			if (abs(static_cast<int>(_positionCords.second) - static_cast<int>(endPos.second)) > 0 &&
+				abs(static_cast<int>(_positionCords.first) - static_cast<int>(endPos.first)) != abs(static_cast<int>(_positionCords.second) - static_cast<int>(endPos.second)))
+				canMove = false;
+
+			//-- Pawn can move diagonaly only to capture other piece and that have to be ENEMY piece ---//
+			if (abs(static_cast<int>(_positionCords.first) - static_cast<int>(endPos.first)) == abs(static_cast<int>(_positionCords.second) - static_cast<int>(endPos.second)) &&
+				(board.at(endPos.first).at(endPos.second)->GetOwner() == _owner || board.at(endPos.first).at(endPos.second)->GetOwner() == OWNERS::NONE))
+				canMove = false;
+
+			//--- Pawn piece can move only in direction of enemy edge of the board ---//
+			if ((_owner == OWNERS::BLACK && static_cast<int>(_positionCords.first) - static_cast<int>(endPos.first) > 0) ||
+				(_owner == OWNERS::WHITE && static_cast<int>(_positionCords.first) - static_cast<int>(endPos.first) < 0))
+				canMove = false;
+
+			//--- Pawn piece cannot move on occupied plate ---//
+			if (board.at(endPos.first).at(endPos.second)->GetOwner() != OWNERS::NONE)
+				canMove = false;
+
+			//--- Potential move cannot put king under check ---//
+			if (canMove) {
+				std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
+				std::shared_ptr<Pieces> tempPiece = tempBoard.at(endPos.first).at(endPos.second);
+				tempBoard.at(endPos.first).at(endPos.second) = tempBoard.at(_positionCords.first).at(_positionCords.second);
+				tempBoard.at(_positionCords.first).at(_positionCords.second) = tempPiece;
+				if (KingIsChecked(tempBoard, _owner))
+					canMove = false;
+			}
+
+			if (!canMove)
+				PALE_ENGINE_TRACE("Pawn piece cannot move to this location.");
+			//todo: Check if work properly
+			return canMove;
 		}
 	}
 }
