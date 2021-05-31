@@ -29,7 +29,7 @@ namespace Pale {
 			void ExecuteSpecialMove() override { _specialMove->Execute(); }
 
 			bool SpecialLogic(MOVE_TYPES type, std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board, std::optional<char> newPiece) override;
-			bool MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) const override;
+			bool MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) override;
 			inline bool GetKingStatus(bool getCheck) const {
 				if (getCheck)
 					return _check;
@@ -51,7 +51,7 @@ namespace Pale {
 
 			void ExecuteSpecialMove() override { _specialMove->Execute(); }
 
-			bool MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) const override;
+			bool MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) override;
 		};
 
 		class Bishop : public Pieces {
@@ -64,7 +64,7 @@ namespace Pale {
 
 			void ExecuteSpecialMove() override { _specialMove->Execute(); }
 
-			bool MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) const override;
+			bool MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) override;
 		};
 
 		class Knight : public Pieces {
@@ -77,7 +77,7 @@ namespace Pale {
 
 			void ExecuteSpecialMove() override { _specialMove->Execute(); }
 
-			bool MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) const override;
+			bool MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) override;
 		};
 
 		class Rook : public Pieces {
@@ -91,7 +91,7 @@ namespace Pale {
 			void ExecuteSpecialMove() override { _specialMove->Execute(); }
 
 			bool SpecialLogic(MOVE_TYPES type, std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board, std::optional<char> newPiece) override;
-			bool MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) const override;
+			bool MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) override;
 		};
 
 		class Pawn : public Pieces {
@@ -104,10 +104,12 @@ namespace Pale {
 			void ExecuteSpecialMove() override { _specialMove->Execute(); }
 
 			bool SpecialLogic(MOVE_TYPES type, std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board, std::optional<char> newPiece) override;
-			bool MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) const override;
+			bool MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) override;
+
+			inline bool MovedByTwo() const { return _movedByTwo; }
 
 		private:
-			bool _firstMove;
+			bool _firstMove, _movedByTwo;
 		};
 
 		class Blank : public Pieces {
@@ -124,7 +126,7 @@ namespace Pale {
 
 			void ExecuteSpecialMove() override { _specialMove->Execute(); }
 
-			bool MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) const override { return false; }
+			bool MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) override { return false; }
 		};
 	}
 }

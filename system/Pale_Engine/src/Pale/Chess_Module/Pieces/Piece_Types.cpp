@@ -67,7 +67,7 @@ namespace Pale {
 			}
 		}
 
-		bool King::MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) const {
+		bool King::MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) {
 			bool canMove = true;
 				
 			//--- King cannot move more than 1 step ---//
@@ -255,7 +255,7 @@ namespace Pale {
 			}
 		}
 
-		bool Queen::MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) const {
+		bool Queen::MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) {
 			bool canMove = true;
 
 			//--- Do not allow queene piece to move different than diagonal, horizontal or verticaly ---//
@@ -345,7 +345,7 @@ namespace Pale {
 			}
 		}
 
-		bool Bishop::MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) const {
+		bool Bishop::MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) {
 			bool canMove = true;
 
 			//--- Do not allow bishop piece to move different than diagonal ---//
@@ -434,7 +434,7 @@ namespace Pale {
 			}
 		}
 
-		bool Knight::MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) const {
+		bool Knight::MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) {
 			bool canMove = true;
 
 			//--- Do not allow knight piece to move different than 2 linear + 1 diagonaly ---//
@@ -522,7 +522,7 @@ namespace Pale {
 			}
 		}
 
-		bool Rook::MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) const {
+		bool Rook::MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) {
 			bool canMove = true;
 
 			//--- Do not allow rook piece to move different than linear ---//
@@ -651,7 +651,7 @@ namespace Pale {
 			return canPerform;
 		}
 
-		Pawn::Pawn(OWNERS owner, unsigned int numberOfCopy) : Pieces(owner, 8), _firstMove(true) {
+		Pawn::Pawn(OWNERS owner, unsigned int numberOfCopy) : Pieces(owner, 8), _firstMove(true), _movedByTwo(false) {
 			try {
 				if (numberOfCopy > _limitOfCopies - 1)
 					throw PaleEngineException("Exception happened!", 'e', "Piece_Types.cpp", 174, "Pawn", COPY_LIMIT_EXCEEDED);
@@ -685,7 +685,7 @@ namespace Pale {
 			}
 		}
 
-		bool Pawn::MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) const {
+		bool Pawn::MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) {
 			bool canMove = true;
 
 			//--- If pawn do not have first move it cannot move more than 1 plate ---//
@@ -723,6 +723,15 @@ namespace Pale {
 
 			if (!canMove)
 				PALE_ENGINE_TRACE("Pawn piece cannot move to this location.");
+			else {
+				if (abs(static_cast<int>(_positionCords.first) - static_cast<int>(endPos.first)) > 1 && _firstMove)
+					_movedByTwo = true;
+				else if (!_firstMove)
+					_movedByTwo = false;
+
+				if (_firstMove)
+					_firstMove = false;
+			}
 			//todo: Check if work properly
 			return canMove;
 		}
@@ -730,14 +739,86 @@ namespace Pale {
 		bool Pawn::SpecialLogic(MOVE_TYPES type, std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board, std::optional<char> newPiece) {
 			bool canPerform = true;
 			if (type == MOVE_TYPES::PROMOTION) {
+				//--- Pawn can move only by 1 block ---//
+				if (abs(static_cast<int>(_positionCords.first) - static_cast<int>(endPos.first)) > 1)
+					canPerform = false;
+
+				//--- Promotion can be perform only if pawn reach oposit end of the board ---//
+				if (canPerform) {
+					if ((_owner == OWNERS::BLACK && endPos.first != board.size() - 1) || (_owner == OWNERS::WHITE && endPos.first != 0))
+						canPerform = false;
+				}
+
+				//--- Pawn can move only lineary ---//
+				if (canPerform) {
+					if (abs(static_cast<int>(_positionCords.second) - static_cast<int>(endPos.second)) != 0)
+						canPerform = false;
+				}
+				
+				//--- To perform promotion target block needs to be empty ---//
+				if (canPerform) {
+					if (board.at(endPos.first).at(endPos.second)->GetValue() != 0)
+						canPerform = false;
+				}
+
+				//--- Promotion cannot be performe if this action will put king under check ---//
+				if (canPerform) {
+					std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
+					std::shared_ptr<Promotion> tempSpecialStrategy = std::make_shared<Promotion>(_positionCords, endPos, tempBoard, newPiece.value());
+					tempSpecialStrategy->Execute();
+					if (KingIsChecked(tempBoard, _owner))
+						canPerform = false;
+				}
 
 				if (!canPerform)
-					PALE_ENGINE_TRACE("Rook piece cannot perform special move.");
+					PALE_ENGINE_TRACE("Pawn piece cannot perform special move.");
 				else
 					_specialMove = std::make_shared<Promotion>(_positionCords, endPos, board, newPiece.value());
 			}
 			else if (type == MOVE_TYPES::EN_PASSANT) {
+				//--- En passant can be performe only if pawn made capture move ---//
+				if (abs(static_cast<int>(_positionCords.first) - static_cast<int>(endPos.first)) != abs(static_cast<int>(_positionCords.second) - static_cast<int>(endPos.second)))
+					canPerform = false;
 
+				//--- Pawn move cannot be longer than 1 block ---//
+				if (canPerform) {
+					if (abs(static_cast<int>(_positionCords.first) - static_cast<int>(endPos.first)) > 1 || abs(static_cast<int>(_positionCords.second) - static_cast<int>(endPos.second)) > 1)
+						canPerform = false;
+				}
+
+				//--- Only enemy pawn can be capture by en passant ---//
+				if (canPerform) {
+					if ((_owner == OWNERS::BLACK && board.at(endPos.first - 1).at(endPos.second)->GetValue() != 1) ||
+						(_owner == OWNERS::WHITE && board.at(endPos.first + 1).at(endPos.second)->GetValue() != -1))
+						canPerform = false;
+				}
+
+				//--- To perform en passant target block needs to be empty ---//
+				if (canPerform) {
+					if (board.at(endPos.first).at(endPos.second)->GetValue() != 0)
+						canPerform = false;
+				}
+
+				//--- If capturing pawn did not moved by 2 blocks en passant cannot be perform ---//
+				if (canPerform) {
+					if ((_owner == OWNERS::BLACK && !std::static_pointer_cast<Pawn>(board.at(endPos.first - 1).at(endPos.second))->MovedByTwo()) ||
+						(_owner == OWNERS::WHITE && !std::static_pointer_cast<Pawn>(board.at(endPos.first + 1).at(endPos.second))->MovedByTwo()))
+						canPerform = false;
+				}
+
+				//--- En passant cannot be performe if this action will put king under check ---//
+				if (canPerform) {
+					std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
+					std::shared_ptr<En_Passant> tempSpecialStrategy = std::make_shared<En_Passant>(_positionCords, endPos, tempBoard, _owner);
+					tempSpecialStrategy->Execute();
+					if (KingIsChecked(tempBoard, _owner))
+						canPerform = false;
+				}
+
+				if (!canPerform)
+					PALE_ENGINE_TRACE("Pawn piece cannot perform special move.");
+				else
+					_specialMove = std::make_shared<En_Passant>(_positionCords, endPos, board, _owner);
 			}
 			//todo: Check if work properly
 			return canPerform;
