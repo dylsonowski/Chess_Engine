@@ -140,11 +140,14 @@ namespace Pale {
 				if (_board.at(startPos.first).at(startPos.second)->GetValue() != piece.GetValue())
 					throw PaleEngineException("Exception happened!", 'w', "Board_Representation.h", 141, "MovePiece", MOVE_COMMAND__INVALID_OCCUPATION);
 
+				if(_board.at(startPos.first).at(startPos.second)->GetPosition() != piece.GetPosition())
+					throw PaleEngineException("Exception happened!", 'w', "Board_Representation.h", 144, "MovePiece", MOVE_COMMAND__INCOMPATIBLE_CORDS);
+
 				if (startPos.first < 0 || startPos.first >= _row || startPos.second < 0 || startPos.second >= _column ||
 					endPos.first < 0 || endPos.first >= _row || endPos.second < 0 || endPos.second >= _column)
-					throw PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 145, "MovePiece", MOVE_COMMAND__COORDINATE_OUT_OF_RANGE);
+					throw PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 148, "MovePiece", MOVE_COMMAND__COORDINATE_OUT_OF_RANGE);
 
-				if (piece.MoveLogic(startPos, endPos, _board)) {
+				if (piece.MoveLogic(endPos, _board)) {
 					PALE_ENGINE_INFO("Move was successfully made.");
 					if (_board.at(endPos.first).at(endPos.second)->GetValue() != 0)
 						_board.at(endPos.first).at(endPos.second) = std::make_shared<Blank>(endPos.first, endPos.second); //If capture set plate to blank

@@ -67,10 +67,30 @@ namespace Pale {
 			}
 		}
 
-		bool King::MoveLogic(std::pair<unsigned int, unsigned int> startPos, std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) const {
+		bool King::MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) const {
 			try {
 				bool canMove = true;
-				//todo: Complete definition of King move logic.
+				
+				//--- King cannot move more than 1 step ---//
+				if ((abs(static_cast<int>(_positionCords.first) - static_cast<int>(endPos.first)) > 1 || 
+					abs(static_cast<int>(_positionCords.second) - static_cast<int>(endPos.second)) > 1) && canMove)
+					canMove = false;
+
+				//--- King cannot move on plate occupied by the same owners piece ---//
+				if (((_owner == OWNERS::BLACK && board.at(endPos.first).at(endPos.second)->GetOwner() == OWNERS::BLACK) ||
+					(_owner == OWNERS::WHITE && board.at(endPos.first).at(endPos.second)->GetOwner() == OWNERS::WHITE)) && canMove)
+					canMove = false;
+
+				//--- If king is under check ---//
+				if (KingIsChecked(board, _owner) && canMove) {
+					std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
+					std::shared_ptr<Pieces> tempPiece = tempBoard.at(endPos.first).at(endPos.second);
+					tempBoard.at(endPos.first).at(endPos.second) = tempBoard.at(_positionCords.first).at(_positionCords.second);
+					tempBoard.at(_positionCords.first).at(_positionCords.second) = tempPiece;
+					if (KingIsChecked(tempBoard, _owner))
+						canMove = false;
+				}
+				//todo: Check if work properly.
 				return canMove;
 			}
 			catch (PaleEngineException& exception) {

@@ -9,11 +9,13 @@
 #define MOVE_COMMAND__WRONG_OWNER "Incorrect owner specify in move command!"
 #define MOVE_COMMAND__WRONG_PIECE "Specified piece do not exist!"
 #define MOVE_COMMAND__COORDINATE_OUT_OF_RANGE "Specified coordinate was from out of range!"
+#define MOVE_COMMAND__NO_KING_ON_BOARD "Unable to find correct king piece on given board!"
 
 //--- Warnings codes ---//
 #define INVALID_PIECE_ID "No coresponding chess piece of the given ID! Insertion failed!"
 #define MOVE_COMMAND__INVALID_OCCUPATION "Incorrect command! This plate is occupied by different piece!"
 #define MOVE_COMMAND__INVALID_STARTING_POS "Given coordinates do not contains correct piece!"
+#define MOVE_COMMAND__INCOMPATIBLE_CORDS "Given coordinats are different than in piece object!"
 
 //--- Exception class ---//
 class PaleEngineException : public std::exception {
