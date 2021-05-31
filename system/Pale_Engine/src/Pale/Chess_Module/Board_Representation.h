@@ -137,15 +137,18 @@ namespace Pale {
 		template<typename T>
 		void Board_Representation<T>::MovePiece(std::pair<unsigned int, unsigned int> startPos, std::pair<unsigned int, unsigned int> endPos, Pieces& piece) {
 			try {
+				if(startPos == endPos)
+					throw PaleEngineException("Exception happened!", 'w', "Board_Representation.h", 141, "MovePiece", MOVE_COMMAND__NO_MOVE_NEEDED);
+
 				if (_board.at(startPos.first).at(startPos.second)->GetValue() != piece.GetValue())
-					throw PaleEngineException("Exception happened!", 'w', "Board_Representation.h", 141, "MovePiece", MOVE_COMMAND__INVALID_OCCUPATION);
+					throw PaleEngineException("Exception happened!", 'w', "Board_Representation.h", 144, "MovePiece", MOVE_COMMAND__INVALID_OCCUPATION);
 
 				if(_board.at(startPos.first).at(startPos.second)->GetPosition() != piece.GetPosition())
-					throw PaleEngineException("Exception happened!", 'w', "Board_Representation.h", 144, "MovePiece", MOVE_COMMAND__INCOMPATIBLE_CORDS);
+					throw PaleEngineException("Exception happened!", 'w', "Board_Representation.h", 147, "MovePiece", MOVE_COMMAND__INCOMPATIBLE_CORDS);
 
 				if (startPos.first < 0 || startPos.first >= _row || startPos.second < 0 || startPos.second >= _column ||
 					endPos.first < 0 || endPos.first >= _row || endPos.second < 0 || endPos.second >= _column)
-					throw PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 148, "MovePiece", MOVE_COMMAND__COORDINATE_OUT_OF_RANGE);
+					throw PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 151, "MovePiece", MOVE_COMMAND__COORDINATE_OUT_OF_RANGE);
 
 				if (piece.MoveLogic(endPos, _board)) {
 					PALE_ENGINE_INFO("Move was successfully made.");

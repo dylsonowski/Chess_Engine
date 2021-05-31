@@ -9,6 +9,13 @@ namespace Pale {
 			BLACK
 		};
 
+		enum class MOVE_DIRECTION {
+			NONE = 0,
+			VERTICAL,
+			HORIZONTAL,
+			DIAGONAL
+		};
+
 		class Special_Strategy;
 		class Pieces {
 
@@ -55,7 +62,7 @@ namespace Pale {
 				}
 
 				if (!kingFound)
-					throw PaleEngineException("Exception happened!", 'e', "Pieces.cpp", 241, "KingIsChecked", MOVE_COMMAND__NO_KING_ON_BOARD);
+					throw PaleEngineException("Exception happened!", 'e', "Pieces.cpp", 65, "KingIsChecked", MOVE_COMMAND__NO_KING_ON_BOARD);
 
 				//--- Check by rook or queen on the north ---//
 				for (int it = 0; it < board.size(); it++) {
@@ -244,17 +251,17 @@ namespace Pale {
 				//--- Check by knight ---//
 				if (whichTurn == OWNERS::BLACK) {
 					if (!check) {
-						if (kingPos.first - 2 >= 0 && kingPos.second - 1 >= 0) {
+						if (static_cast<int>(kingPos.first - 2) >= 0 && static_cast<int>(kingPos.second - 1) >= 0) {
 							if (board.at(kingPos.first - 2).at(kingPos.second - 1)->GetValue() == 3)
 								check = true;
 						}
 
-						if (kingPos.first - 2 >= 0 && kingPos.second + 1 < board.size()) {
+						if (static_cast<int>(kingPos.first - 2) >= 0 && kingPos.second + 1 < board.size()) {
 							if (board.at(kingPos.first - 2).at(kingPos.second + 1)->GetValue() == 3)
 								check = true;
 						}
 
-						if (kingPos.first - 1 >= 0 && kingPos.second + 2 < board.size()) {
+						if (static_cast<int>(kingPos.first - 1) >= 0 && kingPos.second + 2 < board.size()) {
 							if (board.at(kingPos.first - 1).at(kingPos.second + 2)->GetValue() == 3)
 								check = true;
 						}
@@ -269,17 +276,17 @@ namespace Pale {
 								check = true;
 						}
 
-						if (kingPos.first + 2 < board.size() && kingPos.second - 1 >= 0) {
+						if (kingPos.first + 2 < board.size() && static_cast<int>(kingPos.second - 1) >= 0) {
 							if (board.at(kingPos.first + 2).at(kingPos.second - 1)->GetValue() == 3)
 								check = true;
 						}
 
-						if (kingPos.first + 1 < board.size() && kingPos.second - 2 >= 0) {
+						if (kingPos.first + 1 < board.size() && static_cast<int>(kingPos.second - 2) >= 0) {
 							if (board.at(kingPos.first + 1).at(kingPos.second - 2)->GetValue() == 3)
 								check = true;
 						}
 
-						if (kingPos.first - 1 >= 0 && kingPos.second - 2 >= 0) {
+						if (static_cast<int>(kingPos.first - 1) >= 0 && static_cast<int>(kingPos.second - 2) >= 0) {
 							if (board.at(kingPos.first - 1).at(kingPos.second - 2)->GetValue() == 3)
 								check = true;
 						}
@@ -287,17 +294,17 @@ namespace Pale {
 				}
 				else {
 					if (!check) {
-						if (kingPos.first - 2 >= 0 && kingPos.second - 1 >= 0) {
+						if (static_cast<int>(kingPos.first - 2) >= 0 && static_cast<int>(kingPos.second - 1) >= 0) {
 							if (board.at(kingPos.first - 2).at(kingPos.second - 1)->GetValue() == -3)
 								check = true;
 						}
 
-						if (kingPos.first - 2 >= 0 && kingPos.second + 1 < board.size()) {
+						if (static_cast<int>(kingPos.first - 2) >= 0 && kingPos.second + 1 < board.size()) {
 							if (board.at(kingPos.first - 2).at(kingPos.second + 1)->GetValue() == -3)
 								check = true;
 						}
 
-						if (kingPos.first - 1 >= 0 && kingPos.second + 2 < board.size()) {
+						if (static_cast<int>(kingPos.first - 1) >= 0 && kingPos.second + 2 < board.size()) {
 							if (board.at(kingPos.first - 1).at(kingPos.second + 2)->GetValue() == -3)
 								check = true;
 						}
@@ -312,17 +319,17 @@ namespace Pale {
 								check = true;
 						}
 
-						if (kingPos.first + 2 < board.size() && kingPos.second - 1 >= 0) {
+						if (kingPos.first + 2 < board.size() && static_cast<int>(kingPos.second - 1) >= 0) {
 							if (board.at(kingPos.first + 2).at(kingPos.second - 1)->GetValue() == -3)
 								check = true;
 						}
 
-						if (kingPos.first + 1 < board.size() && kingPos.second - 2 >= 0) {
+						if (kingPos.first + 1 < board.size() && static_cast<int>(kingPos.second - 2) >= 0) {
 							if (board.at(kingPos.first + 1).at(kingPos.second - 2)->GetValue() == -3)
 								check = true;
 						}
 
-						if (kingPos.first - 1 >= 0 && kingPos.second - 2 >= 0) {
+						if (static_cast<int>(kingPos.first - 1) >= 0 && static_cast<int>(kingPos.second - 2) >= 0) {
 							if (board.at(kingPos.first - 1).at(kingPos.second - 2)->GetValue() == -3)
 								check = true;
 						}
@@ -332,7 +339,7 @@ namespace Pale {
 				//--- Check by pawn ---//
 				if (whichTurn == OWNERS::BLACK) {
 					if (!check) {
-						if (kingPos.first + 1 < board.size() && kingPos.second - 1 >= 0) {
+						if (kingPos.first + 1 < board.size() && static_cast<int>(kingPos.second - 1) >= 0) {
 							if (board.at(kingPos.first + 1).at(kingPos.second - 1)->GetValue() == 1)
 								check = true;
 						}
@@ -345,12 +352,12 @@ namespace Pale {
 				}
 				else {
 					if (!check) {
-						if (kingPos.first - 1 < board.size() && kingPos.second - 1 >= 0) {
+						if (static_cast<int>(kingPos.first - 1) < board.size() && static_cast<int>(kingPos.second - 1) >= 0) {
 							if (board.at(kingPos.first - 1).at(kingPos.second - 1)->GetValue() == -1)
 								check = true;
 						}
 
-						if (kingPos.first - 1 < board.size() && kingPos.second + 1 < board.size()) {
+						if (static_cast<int>(kingPos.first - 1) < board.size() && kingPos.second + 1 < board.size()) {
 							if (board.at(kingPos.first - 1).at(kingPos.second + 1)->GetValue() == -1)
 								check = true;
 						}
@@ -359,18 +366,90 @@ namespace Pale {
 
 				//--- Check by king ---//
 				if (whichTurn == OWNERS::BLACK) {
-					if ((kingPos.first - 1 >= 0 && kingPos.second - 1 >= 0 && board.at(kingPos.first - 1).at(kingPos.second - 1)->GetValue() == 7) ||
-						(kingPos.first - 1 >= 0 && kingPos.second + 1 < board.size() && board.at(kingPos.first - 1).at(kingPos.second + 1)->GetValue() == 7) ||
-						(kingPos.first + 1 < board.size() && kingPos.second + 1 < board.size() && board.at(kingPos.first + 1).at(kingPos.second + 1)->GetValue() == 7) ||
-						(kingPos.first + 1 < board.size() && kingPos.second - 1 >= 0 && board.at(kingPos.first + 1).at(kingPos.second - 1)->GetValue() == 7) || !check)
-						check = true;
+					if (!check) {
+						if (static_cast<int>(kingPos.first - 1) >= 0) {
+							if(board.at(kingPos.first - 1).at(kingPos.second)->GetValue() == 7)
+								check = true;
+						}
+
+						if (static_cast<int>(kingPos.first - 1) >= 0 && kingPos.second + 1 < board.size()) {
+							if(board.at(kingPos.first - 1).at(kingPos.second + 1)->GetValue() == 7)
+								check = true;
+						}
+
+						if (kingPos.second + 1 < board.size()) {
+							if (board.at(kingPos.first).at(kingPos.second + 1)->GetValue() == 7)
+								check = true;
+						}
+
+						if (kingPos.first + 1 < board.size() && kingPos.second + 1 < board.size()) {
+							if (board.at(kingPos.first + 1).at(kingPos.second + 1)->GetValue() == 7)
+								check = true;
+						}
+
+						if (kingPos.first + 1 < board.size()) {
+							if (board.at(kingPos.first + 1).at(kingPos.second)->GetValue() == 7)
+								check = true;
+						}
+
+						if (kingPos.first + 1 < board.size() && static_cast<int>(kingPos.second - 1) >= 0) {
+							if (board.at(kingPos.first + 1).at(kingPos.second - 1)->GetValue() == 7)
+								check = true;
+						}
+
+						if (static_cast<int>(kingPos.second - 1) >= 0) {
+							if (board.at(kingPos.first).at(kingPos.second - 1)->GetValue() == 7)
+								check = true;
+						}
+
+						if (static_cast<int>(kingPos.first - 1) >= 0 && static_cast<int>(kingPos.second - 1) >= 0) {
+							if (board.at(kingPos.first - 1).at(kingPos.second - 1)->GetValue() == 7)
+								check = true;
+						}
+					}
 				}
 				else {
-					if ((kingPos.first - 1 >= 0 && kingPos.second - 1 >= 0 && board.at(kingPos.first - 1).at(kingPos.second - 1)->GetValue() == -7) ||
-						(kingPos.first - 1 >= 0 && kingPos.second + 1 < board.size() && board.at(kingPos.first - 1).at(kingPos.second + 1)->GetValue() == -7) ||
-						(kingPos.first + 1 < board.size() && kingPos.second + 1 < board.size() && board.at(kingPos.first + 1).at(kingPos.second + 1)->GetValue() == -7) ||
-						(kingPos.first + 1 < board.size() && kingPos.second - 1 >= 0 && board.at(kingPos.first + 1).at(kingPos.second - 1)->GetValue() == -7) || !check)
-						check = true;
+					if (!check) {
+						if (static_cast<int>(kingPos.first - 1) >= 0) {
+							if (board.at(kingPos.first - 1).at(kingPos.second)->GetValue() == -7)
+								check = true;
+						}
+
+						if (static_cast<int>(kingPos.first - 1) >= 0 && kingPos.second + 1 < board.size()) {
+							if (board.at(kingPos.first - 1).at(kingPos.second + 1)->GetValue() == -7)
+								check = true;
+						}
+
+						if (kingPos.second + 1 < board.size()) {
+							if (board.at(kingPos.first).at(kingPos.second + 1)->GetValue() == -7)
+								check = true;
+						}
+
+						if (kingPos.first + 1 < board.size() && kingPos.second + 1 < board.size()) {
+							if (board.at(kingPos.first + 1).at(kingPos.second + 1)->GetValue() == -7)
+								check = true;
+						}
+
+						if (kingPos.first + 1 < board.size()) {
+							if (board.at(kingPos.first + 1).at(kingPos.second)->GetValue() == -7)
+								check = true;
+						}
+
+						if (kingPos.first + 1 < board.size() && static_cast<int>(kingPos.second - 1) >= 0) {
+							if (board.at(kingPos.first + 1).at(kingPos.second - 1)->GetValue() == -7)
+								check = true;
+						}
+
+						if (static_cast<int>(kingPos.second - 1) >= 0) {
+							if (board.at(kingPos.first).at(kingPos.second - 1)->GetValue() == -7)
+								check = true;
+						}
+
+						if (static_cast<int>(kingPos.first - 1) >= 0 && static_cast<int>(kingPos.second - 1) >= 0) {
+							if (board.at(kingPos.first - 1).at(kingPos.second - 1)->GetValue() == -7)
+								check = true;
+						}
+					}
 				}
 
 				if (check)
@@ -388,8 +467,116 @@ namespace Pale {
 			}
 		}
 
-		static bool KingOnCheckPossition(std::pair<unsigned int, unsigned int> possition, std::vector<std::vector<std::shared_ptr<Pieces>>>& board, OWNERS whichTurn) {
+		static bool IsPathClear(std::pair<unsigned int, unsigned int> startPos, std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) {
+			try {
+				bool pathClear = true;
+				MOVE_DIRECTION moveDirection;
 
+				if (abs(static_cast<int>(startPos.first) - static_cast<int>(endPos.first)) > 0 && abs(static_cast<int>(startPos.second) - static_cast<int>(endPos.second)) == 0)
+					moveDirection = MOVE_DIRECTION::VERTICAL;
+				else if (abs(static_cast<int>(startPos.first) - static_cast<int>(endPos.first)) == 0 && abs(static_cast<int>(startPos.second) - static_cast<int>(endPos.second)) > 0)
+					moveDirection = MOVE_DIRECTION::HORIZONTAL;
+				else if (abs(static_cast<int>(startPos.first) - static_cast<int>(endPos.first)) == abs(static_cast<int>(startPos.second) - static_cast<int>(endPos.second)))
+					moveDirection = MOVE_DIRECTION::DIAGONAL;
+				else
+					throw PaleEngineException("Exception happened!", 'e', "Pieces.h", 482, "IsPathClear", MOVE_COMMAND__INVALID_MOVE_DIRECTION);
+
+				switch (moveDirection) {
+				case MOVE_DIRECTION::VERTICAL:
+					//--- Move up ---//
+					if (startPos.first > endPos.first) {
+						for (int it = 1; it < abs(static_cast<int>(startPos.first) - static_cast<int>(endPos.first)); it++) {
+							if (board.at(startPos.first - it).at(startPos.second)->GetValue() != 0) {
+								pathClear = false;
+								break;
+							}
+						}
+					}
+					//--- Move down ---//
+					else {
+						for (int it = 1; it < abs(static_cast<int>(startPos.first) - static_cast<int>(endPos.first)); it++) {
+							if (board.at(startPos.first + it).at(startPos.second)->GetValue() != 0) {
+								pathClear = false;
+								break;
+							}
+						}
+					}
+					break;
+
+				case MOVE_DIRECTION::HORIZONTAL:
+					//--- Move left ---//
+					if (startPos.second > endPos.second) {
+						for (int it = 1; it < abs(static_cast<int>(startPos.second) - static_cast<int>(endPos.second)); it++) {
+							if (board.at(startPos.first).at(startPos.second - it) != 0) {
+								pathClear = false;
+								break;
+							}
+						}
+					}
+					//--- Move right ---//
+					else {
+						for (int it = 1; it < abs(static_cast<int>(startPos.second) - static_cast<int>(endPos.second)); it++) {
+							if (board.at(startPos.first).at(startPos.second + it) != 0) {
+								pathClear = false;
+								break;
+							}
+						}
+					}
+					break;
+
+				case MOVE_DIRECTION::DIAGONAL:
+					//--- Move up left ---//
+					if (startPos.first > endPos.first && startPos.second > endPos.second) {
+						for (int it = 1; it < abs(static_cast<int>(startPos.first) - static_cast<int>(endPos.first)); it++) {
+							if (board.at(startPos.first - it).at(startPos.second - it)) {
+								pathClear = false;
+								break;
+							}
+						}
+					}
+					//--- Move up right ---/
+					else if (startPos.first > endPos.first && startPos.second < endPos.second) {
+						for (int it = 1; it < abs(static_cast<int>(startPos.first) - static_cast<int>(endPos.first)); it++) {
+							if (board.at(startPos.first - it).at(startPos.second + it)) {
+								pathClear = false;
+								break;
+							}
+						}
+					}
+					//--- Move down right ---//
+					else if (startPos.first < endPos.first && startPos.second < endPos.second) {
+						for (int it = 1; it < abs(static_cast<int>(startPos.first) - static_cast<int>(endPos.first)); it++) {
+							if (board.at(startPos.first + it).at(startPos.second + it)) {
+								pathClear = false;
+								break;
+							}
+						}
+					}
+					//--- Move down left ---//
+					else {
+						for (int it = 1; it < abs(static_cast<int>(startPos.first) - static_cast<int>(endPos.first)); it++) {
+							if (board.at(startPos.first + it).at(startPos.second - it)) {
+								pathClear = false;
+								break;
+							}
+						}
+					}
+					break;
+				}
+
+				if (!pathClear)
+					PALE_ENGINE_TRACE("Path is blocked by another piece.");
+
+				return pathClear;
+			}
+			catch (PaleEngineException& exception) {
+				if (exception.GetType() == 'e')
+					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+				else if (exception.GetType() == 'w')
+					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+
+				std::cin.get();
+			}
 		}
 
 		//--- Structure of classes which define pieces special moves ---//

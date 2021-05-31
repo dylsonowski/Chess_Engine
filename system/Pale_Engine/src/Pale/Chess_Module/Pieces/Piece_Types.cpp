@@ -68,21 +68,21 @@ namespace Pale {
 		}
 
 		bool King::MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) const {
-			try {
-				bool canMove = true;
+			bool canMove = true;
 				
-				//--- King cannot move more than 1 step ---//
-				if ((abs(static_cast<int>(_positionCords.first) - static_cast<int>(endPos.first)) > 1 || 
-					abs(static_cast<int>(_positionCords.second) - static_cast<int>(endPos.second)) > 1) && canMove)
-					canMove = false;
+			//--- King cannot move more than 1 step ---//
+			if ((abs(static_cast<int>(_positionCords.first) - static_cast<int>(endPos.first)) > 1 || 
+				abs(static_cast<int>(_positionCords.second) - static_cast<int>(endPos.second)) > 1) && canMove)
+				canMove = false;
 
-				//--- King cannot move on plate occupied by the same owners piece ---//
-				if (((_owner == OWNERS::BLACK && board.at(endPos.first).at(endPos.second)->GetOwner() == OWNERS::BLACK) ||
-					(_owner == OWNERS::WHITE && board.at(endPos.first).at(endPos.second)->GetOwner() == OWNERS::WHITE)) && canMove)
-					canMove = false;
+			//--- King cannot move on plate occupied by the same owners piece ---//
+			if (((_owner == OWNERS::BLACK && board.at(endPos.first).at(endPos.second)->GetOwner() == OWNERS::BLACK) ||
+				(_owner == OWNERS::WHITE && board.at(endPos.first).at(endPos.second)->GetOwner() == OWNERS::WHITE)) && canMove)
+				canMove = false;
 
-				//--- If king is under check ---//
-				if (KingIsChecked(board, _owner) && canMove) {
+			//--- If king is under check ---//
+			if (canMove) {
+				if (KingIsChecked(board, _owner)) {
 					std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
 					std::shared_ptr<Pieces> tempPiece = tempBoard.at(endPos.first).at(endPos.second);
 					tempBoard.at(endPos.first).at(endPos.second) = tempBoard.at(_positionCords.first).at(_positionCords.second);
@@ -90,17 +90,12 @@ namespace Pale {
 					if (KingIsChecked(tempBoard, _owner))
 						canMove = false;
 				}
-				//todo: Check if work properly.
-				return canMove;
 			}
-			catch (PaleEngineException& exception) {
-				if (exception.GetType() == 'e')
-					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-				else if (exception.GetType() == 'w')
-					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
 
-				std::cin.get();
-			}
+			if (!canMove)
+				PALE_ENGINE_TRACE("King piece cannot move to this location.");
+			//todo: Work but test needed!
+			return canMove;
 		}
 
 		Queen::Queen(OWNERS owner, unsigned int numberOfCopy) : Pieces(owner, 1) {
@@ -137,6 +132,36 @@ namespace Pale {
 			}
 		}
 
+		bool Queen::MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) const {
+			bool canMove = true;
+
+			//--- Do not allow queene piece to move different than diagonal, horizontal or verticaly ---//
+			if (abs(static_cast<int>(_positionCords.first) - static_cast<int>(endPos.first)) != abs(static_cast<int>(_positionCords.second) - static_cast<int>(endPos.second)) &&
+				(abs(static_cast<int>(_positionCords.first) - static_cast<int>(endPos.first)) > 0 || abs(static_cast<int>(_positionCords.second) - static_cast<int>(endPos.second)) > 0))
+				canMove = false;
+
+			//--- Path of queen move have to be clear ---//
+			if (canMove) {
+				if (!IsPathClear(_positionCords, endPos, board))
+					canMove = false;
+			}
+
+			//--- Potential move cannot put king under check ---//
+			if (canMove) {
+				std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
+				std::shared_ptr<Pieces> tempPiece = tempBoard.at(endPos.first).at(endPos.second);
+				tempBoard.at(endPos.first).at(endPos.second) = tempBoard.at(_positionCords.first).at(_positionCords.second);
+				tempBoard.at(_positionCords.first).at(_positionCords.second) = tempPiece;
+				if (KingIsChecked(tempBoard, _owner))
+					canMove = false;
+			}
+
+			if (!canMove)
+				PALE_ENGINE_TRACE("Queen piece cannot move to this location.");
+			//todo: Check if work properly
+			return canMove;
+		}
+
 		Bishop::Bishop(OWNERS owner, unsigned int numberOfCopy) : Pieces(owner, 2) {
 			try {
 				if (numberOfCopy > _limitOfCopies - 1)
@@ -171,6 +196,35 @@ namespace Pale {
 			}
 		}
 
+		bool Bishop::MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) const {
+			bool canMove = true;
+
+			//--- Do not allow bishop piece to move different than diagonal ---//
+			if (abs(static_cast<int>(_positionCords.first) - static_cast<int>(endPos.first)) != abs(static_cast<int>(_positionCords.second) - static_cast<int>(endPos.second)))
+				canMove = false;
+
+			//--- Path of bishop move have to be clear ---//
+			if (canMove) {
+				if (!IsPathClear(_positionCords, endPos, board))
+					canMove = false;
+			}
+
+			//--- Potential move cannot put king under check ---//
+			if (canMove) {
+				std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
+				std::shared_ptr<Pieces> tempPiece = tempBoard.at(endPos.first).at(endPos.second);
+				tempBoard.at(endPos.first).at(endPos.second) = tempBoard.at(_positionCords.first).at(_positionCords.second);
+				tempBoard.at(_positionCords.first).at(_positionCords.second) = tempPiece;
+				if (KingIsChecked(tempBoard, _owner))
+					canMove = false;
+			}
+
+			if(!canMove)
+				PALE_ENGINE_TRACE("Bishop piece cannot move to this location.");
+			//todo: Check if work properly
+			return canMove;
+		}
+
 		Knight::Knight(OWNERS owner, unsigned int numberOfCopy) : Pieces(owner, 2) {
 			try {
 				if (numberOfCopy > _limitOfCopies - 1)
@@ -203,6 +257,30 @@ namespace Pale {
 
 				std::cin.get();
 			}
+		}
+
+		bool Knight::MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) const {
+			bool canMove = true;
+
+			//--- Do not allow knight piece to move different than 2 linear + 1 diagonaly ---//
+			if ((abs(static_cast<int>(_positionCords.first) - static_cast<int>(endPos.first)) != 2 && abs(static_cast<int>(_positionCords.second) - static_cast<int>(endPos.second)) != 1) ||
+				(abs(static_cast<int>(_positionCords.first) - static_cast<int>(endPos.first)) != 1 && abs(static_cast<int>(_positionCords.second) - static_cast<int>(endPos.second)) != 2))
+				canMove = false;
+
+			//--- Potential move cannot put king under check ---//
+			if (canMove) {
+				std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
+				std::shared_ptr<Pieces> tempPiece = tempBoard.at(endPos.first).at(endPos.second);
+				tempBoard.at(endPos.first).at(endPos.second) = tempBoard.at(_positionCords.first).at(_positionCords.second);
+				tempBoard.at(_positionCords.first).at(_positionCords.second) = tempPiece;
+				if (KingIsChecked(tempBoard, _owner))
+					canMove = false;
+			}
+
+			if (!canMove)
+				PALE_ENGINE_TRACE("Knight piece cannot move to this location.");
+			//todo: Check if work properly
+			return canMove;
 		}
 
 		Rook::Rook(OWNERS owner, unsigned int numberOfCopy) : Pieces(owner, 2) {
