@@ -15,6 +15,8 @@ namespace Pale {
 			OBJECT_TYPE
 		};
 
+		template<typename T>
+		class Board_Representation;
 		static const Move_Command& ProcessMoveCommand(const std::string move, OWNERS whichTurn, Board_Representation<std::shared_ptr<Pieces>>& board);
 		static void AddToDeathList(int figure);
 
