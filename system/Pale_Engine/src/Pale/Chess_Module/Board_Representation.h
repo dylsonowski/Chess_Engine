@@ -5,6 +5,8 @@
 
 namespace Pale {
 	namespace Chess_Logic {
+		static std::vector<int> s_deathList; //List which holds captured pieces. 
+
 		//--- Enum with types of board representation ---//
 		enum class BOARD_TYPE {
 			BASE = 0,
@@ -23,6 +25,7 @@ namespace Pale {
 		};
 
 		static const MoveCommand& ProcessMoveCommand(const std::string move, OWNERS whichTurn);
+		static void AddToDeathList(int figure);
 
 		//--- Base board representation template class (T :== int, string or Piece) ---//
 		template<typename T>
@@ -35,22 +38,6 @@ namespace Pale {
 
 			void SetPlateValue(unsigned int rowIt, unsigned int columnIt, T value);
 			void MovePiece(MoveCommand& command, Pieces& piece);
-			static void AddToDeathList(int figure) { 
-				try {
-					if (figure > 7 || figure == 6 || figure < -7 || figure == -6)
-						throw PaleEngineException("Exception happened!", 'w', "Board_Representation.h", 39, "AddToDeathList", INVALID_PIECE_ID);
-					else
-						s_deathList.emplace_back(figure);
-				}
-				catch (PaleEngineException& exception) {
-					if (exception.GetType() == 'e')
-						PALE_ENGINE_ERROR("{0}[{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-					else if (exception.GetType() == 'w')
-						PALE_ENGINE_WARN("{0}[{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-
-					std::cin.get();
-				}
-			}
 
 			inline unsigned int GetRowNumber() const { return _row; }
 			inline unsigned int GetColumnNumber() const { return _column; }
@@ -121,7 +108,6 @@ namespace Pale {
 			unsigned int _row, _column;
 			std::vector<std::vector<T>> _board;
 			BOARD_TYPE _representationType; //Type of data which is used for representing board situation.
-			static std::vector<int> s_deathList; //List which holds captured pieces. 
 		};
 
 		template<typename T>
@@ -374,6 +360,23 @@ namespace Pale {
 					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
 
 				std::cin.get(); 
+			}
+		}
+
+		static void AddToDeathList(int figure) {
+			try {
+				if (figure > 7 || figure == 6 || figure < -7 || figure == -6)
+					throw PaleEngineException("Exception happened!", 'w', "Board_Representation.h", 39, "AddToDeathList", INVALID_PIECE_ID);
+				else
+					s_deathList.emplace_back(figure);
+			}
+			catch (PaleEngineException& exception) {
+				if (exception.GetType() == 'e')
+					PALE_ENGINE_ERROR("{0}[{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+				else if (exception.GetType() == 'w')
+					PALE_ENGINE_WARN("{0}[{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+
+				std::cin.get();
 			}
 		}
 	}
