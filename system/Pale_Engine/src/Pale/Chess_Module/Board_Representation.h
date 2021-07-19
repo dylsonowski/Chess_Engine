@@ -141,6 +141,11 @@ namespace Pale {
 
 					if (piece.SpecialLogic(command.m_moveType, command.m_endPos, _board, command.m_newPiece)) {
 						PALE_ENGINE_INFO("Move was successfully made.");
+						if (command.m_capture) {
+							AddToDeathList(_board.at(command.m_endPos.first).at(command.m_endPos.second)->GetValue());
+							_board.at(command.m_endPos.first).at(command.m_endPos.second) = std::make_shared<Blank>(command.m_endPos.first, command.m_endPos.second); //If capture set plate to blank
+						}
+
 						piece.ExecuteSpecialMove();
 					}
 					break;
@@ -238,7 +243,8 @@ namespace Pale {
 						endY = startY - 1;
 
 					processedMove.m_newPiece = std::toupper(move[5]);
-					processedMove.m_capture = false;
+					if (board.GetPlateValue(endY, endX)->GetOwner() != whichTurn && board.GetPlateValue(endY, endX)->GetOwner() != OWNERS::NONE)
+						processedMove.m_capture = true;
 				}
 				//--- En passant move. Format := P<starting_cords>x<x_ending_cords> ---//
 				else if (move.find("x") != std::string::npos) {
@@ -373,7 +379,7 @@ namespace Pale {
 					default: PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 231, "ProcessMoveCommand", MOVE_COMMAND__COORDINATE_OUT_OF_RANGE); break;
 					}
 
-					if (board.GetPlateValue(endY, endX)->GetOwner() != whichTurn)
+					if (board.GetPlateValue(endY, endX)->GetOwner() != whichTurn && board.GetPlateValue(endY, endX)->GetOwner() != OWNERS::NONE)
 						processedMove.m_capture = true;
 				}
 

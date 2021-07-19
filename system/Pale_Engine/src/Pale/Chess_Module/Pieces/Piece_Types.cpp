@@ -231,7 +231,6 @@ namespace Pale {
 				}
 			}
 			//todo: Check if work properly
-			//important INVESTIGATE!
 			return canPerform;
 		}
 		
@@ -366,26 +365,6 @@ namespace Pale {
 						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::CASTLING, 'K', _owner, false, _positionCords, std::make_pair(_positionCords.first, _positionCords.second + 2)));
 				}
 			}
-			/*if (_owner == OWNERS::BLACK && _positionCords == Piece_Starting_Positions::m_kingStartPos.first.at(0) && _firstMove) { //Castling for black site
-				if (board.at(Piece_Starting_Positions::m_rookStartPos.first.at(0).first).at(Piece_Starting_Positions::m_rookStartPos.first.at(0).second)->GetValue() == -2) { //Long castling
-					//--- Left rook didnt move & path is clear ---//
-					if (std::static_pointer_cast<Rook>(board.at(Piece_Starting_Positions::m_rookStartPos.first.at(0).first).at(Piece_Starting_Positions::m_rookStartPos.first.at(0).second))->DidNotMove() &&
-						IsPathClear(_positionCords, Piece_Starting_Positions::m_rookStartPos.first.at(0), board)) {
-						//--- Move cannot put king under check ---//
-						std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
-						std::shared_ptr<Castling> tempSpecialStrategy = std::make_shared<Castling>(_positionCords, Piece_Starting_Positions::m_rookStartPos.first.at(0), tempBoard);
-						tempSpecialStrategy->Execute();
-						if (KingIsChecked(tempBoard, _owner))
-							tempMoveList.emplace_back(Move_Command())
-					}
-				}
-				else if (board.at(Piece_Starting_Positions::m_rookStartPos.first.at(1).first).at(Piece_Starting_Positions::m_rookStartPos.first.at(1).second)->GetValue() == -2) { //Short castling
-
-				}
-			}
-			else if ((_owner == OWNERS::WHITE && _positionCords == Piece_Starting_Positions::m_kingStartPos.second.at(0) && _firstMove)) { //Castling for white site
-
-			}*/
 
 			PALE_ENGINE_TRACE("Number of moves for piece on cordinats ({0}, {1}): {2}", _positionCords.first, _positionCords.second, tempMoveList.size());
 			return tempMoveList;
@@ -491,110 +470,156 @@ namespace Pale {
 						tempBoard.at(_positionCords.first - it).at(_positionCords.second) = tempBoard.at(_positionCords.first).at(_positionCords.second);
 						tempBoard.at(_positionCords.first).at(_positionCords.second) = std::make_shared<Blank>(_positionCords.first, _positionCords.second);
 						if (!KingIsChecked(tempBoard, _owner)) {
-							if (board.at(_positionCords.first - it).at(_positionCords.second)->GetOwner() != OWNERS::NONE)
-								tempBoard.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'Q', _owner, true, _positionCords, std::make_pair(_positionCords.first - it, _positionCords.second)));
+							if (board.at(_positionCords.first - it).at(_positionCords.second)->GetOwner() != OWNERS::NONE) {
+								tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'Q', _owner, true, _positionCords, std::make_pair(_positionCords.first - it, _positionCords.second)));
+								break;
+							}
 							else
-								tempBoard.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'Q', _owner, false, _positionCords, std::make_pair(_positionCords.first - it, _positionCords.second)));
+								tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'Q', _owner, false, _positionCords, std::make_pair(_positionCords.first - it, _positionCords.second)));
 						}
 					}
+					else
+						break;
 				}
+			}
 
+			for (int it = 1; it < board.size(); it++) {
 				if (_positionCords.first - it >= 0 && _positionCords.second + it < board.size()) { //Move north-east
 					if (board.at(_positionCords.first - it).at(_positionCords.second + it)->GetOwner() != _owner) {
 						std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
 						tempBoard.at(_positionCords.first - it).at(_positionCords.second + it) = tempBoard.at(_positionCords.first).at(_positionCords.second);
 						tempBoard.at(_positionCords.first).at(_positionCords.second) = std::make_shared<Blank>(_positionCords.first, _positionCords.second);
 						if (!KingIsChecked(tempBoard, _owner)) {
-							if (board.at(_positionCords.first - it).at(_positionCords.second + it)->GetOwner() != OWNERS::NONE)
-								tempBoard.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'Q', _owner, true, _positionCords, std::make_pair(_positionCords.first - it, _positionCords.second + it)));
+							if (board.at(_positionCords.first - it).at(_positionCords.second + it)->GetOwner() != OWNERS::NONE) {
+								tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'Q', _owner, true, _positionCords, std::make_pair(_positionCords.first - it, _positionCords.second + it)));
+								break;
+							}
 							else
-								tempBoard.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'Q', _owner, false, _positionCords, std::make_pair(_positionCords.first - it, _positionCords.second + it)));
+								tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'Q', _owner, false, _positionCords, std::make_pair(_positionCords.first - it, _positionCords.second + it)));
 						}
 					}
+					else
+						break;
 				}
+			}
 
+			for (int it = 1; it < board.size(); it++) {
 				if (_positionCords.second + it < board.size()) { //Move east
 					if (board.at(_positionCords.first).at(_positionCords.second + it)->GetOwner() != _owner) {
 						std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
 						tempBoard.at(_positionCords.first).at(_positionCords.second + it) = tempBoard.at(_positionCords.first).at(_positionCords.second);
 						tempBoard.at(_positionCords.first).at(_positionCords.second) = std::make_shared<Blank>(_positionCords.first, _positionCords.second);
 						if (!KingIsChecked(tempBoard, _owner)) {
-							if (board.at(_positionCords.first).at(_positionCords.second + it)->GetOwner() != OWNERS::NONE)
-								tempBoard.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'Q', _owner, true, _positionCords, std::make_pair(_positionCords.first, _positionCords.second + it)));
+							if (board.at(_positionCords.first).at(_positionCords.second + it)->GetOwner() != OWNERS::NONE) {
+								tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'Q', _owner, true, _positionCords, std::make_pair(_positionCords.first, _positionCords.second + it)));
+								break;
+							}
 							else
-								tempBoard.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'Q', _owner, false, _positionCords, std::make_pair(_positionCords.first, _positionCords.second + it)));
+								tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'Q', _owner, false, _positionCords, std::make_pair(_positionCords.first, _positionCords.second + it)));
 						}
 					}
+					else
+						break;
 				}
+			}
 
+			for (int it = 1; it < board.size(); it++) {
 				if (_positionCords.first + it < board.size() && _positionCords.second + it < board.size()) { //Move south-east
 					if (board.at(_positionCords.first + it).at(_positionCords.second + it)->GetOwner() != _owner) {
 						std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
 						tempBoard.at(_positionCords.first + it).at(_positionCords.second + it) = tempBoard.at(_positionCords.first).at(_positionCords.second);
 						tempBoard.at(_positionCords.first).at(_positionCords.second) = std::make_shared<Blank>(_positionCords.first, _positionCords.second);
 						if (!KingIsChecked(tempBoard, _owner)) {
-							if (board.at(_positionCords.first + it).at(_positionCords.second + it)->GetOwner() != OWNERS::NONE)
-								tempBoard.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'Q', _owner, true, _positionCords, std::make_pair(_positionCords.first + it, _positionCords.second + it)));
+							if (board.at(_positionCords.first + it).at(_positionCords.second + it)->GetOwner() != OWNERS::NONE) {
+								tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'Q', _owner, true, _positionCords, std::make_pair(_positionCords.first + it, _positionCords.second + it)));
+								break;
+							}
 							else
-								tempBoard.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'Q', _owner, false, _positionCords, std::make_pair(_positionCords.first + it, _positionCords.second + it)));
+								tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'Q', _owner, false, _positionCords, std::make_pair(_positionCords.first + it, _positionCords.second + it)));
 						}
 					}
+					else
+						break;
 				}
+			}
 
+			for (int it = 1; it < board.size(); it++) {
 				if (_positionCords.first + it < board.size()) { //Move south
 					if (board.at(_positionCords.first + it).at(_positionCords.second)->GetOwner() != _owner) {
 						std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
 						tempBoard.at(_positionCords.first + it).at(_positionCords.second) = tempBoard.at(_positionCords.first).at(_positionCords.second);
 						tempBoard.at(_positionCords.first).at(_positionCords.second) = std::make_shared<Blank>(_positionCords.first, _positionCords.second);
 						if (!KingIsChecked(tempBoard, _owner)) {
-							if (board.at(_positionCords.first + it).at(_positionCords.second)->GetOwner() != OWNERS::NONE)
-								tempBoard.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'Q', _owner, true, _positionCords, std::make_pair(_positionCords.first + it, _positionCords.second)));
+							if (board.at(_positionCords.first + it).at(_positionCords.second)->GetOwner() != OWNERS::NONE) {
+								tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'Q', _owner, true, _positionCords, std::make_pair(_positionCords.first + it, _positionCords.second)));
+								break;
+							}
 							else
-								tempBoard.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'Q', _owner, false, _positionCords, std::make_pair(_positionCords.first + it, _positionCords.second)));
+								tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'Q', _owner, false, _positionCords, std::make_pair(_positionCords.first + it, _positionCords.second)));
 						}
 					}
+					else
+						break;
 				}
+			}
 
+			for (int it = 1; it < board.size(); it++) {
 				if (_positionCords.first + it < board.size() && _positionCords.second - it >= 0) { //Move south-west
 					if (board.at(_positionCords.first + it).at(_positionCords.second - it)->GetOwner() != _owner) {
 						std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
 						tempBoard.at(_positionCords.first + it).at(_positionCords.second - it) = tempBoard.at(_positionCords.first).at(_positionCords.second);
 						tempBoard.at(_positionCords.first).at(_positionCords.second) = std::make_shared<Blank>(_positionCords.first, _positionCords.second);
 						if (!KingIsChecked(tempBoard, _owner)) {
-							if (board.at(_positionCords.first - it).at(_positionCords.second)->GetOwner() != OWNERS::NONE)
-								tempBoard.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'Q', _owner, true, _positionCords, std::make_pair(_positionCords.first + it, _positionCords.second - it)));
+							if (board.at(_positionCords.first - it).at(_positionCords.second)->GetOwner() != OWNERS::NONE) {
+								tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'Q', _owner, true, _positionCords, std::make_pair(_positionCords.first + it, _positionCords.second - it)));
+								break;
+							}
 							else
-								tempBoard.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'Q', _owner, false, _positionCords, std::make_pair(_positionCords.first + it, _positionCords.second - it)));
+								tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'Q', _owner, false, _positionCords, std::make_pair(_positionCords.first + it, _positionCords.second - it)));
 						}
 					}
+					else
+						break;
 				}
+			}
 
+			for (int it = 1; it < board.size(); it++) {
 				if (_positionCords.second - it >= 0) { //Move west
 					if (board.at(_positionCords.first).at(_positionCords.second - it)->GetOwner() != _owner) {
 						std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
 						tempBoard.at(_positionCords.first).at(_positionCords.second - it) = tempBoard.at(_positionCords.first).at(_positionCords.second);
 						tempBoard.at(_positionCords.first).at(_positionCords.second) = std::make_shared<Blank>(_positionCords.first, _positionCords.second);
 						if (!KingIsChecked(tempBoard, _owner)) {
-							if (board.at(_positionCords.first).at(_positionCords.second - it)->GetOwner() != OWNERS::NONE)
-								tempBoard.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'Q', _owner, true, _positionCords, std::make_pair(_positionCords.first, _positionCords.second - it)));
+							if (board.at(_positionCords.first).at(_positionCords.second - it)->GetOwner() != OWNERS::NONE) {
+								tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'Q', _owner, true, _positionCords, std::make_pair(_positionCords.first, _positionCords.second - it)));
+								break;
+							}
 							else
-								tempBoard.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'Q', _owner, false, _positionCords, std::make_pair(_positionCords.first, _positionCords.second - it)));
+								tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'Q', _owner, false, _positionCords, std::make_pair(_positionCords.first, _positionCords.second - it)));
 						}
 					}
+					else
+						break;
 				}
+			}
 
+			for (int it = 1; it < board.size(); it++) {
 				if (_positionCords.first - it >= 0 && _positionCords.second - it >= 0) { //Move north-west
 					if (board.at(_positionCords.first - it).at(_positionCords.second - it)->GetOwner() != _owner) {
 						std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
 						tempBoard.at(_positionCords.first - it).at(_positionCords.second - it) = tempBoard.at(_positionCords.first).at(_positionCords.second);
 						tempBoard.at(_positionCords.first).at(_positionCords.second) = std::make_shared<Blank>(_positionCords.first, _positionCords.second);
 						if (!KingIsChecked(tempBoard, _owner)) {
-							if (board.at(_positionCords.first - it).at(_positionCords.second - it)->GetOwner() != OWNERS::NONE)
-								tempBoard.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'Q', _owner, true, _positionCords, std::make_pair(_positionCords.first - it, _positionCords.second - it)));
+							if (board.at(_positionCords.first - it).at(_positionCords.second - it)->GetOwner() != OWNERS::NONE) {
+								tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'Q', _owner, true, _positionCords, std::make_pair(_positionCords.first - it, _positionCords.second - it)));
+								break;
+							}
 							else
-								tempBoard.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'Q', _owner, false, _positionCords, std::make_pair(_positionCords.first - it, _positionCords.second - it)));
+								tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'Q', _owner, false, _positionCords, std::make_pair(_positionCords.first - it, _positionCords.second - it)));
 						}
 					}
+					else
+						break;
 				}
 			}
 
@@ -701,54 +726,76 @@ namespace Pale {
 						tempBoard.at(_positionCords.first - it).at(_positionCords.second + it) = tempBoard.at(_positionCords.first).at(_positionCords.second);
 						tempBoard.at(_positionCords.first).at(_positionCords.second) = std::make_shared<Blank>(_positionCords.first, _positionCords.second);
 						if (!KingIsChecked(tempBoard, _owner)) {
-							if (board.at(_positionCords.first - it).at(_positionCords.second + it)->GetOwner() != OWNERS::NONE)
-								tempBoard.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'B', _owner, true, _positionCords, std::make_pair(_positionCords.first - it, _positionCords.second + it)));
+							if (board.at(_positionCords.first - it).at(_positionCords.second + it)->GetOwner() != OWNERS::NONE) {
+								tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'B', _owner, true, _positionCords, std::make_pair(_positionCords.first - it, _positionCords.second + it)));
+								break;
+							}
 							else
-								tempBoard.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'B', _owner, false, _positionCords, std::make_pair(_positionCords.first - it, _positionCords.second + it)));
+								tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'B', _owner, false, _positionCords, std::make_pair(_positionCords.first - it, _positionCords.second + it)));
 						}
 					}
+					else
+						break;
 				}
+			}
 
+			for (int it = 1; it < board.size(); it++) {
 				if (_positionCords.first + it < board.size() && _positionCords.second + it < board.size()) { //Move south-east
 					if (board.at(_positionCords.first + it).at(_positionCords.second + it)->GetOwner() != _owner) {
 						std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
 						tempBoard.at(_positionCords.first + it).at(_positionCords.second + it) = tempBoard.at(_positionCords.first).at(_positionCords.second);
 						tempBoard.at(_positionCords.first).at(_positionCords.second) = std::make_shared<Blank>(_positionCords.first, _positionCords.second);
 						if (!KingIsChecked(tempBoard, _owner)) {
-							if (board.at(_positionCords.first + it).at(_positionCords.second + it)->GetOwner() != OWNERS::NONE)
-								tempBoard.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'B', _owner, true, _positionCords, std::make_pair(_positionCords.first + it, _positionCords.second + it)));
+							if (board.at(_positionCords.first + it).at(_positionCords.second + it)->GetOwner() != OWNERS::NONE) {
+								tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'B', _owner, true, _positionCords, std::make_pair(_positionCords.first + it, _positionCords.second + it)));
+								break;
+							}
 							else
-								tempBoard.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'B', _owner, false, _positionCords, std::make_pair(_positionCords.first + it, _positionCords.second + it)));
+								tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'B', _owner, false, _positionCords, std::make_pair(_positionCords.first + it, _positionCords.second + it)));
 						}
 					}
+					else
+						break;
 				}
+			}
 
+			for (int it = 1; it < board.size(); it++) {
 				if (_positionCords.first + it < board.size() && _positionCords.second - it >= 0) { //Move south-west
 					if (board.at(_positionCords.first + it).at(_positionCords.second - it)->GetOwner() != _owner) {
 						std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
 						tempBoard.at(_positionCords.first + it).at(_positionCords.second - it) = tempBoard.at(_positionCords.first).at(_positionCords.second);
 						tempBoard.at(_positionCords.first).at(_positionCords.second) = std::make_shared<Blank>(_positionCords.first, _positionCords.second);
 						if (!KingIsChecked(tempBoard, _owner)) {
-							if (board.at(_positionCords.first + it).at(_positionCords.second - it)->GetOwner() != OWNERS::NONE)
-								tempBoard.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'B', _owner, true, _positionCords, std::make_pair(_positionCords.first + it, _positionCords.second - it)));
+							if (board.at(_positionCords.first + it).at(_positionCords.second - it)->GetOwner() != OWNERS::NONE) {
+								tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'B', _owner, true, _positionCords, std::make_pair(_positionCords.first + it, _positionCords.second - it)));
+								break;
+							}
 							else
-								tempBoard.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'B', _owner, false, _positionCords, std::make_pair(_positionCords.first + it, _positionCords.second - it)));
+								tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'B', _owner, false, _positionCords, std::make_pair(_positionCords.first + it, _positionCords.second - it)));
 						}
 					}
+					else
+						break;
 				}
+			}
 
+			for (int it = 1; it < board.size(); it++) {
 				if (_positionCords.first - it >= 0 && _positionCords.second - it >= 0) { //Move north-west
 					if (board.at(_positionCords.first - it).at(_positionCords.second - it)->GetOwner() != _owner) {
 						std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
 						tempBoard.at(_positionCords.first - it).at(_positionCords.second - it) = tempBoard.at(_positionCords.first).at(_positionCords.second);
 						tempBoard.at(_positionCords.first).at(_positionCords.second) = std::make_shared<Blank>(_positionCords.first, _positionCords.second);
 						if (!KingIsChecked(tempBoard, _owner)) {
-							if (board.at(_positionCords.first - it).at(_positionCords.second - it)->GetOwner() != OWNERS::NONE)
-								tempBoard.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'B', _owner, true, _positionCords, std::make_pair(_positionCords.first - it, _positionCords.second - it)));
+							if (board.at(_positionCords.first - it).at(_positionCords.second - it)->GetOwner() != OWNERS::NONE) {
+								tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'B', _owner, true, _positionCords, std::make_pair(_positionCords.first - it, _positionCords.second - it)));
+								break;
+							}
 							else
-								tempBoard.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'B', _owner, false, _positionCords, std::make_pair(_positionCords.first - it, _positionCords.second - it)));
+								tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'B', _owner, false, _positionCords, std::make_pair(_positionCords.first - it, _positionCords.second - it)));
 						}
 					}
+					else
+						break;
 				}
 			}
 
@@ -1194,8 +1241,102 @@ namespace Pale {
 		std::vector<Move_Command> Rook::GenerateLegitMoves(std::vector<std::vector<std::shared_ptr<Pieces>>>& board) {
 			std::vector<Move_Command> tempMoveList;
 			//--- Traditional moves ---//
+			for (int it = 1; it < board.size(); it++) { 
+				if (_positionCords.first - it >= 0) { //Move north
+					if (board.at(_positionCords.first - it).at(_positionCords.second)->GetOwner() != _owner) {
+						std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
+						tempBoard.at(_positionCords.first - it).at(_positionCords.second) = tempBoard.at(_positionCords.first).at(_positionCords.second);
+						tempBoard.at(_positionCords.first).at(_positionCords.second) = std::make_shared<Blank>(_positionCords.first, _positionCords.second);
+						if (!KingIsChecked(tempBoard, _owner)) {
+							if (board.at(_positionCords.first - it).at(_positionCords.second)->GetOwner() != OWNERS::NONE) {
+								tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'N', _owner, true, _positionCords, std::make_pair(_positionCords.first - it, _positionCords.second)));
+								break;
+							}
+							else
+								tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'R', _owner, false, _positionCords, std::make_pair(_positionCords.first - it, _positionCords.second)));
+						}
+					}
+					else
+						break;
+				}
+			}
+
+			for (int it = 1; it < board.size(); it++) {
+				if (_positionCords.second + it < board.size()) { //Move east
+					if (board.at(_positionCords.first).at(_positionCords.second + it)->GetOwner() != _owner) {
+						std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
+						tempBoard.at(_positionCords.first).at(_positionCords.second + it) = tempBoard.at(_positionCords.first).at(_positionCords.second);
+						tempBoard.at(_positionCords.first).at(_positionCords.second) = std::make_shared<Blank>(_positionCords.first, _positionCords.second);
+						if (!KingIsChecked(tempBoard, _owner)) {
+							if (board.at(_positionCords.first).at(_positionCords.second + it)->GetOwner() != OWNERS::NONE) {
+								tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'N', _owner, true, _positionCords, std::make_pair(_positionCords.first, _positionCords.second + it)));
+								break;
+							}
+							else
+								tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'R', _owner, false, _positionCords, std::make_pair(_positionCords.first, _positionCords.second + it)));
+						}
+					}
+					else
+						break;
+				}
+			}
+
+			for (int it = 1; it < board.size(); it++) {
+				if (_positionCords.first + it < board.size()) { //Move south
+					if (board.at(_positionCords.first + it).at(_positionCords.second)->GetOwner() != _owner) {
+						std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
+						tempBoard.at(_positionCords.first + it).at(_positionCords.second) = tempBoard.at(_positionCords.first).at(_positionCords.second);
+						tempBoard.at(_positionCords.first).at(_positionCords.second) = std::make_shared<Blank>(_positionCords.first, _positionCords.second);
+						if (!KingIsChecked(tempBoard, _owner)) {
+							if (board.at(_positionCords.first + it).at(_positionCords.second)->GetOwner() != OWNERS::NONE) {
+								tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'N', _owner, true, _positionCords, std::make_pair(_positionCords.first + it, _positionCords.second)));
+								break;
+							}
+							else
+								tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'R', _owner, false, _positionCords, std::make_pair(_positionCords.first + it, _positionCords.second)));
+						}
+					}
+					else
+						break;
+				}
+			}
+
+			for (int it = 1; it < board.size(); it++) {
+				if (_positionCords.second - it >= 0) { //Move west
+					if (board.at(_positionCords.first).at(_positionCords.second - it)->GetOwner() != _owner) {
+						std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
+						tempBoard.at(_positionCords.first).at(_positionCords.second - it) = tempBoard.at(_positionCords.first).at(_positionCords.second);
+						tempBoard.at(_positionCords.first).at(_positionCords.second) = std::make_shared<Blank>(_positionCords.first, _positionCords.second);
+						if (!KingIsChecked(tempBoard, _owner)) {
+							if (board.at(_positionCords.first).at(_positionCords.second - it)->GetOwner() != OWNERS::NONE) {
+								tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'N', _owner, true, _positionCords, std::make_pair(_positionCords.first, _positionCords.second - it)));
+								break;
+							}
+							else
+								tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'R', _owner, false, _positionCords, std::make_pair(_positionCords.first, _positionCords.second - it)));
+						}
+					}
+					else
+						break;
+				}
+			}
 
 			//--- Special moves ---//
+			if (_positionCords.second + 4 < board.size()) { //Long castling
+				if (SpecialLogic(MOVE_TYPES::CASTLING, std::make_pair(_positionCords.first, _positionCords.second + 3), board, std::optional<char>()) &&
+					abs(board.at(_positionCords.first).at(_positionCords.second + 4)->GetValue()) == 7) {
+					if (board.at(_positionCords.first).at(_positionCords.second + 4)->SpecialLogic(MOVE_TYPES::CASTLING, std::make_pair(_positionCords.first, _positionCords.second + 2), board, std::optional<char>()))
+						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::CASTLING, 'R', _owner, false, _positionCords, std::make_pair(_positionCords.first, _positionCords.second + 3)));
+				}
+			}
+
+			if (_positionCords.second - 3 >= 0) { //Short castling
+				if (SpecialLogic(MOVE_TYPES::CASTLING, std::make_pair(_positionCords.first, _positionCords.second - 2), board, std::optional<char>()) &&
+					abs(board.at(_positionCords.first).at(_positionCords.second - 3)->GetValue()) == 7) {
+					if (board.at(_positionCords.first).at(_positionCords.second - 3)->SpecialLogic(MOVE_TYPES::CASTLING, std::make_pair(_positionCords.first, _positionCords.second - 1), board, std::optional<char>()))
+						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::CASTLING, 'R', _owner, false, _positionCords, std::make_pair(_positionCords.first, _positionCords.second - 2)));
+				}
+			}
 
 			PALE_ENGINE_TRACE("Number of moves for piece on cordinats ({0}, {1}): {2}", _positionCords.first, _positionCords.second, tempMoveList.size());
 			return tempMoveList;
@@ -1299,15 +1440,22 @@ namespace Pale {
 						canPerform = false;
 				}
 
-				//--- Pawn can move only lineary ---//
+				//--- To perform promotion target block cannot be occupied by same color piece ---//
 				if (canPerform) {
-					if (abs(static_cast<int>(_positionCords.second) - static_cast<int>(endPos.second)) != 0)
+					if (board.at(endPos.first).at(endPos.second)->GetOwner() == _owner)
+						canPerform = false;
+				}
+
+				//--- Diagonal promotion can be perform only if pawn capture another piece ---//
+				if (canPerform) {
+					if (abs(static_cast<int>(_positionCords.first) - static_cast<int>(endPos.first)) == abs(static_cast<int>(_positionCords.second) - static_cast<int>(endPos.second)) &&
+						board.at(endPos.first).at(endPos.second)->GetOwner() == OWNERS::NONE)
 						canPerform = false;
 				}
 				
-				//--- To perform promotion target block needs to be empty ---//
+				//--- To perform promotion target LINEAR block needs to be empty ---//
 				if (canPerform) {
-					if (board.at(endPos.first).at(endPos.second)->GetValue() != 0)
+					if (abs(static_cast<int>(_positionCords.second) - static_cast<int>(endPos.second)) == 0 && board.at(endPos.first).at(endPos.second)->GetValue() != 0)
 						canPerform = false;
 				}
 
@@ -1372,6 +1520,237 @@ namespace Pale {
 			}
 			//todo: Check if work properly
 			return canPerform;
+		}
+
+		std::vector<Move_Command> Pawn::GenerateLegitMoves(std::vector<std::vector<std::shared_ptr<Pieces>>>& board) {
+			std::vector<Move_Command> tempMoveList;
+			//--- Traditional moves ---//
+			//--- Non capturing moves ---//
+			if (_owner == OWNERS::BLACK && _positionCords.first + 2 < board.size()) { //First move by 2 steps (BLACK)
+				if (_firstMove && board.at(_positionCords.first + 2).at(_positionCords.second)->GetOwner() == OWNERS::NONE && 
+					board.at(_positionCords.first + 1).at(_positionCords.second)->GetOwner() == OWNERS::NONE) {
+					std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
+					tempBoard.at(_positionCords.first + 2).at(_positionCords.second) = tempBoard.at(_positionCords.first).at(_positionCords.second);
+					tempBoard.at(_positionCords.first).at(_positionCords.second) = std::make_shared<Blank>(_positionCords.first, _positionCords.second);
+					if (!KingIsChecked(tempBoard, _owner))
+						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'P', _owner, false, _positionCords, std::make_pair(_positionCords.first + 2, _positionCords.second)));
+				}
+			}
+			else if (_owner == OWNERS::WHITE && _positionCords.first - 2 >= 0) { //First move by 2 steps (WHITE)
+				if (_firstMove && board.at(_positionCords.first - 2).at(_positionCords.second)->GetOwner() == OWNERS::NONE &&
+					board.at(_positionCords.first - 1).at(_positionCords.second)->GetOwner() == OWNERS::NONE) {
+					std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
+					tempBoard.at(_positionCords.first - 2).at(_positionCords.second) = tempBoard.at(_positionCords.first).at(_positionCords.second);
+					tempBoard.at(_positionCords.first).at(_positionCords.second) = std::make_shared<Blank>(_positionCords.first, _positionCords.second);
+					if (!KingIsChecked(tempBoard, _owner))
+						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'P', _owner, false, _positionCords, std::make_pair(_positionCords.first - 2, _positionCords.second)));
+				}
+			}
+
+			if (_owner == OWNERS::BLACK && _positionCords.first + 1 < board.size()) { //Traditional move by 1 steps (BLACK)
+				if (board.at(_positionCords.first + 1).at(_positionCords.second)->GetOwner() == OWNERS::NONE) {
+					std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
+					tempBoard.at(_positionCords.first + 1).at(_positionCords.second) = tempBoard.at(_positionCords.first).at(_positionCords.second);
+					tempBoard.at(_positionCords.first).at(_positionCords.second) = std::make_shared<Blank>(_positionCords.first, _positionCords.second);
+					if (!KingIsChecked(tempBoard, _owner))
+						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'P', _owner, false, _positionCords, std::make_pair(_positionCords.first + 1, _positionCords.second)));
+				}
+			}
+			else if (_owner == OWNERS::WHITE && _positionCords.first - 1 >= 0) { //Traditional move by 1 steps (WHITE)
+				if (board.at(_positionCords.first - 1).at(_positionCords.second)->GetOwner() == OWNERS::NONE) {
+					std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
+					tempBoard.at(_positionCords.first - 1).at(_positionCords.second) = tempBoard.at(_positionCords.first).at(_positionCords.second);
+					tempBoard.at(_positionCords.first).at(_positionCords.second) = std::make_shared<Blank>(_positionCords.first, _positionCords.second);
+					if (!KingIsChecked(tempBoard, _owner))
+						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'P', _owner, false, _positionCords, std::make_pair(_positionCords.first - 1, _positionCords.second)));
+				}
+			}
+
+			//--- Capturing moves ---//
+			if (_positionCords.second + 1 < board.size()) {
+				if (_owner == OWNERS::BLACK && _positionCords.first + 1 < board.size()) { //Right capturing move (BLACK)
+					if (board.at(_positionCords.first + 1).at(_positionCords.second + 1)->GetOwner() != _owner && 
+						board.at(_positionCords.first + 1).at(_positionCords.second + 1)->GetOwner() != OWNERS::NONE) {
+						std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
+						tempBoard.at(_positionCords.first + 1).at(_positionCords.second + 1) = tempBoard.at(_positionCords.first).at(_positionCords.second);
+						tempBoard.at(_positionCords.first).at(_positionCords.second) = std::make_shared<Blank>(_positionCords.first, _positionCords.second);
+						if (!KingIsChecked(tempBoard, _owner))
+							tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'P', _owner, true, _positionCords, std::make_pair(_positionCords.first + 1, _positionCords.second + 1)));
+					}
+				}
+				else if (_owner == OWNERS::WHITE && _positionCords.first - 1 >= 0) { //Right capturing move (WHITE)
+					if (board.at(_positionCords.first - 1).at(_positionCords.second + 1)->GetOwner() != _owner &&
+						board.at(_positionCords.first - 1).at(_positionCords.second + 1)->GetOwner() != OWNERS::NONE) {
+						std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
+						tempBoard.at(_positionCords.first - 1).at(_positionCords.second + 1) = tempBoard.at(_positionCords.first).at(_positionCords.second);
+						tempBoard.at(_positionCords.first).at(_positionCords.second) = std::make_shared<Blank>(_positionCords.first, _positionCords.second);
+						if (!KingIsChecked(tempBoard, _owner))
+							tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'P', _owner, true, _positionCords, std::make_pair(_positionCords.first - 1, _positionCords.second + 1)));
+					}
+				}
+			}
+			else if (_positionCords.second - 1 >= 0) {
+				if (_owner == OWNERS::BLACK && _positionCords.first + 1 < board.size()) { //Left capturing move (BLACK)
+					if (board.at(_positionCords.first + 1).at(_positionCords.second - 1)->GetOwner() != _owner &&
+						board.at(_positionCords.first + 1).at(_positionCords.second - 1)->GetOwner() != OWNERS::NONE) {
+						std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
+						tempBoard.at(_positionCords.first + 1).at(_positionCords.second + 1) = tempBoard.at(_positionCords.first).at(_positionCords.second);
+						tempBoard.at(_positionCords.first).at(_positionCords.second) = std::make_shared<Blank>(_positionCords.first, _positionCords.second);
+						if (!KingIsChecked(tempBoard, _owner))
+							tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'P', _owner, true, _positionCords, std::make_pair(_positionCords.first + 1, _positionCords.second - 1)));
+					}
+				}
+				else if (_owner == OWNERS::WHITE && _positionCords.first - 1 >= 0) { //Left capturing move (WHITE)
+					if (board.at(_positionCords.first - 1).at(_positionCords.second - 1)->GetOwner() != _owner &&
+						board.at(_positionCords.first - 1).at(_positionCords.second - 1)->GetOwner() != OWNERS::NONE) {
+						std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
+						tempBoard.at(_positionCords.first - 1).at(_positionCords.second + 1) = tempBoard.at(_positionCords.first).at(_positionCords.second);
+						tempBoard.at(_positionCords.first).at(_positionCords.second) = std::make_shared<Blank>(_positionCords.first, _positionCords.second);
+						if (!KingIsChecked(tempBoard, _owner))
+							tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'P', _owner, true, _positionCords, std::make_pair(_positionCords.first - 1, _positionCords.second - 1)));
+					}
+				}
+			}
+
+			//--- Special moves ---//
+			//--- Traditional promotion ---//
+			if (_owner == OWNERS::BLACK && _positionCords.first + 1 < board.size()) { //Traditional promotion in queen (BLACK)
+				if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first + 1, _positionCords.second), board, 'Q'))
+					tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, false, _positionCords, std::make_pair(_positionCords.first + 1, _positionCords.second)));
+			}
+			else if (_owner == OWNERS::WHITE && _positionCords.first - 1 >= 0) { //Traditional promotion in queen (WHITE)
+				if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first - 1, _positionCords.second), board, 'Q'))
+					tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, false, _positionCords, std::make_pair(_positionCords.first - 1, _positionCords.second)));
+			}
+
+			if (_owner == OWNERS::BLACK && _positionCords.first + 1 < board.size()) { //Traditional promotion in bishop (BLACK)
+				if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first + 1, _positionCords.second), board, 'B'))
+					tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, false, _positionCords, std::make_pair(_positionCords.first + 1, _positionCords.second)));
+			}
+			else if (_owner == OWNERS::WHITE && _positionCords.first - 1 >= 0) { //Traditional promotion in bishop (WHITE)
+				if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first - 1, _positionCords.second), board, 'B'))
+					tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, false, _positionCords, std::make_pair(_positionCords.first - 1, _positionCords.second)));
+			}
+
+			if (_owner == OWNERS::BLACK && _positionCords.first + 1 < board.size()) { //Traditional promotion in knight (BLACK)
+				if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first + 1, _positionCords.second), board, 'N'))
+					tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, false, _positionCords, std::make_pair(_positionCords.first + 1, _positionCords.second)));
+			}
+			else if (_owner == OWNERS::WHITE && _positionCords.first - 1 >= 0) { //Traditional promotion in knight (WHITE)
+				if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first - 1, _positionCords.second), board, 'N'))
+					tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, false, _positionCords, std::make_pair(_positionCords.first - 1, _positionCords.second)));
+			}
+
+			if (_owner == OWNERS::BLACK && _positionCords.first + 1 < board.size()) { //Traditional promotion in rook (BLACK)
+				if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first + 1, _positionCords.second), board, 'R'))
+					tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, false, _positionCords, std::make_pair(_positionCords.first + 1, _positionCords.second)));
+			}
+			else if (_owner == OWNERS::WHITE && _positionCords.first - 1 >= 0) { //Traditional promotion in rook (WHITE)
+				if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first - 1, _positionCords.second), board, 'R'))
+					tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, false, _positionCords, std::make_pair(_positionCords.first - 1, _positionCords.second)));
+			}
+
+			//--- Capturing promotion ---//
+			if (_positionCords.second + 1 < board.size()) {
+				if (_owner == OWNERS::BLACK && _positionCords.first + 1 < board.size()) { //Right capturing promotion in queen (BLACK)
+					if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first + 1, _positionCords.second + 1), board, 'Q'))
+						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, true, _positionCords, std::make_pair(_positionCords.first + 1, _positionCords.second + 1)));
+				}
+				else if (_owner == OWNERS::WHITE && _positionCords.first - 1 >= 0) { //Right capturing promotion in queen (WHITE)
+					if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first - 1, _positionCords.second + 1), board, 'Q'))
+						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, true, _positionCords, std::make_pair(_positionCords.first - 1, _positionCords.second + 1)));
+				}
+
+				if (_owner == OWNERS::BLACK && _positionCords.first + 1 < board.size()) { //Right capturing promotion in bishop (BLACK)
+					if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first + 1, _positionCords.second + 1), board, 'B'))
+						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, true, _positionCords, std::make_pair(_positionCords.first + 1, _positionCords.second + 1)));
+				}
+				else if (_owner == OWNERS::WHITE && _positionCords.first - 1 >= 0) { //Right capturing promotion in bishop (WHITE)
+					if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first - 1, _positionCords.second + 1), board, 'B'))
+						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, true, _positionCords, std::make_pair(_positionCords.first - 1, _positionCords.second + 1)));
+				}
+
+				if (_owner == OWNERS::BLACK && _positionCords.first + 1 < board.size()) { //Right capturing promotion in knight (BLACK)
+					if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first + 1, _positionCords.second + 1), board, 'N'))
+						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, true, _positionCords, std::make_pair(_positionCords.first + 1, _positionCords.second + 1)));
+				}
+				else if (_owner == OWNERS::WHITE && _positionCords.first - 1 >= 0) { //Right capturing promotion in knight (WHITE)
+					if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first - 1, _positionCords.second + 1), board, 'N'))
+						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, true, _positionCords, std::make_pair(_positionCords.first - 1, _positionCords.second + 1)));
+				}
+
+				if (_owner == OWNERS::BLACK && _positionCords.first + 1 < board.size()) { //Right capturing promotion in rook (BLACK)
+					if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first + 1, _positionCords.second + 1), board, 'R'))
+						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, true, _positionCords, std::make_pair(_positionCords.first + 1, _positionCords.second + 1)));
+				}
+				else if (_owner == OWNERS::WHITE && _positionCords.first - 1 >= 0) { //Right capturing promotion in rook (WHITE)
+					if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first - 1, _positionCords.second + 1), board, 'R'))
+						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, true, _positionCords, std::make_pair(_positionCords.first - 1, _positionCords.second + 1)));
+				}
+			}
+
+			if (_positionCords.second - 1 >= 0) {
+				if (_owner == OWNERS::BLACK && _positionCords.first + 1 < board.size()) { //Left capturing promotion in queen (BLACK)
+					if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first + 1, _positionCords.second - 1), board, 'Q'))
+						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, true, _positionCords, std::make_pair(_positionCords.first + 1, _positionCords.second - 1)));
+				}
+				else if (_owner == OWNERS::WHITE && _positionCords.first - 1 >= 0) { //Left capturing promotion in queen (WHITE)
+					if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first - 1, _positionCords.second - 1), board, 'Q'))
+						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, true, _positionCords, std::make_pair(_positionCords.first - 1, _positionCords.second - 1)));
+				}
+
+				if (_owner == OWNERS::BLACK && _positionCords.first + 1 < board.size()) { //Left capturing promotion in bishop (BLACK)
+					if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first + 1, _positionCords.second - 1), board, 'B'))
+						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, true, _positionCords, std::make_pair(_positionCords.first + 1, _positionCords.second - 1)));
+				}
+				else if (_owner == OWNERS::WHITE && _positionCords.first - 1 >= 0) { //Left capturing promotion in bishop (WHITE)
+					if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first - 1, _positionCords.second - 1), board, 'B'))
+						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, true, _positionCords, std::make_pair(_positionCords.first - 1, _positionCords.second - 1)));
+				}
+
+				if (_owner == OWNERS::BLACK && _positionCords.first + 1 < board.size()) { //Left capturing promotion in knight (BLACK)
+					if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first + 1, _positionCords.second - 1), board, 'N'))
+						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, true, _positionCords, std::make_pair(_positionCords.first + 1, _positionCords.second - 1)));
+				}
+				else if (_owner == OWNERS::WHITE && _positionCords.first - 1 >= 0) { //Left capturing promotion in knight (WHITE)
+					if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first - 1, _positionCords.second - 1), board, 'N'))
+						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, true, _positionCords, std::make_pair(_positionCords.first - 1, _positionCords.second - 1)));
+				}
+
+				if (_owner == OWNERS::BLACK && _positionCords.first + 1 < board.size()) { //Left capturing promotion in rook (BLACK)
+					if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first + 1, _positionCords.second - 1), board, 'R'))
+						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, true, _positionCords, std::make_pair(_positionCords.first + 1, _positionCords.second - 1)));
+				}
+				else if (_owner == OWNERS::WHITE && _positionCords.first - 1 >= 0) { //Left capturing promotion in rook (WHITE)
+					if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first - 1, _positionCords.second - 1), board, 'R'))
+						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, true, _positionCords, std::make_pair(_positionCords.first - 1, _positionCords.second - 1)));
+				}
+			}
+
+			//--- En passant ---//
+			if (_positionCords.second + 1 < board.size()) {
+				if (_owner == OWNERS::BLACK && _positionCords.first + 1 < board.size()) { //Right en passant (BLACK)
+					if(SpecialLogic(MOVE_TYPES::EN_PASSANT, std::make_pair(_positionCords.first + 1, _positionCords.second + 1), board, std::optional<char>()))
+						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::EN_PASSANT, 'P', _owner, true, _positionCords, std::make_pair(_positionCords.first + 1, _positionCords.second + 1)));
+				}
+				else if (_owner == OWNERS::WHITE && _positionCords.first - 1 >= 0) { //Right en passant (WHITE)
+					if (SpecialLogic(MOVE_TYPES::EN_PASSANT, std::make_pair(_positionCords.first - 1, _positionCords.second + 1), board, std::optional<char>()))
+						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::EN_PASSANT, 'P', _owner, true, _positionCords, std::make_pair(_positionCords.first - 1, _positionCords.second + 1)));
+				}
+			}
+			else if (_positionCords.second - 1 >= 0) {
+				if (_owner == OWNERS::BLACK && _positionCords.first + 1 < board.size()) { //Left en passant (BLACK)
+					if (SpecialLogic(MOVE_TYPES::EN_PASSANT, std::make_pair(_positionCords.first + 1, _positionCords.second - 1), board, std::optional<char>()))
+						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::EN_PASSANT, 'P', _owner, true, _positionCords, std::make_pair(_positionCords.first + 1, _positionCords.second - 1)));
+				}
+				else if (_owner == OWNERS::WHITE && _positionCords.first - 1 >= 0) { //Left en passant (WHITE)
+					if (SpecialLogic(MOVE_TYPES::EN_PASSANT, std::make_pair(_positionCords.first - 1, _positionCords.second - 1), board, std::optional<char>()))
+						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::EN_PASSANT, 'P', _owner, true, _positionCords, std::make_pair(_positionCords.first - 1, _positionCords.second - 1)));
+				}
+			}
+
+			PALE_ENGINE_TRACE("Number of moves for piece on cordinats ({0}, {1}): {2}", _positionCords.first, _positionCords.second, tempMoveList.size());
+			return tempMoveList;
 		}
 	}
 }
