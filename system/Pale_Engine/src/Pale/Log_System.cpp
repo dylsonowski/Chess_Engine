@@ -4,6 +4,7 @@
 namespace Pale {
 	std::shared_ptr<spdlog::logger> Log_System::s_coreLogger;
 	std::shared_ptr<spdlog::logger> Log_System::s_clientLogger;
+	std::shared_ptr<spdlog::logger> Log_System::s_testsLogger;
 
 	void Log_System::Init()	{
 		spdlog::set_pattern("%^[%l] [%T] %n: %v%$");
@@ -11,6 +12,9 @@ namespace Pale {
 		s_coreLogger->set_level(spdlog::level::trace);
 
 		s_clientLogger = spdlog::stdout_color_mt("APP");
-		s_clientLogger->set_level(spdlog::level::trace);		
+		s_clientLogger->set_level(spdlog::level::trace);
+
+		s_testsLogger = spdlog::stdout_color_mt("TEST");
+		s_testsLogger->set_level(spdlog::level::trace);
 	}
 }

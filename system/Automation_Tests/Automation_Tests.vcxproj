@@ -58,7 +58,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>PLATFORM_WINDOWS;_DEBUG_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>TESTING_ENV;PLATFORM_WINDOWS;_DEBUG_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\Pale_Engine\vendor\spdlog\include;..\Pale_Engine\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
@@ -74,7 +74,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>PLATFORM_WINDOWS;_RELEASE_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>TESTING_ENV;PLATFORM_WINDOWS;_RELEASE_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\Pale_Engine\vendor\spdlog\include;..\Pale_Engine\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -91,16 +91,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Pale_Engine\Pale_Engine.vcxproj">
-      <Project>{9C61ADB4-0817-26AA-910B-2081FDBF1CAE}</Project>
-    </ProjectReference>
+    <ClInclude Include="src\Automation_Tests.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Automation_Tests.cpp" />
     <ClCompile Include="src\Test_Core.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Automation_Tests.h" />
+    <ProjectReference Include="..\Pale_Engine\Pale_Engine.vcxproj">
+      <Project>{9C61ADB4-0817-26AA-910B-2081FDBF1CAE}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

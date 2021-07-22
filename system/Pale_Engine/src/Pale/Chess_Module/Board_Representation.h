@@ -26,12 +26,13 @@ namespace Pale {
 
 		public:
 			Board_Representation() = delete;
-			Board_Representation(unsigned int row, unsigned int column);
+			Board_Representation(unsigned int row, unsigned int column, bool blankBoard);
 			~Board_Representation() = default;
 
 			void SetPlateValue(unsigned int rowIt, unsigned int columnIt, T value);
 
 			bool MovePiece(Move_Command& command, Pieces& piece);
+			inline std::vector<std::vector<T>>& GetBoardRef() { return _board; }
 			inline unsigned int GetRowNumber() const { return _row; }
 			inline unsigned int GetColumnNumber() const { return _column; }
 			inline BOARD_TYPE GetBoardType() const { return _representationType; }
@@ -58,44 +59,7 @@ namespace Pale {
 					return false;
 			}
 
-			std::string ToString() const {
-				std::stringstream ss;
-				for (int rowIt = 0; rowIt < _row; rowIt++) {
-					for (int columnIt = 0; columnIt < _column; columnIt++) {
-						if(columnIt == 0)
-							ss << "  --  ";
-						else
-							ss << " --  ";
-					}
-
-					ss << "\n";
-					for (int columnIt = 0; columnIt < _column; columnIt++) {
-						if (columnIt == _column - 1) {
-							if(_board.at(rowIt).at(columnIt)->GetValue() == 0)
-								ss << "|    |";
-							else
-								ss << "| " << _board.at(rowIt).at(columnIt)->GetName() << " |";
-						}
-						else {
-							if (_board.at(rowIt).at(columnIt)->GetValue() == 0)
-								ss << "|    ";
-							else
-								ss << "| " << _board.at(rowIt).at(columnIt)->GetName() << " ";
-						}
-					}
-
-					ss << "\n";
-					if (rowIt == _row - 1) {
-						for (int columnIt = 0; columnIt < _column; columnIt++) {
-							if (columnIt == 0)
-								ss << "  --  ";
-							else
-								ss << " --  ";
-						}
-					}
-				}
-				return ss.str();
-			}
+			std::string ToString() const;
 
 		private:
 			unsigned int _row, _column;
@@ -108,12 +72,12 @@ namespace Pale {
 			return os << data.ToString();
 		}
 
-		//--- Convertion functions ---//
+		//--- Convertion function ---//
 		template<typename D, typename T>
 		Board_Representation<D> ConvertBoard(const Board_Representation<T>& board);
 
-		template<typename T>
-		void Board_Representation<T>::SetPlateValue(unsigned int rowIt, unsigned int columnIt, T value);
+		//template<typename T>
+		//void Board_Representation<T>::SetPlateValue(unsigned int rowIt, unsigned int columnIt, T value);
 
 		template<typename T>
 		bool Board_Representation<T>::MovePiece(Move_Command& command, Pieces& piece) {

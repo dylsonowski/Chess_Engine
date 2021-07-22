@@ -37,10 +37,10 @@ enum class MOVE_TYPES {
 
 //--- Structure containing data passed by move command ---//
 struct Move_Command {
-	MOVE_TYPES m_moveType;
-	char m_piece;
-	OWNERS m_owner;
-	bool m_capture;
+	MOVE_TYPES m_moveType = MOVE_TYPES::BASIC;
+	char m_piece = 'x';
+	OWNERS m_owner = OWNERS::NONE;
+	bool m_capture = false;
 	std::pair<unsigned int, unsigned int> m_startPos, m_endPos;
 	std::optional<char> m_newPiece;
 

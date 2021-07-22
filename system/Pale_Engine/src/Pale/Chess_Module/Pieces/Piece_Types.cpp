@@ -237,7 +237,7 @@ namespace Pale {
 		std::vector<Move_Command> King::GenerateLegitMoves(std::vector<std::vector<std::shared_ptr<Pieces>>>& board) {
 			std::vector<Move_Command> tempMoveList;
 			//--- Traditional moves ---//
-			if (_positionCords.first - 1 >= 0) { //Move north
+			if (static_cast<int>(_positionCords.first - 1) >= 0) { //Move north
 				if (board.at(_positionCords.first - 1).at(_positionCords.second)->GetOwner() != _owner) {
 					std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
 					tempBoard.at(_positionCords.first - 1).at(_positionCords.second) = tempBoard.at(_positionCords.first).at(_positionCords.second);
@@ -251,7 +251,7 @@ namespace Pale {
 				}
 			}
 
-			if (_positionCords.first - 1 >= 0 && _positionCords.second + 1 < board.size()) { //Move north-east
+			if (static_cast<int>(_positionCords.first - 1) >= 0 && _positionCords.second + 1 < board.size()) { //Move north-east
 				if (board.at(_positionCords.first - 1).at(_positionCords.second + 1)->GetOwner() != _owner) {
 					std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
 					tempBoard.at(_positionCords.first - 1).at(_positionCords.second + 1) = tempBoard.at(_positionCords.first).at(_positionCords.second);
@@ -307,7 +307,7 @@ namespace Pale {
 				}
 			}
 
-			if (_positionCords.first + 1 < board.size() && _positionCords.second - 1 >= 0) { //Move south-west
+			if (_positionCords.first + 1 < board.size() && static_cast<int>(_positionCords.second - 1) >= 0) { //Move south-west
 				if (board.at(_positionCords.first + 1).at(_positionCords.second - 1)->GetOwner() != _owner) {
 					std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
 					tempBoard.at(_positionCords.first + 1).at(_positionCords.second - 1) = tempBoard.at(_positionCords.first).at(_positionCords.second);
@@ -321,7 +321,7 @@ namespace Pale {
 				}
 			}
 
-			if (_positionCords.second - 1 >= 0) { //Move west
+			if (static_cast<int>(_positionCords.second - 1) >= 0) { //Move west
 				if (board.at(_positionCords.first).at(_positionCords.second - 1)->GetOwner() != _owner) {
 					std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
 					tempBoard.at(_positionCords.first).at(_positionCords.second - 1) = tempBoard.at(_positionCords.first).at(_positionCords.second);
@@ -335,7 +335,7 @@ namespace Pale {
 				}
 			}
 
-			if (_positionCords.first - 1 >= 0 && _positionCords.second - 1 >= 0) { //Move north-west
+			if (static_cast<int>(_positionCords.first - 1) >= 0 && static_cast<int>(_positionCords.second - 1) >= 0) { //Move north-west
 				if (board.at(_positionCords.first - 1).at(_positionCords.second - 1)->GetOwner() != _owner) {
 					std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
 					tempBoard.at(_positionCords.first - 1).at(_positionCords.second - 1) = tempBoard.at(_positionCords.first).at(_positionCords.second);
@@ -350,7 +350,7 @@ namespace Pale {
 			}
 
 			//--- Special moves ---//
-			if (_positionCords.second - 4 >= 0) { //Long castling
+			if (static_cast<int>(_positionCords.second - 4) >= 0) { //Long castling
 				if (SpecialLogic(MOVE_TYPES::CASTLING, std::make_pair(_positionCords.first, _positionCords.second - 2), board, std::optional<char>()) && 
 					abs(board.at(_positionCords.first).at(_positionCords.second - 4)->GetValue()) == 2) {
 					if (board.at(_positionCords.first).at(_positionCords.second - 4)->SpecialLogic(MOVE_TYPES::CASTLING, std::make_pair(_positionCords.first, _positionCords.second - 1), board, std::optional<char>()))
@@ -464,7 +464,7 @@ namespace Pale {
 			std::vector<Move_Command> tempMoveList;
 			//--- Traditional moves ---//
 			for (int it = 1; it < board.size(); it++) {
-				if (_positionCords.first - it >= 0) { //Move north
+				if (static_cast<int>(_positionCords.first - it) >= 0) { //Move north
 					if (board.at(_positionCords.first - it).at(_positionCords.second)->GetOwner() != _owner) {
 						std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
 						tempBoard.at(_positionCords.first - it).at(_positionCords.second) = tempBoard.at(_positionCords.first).at(_positionCords.second);
@@ -484,7 +484,7 @@ namespace Pale {
 			}
 
 			for (int it = 1; it < board.size(); it++) {
-				if (_positionCords.first - it >= 0 && _positionCords.second + it < board.size()) { //Move north-east
+				if (static_cast<int>(_positionCords.first - it) >= 0 && _positionCords.second + it < board.size()) { //Move north-east
 					if (board.at(_positionCords.first - it).at(_positionCords.second + it)->GetOwner() != _owner) {
 						std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
 						tempBoard.at(_positionCords.first - it).at(_positionCords.second + it) = tempBoard.at(_positionCords.first).at(_positionCords.second);
@@ -564,7 +564,7 @@ namespace Pale {
 			}
 
 			for (int it = 1; it < board.size(); it++) {
-				if (_positionCords.first + it < board.size() && _positionCords.second - it >= 0) { //Move south-west
+				if (_positionCords.first + it < board.size() && static_cast<int>(_positionCords.second - it) >= 0) { //Move south-west
 					if (board.at(_positionCords.first + it).at(_positionCords.second - it)->GetOwner() != _owner) {
 						std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
 						tempBoard.at(_positionCords.first + it).at(_positionCords.second - it) = tempBoard.at(_positionCords.first).at(_positionCords.second);
@@ -584,7 +584,7 @@ namespace Pale {
 			}
 
 			for (int it = 1; it < board.size(); it++) {
-				if (_positionCords.second - it >= 0) { //Move west
+				if (static_cast<int>(_positionCords.second - it) >= 0) { //Move west
 					if (board.at(_positionCords.first).at(_positionCords.second - it)->GetOwner() != _owner) {
 						std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
 						tempBoard.at(_positionCords.first).at(_positionCords.second - it) = tempBoard.at(_positionCords.first).at(_positionCords.second);
@@ -604,7 +604,7 @@ namespace Pale {
 			}
 
 			for (int it = 1; it < board.size(); it++) {
-				if (_positionCords.first - it >= 0 && _positionCords.second - it >= 0) { //Move north-west
+				if (static_cast<int>(_positionCords.first - it) >= 0 && static_cast<int>(_positionCords.second - it) >= 0) { //Move north-west
 					if (board.at(_positionCords.first - it).at(_positionCords.second - it)->GetOwner() != _owner) {
 						std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
 						tempBoard.at(_positionCords.first - it).at(_positionCords.second - it) = tempBoard.at(_positionCords.first).at(_positionCords.second);
@@ -720,7 +720,7 @@ namespace Pale {
 			std::vector<Move_Command> tempMoveList;
 			//--- Traditional moves ---//
 			for (int it = 1; it < board.size(); it++) {
-				if (_positionCords.first - it >= 0 && _positionCords.second + it < board.size()) { //Move north-east
+				if (static_cast<int>(_positionCords.first - it) >= 0 && _positionCords.second + it < board.size()) { //Move north-east
 					if (board.at(_positionCords.first - it).at(_positionCords.second + it)->GetOwner() != _owner) {
 						std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
 						tempBoard.at(_positionCords.first - it).at(_positionCords.second + it) = tempBoard.at(_positionCords.first).at(_positionCords.second);
@@ -760,7 +760,7 @@ namespace Pale {
 			}
 
 			for (int it = 1; it < board.size(); it++) {
-				if (_positionCords.first + it < board.size() && _positionCords.second - it >= 0) { //Move south-west
+				if (_positionCords.first + it < board.size() && static_cast<int>(_positionCords.second - it) >= 0) { //Move south-west
 					if (board.at(_positionCords.first + it).at(_positionCords.second - it)->GetOwner() != _owner) {
 						std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
 						tempBoard.at(_positionCords.first + it).at(_positionCords.second - it) = tempBoard.at(_positionCords.first).at(_positionCords.second);
@@ -780,7 +780,7 @@ namespace Pale {
 			}
 
 			for (int it = 1; it < board.size(); it++) {
-				if (_positionCords.first - it >= 0 && _positionCords.second - it >= 0) { //Move north-west
+				if (static_cast<int>(_positionCords.first - it) >= 0 && static_cast<int>(_positionCords.second - it) >= 0) { //Move north-west
 					if (board.at(_positionCords.first - it).at(_positionCords.second - it)->GetOwner() != _owner) {
 						std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
 						tempBoard.at(_positionCords.first - it).at(_positionCords.second - it) = tempBoard.at(_positionCords.first).at(_positionCords.second);
@@ -894,7 +894,7 @@ namespace Pale {
 		std::vector<Move_Command> Knight::GenerateLegitMoves(std::vector<std::vector<std::shared_ptr<Pieces>>>& board) {
 			std::vector<Move_Command> tempMoveList;
 			//--- Traditional moves ---//
-			if (_positionCords.first - 2 >= 0 && _positionCords.second - 1 >= 0) { //Move 2 up + 1 left
+			if (static_cast<int>(_positionCords.first - 2) >= 0 && static_cast<int>(_positionCords.second - 1) >= 0) { //Move 2 up + 1 left
 				if (board.at(_positionCords.first - 2).at(_positionCords.second - 1)->GetOwner() != _owner) {
 					std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
 					tempBoard.at(_positionCords.first - 2).at(_positionCords.second - 1) = tempBoard.at(_positionCords.first).at(_positionCords.second);
@@ -908,7 +908,7 @@ namespace Pale {
 				}
 			}
 
-			if (_positionCords.first - 2 >= 0 && _positionCords.second + 1 < board.size()) { //Move 2 up + 1 right
+			if (static_cast<int>(_positionCords.first - 2) >= 0 && _positionCords.second + 1 < board.size()) { //Move 2 up + 1 right
 				if (board.at(_positionCords.first - 2).at(_positionCords.second + 1)->GetOwner() != _owner) {
 					std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
 					tempBoard.at(_positionCords.first - 2).at(_positionCords.second + 1) = tempBoard.at(_positionCords.first).at(_positionCords.second);
@@ -922,7 +922,7 @@ namespace Pale {
 				}
 			}
 
-			if (_positionCords.first - 1 >= 0 && _positionCords.second + 2 < board.size()) { //Move 1 up + 2 right
+			if (static_cast<int>(_positionCords.first - 1) >= 0 && _positionCords.second + 2 < board.size()) { //Move 1 up + 2 right
 				if (board.at(_positionCords.first - 1).at(_positionCords.second + 2)->GetOwner() != _owner) {
 					std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
 					tempBoard.at(_positionCords.first - 1).at(_positionCords.second + 2) = tempBoard.at(_positionCords.first).at(_positionCords.second);
@@ -964,7 +964,7 @@ namespace Pale {
 				}
 			}
 
-			if (_positionCords.first + 2 < board.size() && _positionCords.second - 1 >= 0) { //Move 2 down + 1 left
+			if (_positionCords.first + 2 < board.size() && static_cast<int>(_positionCords.second - 1) >= 0) { //Move 2 down + 1 left
 				if (board.at(_positionCords.first + 2).at(_positionCords.second - 1)->GetOwner() != _owner) {
 					std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
 					tempBoard.at(_positionCords.first + 2).at(_positionCords.second - 1) = tempBoard.at(_positionCords.first).at(_positionCords.second);
@@ -978,7 +978,7 @@ namespace Pale {
 				}
 			}
 
-			if (_positionCords.first + 1 < board.size() && _positionCords.second - 2 >= 0) { //Move 1 down + 2 left
+			if (_positionCords.first + 1 < board.size() && static_cast<int>(_positionCords.second - 2) >= 0) { //Move 1 down + 2 left
 				if (board.at(_positionCords.first + 1).at(_positionCords.second - 2)->GetOwner() != _owner) {
 					std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
 					tempBoard.at(_positionCords.first + 1).at(_positionCords.second - 2) = tempBoard.at(_positionCords.first).at(_positionCords.second);
@@ -992,7 +992,7 @@ namespace Pale {
 				}
 			}
 
-			if (_positionCords.first - 1 >= 0 && _positionCords.second - 2 >= 0) { //Move 1 up + 2 left
+			if (static_cast<int>(_positionCords.first - 1) >= 0 && static_cast<int>(_positionCords.second - 2) >= 0) { //Move 1 up + 2 left
 				if (board.at(_positionCords.first - 1).at(_positionCords.second - 2)->GetOwner() != _owner) {
 					std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
 					tempBoard.at(_positionCords.first - 1).at(_positionCords.second - 2) = tempBoard.at(_positionCords.first).at(_positionCords.second);
@@ -1242,7 +1242,7 @@ namespace Pale {
 			std::vector<Move_Command> tempMoveList;
 			//--- Traditional moves ---//
 			for (int it = 1; it < board.size(); it++) { 
-				if (_positionCords.first - it >= 0) { //Move north
+				if (static_cast<int>(_positionCords.first - it) >= 0) { //Move north
 					if (board.at(_positionCords.first - it).at(_positionCords.second)->GetOwner() != _owner) {
 						std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
 						tempBoard.at(_positionCords.first - it).at(_positionCords.second) = tempBoard.at(_positionCords.first).at(_positionCords.second);
@@ -1302,7 +1302,7 @@ namespace Pale {
 			}
 
 			for (int it = 1; it < board.size(); it++) {
-				if (_positionCords.second - it >= 0) { //Move west
+				if (static_cast<int>(_positionCords.second - it) >= 0) { //Move west
 					if (board.at(_positionCords.first).at(_positionCords.second - it)->GetOwner() != _owner) {
 						std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
 						tempBoard.at(_positionCords.first).at(_positionCords.second - it) = tempBoard.at(_positionCords.first).at(_positionCords.second);
@@ -1330,7 +1330,7 @@ namespace Pale {
 				}
 			}
 
-			if (_positionCords.second - 3 >= 0) { //Short castling
+			if (static_cast<int>(_positionCords.second - 3) >= 0) { //Short castling
 				if (SpecialLogic(MOVE_TYPES::CASTLING, std::make_pair(_positionCords.first, _positionCords.second - 2), board, std::optional<char>()) &&
 					abs(board.at(_positionCords.first).at(_positionCords.second - 3)->GetValue()) == 7) {
 					if (board.at(_positionCords.first).at(_positionCords.second - 3)->SpecialLogic(MOVE_TYPES::CASTLING, std::make_pair(_positionCords.first, _positionCords.second - 1), board, std::optional<char>()))
@@ -1536,7 +1536,7 @@ namespace Pale {
 						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'P', _owner, false, _positionCords, std::make_pair(_positionCords.first + 2, _positionCords.second)));
 				}
 			}
-			else if (_owner == OWNERS::WHITE && _positionCords.first - 2 >= 0) { //First move by 2 steps (WHITE)
+			else if (_owner == OWNERS::WHITE && static_cast<int>(_positionCords.first - 2) >= 0) { //First move by 2 steps (WHITE)
 				if (_firstMove && board.at(_positionCords.first - 2).at(_positionCords.second)->GetOwner() == OWNERS::NONE &&
 					board.at(_positionCords.first - 1).at(_positionCords.second)->GetOwner() == OWNERS::NONE) {
 					std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
@@ -1556,7 +1556,7 @@ namespace Pale {
 						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'P', _owner, false, _positionCords, std::make_pair(_positionCords.first + 1, _positionCords.second)));
 				}
 			}
-			else if (_owner == OWNERS::WHITE && _positionCords.first - 1 >= 0) { //Traditional move by 1 steps (WHITE)
+			else if (_owner == OWNERS::WHITE && static_cast<int>(_positionCords.first - 1) >= 0) { //Traditional move by 1 steps (WHITE)
 				if (board.at(_positionCords.first - 1).at(_positionCords.second)->GetOwner() == OWNERS::NONE) {
 					std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
 					tempBoard.at(_positionCords.first - 1).at(_positionCords.second) = tempBoard.at(_positionCords.first).at(_positionCords.second);
@@ -1578,7 +1578,7 @@ namespace Pale {
 							tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'P', _owner, true, _positionCords, std::make_pair(_positionCords.first + 1, _positionCords.second + 1)));
 					}
 				}
-				else if (_owner == OWNERS::WHITE && _positionCords.first - 1 >= 0) { //Right capturing move (WHITE)
+				else if (_owner == OWNERS::WHITE && static_cast<int>(_positionCords.first - 1) >= 0) { //Right capturing move (WHITE)
 					if (board.at(_positionCords.first - 1).at(_positionCords.second + 1)->GetOwner() != _owner &&
 						board.at(_positionCords.first - 1).at(_positionCords.second + 1)->GetOwner() != OWNERS::NONE) {
 						std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
@@ -1589,7 +1589,7 @@ namespace Pale {
 					}
 				}
 			}
-			else if (_positionCords.second - 1 >= 0) {
+			else if (static_cast<int>(_positionCords.second - 1) >= 0) {
 				if (_owner == OWNERS::BLACK && _positionCords.first + 1 < board.size()) { //Left capturing move (BLACK)
 					if (board.at(_positionCords.first + 1).at(_positionCords.second - 1)->GetOwner() != _owner &&
 						board.at(_positionCords.first + 1).at(_positionCords.second - 1)->GetOwner() != OWNERS::NONE) {
@@ -1600,7 +1600,7 @@ namespace Pale {
 							tempMoveList.emplace_back(Move_Command(MOVE_TYPES::BASIC, 'P', _owner, true, _positionCords, std::make_pair(_positionCords.first + 1, _positionCords.second - 1)));
 					}
 				}
-				else if (_owner == OWNERS::WHITE && _positionCords.first - 1 >= 0) { //Left capturing move (WHITE)
+				else if (_owner == OWNERS::WHITE && static_cast<int>(_positionCords.first - 1) >= 0) { //Left capturing move (WHITE)
 					if (board.at(_positionCords.first - 1).at(_positionCords.second - 1)->GetOwner() != _owner &&
 						board.at(_positionCords.first - 1).at(_positionCords.second - 1)->GetOwner() != OWNERS::NONE) {
 						std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = board;
@@ -1618,7 +1618,7 @@ namespace Pale {
 				if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first + 1, _positionCords.second), board, 'Q'))
 					tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, false, _positionCords, std::make_pair(_positionCords.first + 1, _positionCords.second)));
 			}
-			else if (_owner == OWNERS::WHITE && _positionCords.first - 1 >= 0) { //Traditional promotion in queen (WHITE)
+			else if (_owner == OWNERS::WHITE && static_cast<int>(_positionCords.first - 1) >= 0) { //Traditional promotion in queen (WHITE)
 				if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first - 1, _positionCords.second), board, 'Q'))
 					tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, false, _positionCords, std::make_pair(_positionCords.first - 1, _positionCords.second)));
 			}
@@ -1627,7 +1627,7 @@ namespace Pale {
 				if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first + 1, _positionCords.second), board, 'B'))
 					tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, false, _positionCords, std::make_pair(_positionCords.first + 1, _positionCords.second)));
 			}
-			else if (_owner == OWNERS::WHITE && _positionCords.first - 1 >= 0) { //Traditional promotion in bishop (WHITE)
+			else if (_owner == OWNERS::WHITE && static_cast<int>(_positionCords.first - 1) >= 0) { //Traditional promotion in bishop (WHITE)
 				if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first - 1, _positionCords.second), board, 'B'))
 					tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, false, _positionCords, std::make_pair(_positionCords.first - 1, _positionCords.second)));
 			}
@@ -1636,7 +1636,7 @@ namespace Pale {
 				if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first + 1, _positionCords.second), board, 'N'))
 					tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, false, _positionCords, std::make_pair(_positionCords.first + 1, _positionCords.second)));
 			}
-			else if (_owner == OWNERS::WHITE && _positionCords.first - 1 >= 0) { //Traditional promotion in knight (WHITE)
+			else if (_owner == OWNERS::WHITE && static_cast<int>(_positionCords.first - 1) >= 0) { //Traditional promotion in knight (WHITE)
 				if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first - 1, _positionCords.second), board, 'N'))
 					tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, false, _positionCords, std::make_pair(_positionCords.first - 1, _positionCords.second)));
 			}
@@ -1645,7 +1645,7 @@ namespace Pale {
 				if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first + 1, _positionCords.second), board, 'R'))
 					tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, false, _positionCords, std::make_pair(_positionCords.first + 1, _positionCords.second)));
 			}
-			else if (_owner == OWNERS::WHITE && _positionCords.first - 1 >= 0) { //Traditional promotion in rook (WHITE)
+			else if (_owner == OWNERS::WHITE && static_cast<int>(_positionCords.first - 1) >= 0) { //Traditional promotion in rook (WHITE)
 				if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first - 1, _positionCords.second), board, 'R'))
 					tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, false, _positionCords, std::make_pair(_positionCords.first - 1, _positionCords.second)));
 			}
@@ -1656,7 +1656,7 @@ namespace Pale {
 					if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first + 1, _positionCords.second + 1), board, 'Q'))
 						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, true, _positionCords, std::make_pair(_positionCords.first + 1, _positionCords.second + 1)));
 				}
-				else if (_owner == OWNERS::WHITE && _positionCords.first - 1 >= 0) { //Right capturing promotion in queen (WHITE)
+				else if (_owner == OWNERS::WHITE && static_cast<int>(_positionCords.first - 1) >= 0) { //Right capturing promotion in queen (WHITE)
 					if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first - 1, _positionCords.second + 1), board, 'Q'))
 						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, true, _positionCords, std::make_pair(_positionCords.first - 1, _positionCords.second + 1)));
 				}
@@ -1665,7 +1665,7 @@ namespace Pale {
 					if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first + 1, _positionCords.second + 1), board, 'B'))
 						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, true, _positionCords, std::make_pair(_positionCords.first + 1, _positionCords.second + 1)));
 				}
-				else if (_owner == OWNERS::WHITE && _positionCords.first - 1 >= 0) { //Right capturing promotion in bishop (WHITE)
+				else if (_owner == OWNERS::WHITE && static_cast<int>(_positionCords.first - 1) >= 0) { //Right capturing promotion in bishop (WHITE)
 					if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first - 1, _positionCords.second + 1), board, 'B'))
 						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, true, _positionCords, std::make_pair(_positionCords.first - 1, _positionCords.second + 1)));
 				}
@@ -1674,7 +1674,7 @@ namespace Pale {
 					if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first + 1, _positionCords.second + 1), board, 'N'))
 						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, true, _positionCords, std::make_pair(_positionCords.first + 1, _positionCords.second + 1)));
 				}
-				else if (_owner == OWNERS::WHITE && _positionCords.first - 1 >= 0) { //Right capturing promotion in knight (WHITE)
+				else if (_owner == OWNERS::WHITE && static_cast<int>(_positionCords.first - 1) >= 0) { //Right capturing promotion in knight (WHITE)
 					if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first - 1, _positionCords.second + 1), board, 'N'))
 						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, true, _positionCords, std::make_pair(_positionCords.first - 1, _positionCords.second + 1)));
 				}
@@ -1683,18 +1683,18 @@ namespace Pale {
 					if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first + 1, _positionCords.second + 1), board, 'R'))
 						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, true, _positionCords, std::make_pair(_positionCords.first + 1, _positionCords.second + 1)));
 				}
-				else if (_owner == OWNERS::WHITE && _positionCords.first - 1 >= 0) { //Right capturing promotion in rook (WHITE)
+				else if (_owner == OWNERS::WHITE && static_cast<int>(_positionCords.first - 1) >= 0) { //Right capturing promotion in rook (WHITE)
 					if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first - 1, _positionCords.second + 1), board, 'R'))
 						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, true, _positionCords, std::make_pair(_positionCords.first - 1, _positionCords.second + 1)));
 				}
 			}
 
-			if (_positionCords.second - 1 >= 0) {
+			if (static_cast<int>(_positionCords.second - 1) >= 0) {
 				if (_owner == OWNERS::BLACK && _positionCords.first + 1 < board.size()) { //Left capturing promotion in queen (BLACK)
 					if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first + 1, _positionCords.second - 1), board, 'Q'))
 						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, true, _positionCords, std::make_pair(_positionCords.first + 1, _positionCords.second - 1)));
 				}
-				else if (_owner == OWNERS::WHITE && _positionCords.first - 1 >= 0) { //Left capturing promotion in queen (WHITE)
+				else if (_owner == OWNERS::WHITE && static_cast<int>(_positionCords.first - 1) >= 0) { //Left capturing promotion in queen (WHITE)
 					if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first - 1, _positionCords.second - 1), board, 'Q'))
 						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, true, _positionCords, std::make_pair(_positionCords.first - 1, _positionCords.second - 1)));
 				}
@@ -1703,7 +1703,7 @@ namespace Pale {
 					if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first + 1, _positionCords.second - 1), board, 'B'))
 						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, true, _positionCords, std::make_pair(_positionCords.first + 1, _positionCords.second - 1)));
 				}
-				else if (_owner == OWNERS::WHITE && _positionCords.first - 1 >= 0) { //Left capturing promotion in bishop (WHITE)
+				else if (_owner == OWNERS::WHITE && static_cast<int>(_positionCords.first - 1) >= 0) { //Left capturing promotion in bishop (WHITE)
 					if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first - 1, _positionCords.second - 1), board, 'B'))
 						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, true, _positionCords, std::make_pair(_positionCords.first - 1, _positionCords.second - 1)));
 				}
@@ -1712,7 +1712,7 @@ namespace Pale {
 					if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first + 1, _positionCords.second - 1), board, 'N'))
 						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, true, _positionCords, std::make_pair(_positionCords.first + 1, _positionCords.second - 1)));
 				}
-				else if (_owner == OWNERS::WHITE && _positionCords.first - 1 >= 0) { //Left capturing promotion in knight (WHITE)
+				else if (_owner == OWNERS::WHITE && static_cast<int>(_positionCords.first - 1) >= 0) { //Left capturing promotion in knight (WHITE)
 					if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first - 1, _positionCords.second - 1), board, 'N'))
 						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, true, _positionCords, std::make_pair(_positionCords.first - 1, _positionCords.second - 1)));
 				}
@@ -1721,7 +1721,7 @@ namespace Pale {
 					if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first + 1, _positionCords.second - 1), board, 'R'))
 						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, true, _positionCords, std::make_pair(_positionCords.first + 1, _positionCords.second - 1)));
 				}
-				else if (_owner == OWNERS::WHITE && _positionCords.first - 1 >= 0) { //Left capturing promotion in rook (WHITE)
+				else if (_owner == OWNERS::WHITE && static_cast<int>(_positionCords.first - 1) >= 0) { //Left capturing promotion in rook (WHITE)
 					if (SpecialLogic(MOVE_TYPES::PROMOTION, std::make_pair(_positionCords.first - 1, _positionCords.second - 1), board, 'R'))
 						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::PROMOTION, 'P', _owner, true, _positionCords, std::make_pair(_positionCords.first - 1, _positionCords.second - 1)));
 				}
@@ -1733,17 +1733,17 @@ namespace Pale {
 					if(SpecialLogic(MOVE_TYPES::EN_PASSANT, std::make_pair(_positionCords.first + 1, _positionCords.second + 1), board, std::optional<char>()))
 						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::EN_PASSANT, 'P', _owner, true, _positionCords, std::make_pair(_positionCords.first + 1, _positionCords.second + 1)));
 				}
-				else if (_owner == OWNERS::WHITE && _positionCords.first - 1 >= 0) { //Right en passant (WHITE)
+				else if (_owner == OWNERS::WHITE && static_cast<int>(_positionCords.first - 1) >= 0) { //Right en passant (WHITE)
 					if (SpecialLogic(MOVE_TYPES::EN_PASSANT, std::make_pair(_positionCords.first - 1, _positionCords.second + 1), board, std::optional<char>()))
 						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::EN_PASSANT, 'P', _owner, true, _positionCords, std::make_pair(_positionCords.first - 1, _positionCords.second + 1)));
 				}
 			}
-			else if (_positionCords.second - 1 >= 0) {
+			else if (static_cast<int>(_positionCords.second - 1) >= 0) {
 				if (_owner == OWNERS::BLACK && _positionCords.first + 1 < board.size()) { //Left en passant (BLACK)
 					if (SpecialLogic(MOVE_TYPES::EN_PASSANT, std::make_pair(_positionCords.first + 1, _positionCords.second - 1), board, std::optional<char>()))
 						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::EN_PASSANT, 'P', _owner, true, _positionCords, std::make_pair(_positionCords.first + 1, _positionCords.second - 1)));
 				}
-				else if (_owner == OWNERS::WHITE && _positionCords.first - 1 >= 0) { //Left en passant (WHITE)
+				else if (_owner == OWNERS::WHITE && static_cast<int>(_positionCords.first - 1) >= 0) { //Left en passant (WHITE)
 					if (SpecialLogic(MOVE_TYPES::EN_PASSANT, std::make_pair(_positionCords.first - 1, _positionCords.second - 1), board, std::optional<char>()))
 						tempMoveList.emplace_back(Move_Command(MOVE_TYPES::EN_PASSANT, 'P', _owner, true, _positionCords, std::make_pair(_positionCords.first - 1, _positionCords.second - 1)));
 				}
