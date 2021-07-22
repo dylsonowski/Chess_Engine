@@ -108,6 +108,8 @@ project "Automation_Tests"
         "Pale_Engine"
     }
 
+    defines "TESTING_ENV"
+
     filter "system:windows"
         systemversion "latest"
 
