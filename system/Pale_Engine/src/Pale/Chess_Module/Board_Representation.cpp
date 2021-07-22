@@ -331,6 +331,7 @@ namespace Pale {
 		}
 
 		//--- Set of board converting functions defined by object type ---//
+		//--- Object type board ---//
 		template<>
 		Board_Representation<std::shared_ptr<Pieces>> ConvertBoard(const Board_Representation<std::shared_ptr<Pieces>>& board) {
 			Board_Representation<std::shared_ptr<Pieces>> newBoard(board.GetRowNumber(), board.GetColumnNumber(), false);
@@ -366,6 +367,19 @@ namespace Pale {
 			PALE_ENGINE_TRACE("Convertion on string type!");
 			return newBoard;
 		}
+
+		//--- Int type board ---//
+		template<>
+		Board_Representation<std::shared_ptr<Pieces>> ConvertBoard(const Board_Representation<int>& board) {
+			Board_Representation<std::shared_ptr<Pieces>> newBoard(board.GetRowNumber(), board.GetColumnNumber(), false);
+			for (int rowIt = 0; rowIt < board.GetRowNumber(); rowIt++) {
+				for (int columnIt = 0; columnIt < board.GetColumnNumber(); columnIt++) {
+					//newBoard.SetPlateValue(rowIt, columnIt, board.GetPlateValue(rowIt, columnIt))
+				}
+			}
+		}
+
+		//--- String type board ---//
 
 		//--- Set of SetPlateValue functions defined by object type ---//
 		template<>
