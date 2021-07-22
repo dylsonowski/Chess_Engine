@@ -49,7 +49,7 @@ project "Chess_Game"
     kind "ConsoleApp"
     language "C++"
     cppdialect "C++17"
-    staticruntime "On"
+    staticruntime "on"
     
     targetdir ("bin/%{prj.name}_%{cfg.architecture}/%{cfg.buildcfg}")
     objdir ("bin-int/%{prj.name}_%{cfg.architecture}/%{cfg.buildcfg}")
@@ -68,6 +68,46 @@ project "Chess_Game"
         "Pale_Engine"
     }
     
+    filter "system:windows"
+        systemversion "latest"
+
+        defines {
+            "PLATFORM_WINDOWS"
+        }
+
+    filter "configurations:Debug"
+        defines "_DEBUG_"
+        symbols "on"
+
+    filter "configurations:Release"
+        defines "_RELEASE_"
+        optimize "on"
+
+
+project "Automation_Tests"
+    location "Automation_Tests"
+    kind "ConsoleApp"
+    language "C++"
+    cppdialect "C++17"
+    staticruntime "on"
+
+    targetdir ("bin/%{prj.name}_%{cfg.architecture}/%{cfg.buildcfg}")
+    objdir ("bin-int/%{prj.name}_%{cfg.architecture}/%{cfg.buildcfg}")
+
+    files {
+        "%{prj.name}/src/**.h",
+        "%{prj.name}/src/**.cpp"
+    }
+
+    includedirs {
+        "Pale_Engine/vendor/spdlog/include",
+        "Pale_Engine/src"
+    }
+
+    links {
+        "Pale_Engine"
+    }
+
     filter "system:windows"
         systemversion "latest"
 
