@@ -454,8 +454,11 @@ namespace Pale {
 				return check;
 			}
 			catch (PaleEngineException& exception) {
-				if (exception.GetType() == 'e')
+				if (exception.GetType() == 'e') {
 					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+					std::cin.get();
+					exit(EXIT_FAILURE);
+				}
 				else if (exception.GetType() == 'w')
 					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
 
@@ -566,8 +569,11 @@ namespace Pale {
 				return pathClear;
 			}
 			catch (PaleEngineException& exception) {
-				if (exception.GetType() == 'e')
+				if (exception.GetType() == 'e') {
 					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+					std::cin.get();
+					exit(EXIT_FAILURE);
+				}
 				else if (exception.GetType() == 'w')
 					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
 

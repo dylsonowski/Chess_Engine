@@ -44,8 +44,11 @@ namespace Pale {
 						throw PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 61, "GetPlateValue", VEC_OUT_OF_RANGE);
 				}
 				catch (PaleEngineException& exception) {
-					if (exception.GetType() == 'e')
+					if (exception.GetType() == 'e') {
 						PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+						std::cin.get();
+						exit(EXIT_FAILURE);
+					}
 					else if (exception.GetType() == 'w')
 						PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
 
@@ -167,8 +170,11 @@ namespace Pale {
 				return false;
 			}
 			catch (PaleEngineException& exception) {
-				if (exception.GetType() == 'e')
+				if (exception.GetType() == 'e') {
 					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+					std::cin.get();
+					exit(EXIT_FAILURE);
+				}
 				else if (exception.GetType() == 'w')
 					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
 
@@ -183,15 +189,15 @@ namespace Pale {
 				//Specifying owner of the piece.
 				processedMove.m_owner = whichTurn;
 
-				//Specifying type of the piece.
-				if (std::toupper(move[0]) != 'K' && std::toupper(move[0]) != 'Q' && std::toupper(move[0]) != 'B'
-					&& std::toupper(move[0]) != 'N' && std::toupper(move[0]) != 'R' && std::toupper(move[0]) != 'P')
-					throw PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 181, "ProcessMoveCommand", MOVE_COMMAND__WRONG_PIECE);
-				else
-					processedMove.m_piece = std::toupper(move[0]);
-
 				//--- Promotion move. Format := P<starting_cords>-><piece_id> ---//
 				if (move.find("->") != std::string::npos) {
+					//Specifying type of the piece.
+					if (std::toupper(move[0]) != 'K' && std::toupper(move[0]) != 'Q' && std::toupper(move[0]) != 'B'
+						&& std::toupper(move[0]) != 'N' && std::toupper(move[0]) != 'R' && std::toupper(move[0]) != 'P')
+						throw PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 181, "ProcessMoveCommand", MOVE_COMMAND__WRONG_PIECE);
+					else
+						processedMove.m_piece = std::toupper(move[0]);
+
 					processedMove.m_moveType = MOVE_TYPES::PROMOTION;
 					switch (move[1]) { //X cord for start position.
 					case 'a': startX = 0;	break;
@@ -229,6 +235,13 @@ namespace Pale {
 				}
 				//--- En passant move. Format := P<starting_cords>x<x_ending_cords> ---//
 				else if (move.find("x") != std::string::npos) {
+					//Specifying type of the piece.
+					if (std::toupper(move[0]) != 'K' && std::toupper(move[0]) != 'Q' && std::toupper(move[0]) != 'B'
+						&& std::toupper(move[0]) != 'N' && std::toupper(move[0]) != 'R' && std::toupper(move[0]) != 'P')
+						throw PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 181, "ProcessMoveCommand", MOVE_COMMAND__WRONG_PIECE);
+					else
+						processedMove.m_piece = std::toupper(move[0]);
+
 					processedMove.m_moveType = MOVE_TYPES::EN_PASSANT;
 					switch (move[1]) { //X cord for start position.
 					case 'a': startX = 0;	break;
@@ -274,44 +287,54 @@ namespace Pale {
 					processedMove.m_capture = true;
 				}
 				//--- Short castling move (right) ---//
+				//--- IMPORTANT: 'endPos' in case of castling is set to be possition of rook which taking part in the manover ---//
 				else if (move == "0-0") {
 					processedMove.m_moveType = MOVE_TYPES::CASTLING;
 					if (whichTurn == OWNERS::BLACK) {
-						startX = Piece_Starting_Positions::m_kingStartPos.first.at(0).first;
-						startY = Piece_Starting_Positions::m_kingStartPos.first.at(0).second;
-						endX = Piece_Starting_Positions::m_rookStartPos.first.at(0).first;
-						endY = Piece_Starting_Positions::m_rookStartPos.first.at(0).second;
+						startX = Piece_Starting_Positions::m_kingStartPos.first.at(0).second;
+						startY = Piece_Starting_Positions::m_kingStartPos.first.at(0).first;
+						endX = Piece_Starting_Positions::m_rookStartPos.first.at(1).second;
+						endY = Piece_Starting_Positions::m_rookStartPos.first.at(1).first;
 					}
 					else {
-						startX = Piece_Starting_Positions::m_kingStartPos.second.at(0).first;
-						startY = Piece_Starting_Positions::m_kingStartPos.second.at(0).second;
-						endX = Piece_Starting_Positions::m_rookStartPos.second.at(0).first;
-						endY = Piece_Starting_Positions::m_rookStartPos.second.at(0).second;
+						startX = Piece_Starting_Positions::m_kingStartPos.second.at(0).second;
+						startY = Piece_Starting_Positions::m_kingStartPos.second.at(0).first;
+						endX = Piece_Starting_Positions::m_rookStartPos.second.at(1).second;
+						endY = Piece_Starting_Positions::m_rookStartPos.second.at(1).first;
 					}
 
 					processedMove.m_capture = false;
 				}
 				//--- Long castling move (left) ---//
+				//--- IMPORTANT: 'endPos' in case of castling is set to be possition of rook which taking part in the manover ---//
 				else if (move == "0-0-0") {
 					processedMove.m_moveType = MOVE_TYPES::CASTLING;
+
 					if (whichTurn == OWNERS::BLACK) {
-						startX = Piece_Starting_Positions::m_kingStartPos.first.at(0).first;
-						startY = Piece_Starting_Positions::m_kingStartPos.first.at(0).second;
-						endX = Piece_Starting_Positions::m_rookStartPos.first.at(1).first;
-						endY = Piece_Starting_Positions::m_rookStartPos.first.at(1).second;
+						startX = Piece_Starting_Positions::m_kingStartPos.first.at(0).second;
+						startY = Piece_Starting_Positions::m_kingStartPos.first.at(0).first;
+						endX = Piece_Starting_Positions::m_rookStartPos.first.at(0).second;
+						endY = Piece_Starting_Positions::m_rookStartPos.first.at(0).first;
 					}
 					else {
-						startX = Piece_Starting_Positions::m_kingStartPos.second.at(0).first;
-						startY = Piece_Starting_Positions::m_kingStartPos.second.at(0).second;
-						endX = Piece_Starting_Positions::m_rookStartPos.second.at(1).first;
-						endY = Piece_Starting_Positions::m_rookStartPos.second.at(1).second;
+						startX = Piece_Starting_Positions::m_kingStartPos.second.at(0).second;
+						startY = Piece_Starting_Positions::m_kingStartPos.second.at(0).first;
+						endX = Piece_Starting_Positions::m_rookStartPos.second.at(0).second;
+						endY = Piece_Starting_Positions::m_rookStartPos.second.at(0).first;
 					}
 
 					processedMove.m_capture = false;
 				}
 				//--- Traditional move. Format := <piece_id><starting_cords><ending_cords> ---//
 				else {
-				processedMove.m_moveType = MOVE_TYPES::BASIC;
+					//Specifying type of the piece.
+					if (std::toupper(move[0]) != 'K' && std::toupper(move[0]) != 'Q' && std::toupper(move[0]) != 'B'
+						&& std::toupper(move[0]) != 'N' && std::toupper(move[0]) != 'R' && std::toupper(move[0]) != 'P')
+						throw PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 181, "ProcessMoveCommand", MOVE_COMMAND__WRONG_PIECE);
+					else
+						processedMove.m_piece = std::toupper(move[0]);
+
+					processedMove.m_moveType = MOVE_TYPES::BASIC;
 					switch (move[1]) { //X cord for start position.
 					case 'a': startX = 0;	break;
 					case 'b': startX = 1;	break;
@@ -370,8 +393,11 @@ namespace Pale {
 				return processedMove;
 			}
 			catch (PaleEngineException& exception) {
-				if (exception.GetType() == 'e')
+				if (exception.GetType() == 'e') {
 					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+					std::cin.get();
+					exit(EXIT_FAILURE);
+				}
 				else if (exception.GetType() == 'w')
 					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
 
@@ -387,8 +413,11 @@ namespace Pale {
 					s_deathList.emplace_back(figure);
 			}
 			catch (PaleEngineException& exception) {
-				if (exception.GetType() == 'e')
-					PALE_ENGINE_ERROR("{0}[{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+				if (exception.GetType() == 'e') {
+					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+					std::cin.get();
+					exit(EXIT_FAILURE);
+				}
 				else if (exception.GetType() == 'w')
 					PALE_ENGINE_WARN("{0}[{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
 

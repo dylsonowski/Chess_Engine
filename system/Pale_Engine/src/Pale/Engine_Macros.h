@@ -12,6 +12,9 @@
 #define MOVE_COMMAND__NO_KING_ON_BOARD "Unable to find correct king piece on given board!"
 #define MOVE_COMMAND__INVALID_MOVE_DIRECTION "Given move is not rectilinear!"
 #define MOVE_COMMAND__NO_NEW_PIECE "Piece to change into wasn't specify!"
+#define READ_FILE_ERROR "Unable to open file!"
+#define TEST_CASE_SEARCH_FAIL "Type of test case that is searched for do not exist!"
+#define TEST_TOO_FEW_ARGUMENTS "Not enought arguments has been specified to start test run."
 
 //--- Warnings codes ---//
 #define INVALID_PIECE_ID "No coresponding chess piece of the given ID! Insertion failed!"

@@ -13,6 +13,9 @@ namespace Pale {
 		Pale::Chess_Logic::Board_Representation<std::string> stringBoard = Pale::Chess_Logic::ConvertBoard<std::string>(board);
 		std::cout << stringBoard << "\n\n";
 
+		Pale::Chess_Logic::Board_Representation<std::shared_ptr<Pale::Chess_Logic::Pieces>> objectBoard = Pale::Chess_Logic::ConvertBoard<std::shared_ptr<Pale::Chess_Logic::Pieces>>(stringBoard);
+		std::cout << objectBoard << "\n\n";
+
 
 		Move_Command commandCorrect = Pale::Chess_Logic::ProcessMoveCommand("Nb8a6", OWNERS::BLACK, board);
 		//Move_Command commandWrong = Pale::Chess_Logic::ProcessMoveCommand("ike2e4", OWNERS::WHITE, board);

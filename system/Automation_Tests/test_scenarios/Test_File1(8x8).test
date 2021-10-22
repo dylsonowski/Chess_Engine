@@ -10,9 +10,14 @@
 
 # Tests #
     @PieceMove
-    {Pa7a5} | true
+    {Pa7a5, w} | true
+    {Bf8d6, b} | false
+    {Nb8a6, b} | true
+    {0-0-0, w} | false
     (END)
 
     @MoveGeneration
     {0, 0} | 0
+    {7, 1} | 2
+    {6, 0} | 2
     (END)

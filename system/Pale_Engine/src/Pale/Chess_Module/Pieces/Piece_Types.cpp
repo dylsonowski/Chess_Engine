@@ -55,12 +55,41 @@ namespace Pale {
 				}
 				else
 					throw PaleEngineException("Exception happened!", 'e', "Piece_Types.cpp", 56, "King", FIGURE_BAD_OWNER);
-
-				//_specialMove = std::make_shared<Castling>(); //todo: Implement castling
 			}
 			catch (PaleEngineException& exception) {
-				if (exception.GetType() == 'e')
+				if (exception.GetType() == 'e') {
 					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+					std::cin.get();
+					exit(EXIT_FAILURE);
+				}
+				else if (exception.GetType() == 'w')
+					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+
+				std::cin.get();
+			}
+		}
+
+		King::King(OWNERS owner, std::pair<unsigned int, unsigned int> startingPos) : Pieces(owner, 1), _check(false), _checkMate(false), _firstMove(true) {
+			try {
+				if (owner == OWNERS::BLACK) {
+					_value = -7;
+					_name = "bK";
+				}
+				else if (owner == OWNERS::WHITE) {
+					_value = 7;
+					_name = "wK";
+				}
+				else
+					throw PaleEngineException("Exception happened!", 'e', "Piece_Types.cpp", 83, "King", FIGURE_BAD_OWNER);
+
+				_positionCords = startingPos;
+			}
+			catch (PaleEngineException& exception) {
+				if (exception.GetType() == 'e') {
+					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+					std::cin.get();
+					exit(EXIT_FAILURE);
+				}
 				else if (exception.GetType() == 'w')
 					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
 
@@ -396,8 +425,11 @@ namespace Pale {
 				_specialMove = std::make_shared<None>();
 			}
 			catch (PaleEngineException& exception) {
-				if (exception.GetType() == 'e')
+				if (exception.GetType() == 'e') {
 					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+					std::cin.get();
+					exit(EXIT_FAILURE);
+				}
 				else if (exception.GetType() == 'w')
 					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
 
@@ -422,8 +454,11 @@ namespace Pale {
 				_specialMove = std::make_shared<None>();
 			}
 			catch (PaleEngineException& exception) {
-				if (exception.GetType() == 'e')
+				if (exception.GetType() == 'e') {
 					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+					std::cin.get();
+					exit(EXIT_FAILURE);
+				}
 				else if (exception.GetType() == 'w')
 					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
 
@@ -653,8 +688,11 @@ namespace Pale {
 				_specialMove = std::make_shared<None>();
 			}
 			catch (PaleEngineException& exception) {
-				if (exception.GetType() == 'e')
+				if (exception.GetType() == 'e') {
 					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+					std::cin.get();
+					exit(EXIT_FAILURE);
+				}
 				else if (exception.GetType() == 'w')
 					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
 
@@ -679,8 +717,11 @@ namespace Pale {
 				_specialMove = std::make_shared<None>();
 			}
 			catch (PaleEngineException& exception) {
-				if (exception.GetType() == 'e')
+				if (exception.GetType() == 'e') {
 					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+					std::cin.get();
+					exit(EXIT_FAILURE);
+				}
 				else if (exception.GetType() == 'w')
 					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
 
@@ -829,8 +870,11 @@ namespace Pale {
 				_specialMove = std::make_shared<None>();
 			}
 			catch (PaleEngineException& exception) {
-				if (exception.GetType() == 'e')
+				if (exception.GetType() == 'e') {
 					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+					std::cin.get();
+					exit(EXIT_FAILURE);
+				}
 				else if (exception.GetType() == 'w')
 					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
 
@@ -855,8 +899,11 @@ namespace Pale {
 				_specialMove = std::make_shared<None>();
 			}
 			catch (PaleEngineException& exception) {
-				if (exception.GetType() == 'e')
+				if (exception.GetType() == 'e') {
 					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+					std::cin.get();
+					exit(EXIT_FAILURE);
+				}
 				else if (exception.GetType() == 'w')
 					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
 
@@ -868,8 +915,9 @@ namespace Pale {
 			bool canMove = true;
 
 			//--- Do not allow knight piece to move different than 2 linear + 1 diagonaly ---//
-			if ((abs(static_cast<int>(_positionCords.first) - static_cast<int>(endPos.first)) != 2 && abs(static_cast<int>(_positionCords.second) - static_cast<int>(endPos.second)) != 1) ||
-				(abs(static_cast<int>(_positionCords.first) - static_cast<int>(endPos.first)) != 1 && abs(static_cast<int>(_positionCords.second) - static_cast<int>(endPos.second)) != 2))
+			if (abs(static_cast<int>(_positionCords.first) - static_cast<int>(endPos.first)) > 2 || abs(static_cast<int>(_positionCords.second) - static_cast<int>(endPos.second)) > 2 ||
+				abs(static_cast<int>(_positionCords.first) - static_cast<int>(endPos.first)) < 1 || abs(static_cast<int>(_positionCords.second) - static_cast<int>(endPos.second)) < 1 ||
+				abs(static_cast<int>(_positionCords.first) - static_cast<int>(endPos.first)) == abs(static_cast<int>(_positionCords.second) - static_cast<int>(endPos.second)))
 				canMove = false;
 
 			//--- Knight piece cannot move on plate occupied by the same owners piece ---//
@@ -1032,12 +1080,13 @@ namespace Pale {
 				}
 				else
 					throw PaleEngineException("Exception happened!", 'e', "Piece_Types.cpp", 164, "Rook", FIGURE_BAD_OWNER);
-
-				//_specialMove = std::make_shared<Castling>(); //todo: Implement castling
 			}
 			catch (PaleEngineException& exception) {
-				if (exception.GetType() == 'e')
+				if (exception.GetType() == 'e') {
 					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+					std::cin.get();
+					exit(EXIT_FAILURE);
+				}
 				else if (exception.GetType() == 'w')
 					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
 
@@ -1059,11 +1108,13 @@ namespace Pale {
 					throw PaleEngineException("Exception happened!", 'e', "Piece_Types.cpp", 164, "Rook", FIGURE_BAD_OWNER);
 
 				_positionCords = startingPos;
-				//_specialMove = std::make_shared<Castling>(); //todo: Implement castling
 			}
 			catch (PaleEngineException& exception) {
-				if (exception.GetType() == 'e')
+				if (exception.GetType() == 'e') {
 					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+					std::cin.get();
+					exit(EXIT_FAILURE);
+				}
 				else if (exception.GetType() == 'w')
 					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
 
@@ -1364,12 +1415,41 @@ namespace Pale {
 				}
 				else
 					throw PaleEngineException("Exception happened!", 'e', "Piece_Types.cpp", 191, "Pawn", FIGURE_BAD_OWNER);
-
-				//_specialMove = std::make_shared<En_Passant>(); //todo: Implement en passant
 			}
 			catch (PaleEngineException& exception) {
-				if (exception.GetType() == 'e')
+				if (exception.GetType() == 'e') {
 					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+					std::cin.get();
+					exit(EXIT_FAILURE);
+				}
+				else if (exception.GetType() == 'w')
+					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+
+				std::cin.get();
+			}
+		}
+
+		Pawn::Pawn(OWNERS owner, std::pair<unsigned int, unsigned int> startingPos) : Pieces(owner, 8), _firstMove(true), _movedByTwo(false) {
+			try {
+				if (owner == OWNERS::BLACK) {
+					_value = -1;
+					_name = "bP";
+				}
+				else if (owner == OWNERS::WHITE) {
+					_value = 1;
+					_name = "wP";
+				}
+				else
+					throw PaleEngineException("Exception happened!", 'e', "Piece_Types.cpp", 164, "Pawn", FIGURE_BAD_OWNER);
+
+				_positionCords = startingPos;
+			}
+			catch (PaleEngineException& exception) {
+				if (exception.GetType() == 'e') {
+					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+					std::cin.get();
+					exit(EXIT_FAILURE);
+				}
 				else if (exception.GetType() == 'w')
 					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
 

@@ -334,36 +334,39 @@ namespace Pale {
 		//--- Object type board ---//
 		template<>
 		Board_Representation<std::shared_ptr<Pieces>> ConvertBoard(const Board_Representation<std::shared_ptr<Pieces>>& board) {
-			Board_Representation<std::shared_ptr<Pieces>> newBoard(board.GetRowNumber(), board.GetColumnNumber(), false);
+			Board_Representation<std::shared_ptr<Pieces>> newBoard(board.GetRowNumber(), board.GetColumnNumber(), true);
 			for (int rowIt = 0; rowIt < board.GetRowNumber(); rowIt++) {
 				for (int columnIt = 0; columnIt < board.GetColumnNumber(); columnIt++) {
 					newBoard.SetPlateValue(rowIt, columnIt, board.GetPlateValue(rowIt, columnIt));
 				}
 			}
+
 			PALE_ENGINE_TRACE("No convertion made!");
 			return newBoard;
 		}
 
 		template<>
 		Board_Representation<int> ConvertBoard(const Board_Representation<std::shared_ptr<Pieces>>& board) {
-			Board_Representation<int> newBoard(board.GetRowNumber(), board.GetColumnNumber(), false);
+			Board_Representation<int> newBoard(board.GetRowNumber(), board.GetColumnNumber(), true);
 			for (int rowIt = 0; rowIt < board.GetRowNumber(); rowIt++) {
 				for (int columnIt = 0; columnIt < board.GetColumnNumber(); columnIt++) {
 					newBoard.SetPlateValue(rowIt, columnIt, board.GetPlateValue(rowIt, columnIt)->GetValue());
 				}
 			}
+
 			PALE_ENGINE_TRACE("Convertion on int type!");
 			return newBoard;
 		}
 
 		template<>
 		Board_Representation<std::string> ConvertBoard(const Board_Representation<std::shared_ptr<Pieces>>& board) {
-			Board_Representation<std::string> newBoard(board.GetRowNumber(), board.GetColumnNumber(), false);
+			Board_Representation<std::string> newBoard(board.GetRowNumber(), board.GetColumnNumber(), true);
 			for (int rowIt = 0; rowIt < board.GetRowNumber(); rowIt++) {
 				for (int columnIt = 0; columnIt < board.GetColumnNumber(); columnIt++) {
 					newBoard.SetPlateValue(rowIt, columnIt, board.GetPlateValue(rowIt, columnIt)->GetName());
 				}
 			}
+
 			PALE_ENGINE_TRACE("Convertion on string type!");
 			return newBoard;
 		}
@@ -371,15 +374,292 @@ namespace Pale {
 		//--- Int type board ---//
 		template<>
 		Board_Representation<std::shared_ptr<Pieces>> ConvertBoard(const Board_Representation<int>& board) {
-			Board_Representation<std::shared_ptr<Pieces>> newBoard(board.GetRowNumber(), board.GetColumnNumber(), false);
+			try {
+				Board_Representation<std::shared_ptr<Pieces>> newBoard(board.GetRowNumber(), board.GetColumnNumber(), true);
+				for (int rowIt = 0; rowIt < board.GetRowNumber(); rowIt++) {
+					for (int columnIt = 0; columnIt < board.GetColumnNumber(); columnIt++) {
+						OWNERS tempPieceOwner;
+						std::pair<unsigned int, unsigned int> tempOldPosition = std::make_pair(rowIt, columnIt);
+
+						if (board.GetPlateValue(rowIt, columnIt) < 0)
+							tempPieceOwner = OWNERS::BLACK;
+						else
+							tempPieceOwner = OWNERS::WHITE;
+
+						if (abs(board.GetPlateValue(rowIt, columnIt)) == 7) {
+							newBoard.SetPlateValue(rowIt, columnIt, std::make_shared<King>(tempPieceOwner, std::make_pair(rowIt, columnIt)));
+
+							//--- If 'Int board' or 'String board' needs to be convert on object board it needs to set all require bools ---//
+							if ((tempPieceOwner == OWNERS::BLACK && tempOldPosition != Piece_Starting_Positions::m_kingStartPos.first.at(0)) ||
+								(tempPieceOwner == OWNERS::WHITE && tempOldPosition != Piece_Starting_Positions::m_kingStartPos.second.at(0)))
+								std::static_pointer_cast<King>(newBoard.GetPlateValue(rowIt, columnIt))->SetKingFirstMove(true);
+						}
+						else if (abs(board.GetPlateValue(rowIt, columnIt)) == 5)
+							newBoard.SetPlateValue(rowIt, columnIt, std::make_shared<Queen>(tempPieceOwner, std::make_pair(rowIt, columnIt)));
+						else if (abs(board.GetPlateValue(rowIt, columnIt)) == 4)
+							newBoard.SetPlateValue(rowIt, columnIt, std::make_shared<Bishop>(tempPieceOwner, std::make_pair(rowIt, columnIt)));
+						else if (abs(board.GetPlateValue(rowIt, columnIt)) == 3)
+							newBoard.SetPlateValue(rowIt, columnIt, std::make_shared<Knight>(tempPieceOwner, std::make_pair(rowIt, columnIt)));
+						else if (abs(board.GetPlateValue(rowIt, columnIt)) == 2) {
+							newBoard.SetPlateValue(rowIt, columnIt, std::make_shared<Rook>(tempPieceOwner, std::make_pair(rowIt, columnIt)));
+
+							//--- If 'Int board' or 'String board' needs to be convert on object board it needs to set all require bools ---//
+							if (tempPieceOwner == OWNERS::BLACK) {
+								if ((columnIt == 0 && tempOldPosition != Piece_Starting_Positions::m_rookStartPos.first.at(0)) ||
+									(columnIt > 0 && tempOldPosition != Piece_Starting_Positions::m_rookStartPos.first.at(1)))
+									std::static_pointer_cast<Rook>(newBoard.GetPlateValue(rowIt, columnIt))->SetFirstMove(true);
+							}
+							else if (tempPieceOwner == OWNERS::WHITE) {
+								if((columnIt == 0 && tempOldPosition != Piece_Starting_Positions::m_rookStartPos.second.at(0)) ||
+									(columnIt > 0 && tempOldPosition != Piece_Starting_Positions::m_rookStartPos.second.at(1)))
+									std::static_pointer_cast<Rook>(newBoard.GetPlateValue(rowIt, columnIt))->SetFirstMove(true);
+							}								
+						}
+						else if (abs(board.GetPlateValue(rowIt, columnIt)) == 1) {
+							newBoard.SetPlateValue(rowIt, columnIt, std::make_shared<Pawn>(tempPieceOwner, std::make_pair(rowIt, columnIt)));
+
+							//--- If 'Int board' or 'String board' needs to be convert on object board it needs to set all require bools ---//
+							if ((tempPieceOwner == OWNERS::BLACK && tempOldPosition != Piece_Starting_Positions::m_pawnStartPos.first.at(columnIt)) ||
+								(tempPieceOwner == OWNERS::WHITE && tempOldPosition != Piece_Starting_Positions::m_pawnStartPos.second.at(columnIt)))
+								std::static_pointer_cast<Pawn>(newBoard.GetPlateValue(rowIt, columnIt))->SetFirstMove(true);
+						}
+						else if (abs(board.GetPlateValue(rowIt, columnIt)) == 0)
+							newBoard.SetPlateValue(rowIt, columnIt, std::make_shared<Blank>(rowIt, columnIt));
+						else
+							throw PaleEngineException("Exception happened!", 'w', "Board_representation.cpp", 399, "ConvertBoard", INVALID_PIECE_ID);
+					}
+				}
+
+				PALE_ENGINE_TRACE("Convertion on object type!");
+				return newBoard;
+			}
+			catch (PaleEngineException& exception) {
+				if (exception.GetType() == 'e') {
+					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+					std::cin.get();
+					exit(EXIT_FAILURE);
+				}
+				else if (exception.GetType() == 'w')
+					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+
+				std::cin.get();
+			}
+		}
+
+		template<>
+		Board_Representation<int> ConvertBoard(const Board_Representation<int>& board) {
+			Board_Representation<int> newBoard(board.GetRowNumber(), board.GetColumnNumber(), true);
 			for (int rowIt = 0; rowIt < board.GetRowNumber(); rowIt++) {
 				for (int columnIt = 0; columnIt < board.GetColumnNumber(); columnIt++) {
-					//newBoard.SetPlateValue(rowIt, columnIt, board.GetPlateValue(rowIt, columnIt))
+					newBoard.SetPlateValue(rowIt, columnIt, board.GetPlateValue(rowIt, columnIt));
 				}
+			}
+
+			PALE_ENGINE_TRACE("No convertion made!");
+			return newBoard;
+		}
+
+		template<>
+		Board_Representation<std::string> ConvertBoard(const Board_Representation<int>& board) {
+			try {
+				Board_Representation<std::string> newBoard(board.GetRowNumber(), board.GetColumnNumber(), true);
+				for (int rowIt = 0; rowIt < board.GetRowNumber(); rowIt++) {
+					for (int columnIt = 0; columnIt < board.GetColumnNumber(); columnIt++) {
+						if (abs(board.GetPlateValue(rowIt, columnIt)) == 7) {
+							if (board.GetPlateValue(rowIt, columnIt) < 0)
+								newBoard.SetPlateValue(rowIt, columnIt, "bK");
+							else
+								newBoard.SetPlateValue(rowIt, columnIt, "wK");
+						}
+						else if (abs(board.GetPlateValue(rowIt, columnIt)) == 5) {
+							if (board.GetPlateValue(rowIt, columnIt) < 0)
+								newBoard.SetPlateValue(rowIt, columnIt, "bQ");
+							else
+								newBoard.SetPlateValue(rowIt, columnIt, "wQ");
+						}
+						else if (abs(board.GetPlateValue(rowIt, columnIt)) == 4) {
+							if (board.GetPlateValue(rowIt, columnIt) < 0)
+								newBoard.SetPlateValue(rowIt, columnIt, "bB");
+							else
+								newBoard.SetPlateValue(rowIt, columnIt, "wB");
+						}
+						else if (abs(board.GetPlateValue(rowIt, columnIt)) == 3) {
+							if (board.GetPlateValue(rowIt, columnIt) < 0)
+								newBoard.SetPlateValue(rowIt, columnIt, "bN");
+							else
+								newBoard.SetPlateValue(rowIt, columnIt, "wN");
+						}
+						else if (abs(board.GetPlateValue(rowIt, columnIt)) == 2) {
+							if (board.GetPlateValue(rowIt, columnIt) < 0)
+								newBoard.SetPlateValue(rowIt, columnIt, "bR");
+							else
+								newBoard.SetPlateValue(rowIt, columnIt, "wR");
+						}
+						else if (abs(board.GetPlateValue(rowIt, columnIt)) == 1) {
+							if (board.GetPlateValue(rowIt, columnIt) < 0)
+								newBoard.SetPlateValue(rowIt, columnIt, "bP");
+							else
+								newBoard.SetPlateValue(rowIt, columnIt, "wP");
+						}
+						else if (abs(board.GetPlateValue(rowIt, columnIt)) == 0)
+							newBoard.SetPlateValue(rowIt, columnIt, "x");
+						else
+							throw PaleEngineException("Exception happened!", 'w', "Board_representation.cpp", 399, "ConvertBoard", INVALID_PIECE_ID);
+					}
+				}
+
+				PALE_ENGINE_TRACE("Convertion on string type!");
+				return newBoard;
+			}
+			catch (PaleEngineException& exception) {
+				if (exception.GetType() == 'e') {
+					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+					std::cin.get();
+					exit(EXIT_FAILURE);
+				}
+				else if (exception.GetType() == 'w')
+					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+
+				std::cin.get();
 			}
 		}
 
 		//--- String type board ---//
+		template<>
+		Board_Representation<std::shared_ptr<Pieces>> ConvertBoard(const Board_Representation<std::string>& board) {
+			try {
+				Board_Representation<std::shared_ptr<Pieces>> newBoard(board.GetRowNumber(), board.GetColumnNumber(), true);
+				for (int rowIt = 0; rowIt < board.GetRowNumber(); rowIt++) {
+					for (int columnIt = 0; columnIt < board.GetColumnNumber(); columnIt++) {
+						OWNERS tempPieceOwner;
+						std::pair<unsigned int, unsigned int> tempOldPosition = std::make_pair(rowIt, columnIt);
+
+						if (board.GetPlateValue(rowIt, columnIt) == "x")
+							newBoard.SetPlateValue(rowIt, columnIt, std::make_shared<Blank>(rowIt, columnIt));
+						else {
+							if (board.GetPlateValue(rowIt, columnIt)[0] == 'b')
+								tempPieceOwner = OWNERS::BLACK;
+							else if (board.GetPlateValue(rowIt, columnIt)[0] == 'w')
+								tempPieceOwner = OWNERS::WHITE;
+							else
+								throw PaleEngineException("Exception happened!", 'e', "Board_representation.cpp", 399, "ConvertBoard", FIGURE_BAD_OWNER);
+
+
+							if (board.GetPlateValue(rowIt, columnIt)[1] == 'K') {
+								newBoard.SetPlateValue(rowIt, columnIt, std::make_shared<King>(tempPieceOwner, std::make_pair(rowIt, columnIt)));
+
+								//--- If 'Int board' or 'String board' needs to be convert on object board it needs to set all require bools ---//
+								if ((tempPieceOwner == OWNERS::BLACK && tempOldPosition != Piece_Starting_Positions::m_kingStartPos.first.at(0)) ||
+									(tempPieceOwner == OWNERS::WHITE && tempOldPosition != Piece_Starting_Positions::m_kingStartPos.second.at(0)))
+									std::static_pointer_cast<King>(newBoard.GetPlateValue(rowIt, columnIt))->SetKingFirstMove(true);
+							}
+							else if (board.GetPlateValue(rowIt, columnIt)[1] == 'Q')
+								newBoard.SetPlateValue(rowIt, columnIt, std::make_shared<Queen>(tempPieceOwner, std::make_pair(rowIt, columnIt)));
+							else if (board.GetPlateValue(rowIt, columnIt)[1] == 'B')
+								newBoard.SetPlateValue(rowIt, columnIt, std::make_shared<Bishop>(tempPieceOwner, std::make_pair(rowIt, columnIt)));
+							else if (board.GetPlateValue(rowIt, columnIt)[1] == 'N')
+								newBoard.SetPlateValue(rowIt, columnIt, std::make_shared<Knight>(tempPieceOwner, std::make_pair(rowIt, columnIt)));
+							else if (board.GetPlateValue(rowIt, columnIt)[1] == 'R') {
+								newBoard.SetPlateValue(rowIt, columnIt, std::make_shared<Rook>(tempPieceOwner, std::make_pair(rowIt, columnIt)));
+
+								//--- If 'Int board' or 'String board' needs to be convert on object board it needs to set all require bools ---//
+								if (tempPieceOwner == OWNERS::BLACK) {
+									if ((columnIt == 0 && tempOldPosition != Piece_Starting_Positions::m_rookStartPos.first.at(0)) ||
+										(columnIt > 0 && tempOldPosition != Piece_Starting_Positions::m_rookStartPos.first.at(1)))
+										std::static_pointer_cast<Rook>(newBoard.GetPlateValue(rowIt, columnIt))->SetFirstMove(true);
+								}
+								else if (tempPieceOwner == OWNERS::WHITE) {
+									if ((columnIt == 0 && tempOldPosition != Piece_Starting_Positions::m_rookStartPos.second.at(0)) ||
+										(columnIt > 0 && tempOldPosition != Piece_Starting_Positions::m_rookStartPos.second.at(1)))
+										std::static_pointer_cast<Rook>(newBoard.GetPlateValue(rowIt, columnIt))->SetFirstMove(true);
+								}
+							}
+							else if (board.GetPlateValue(rowIt, columnIt)[1] == 'P') {
+								newBoard.SetPlateValue(rowIt, columnIt, std::make_shared<Pawn>(tempPieceOwner, std::make_pair(rowIt, columnIt)));
+
+								//--- If 'Int board' or 'String board' needs to be convert on object board it needs to set all require bools ---//
+								if ((tempPieceOwner == OWNERS::BLACK && tempOldPosition != Piece_Starting_Positions::m_pawnStartPos.first.at(columnIt)) ||
+									(tempPieceOwner == OWNERS::WHITE && tempOldPosition != Piece_Starting_Positions::m_pawnStartPos.second.at(columnIt)))
+									std::static_pointer_cast<Pawn>(newBoard.GetPlateValue(rowIt, columnIt))->SetFirstMove(true);
+							}
+							else
+								throw PaleEngineException("Exception happened!", 'w', "Board_representation.cpp", 399, "ConvertBoard", INVALID_PIECE_ID);
+						}
+					}
+				}
+
+				PALE_ENGINE_TRACE("Convertion on object type!");
+				return newBoard;
+			}
+			catch (PaleEngineException& exception) {
+				if (exception.GetType() == 'e') {
+					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+					std::cin.get();
+					exit(EXIT_FAILURE);
+				}
+				else if (exception.GetType() == 'w')
+					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+
+				std::cin.get();
+			}
+		}
+
+		template<>
+		Board_Representation<int> ConvertBoard(const Board_Representation<std::string>& board) {
+			try {
+				Board_Representation<int> newBoard(board.GetRowNumber(), board.GetColumnNumber(), true);
+				for (int rowIt = 0; rowIt < board.GetRowNumber(); rowIt++) {
+					for (int columnIt = 0; columnIt < board.GetColumnNumber(); columnIt++) {
+						int value;
+						if (board.GetPlateValue(rowIt, columnIt) == "x")
+							value = 0;
+						else {
+							switch (board.GetPlateValue(rowIt, columnIt)[1]) {
+							case 'K': value = 7; break;
+							case 'Q': value = 5; break;
+							case 'B': value = 4; break;
+							case 'N': value = 3; break;
+							case 'R': value = 2; break;
+							case 'P': value = 1; break;
+							default: throw PaleEngineException("Exception happened!", 'w', "Board_representation.cpp", 399, "ConvertBoard", INVALID_PIECE_ID); break;
+							}
+
+							if (board.GetPlateValue(rowIt, columnIt)[0] == 'b')
+								value *= -1;
+						}
+
+						newBoard.SetPlateValue(rowIt, columnIt, value);
+					}
+				}
+
+				PALE_ENGINE_TRACE("Convertion on int type!");
+				return newBoard;
+			}
+			catch (PaleEngineException& exception) {
+				if (exception.GetType() == 'e') {
+					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+					std::cin.get();
+					exit(EXIT_FAILURE);
+				}
+				else if (exception.GetType() == 'w')
+					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+
+				std::cin.get();
+			}
+		}
+
+		template<>
+		Board_Representation<std::string> ConvertBoard(const Board_Representation<std::string>& board) {
+			Board_Representation<std::string> newBoard(board.GetRowNumber(), board.GetColumnNumber(), true);
+			for (int rowIt = 0; rowIt < board.GetRowNumber(); rowIt++) {
+				for (int columnIt = 0; columnIt < board.GetColumnNumber(); columnIt++) {
+					newBoard.SetPlateValue(rowIt, columnIt, board.GetPlateValue(rowIt, columnIt));
+				}
+			}
+
+			PALE_ENGINE_TRACE("No convertion made!");
+			return newBoard;
+		}
 
 		//--- Set of SetPlateValue functions defined by object type ---//
 		template<>
@@ -394,8 +674,11 @@ namespace Pale {
 				_board.at(rowIt).at(columnIt) = value;
 			}
 			catch (PaleEngineException& exception) {
-				if (exception.GetType() == 'e')
+				if (exception.GetType() == 'e') {
 					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+					std::cin.get();
+					exit(EXIT_FAILURE);
+				}
 				else if (exception.GetType() == 'w')
 					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
 
@@ -418,8 +701,11 @@ namespace Pale {
 				_board.at(rowIt).at(columnIt) = value;
 			}
 			catch (PaleEngineException& exception) {
-				if (exception.GetType() == 'e')
+				if (exception.GetType() == 'e') {
 					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+					std::cin.get();
+					exit(EXIT_FAILURE);
+				}
 				else if (exception.GetType() == 'w')
 					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
 
@@ -443,8 +729,11 @@ namespace Pale {
 				_board.at(rowIt).at(columnIt) = value;
 			}
 			catch (PaleEngineException& exception) {
-				if (exception.GetType() == 'e')
+				if (exception.GetType() == 'e') {
 					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+					std::cin.get();
+					exit(EXIT_FAILURE);
+				}
 				else if (exception.GetType() == 'w')
 					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
 

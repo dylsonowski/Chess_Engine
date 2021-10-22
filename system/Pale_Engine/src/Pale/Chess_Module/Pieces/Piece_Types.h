@@ -18,6 +18,7 @@ namespace Pale {
 		public:
 			King() = delete;
 			King(OWNERS owner, unsigned int numberOfCopy);
+			King(OWNERS owner, std::pair<unsigned int, unsigned int> startingPos);
 			~King() = default;
 
 			void SetKingStatus(bool setCheck, bool value) {
@@ -26,6 +27,7 @@ namespace Pale {
 				else
 					_checkMate = value;
 			}
+			void SetKingFirstMove(bool value) { _firstMove = value; }
 			void ExecuteSpecialMove() override { _specialMove->Execute(); }
 
 			bool SpecialLogic(MOVE_TYPES type, std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board, std::optional<char> newPiece) override;
@@ -94,6 +96,7 @@ namespace Pale {
 			~Rook() = default;
 
 			void ExecuteSpecialMove() override { _specialMove->Execute(); }
+			void SetFirstMove(bool value) { _firstMove = value; }
 
 			bool SpecialLogic(MOVE_TYPES type, std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board, std::optional<char> newPiece) override;
 			bool MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) override;
@@ -109,9 +112,11 @@ namespace Pale {
 		public:
 			Pawn() = delete;
 			Pawn(OWNERS owner, unsigned int numberOfCopy);
+			Pawn(OWNERS owner, std::pair<unsigned int, unsigned int> startingPos);
 			~Pawn() = default;
 
 			void ExecuteSpecialMove() override { _specialMove->Execute(); }
+			void SetFirstMove(bool value) { _firstMove = value; }
 
 			bool SpecialLogic(MOVE_TYPES type, std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board, std::optional<char> newPiece) override;
 			bool MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) override;
