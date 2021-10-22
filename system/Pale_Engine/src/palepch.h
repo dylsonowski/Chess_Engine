@@ -3,6 +3,10 @@
 #include <memory>
 #include <typeinfo>
 #include <iostream>
+#include <sstream>
+#include <math.h>
+#include <optional>
+#include <fstream>
 
 #include <vector>
 #include <utility>

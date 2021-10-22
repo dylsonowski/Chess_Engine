@@ -1,0 +1,23 @@
+<--- Scenario --->
+|bR|bN|bB|bQ|bK|bB|bN|bR|
+|bP|bP|bP|bP|bP|bP|bP|bP|
+|x |x |x |x |x |x |x |x |
+|x |x |x |x |x |x |x |x |
+|x |x |x |x |x |x |x |x |
+|x |x |x |x |x |x |x |x |
+|wP|wP|wP|wP|wP|wP|wP|wP|
+|wR|wN|wB|wQ|wK|wB|wN|wR|
+
+# Tests #
+    @PieceMove
+    {Pa7a5, w} | true
+    {Bf8d6, b} | false
+    {Nb8a6, b} | true
+    {0-0-0, w} | false
+    (END)
+
+    @MoveGeneration
+    {0, 0} | 0
+    {7, 1} | 2
+    {6, 0} | 2
+    (END)

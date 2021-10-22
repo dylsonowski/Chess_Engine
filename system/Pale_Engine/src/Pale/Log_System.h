@@ -13,10 +13,14 @@ namespace Pale {
 
 		inline static std::shared_ptr<spdlog::logger> GetCoreLogger() { return s_coreLogger; }
 		inline static std::shared_ptr<spdlog::logger> GetClientLogger() { return s_clientLogger; }
+		inline static std::shared_ptr<spdlog::logger> GetTestsLogger() { return s_testsLogger; }
+		inline static std::shared_ptr<spdlog::logger> GetAssertionLogger() { return s_assertionLogger; }
 
 	private:
 		static std::shared_ptr<spdlog::logger> s_coreLogger;
 		static std::shared_ptr<spdlog::logger> s_clientLogger;
+		static std::shared_ptr<spdlog::logger> s_testsLogger;
+		static std::shared_ptr<spdlog::logger> s_assertionLogger;
 	};
 }
 
@@ -27,7 +31,17 @@ namespace Pale {
 #define PALE_ENGINE_WARN(...) ::Pale::Log_System::GetCoreLogger()->warn(__VA_ARGS__)
 #define PALE_ENGINE_ERROR(...) ::Pale::Log_System::GetCoreLogger()->error(__VA_ARGS__)
 
-#define PALE_TRACE(...) ::Pale::Log_System::GetLientLogger()->trace(__VA_ARGS__)
+#define PALE_TRACE(...) ::Pale::Log_System::GetClientLogger()->trace(__VA_ARGS__)
 #define PALE_INFO(...) ::Pale::Log_System::GetClientLogger()->info(__VA_ARGS__)
 #define PALE_WARN(...) ::Pale::Log_System::GetClientLogger()->warn(__VA_ARGS__)
 #define PALE_ERROR(...) ::Pale::Log_System::GetClientLogger()->error(__VA_ARGS__)
+
+#define PALE_TESTS_TRACE(...) ::Pale::Log_System::GetTestsLogger()->trace(__VA_ARGS__)
+#define PALE_TESTS_INFO(...) ::Pale::Log_System::GetTestsLogger()->info(__VA_ARGS__)
+#define PALE_TESTS_WARN(...) ::Pale::Log_System::GetTestsLogger()->warn(__VA_ARGS__)
+#define PALE_TESTS_ERROR(...) ::Pale::Log_System::GetTestsLogger()->error(__VA_ARGS__)
+
+#define PALE_ASSERTION_TRACE(...) ::Pale::Log_System::GetAssertionLogger()->trace(__VA_ARGS__)
+#define PALE_ASSERTION_INFO(...) ::Pale::Log_System::GetAssertionLogger()->info(__VA_ARGS__)
+#define PALE_ASSERTION_WARN(...) ::Pale::Log_System::GetAssertionLogger()->warn(__VA_ARGS__)
+#define PALE_ASSERTION_ERROR(...) ::Pale::Log_System::GetAssertionLogger()->error(__VA_ARGS__)

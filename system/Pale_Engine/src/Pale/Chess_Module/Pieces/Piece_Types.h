@@ -17,106 +17,133 @@ namespace Pale {
 
 		public:
 			King() = delete;
-			King(PIECE_OWNER owner, unsigned int numberOfCopy);
+			King(OWNERS owner, unsigned int numberOfCopy);
+			King(OWNERS owner, std::pair<unsigned int, unsigned int> startingPos);
 			~King() = default;
 
-			void SpecialLogic() override { _specialMove->Execute(); } //todo: Implement special move logic.
 			void SetKingStatus(bool setCheck, bool value) {
 				if (setCheck)
 					_check = value;
 				else
 					_checkMate = value;
 			}
+			void SetKingFirstMove(bool value) { _firstMove = value; }
+			void ExecuteSpecialMove() override { _specialMove->Execute(); }
 
-			bool MoveLogic(std::string move, std::vector<std::vector<int>>& board) const override { return false; } //todo: Define move logic for king.
+			bool SpecialLogic(MOVE_TYPES type, std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board, std::optional<char> newPiece) override;
+			bool MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) override;
+			std::vector<Move_Command> GenerateLegitMoves(std::vector<std::vector<std::shared_ptr<Pieces>>>& board) override;
 			inline bool GetKingStatus(bool getCheck) const {
 				if (getCheck)
 					return _check;
 				else
 					return _checkMate;
 			}
+			inline bool DidNotMove() const { return _firstMove; }
 
 		private:
-			bool _check, _checkMate;
+			bool _check, _checkMate, _firstMove;
 		};
 
 		class Queen : public Pieces {
 
 		public:
 			Queen() = delete;
-			Queen(PIECE_OWNER owner, unsigned int numberOfCopy);
+			Queen(OWNERS owner, unsigned int numberOfCopy);
+			Queen(OWNERS owner, std::pair<unsigned int, unsigned int> startingPos);
 			~Queen() = default;
 
-			void SpecialLogic() override { _specialMove->Execute(); }
+			void ExecuteSpecialMove() override { _specialMove->Execute(); }
 
-			bool MoveLogic(std::string move, std::vector<std::vector<int>>& board) const override { return false; } //todo: Define move logic for queen.
+			bool MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) override;
+			std::vector<Move_Command> GenerateLegitMoves(std::vector<std::vector<std::shared_ptr<Pieces>>>& board) override;
 		};
 
 		class Bishop : public Pieces {
 
 		public:
 			Bishop() = delete;
-			Bishop(PIECE_OWNER owner, unsigned int numberOfCopy);
+			Bishop(OWNERS owner, unsigned int numberOfCopy);
+			Bishop(OWNERS owner, std::pair<unsigned int, unsigned int> startingPos);
 			~Bishop() = default;
 
-			void SpecialLogic() override { _specialMove->Execute(); }
+			void ExecuteSpecialMove() override { _specialMove->Execute(); }
 
-			bool MoveLogic(std::string move, std::vector<std::vector<int>>& board) const override { return false; } //todo: Define move logic for bishop.
+			bool MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) override;
+			std::vector<Move_Command> GenerateLegitMoves(std::vector<std::vector<std::shared_ptr<Pieces>>>& board) override;
 		};
 
 		class Knight : public Pieces {
 
 		public:
 			Knight() = delete;
-			Knight(PIECE_OWNER owner, unsigned int numberOfCopy);
+			Knight(OWNERS owner, unsigned int numberOfCopy);
+			Knight(OWNERS owner, std::pair<unsigned int, unsigned int> startingPos);
 			~Knight() = default;
 
-			void SpecialLogic() override { _specialMove->Execute(); }
+			void ExecuteSpecialMove() override { _specialMove->Execute(); }
 
-			bool MoveLogic(std::string move, std::vector<std::vector<int>>& board) const override { return false; } //todo: Define move logic for knight.
+			bool MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) override;
+			std::vector<Move_Command> GenerateLegitMoves(std::vector<std::vector<std::shared_ptr<Pieces>>>& board) override;
 		};
 
 		class Rook : public Pieces {
 
 		public:
 			Rook() = delete;
-			Rook(PIECE_OWNER owner, unsigned int numberOfCopy);
+			Rook(OWNERS owner, unsigned int numberOfCopy);
+			Rook(OWNERS owner, std::pair<unsigned int, unsigned int> startingPos);
 			~Rook() = default;
 
-			void SpecialLogic() override { _specialMove->Execute(); } //todo: Implement special move logic.
+			void ExecuteSpecialMove() override { _specialMove->Execute(); }
+			void SetFirstMove(bool value) { _firstMove = value; }
 
-			bool MoveLogic(std::string move, std::vector<std::vector<int>>& board) const override { return false; } //todo: Define move logic for rook.
+			bool SpecialLogic(MOVE_TYPES type, std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board, std::optional<char> newPiece) override;
+			bool MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) override;
+			std::vector<Move_Command> GenerateLegitMoves(std::vector<std::vector<std::shared_ptr<Pieces>>>& board) override;
+			inline bool DidNotMove() const { return _firstMove; }
+
+		private:
+			bool _firstMove;
 		};
 
 		class Pawn : public Pieces {
 
 		public:
 			Pawn() = delete;
-			Pawn(PIECE_OWNER owner, unsigned int numberOfCopy);
+			Pawn(OWNERS owner, unsigned int numberOfCopy);
+			Pawn(OWNERS owner, std::pair<unsigned int, unsigned int> startingPos);
 			~Pawn() = default;
 
-			void SpecialLogic() override { _specialMove->Execute(); } //todo: Implement special move logic.
+			void ExecuteSpecialMove() override { _specialMove->Execute(); }
+			void SetFirstMove(bool value) { _firstMove = value; }
 
-			bool MoveLogic(std::string move, std::vector<std::vector<int>>& board) const override { return false; } //todo: Define move logic for pawn.
+			bool SpecialLogic(MOVE_TYPES type, std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board, std::optional<char> newPiece) override;
+			bool MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) override;
+			std::vector<Move_Command> GenerateLegitMoves(std::vector<std::vector<std::shared_ptr<Pieces>>>& board) override;
+
+			inline bool MovedByTwo() const { return _movedByTwo; }
 
 		private:
-			bool _firstMove;
+			bool _firstMove, _movedByTwo;
 		};
 
 		class Blank : public Pieces {
 
 		public:
 			Blank() = delete;
-			Blank(unsigned int rowCord, unsigned int columnCord) : Pieces(PIECE_OWNER::NONE, 64) {
+			Blank(unsigned int rowCord, unsigned int columnCord) : Pieces(OWNERS::NONE, 64) {
 				_value = 0;
+				_name = "x";
 				_positionCords = std::make_pair(rowCord, columnCord);
 				_specialMove = std::make_shared<None>();
 			}
 			~Blank() = default;
 
-			void SpecialLogic() override { _specialMove->Execute(); }
+			void ExecuteSpecialMove() override { _specialMove->Execute(); }
 
-			bool MoveLogic(std::string move, std::vector<std::vector<int>>& board) const override { return false; }
+			bool MoveLogic(std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) override { return false; }
+			std::vector<Move_Command> GenerateLegitMoves(std::vector<std::vector<std::shared_ptr<Pieces>>>& board) override { return {}; }
 		};
 	}
 }
