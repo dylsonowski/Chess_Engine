@@ -35,6 +35,8 @@ enum class OWNERS {
 	BLACK
 };
 
+
+//--- Enum of move types ---//
 enum class MOVE_TYPES {
 	BASIC = 0,
 	PROMOTION,
@@ -42,12 +44,13 @@ enum class MOVE_TYPES {
 	EN_PASSANT
 };
 
+//-- Enum of UI types ---//
 enum class UI_TYPE {
 	COMMAND_LINE = 0,
 	GRAPHICAL
 };
 
-enum class APP_STATES { // Temporary solution! TODO: Remove when state machine will be implemented!
+enum class APP_STATES { // TODO: Temporary solution! Remove when state machine will be implemented!
 	MAIN_MENU_STATE = 0,
 	GAME_STATE,
 	END_STATE

@@ -1,7 +1,6 @@
 #pragma once
 #include "../Engine_Macros.h"
 #include "Pieces/Piece_Types.h"
-//#include "../Log_System.h" todo: Check if necessary (if not delete).
 
 namespace Pale {
 	namespace Chess_Logic {
@@ -59,6 +58,13 @@ namespace Pale {
 
 			std::string ToString() const;
 
+			inline bool operator==(const Board_Representation<T>& second) const {
+				if (this->_row != second._row || this->_column != second._column || this->_representationType != second._representationType || this->_board != second._board)
+					return false;
+
+				return true;
+			}
+
 		private:
 			unsigned int _row, _column;
 			std::vector<std::vector<T>> _board;
@@ -73,9 +79,6 @@ namespace Pale {
 		//--- Convertion function ---//
 		template<typename D, typename T>
 		Board_Representation<D> ConvertBoard(const Board_Representation<T>& board);
-
-		//template<typename T>
-		//void Board_Representation<T>::SetPlateValue(unsigned int rowIt, unsigned int columnIt, T value);
 
 		template<typename T>
 		bool Board_Representation<T>::MovePiece(Move_Command& command, Pieces& piece) {
@@ -277,7 +280,7 @@ namespace Pale {
 					processedMove.m_capture = true;
 				}
 				//--- Short castling move (right) ---//
-				//--- IMPORTANT: 'endPos' in case of castling is set to be possition of rook which taking part in the manover ---//
+				// IMPORTANT: 'endPos' in case of castling is set to be possition of rook which taking part in the manover.
 				else if (move == "0-0") {
 					processedMove.m_moveType = MOVE_TYPES::CASTLING;
 					if (whichTurn == OWNERS::BLACK) {
@@ -296,7 +299,7 @@ namespace Pale {
 					processedMove.m_capture = false;
 				}
 				//--- Long castling move (left) ---//
-				//--- IMPORTANT: 'endPos' in case of castling is set to be possition of rook which taking part in the manover ---//
+				// IMPORTANT: 'endPos' in case of castling is set to be possition of rook which taking part in the manover.
 				else if (move == "0-0-0") {
 					processedMove.m_moveType = MOVE_TYPES::CASTLING;
 

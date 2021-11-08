@@ -10,8 +10,8 @@ namespace Pale {
 			User_Interface() = delete;
 			virtual ~User_Interface() = default;
 
-			virtual void Draw() const = 0; //TODO: Add necessary arguments!
-			virtual void Update() = 0; //TODO: Add necessary arguments!
+			virtual void Draw() const = 0; // TODO: Add necessary arguments!
+			virtual void Update() = 0; // TODO: Add necessary arguments!
 
 			void SetGameStatus(bool setCheck, bool value) {
 				if (setCheck)

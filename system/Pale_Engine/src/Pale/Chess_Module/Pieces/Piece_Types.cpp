@@ -114,12 +114,12 @@ namespace Pale {
 				if (_firstMove)
 					_firstMove = false;
 			}
-			//todo: Work but test needed!
+			// TODO: Work but test needed!
 			return canMove;
 		}
 
 		bool King::SpecialLogic(MOVE_TYPES type, std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board, std::optional<char> newPiece) { 
-			//important: REMEMBER! To perform castling, SpecialLogic method have to return 'true' for both King and Rook performing manover
+			// IMPORTANT: REMEMBER! To perform castling, SpecialLogic method have to return 'true' for both King and Rook performing manover.
 			bool canPerform = true;
 			if (endPos.second < _positionCords.second) { //Long castling
 				//--- King can perform long castling if it didn't move in this game ---//
@@ -249,7 +249,7 @@ namespace Pale {
 						_specialMove = std::make_shared<Castling>(_positionCords, Piece_Starting_Positions::m_rookStartPos.second.at(1), board);
 				}
 			}
-			//todo: Check if work properly
+			// TODO: Check if work properly
 			return canPerform;
 		}
 		
@@ -471,7 +471,7 @@ namespace Pale {
 
 			if (!canMove)
 				PALE_ENGINE_TRACE("Queen piece cannot move to this location.");
-			//todo: Check if work properly
+			// TODO: Check if work properly
 			return canMove;
 		}
 
@@ -723,7 +723,7 @@ namespace Pale {
 
 			if(!canMove)
 				PALE_ENGINE_TRACE("Bishop piece cannot move to this location.");
-			//todo: Check if work properly
+			// TODO: Check if work properly
 			return canMove;
 		}
 
@@ -895,7 +895,7 @@ namespace Pale {
 
 			if (!canMove)
 				PALE_ENGINE_TRACE("Knight piece cannot move to this location.");
-			//todo: Check if work properly
+			// TODO: Check if work properly
 			return canMove;
 		}
 
@@ -1100,12 +1100,12 @@ namespace Pale {
 				if (_firstMove)
 					_firstMove = false;
 			}
-			//todo: Check if work properly
+			// TODO: Check if work properly
 			return canMove;
 		}
 
 		bool Rook::SpecialLogic(MOVE_TYPES type, std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board, std::optional<char> newPiece) {
-			//important: REMEMBER! To perform castling, SpecialLogic method have to return 'true' for both King and Rook performing manover
+			// IMPORTANT: REMEMBER! To perform castling, SpecialLogic method have to return 'true' for both King and Rook performing manover
 			bool canPerform = true;
 			if (endPos.second < _positionCords.second) { //Long castling
 				//--- Rook can perform long castling only if it didn't move in this game ---//
@@ -1235,7 +1235,7 @@ namespace Pale {
 						_specialMove = std::make_shared<Castling>(Piece_Starting_Positions::m_kingStartPos.second.at(0), _positionCords, board);
 				}
 			}
-			//todo: Check if work properly
+			// TODO: Check if work properly
 			return canPerform;
 		}
 
@@ -1443,7 +1443,7 @@ namespace Pale {
 				if (_firstMove)
 					_firstMove = false;
 			}
-			//todo: Check if work properly
+			// TODO: Check if work properly
 			return canMove;
 		}
 
@@ -1538,7 +1538,7 @@ namespace Pale {
 				else
 					_specialMove = std::make_shared<En_Passant>(_positionCords, endPos, board, _owner);
 			}
-			//todo: Check if work properly
+			// TODO: Check if work properly
 			return canPerform;
 		}
 

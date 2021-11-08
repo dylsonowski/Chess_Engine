@@ -1,5 +1,4 @@
 #pragma once
-//#include "../../Engine_Macros.h" todo: Check if necessary (if not delete).
 #include "Pieces.h"
 
 namespace Pale {
