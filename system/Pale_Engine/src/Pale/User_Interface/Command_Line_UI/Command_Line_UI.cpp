@@ -1,7 +1,7 @@
 #include "palepch.h"
 #include "Command_Line_UI.h"
 
-// IMPORTANT: Game loop = Start => Draw() => Update() => GoYo(Start)
+// IMPORTANT: Game loop = Start => Draw() => Update() => GoTo(Start)
 
 namespace Pale {
 	namespace UI {
@@ -42,43 +42,64 @@ namespace Pale {
 				_applicationState = applicationState;
 				PALE_ENGINE_INFO("Command line UI: Application state updated!");
 
-				// IMPORTANT: Depending on appliacation stat, different action handling is neccessary
+				// IMPORTANT: Depending on appliacation state, different action handling needs to be used
 				switch (_applicationState) {
 				case APP_STATES::GAME_STATE:
-					if (_insertMoveCommand) {
-						std::string moveCommand;
-						std::cin >> moveCommand;
+					if (!_printHelp) {
+						if (_insertMoveCommand) {
+							std::string moveCommand;
+							std::cin >> moveCommand;
 
-						if (moveCommand == "?")
-							_printHelp = true;
+							if (moveCommand == "?")
+								_printHelp = true;
 
-						_insertMoveCommand = false;
-						// TODO: Emit proper event in event emitter
-					}
-					else if (_invalidCommandInserted) {
+							_insertMoveCommand = false;
+							// TODO: Emit proper event in event emitter
+						}
+						else if (_invalidCommandInserted) {
+							char command;
+							std::cin >> command;
 
+							if (command == 'Y' || command == 'y')
+								_printHelp = true;
+							else if (command == 'N' || command == 'n') {
+								_invalidCommandInserted = false;
+								_insertMoveCommand = true;
+							}
+						}
+						else {
+							char command;
+							std::cin >> command;
+
+							if (command == 'N' || command == 'n') {
+
+							}
+							else if (command == 'M' || command == 'm') {
+
+							}
+							else if (command == 'Q' || command == 'q') {
+
+							}
+						}
 					}
 					else {
-						char command;
-						std::cin >> command;
+						system("pause");
 
-						if (command == 'N' || command == 'n') {
-
-						}
-						else if (command == 'M' || command == 'm') {
-
-						}
-						else if (command == 'Q' || command == 'q') {
-
-						}
+						_printHelp = false;
 					}
+					break;
+
+				case APP_STATES::END_STATE:
+					system("pause");
+
+					// TODO: Emit endAppliacation event to appliacation core
 					break;
 
 				default:
 					short unsigned int treeDepth;
 					std::cin >> treeDepth;
 
-					// TODO: Emit proper event to aplication core
+					// TODO: Emit gameTreeSetup event to aplication core
 					break;
 				}
 			}
@@ -188,7 +209,7 @@ namespace Pale {
 
 						//--- Allows to print out user help if invalid move command will be inserted ---//
 						if (_invalidCommandInserted)
-							std::cout << "You gave incorrect move command!\nWould you like to see  move command help?\t (Y)es\t (N)o: ";
+							std::cout << "You gave incorrect move command!\nWould you like to see move command help?\t (Y)es\t (N)o: ";
 					}
 					//--- Print out user help if necessary ---//
 					else
