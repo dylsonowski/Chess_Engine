@@ -57,15 +57,10 @@ namespace Pale {
 					throw PaleEngineException("Exception happened!", 'e', "Piece_Types.cpp", 56, "King", FIGURE_BAD_OWNER);
 			}
 			catch (PaleEngineException& exception) {
-				if (exception.GetType() == 'e') {
-					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-					std::cin.get();
-					exit(EXIT_FAILURE);
-				}
+				if (exception.GetType() == 'e')
+					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
 				else if (exception.GetType() == 'w')
 					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-
-				std::cin.get();
 			}
 		}
 
@@ -85,15 +80,10 @@ namespace Pale {
 				_positionCords = startingPos;
 			}
 			catch (PaleEngineException& exception) {
-				if (exception.GetType() == 'e') {
-					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-					std::cin.get();
-					exit(EXIT_FAILURE);
-				}
+				if (exception.GetType() == 'e')
+					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
 				else if (exception.GetType() == 'w')
 					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-
-				std::cin.get();
 			}
 		}
 
@@ -425,15 +415,10 @@ namespace Pale {
 				_specialMove = std::make_shared<None>();
 			}
 			catch (PaleEngineException& exception) {
-				if (exception.GetType() == 'e') {
-					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-					std::cin.get();
-					exit(EXIT_FAILURE);
-				}
-				else if (exception.GetType() == 'w')
+				if (exception.GetType() == 'e')
+					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
+				else if(exception.GetType() == 'w')
 					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-
-				std::cin.get();
 			}
 		}
 
@@ -454,15 +439,10 @@ namespace Pale {
 				_specialMove = std::make_shared<None>();
 			}
 			catch (PaleEngineException& exception) {
-				if (exception.GetType() == 'e') {
-					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-					std::cin.get();
-					exit(EXIT_FAILURE);
-				}
+				if (exception.GetType() == 'e')
+					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
 				else if (exception.GetType() == 'w')
 					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-
-				std::cin.get();
 			}
 		}
 
@@ -688,15 +668,10 @@ namespace Pale {
 				_specialMove = std::make_shared<None>();
 			}
 			catch (PaleEngineException& exception) {
-				if (exception.GetType() == 'e') {
-					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-					std::cin.get();
-					exit(EXIT_FAILURE);
-				}
+				if (exception.GetType() == 'e')
+					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
 				else if (exception.GetType() == 'w')
 					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-
-				std::cin.get();
 			}
 		}
 
@@ -717,15 +692,10 @@ namespace Pale {
 				_specialMove = std::make_shared<None>();
 			}
 			catch (PaleEngineException& exception) {
-				if (exception.GetType() == 'e') {
-					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-					std::cin.get();
-					exit(EXIT_FAILURE);
-				}
+				if (exception.GetType() == 'e')
+					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
 				else if (exception.GetType() == 'w')
 					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-
-				std::cin.get();
 			}
 		}
 
@@ -870,15 +840,10 @@ namespace Pale {
 				_specialMove = std::make_shared<None>();
 			}
 			catch (PaleEngineException& exception) {
-				if (exception.GetType() == 'e') {
-					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-					std::cin.get();
-					exit(EXIT_FAILURE);
-				}
+				if (exception.GetType() == 'e')
+					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
 				else if (exception.GetType() == 'w')
 					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-
-				std::cin.get();
 			}
 		}
 
@@ -899,15 +864,10 @@ namespace Pale {
 				_specialMove = std::make_shared<None>();
 			}
 			catch (PaleEngineException& exception) {
-				if (exception.GetType() == 'e') {
-					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-					std::cin.get();
-					exit(EXIT_FAILURE);
-				}
+				if (exception.GetType() == 'e')
+					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
 				else if (exception.GetType() == 'w')
 					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-
-				std::cin.get();
 			}
 		}
 
@@ -1082,15 +1042,10 @@ namespace Pale {
 					throw PaleEngineException("Exception happened!", 'e', "Piece_Types.cpp", 164, "Rook", FIGURE_BAD_OWNER);
 			}
 			catch (PaleEngineException& exception) {
-				if (exception.GetType() == 'e') {
-					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-					std::cin.get();
-					exit(EXIT_FAILURE);
-				}
+				if (exception.GetType() == 'e')
+					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
 				else if (exception.GetType() == 'w')
 					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-
-				std::cin.get();
 			}
 		}
 
@@ -1110,15 +1065,10 @@ namespace Pale {
 				_positionCords = startingPos;
 			}
 			catch (PaleEngineException& exception) {
-				if (exception.GetType() == 'e') {
-					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-					std::cin.get();
-					exit(EXIT_FAILURE);
-				}
+				if (exception.GetType() == 'e')
+					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
 				else if (exception.GetType() == 'w')
 					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-
-				std::cin.get();
 			}
 		}
 
@@ -1417,15 +1367,10 @@ namespace Pale {
 					throw PaleEngineException("Exception happened!", 'e', "Piece_Types.cpp", 191, "Pawn", FIGURE_BAD_OWNER);
 			}
 			catch (PaleEngineException& exception) {
-				if (exception.GetType() == 'e') {
-					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-					std::cin.get();
-					exit(EXIT_FAILURE);
-				}
+				if (exception.GetType() == 'e')
+					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
 				else if (exception.GetType() == 'w')
 					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-
-				std::cin.get();
 			}
 		}
 
@@ -1445,15 +1390,10 @@ namespace Pale {
 				_positionCords = startingPos;
 			}
 			catch (PaleEngineException& exception) {
-				if (exception.GetType() == 'e') {
-					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-					std::cin.get();
-					exit(EXIT_FAILURE);
-				}
+				if (exception.GetType() == 'e')
+					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
 				else if (exception.GetType() == 'w')
 					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-
-				std::cin.get();
 			}
 		}
 

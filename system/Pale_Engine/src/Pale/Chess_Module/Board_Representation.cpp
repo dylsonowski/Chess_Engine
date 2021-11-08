@@ -209,15 +209,19 @@ namespace Pale {
 		template<>
 		std::string Board_Representation<std::shared_ptr<Pieces>>::ToString() const {
 			std::stringstream ss;
+			int yLable = 9;
+			char xLabel = 'a';
+
 			for (int rowIt = 0; rowIt < _row; rowIt++) {
 				for (int columnIt = 0; columnIt < _column; columnIt++) {
 					if (columnIt == 0)
-						ss << "  --  ";
+						ss << "    --  ";
 					else
 						ss << " --  ";
 				}
 
 				ss << "\n";
+				ss << yLable-- << " ";
 				for (int columnIt = 0; columnIt < _column; columnIt++) {
 					if (columnIt == _column - 1) {
 						if (_board.at(rowIt).at(columnIt)->GetValue() == 0)
@@ -237,11 +241,17 @@ namespace Pale {
 				if (rowIt == _row - 1) {
 					for (int columnIt = 0; columnIt < _column; columnIt++) {
 						if (columnIt == 0)
-							ss << "  --  ";
+							ss << "    --  ";
 						else
 							ss << " --  ";
 					}
 				}
+			}
+
+			ss << "\n  ";
+			for (int columnIt = 0; columnIt < _column; columnIt++) {
+				ss << "  " << xLabel << "  ";
+				xLabel++;
 			}
 			return ss.str();
 		}
@@ -249,15 +259,19 @@ namespace Pale {
 		template<>
 		std::string Board_Representation<int>::ToString() const {
 			std::stringstream ss;
+			int yLable = 9;
+			char xLabel = 'a';
+
 			for (int rowIt = 0; rowIt < _row; rowIt++) {
 				for (int columnIt = 0; columnIt < _column; columnIt++) {
 					if (columnIt == 0)
-						ss << "  --  ";
+						ss << "    --  ";
 					else
 						ss << " --  ";
 				}
 
 				ss << "\n";
+				ss << yLable-- << " ";
 				for (int columnIt = 0; columnIt < _column; columnIt++) {
 					if (columnIt == _column - 1) {
 						if (_board.at(rowIt).at(columnIt) > 0)
@@ -281,11 +295,17 @@ namespace Pale {
 				if (rowIt == _row - 1) {
 					for (int columnIt = 0; columnIt < _column; columnIt++) {
 						if (columnIt == 0)
-							ss << "  --  ";
+							ss << "    --  ";
 						else
 							ss << " --  ";
 					}
 				}
+			}
+
+			ss << "\n  ";
+			for (int columnIt = 0; columnIt < _column; columnIt++) {
+				ss << "  " << xLabel << "  ";
+				xLabel++;
 			}
 			return ss.str();
 		}
@@ -293,15 +313,19 @@ namespace Pale {
 		template<>
 		std::string Board_Representation<std::string>::ToString() const {
 			std::stringstream ss;
+			int yLable = 9;
+			char xLabel = 'a';
+
 			for (int rowIt = 0; rowIt < _row; rowIt++) {
 				for (int columnIt = 0; columnIt < _column; columnIt++) {
 					if (columnIt == 0)
-						ss << "  --  ";
+						ss << "    --  ";
 					else
 						ss << " --  ";
 				}
 
 				ss << "\n";
+				ss << yLable-- << " ";
 				for (int columnIt = 0; columnIt < _column; columnIt++) {
 					if (columnIt == _column - 1) {
 						if (_board.at(rowIt).at(columnIt) == "x")
@@ -321,11 +345,17 @@ namespace Pale {
 				if (rowIt == _row - 1) {
 					for (int columnIt = 0; columnIt < _column; columnIt++) {
 						if (columnIt == 0)
-							ss << "  --  ";
+							ss << "    --  ";
 						else
 							ss << " --  ";
 					}
 				}
+			}
+
+			ss << "\n  ";
+			for (int columnIt = 0; columnIt < _column; columnIt++) {
+					ss << "  " << xLabel << "  ";
+				xLabel++;
 			}
 			return ss.str();
 		}
@@ -426,7 +456,7 @@ namespace Pale {
 						else if (abs(board.GetPlateValue(rowIt, columnIt)) == 0)
 							newBoard.SetPlateValue(rowIt, columnIt, std::make_shared<Blank>(rowIt, columnIt));
 						else
-							throw PaleEngineException("Exception happened!", 'w', "Board_representation.cpp", 399, "ConvertBoard", INVALID_PIECE_ID);
+							throw PaleEngineException("Exception happened!", 'w', "Board_representation.cpp", 399, "ConvertBoard", INVALID_PIECE_ID);		
 					}
 				}
 
@@ -434,15 +464,10 @@ namespace Pale {
 				return newBoard;
 			}
 			catch (PaleEngineException& exception) {
-				if (exception.GetType() == 'e') {
-					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-					std::cin.get();
-					exit(EXIT_FAILURE);
-				}
+				if (exception.GetType() == 'e')
+					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
 				else if (exception.GetType() == 'w')
 					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-
-				std::cin.get();
 			}
 		}
 
@@ -512,15 +537,10 @@ namespace Pale {
 				return newBoard;
 			}
 			catch (PaleEngineException& exception) {
-				if (exception.GetType() == 'e') {
-					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-					std::cin.get();
-					exit(EXIT_FAILURE);
-				}
+				if (exception.GetType() == 'e')
+					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
 				else if (exception.GetType() == 'w')
 					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-
-				std::cin.get();
 			}
 		}
 
@@ -592,15 +612,10 @@ namespace Pale {
 				return newBoard;
 			}
 			catch (PaleEngineException& exception) {
-				if (exception.GetType() == 'e') {
-					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-					std::cin.get();
-					exit(EXIT_FAILURE);
-				}
+				if (exception.GetType() == 'e')
+					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
 				else if (exception.GetType() == 'w')
 					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-
-				std::cin.get();
 			}
 		}
 
@@ -636,15 +651,10 @@ namespace Pale {
 				return newBoard;
 			}
 			catch (PaleEngineException& exception) {
-				if (exception.GetType() == 'e') {
-					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-					std::cin.get();
-					exit(EXIT_FAILURE);
-				}
+				if (exception.GetType() == 'e')
+					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
 				else if (exception.GetType() == 'w')
 					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-
-				std::cin.get();
 			}
 		}
 
@@ -674,15 +684,10 @@ namespace Pale {
 				_board.at(rowIt).at(columnIt) = value;
 			}
 			catch (PaleEngineException& exception) {
-				if (exception.GetType() == 'e') {
-					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-					std::cin.get();
-					exit(EXIT_FAILURE);
-				}
+				if (exception.GetType() == 'e')
+					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
 				else if (exception.GetType() == 'w')
 					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-
-				std::cin.get();
 			}
 		}
 
@@ -701,15 +706,10 @@ namespace Pale {
 				_board.at(rowIt).at(columnIt) = value;
 			}
 			catch (PaleEngineException& exception) {
-				if (exception.GetType() == 'e') {
-					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-					std::cin.get();
-					exit(EXIT_FAILURE);
-				}
+				if (exception.GetType() == 'e')
+					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
 				else if (exception.GetType() == 'w')
 					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-
-				std::cin.get();
 			}
 		}
 
@@ -729,15 +729,10 @@ namespace Pale {
 				_board.at(rowIt).at(columnIt) = value;
 			}
 			catch (PaleEngineException& exception) {
-				if (exception.GetType() == 'e') {
-					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-					std::cin.get();
-					exit(EXIT_FAILURE);
-				}
+				if (exception.GetType() == 'e')
+					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
 				else if (exception.GetType() == 'w')
 					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-
-				std::cin.get();
 			}
 		}
 	}

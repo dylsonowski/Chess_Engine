@@ -1,0 +1,14 @@
+[2021-11-07 18:58:42.951] [PALE] [info] Board was successfully created! Board type: Object.
+[2021-11-07 18:58:42.953] [PALE] [info] Board was successfully created! Board type: Int.
+[2021-11-07 18:58:42.953] [PALE] [trace] Convertion on int type!
+[2021-11-07 18:58:42.954] [PALE] [info] Board was successfully created! Board type: String.
+[2021-11-07 18:58:42.954] [PALE] [trace] Convertion on string type!
+[2021-11-07 18:58:42.955] [PALE] [info] Board was successfully created! Board type: Object.
+[2021-11-07 18:58:42.955] [PALE] [trace] Convertion on object type!
+[2021-11-07 18:58:42.956] [PALE] [info] Move was successfully processed.
+[2021-11-07 18:58:42.957] [PALE] [info] Move was successfully processed.
+[2021-11-07 18:58:42.957] [PALE] [info] Move was successfully made.
+[2021-11-07 18:58:42.958] [PALE] [info] Move was successfully processed.
+[2021-11-07 18:58:42.959] [PALE] [warning] Board_Representation.h [144]: Incorrect command! This plate is occupied by different piece!
+[2021-11-07 18:58:42.960] [PALE] [trace] Number of moves for piece on cordinats (0, 1): 2
+[2021-11-07 18:58:42.960] [PALE] [trace] Number of moves for piece on cordinats (0, 3): 4

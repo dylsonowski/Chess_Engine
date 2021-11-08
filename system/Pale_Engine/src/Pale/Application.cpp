@@ -1,9 +1,11 @@
 #include "palepch.h"
 #include "Application.h"
+#include <SFML/Graphics.hpp>
 
 namespace Pale {
 	void Application::Run()	{
-		LOG_SYSTEM_INIT;
+		LOG_SYSTEM_INIT(LOGGING_METHOD::BASIC);
+
 		Pale::Chess_Logic::Board_Representation<std::shared_ptr<Pale::Chess_Logic::Pieces>> board(8, 8, false);
 		std::cout << board << "\n\n";
 
@@ -34,6 +36,6 @@ namespace Pale {
 
 		std::vector<Move_Command> movesFirst = board.GetPlateValue(0, 1)->GenerateLegitMoves(board.GetBoardRef());
 		std::vector<Move_Command> movesSecond = board.GetPlateValue(0, 3)->GenerateLegitMoves(board.GetBoardRef());
-		while (1);
+		//while (1);
 	}
 }

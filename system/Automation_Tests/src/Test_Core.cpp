@@ -3,7 +3,7 @@
 
 int main(int argv, char** argc) {
 	try {
-		LOG_SYSTEM_INIT;
+		LOG_SYSTEM_INIT(LOGGING_METHOD::BASIC);
 		std::string testFileName = "Test_File1(8x8)";
 		std::vector<testing::TEST_TYPE> testsToExecute;
 
@@ -26,15 +26,10 @@ int main(int argv, char** argc) {
 		newAutomationTest.ExecuteTestCases(testsToExecute);
 	}
 	catch (PaleEngineException& exception) {
-		if (exception.GetType() == 'e') {
-			PALE_TESTS_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-			std::cin.get();
-			exit(EXIT_FAILURE);
-		}
+		if (exception.GetType() == 'e')
+			PALE_TESTS_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
 		else if (exception.GetType() == 'w')
 			PALE_TESTS_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-
-		std::cin.get();
 	}
 
 	std::cin.get();

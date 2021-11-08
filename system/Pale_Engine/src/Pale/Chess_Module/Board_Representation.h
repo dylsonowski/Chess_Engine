@@ -44,15 +44,10 @@ namespace Pale {
 						throw PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 61, "GetPlateValue", VEC_OUT_OF_RANGE);
 				}
 				catch (PaleEngineException& exception) {
-					if (exception.GetType() == 'e') {
-						PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-						std::cin.get();
-						exit(EXIT_FAILURE);
-					}
+					if (exception.GetType() == 'e')
+						PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
 					else if (exception.GetType() == 'w')
 						PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-
-					std::cin.get();
 				}
 			}
 			inline static bool IsFigureDead(int figure) {
@@ -109,14 +104,14 @@ namespace Pale {
 					if (piece.SpecialLogic(command.m_moveType, command.m_endPos, _board, command.m_newPiece)) {
 						PALE_ENGINE_INFO("Move was successfully made.");
 
-						#ifndef TESTING_ENV
+#ifndef TESTING_ENV
 						if (command.m_capture) {
 							AddToDeathList(_board.at(command.m_endPos.first).at(command.m_endPos.second)->GetValue());
 							_board.at(command.m_endPos.first).at(command.m_endPos.second) = std::make_shared<Blank>(command.m_endPos.first, command.m_endPos.second); //If capture set plate to blank
 						}
 
 						piece.ExecuteSpecialMove();
-						#endif
+#endif
 						return true;
 					}
 					break;
@@ -128,9 +123,9 @@ namespace Pale {
 					if (piece.SpecialLogic(command.m_moveType, command.m_endPos, _board, std::optional<char>())) { //This last argument is optional!
 						PALE_ENGINE_INFO("Move was successfully made.");
 
-						#ifndef TESTING_ENV
+#ifndef TESTING_ENV
 						piece.ExecuteSpecialMove();
-						#endif
+#endif
 						return true;
 					}
 					break;
@@ -142,9 +137,9 @@ namespace Pale {
 					if (piece.SpecialLogic(command.m_moveType, command.m_endPos, _board, std::optional<char>())) { //This last argument is optional!
 						PALE_ENGINE_INFO("Move was successfully made.");
 
-						#ifndef TESTING_ENV
+#ifndef TESTING_ENV
 						piece.ExecuteSpecialMove();
-						#endif
+#endif
 						return true;
 					}
 					break;
@@ -153,7 +148,7 @@ namespace Pale {
 					if (piece.MoveLogic(command.m_endPos, _board)) {
 						PALE_ENGINE_INFO("Move was successfully made.");
 
-						#ifndef TESTING_ENV
+#ifndef TESTING_ENV
 						if (command.m_capture) {
 							AddToDeathList(_board.at(command.m_endPos.first).at(command.m_endPos.second)->GetValue());
 							_board.at(command.m_endPos.first).at(command.m_endPos.second) = std::make_shared<Blank>(command.m_endPos.first, command.m_endPos.second); //If capture set plate to blank
@@ -162,7 +157,7 @@ namespace Pale {
 						_board.at(command.m_startPos.first).at(command.m_startPos.second).swap(_board.at(command.m_endPos.first).at(command.m_endPos.second)); //Swap contents of start and end plates.
 						_board.at(command.m_startPos.first).at(command.m_startPos.second)->UpdatePosition(command.m_startPos); //Update positions for both plates.
 						_board.at(command.m_endPos.first).at(command.m_endPos.second)->UpdatePosition(command.m_endPos);
-						#endif
+#endif
 						return true;
 					}
 					break;
@@ -170,15 +165,10 @@ namespace Pale {
 				return false;
 			}
 			catch (PaleEngineException& exception) {
-				if (exception.GetType() == 'e') {
-					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-					std::cin.get();
-					exit(EXIT_FAILURE);
-				}
+				if (exception.GetType() == 'e')
+					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
 				else if (exception.GetType() == 'w')
 					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-
-				std::cin.get();
 			}
 		}
 
@@ -393,15 +383,10 @@ namespace Pale {
 				return processedMove;
 			}
 			catch (PaleEngineException& exception) {
-				if (exception.GetType() == 'e') {
-					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-					std::cin.get();
-					exit(EXIT_FAILURE);
-				}
+				if (exception.GetType() == 'e')
+					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
 				else if (exception.GetType() == 'w')
 					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-
-				std::cin.get(); 
 			}
 		}
 
@@ -413,15 +398,10 @@ namespace Pale {
 					s_deathList.emplace_back(figure);
 			}
 			catch (PaleEngineException& exception) {
-				if (exception.GetType() == 'e') {
-					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-					std::cin.get();
-					exit(EXIT_FAILURE);
-				}
+				if (exception.GetType() == 'e')
+					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
 				else if (exception.GetType() == 'w')
 					PALE_ENGINE_WARN("{0}[{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-
-				std::cin.get();
 			}
 		}
 	}

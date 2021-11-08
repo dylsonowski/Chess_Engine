@@ -1,5 +1,8 @@
 #pragma once
 
+//--- Flag which specify if program should wait for user input after every AI move. (This option is avaliable only when 2 AI instances are playing vs each others ---//
+#define FULLY_AUTOMATED	false
+
 //--- Errors codes ---//
 #define VEC_OUT_OF_RANGE "Read attempt from out of vector range!"
 #define FIGURE_BAD_OWNER "If the figure was created it needs proper owning side!"
@@ -15,6 +18,7 @@
 #define READ_FILE_ERROR "Unable to open file!"
 #define TEST_CASE_SEARCH_FAIL "Type of test case that is searched for do not exist!"
 #define TEST_TOO_FEW_ARGUMENTS "Not enought arguments has been specified to start test run."
+#define UI_INVALID_AI_NUMBER "In case of chess game there can be only 2 players. Maximal number of AI instances is 2!"
 
 //--- Warnings codes ---//
 #define INVALID_PIECE_ID "No coresponding chess piece of the given ID! Insertion failed!"
@@ -36,6 +40,17 @@ enum class MOVE_TYPES {
 	PROMOTION,
 	CASTLING,
 	EN_PASSANT
+};
+
+enum class UI_TYPE {
+	COMMAND_LINE = 0,
+	GRAPHICAL
+};
+
+enum class APP_STATES { // Temporary solution! TODO: Remove when state machine will be implemented!
+	MAIN_MENU_STATE = 0,
+	GAME_STATE,
+	END_STATE
 };
 
 //--- Structure containing data passed by move command ---//
