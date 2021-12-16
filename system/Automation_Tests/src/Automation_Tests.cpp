@@ -1,7 +1,7 @@
 #include "palepch.h"
 #include "Automation_Tests.h"
 
-namespace testing {
+namespace Testing {
 	Automation_Tests::Automation_Tests(std::string fileName) {
 		std::string filePath = "test_scenarios/" + fileName + ".test";
 		_inputFilePath = filePath;

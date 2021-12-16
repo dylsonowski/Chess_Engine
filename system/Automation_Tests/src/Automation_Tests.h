@@ -1,7 +1,6 @@
 #pragma once
-#include <Pale.h>
 
-namespace testing {
+namespace Testing {
 	enum class TEST_TYPE {
 		NONE = 0,
 		PIECE_MOVE,

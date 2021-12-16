@@ -1,14 +1,17 @@
-[2021-11-07 18:58:42.951] [PALE] [info] Board was successfully created! Board type: Object.
-[2021-11-07 18:58:42.953] [PALE] [info] Board was successfully created! Board type: Int.
-[2021-11-07 18:58:42.953] [PALE] [trace] Convertion on int type!
-[2021-11-07 18:58:42.954] [PALE] [info] Board was successfully created! Board type: String.
-[2021-11-07 18:58:42.954] [PALE] [trace] Convertion on string type!
-[2021-11-07 18:58:42.955] [PALE] [info] Board was successfully created! Board type: Object.
-[2021-11-07 18:58:42.955] [PALE] [trace] Convertion on object type!
-[2021-11-07 18:58:42.956] [PALE] [info] Move was successfully processed.
-[2021-11-07 18:58:42.957] [PALE] [info] Move was successfully processed.
-[2021-11-07 18:58:42.957] [PALE] [info] Move was successfully made.
-[2021-11-07 18:58:42.958] [PALE] [info] Move was successfully processed.
-[2021-11-07 18:58:42.959] [PALE] [warning] Board_Representation.h [144]: Incorrect command! This plate is occupied by different piece!
-[2021-11-07 18:58:42.960] [PALE] [trace] Number of moves for piece on cordinats (0, 1): 2
-[2021-11-07 18:58:42.960] [PALE] [trace] Number of moves for piece on cordinats (0, 3): 4
+[2021-12-16 21:22:29.421] [PALE] [info] Board was successfully created! Board type: Object.
+[2021-12-16 21:22:29.422] [PALE] [info] Board was successfully created! Board type: String.
+[2021-12-16 21:22:29.422] [PALE] [trace] Convertion on string type!
+[2021-12-16 21:22:29.423] [PALE] [info] Board was successfully created! Board type: String.
+[2021-12-16 21:22:29.423] [PALE] [trace] Convertion on string type!
+[2021-12-16 21:22:29.520] [PALE] [info] Board was successfully created! Board type: String.
+[2021-12-16 21:22:29.521] [PALE] [trace] Convertion on string type!
+[2021-12-16 21:22:29.521] [PALE] [trace] Result of the board assertion: Rows = false, Columns = false, Type = false, Board = false
+[2021-12-16 21:22:33.666] [PALE] [trace] Event occured! GameTreeDepthSetupEvent: Game tree depth = 2
+[2021-12-16 21:22:33.707] [PALE] [info] Board was successfully created! Board type: String.
+[2021-12-16 21:22:33.707] [PALE] [trace] Convertion on string type!
+[2021-12-16 21:22:33.707] [PALE] [trace] Result of the board assertion: Rows = false, Columns = false, Type = false, Board = false
+[2021-12-16 21:22:33.707] [PALE] [info] Command line UI: Application state updated!
+[2021-12-16 21:22:33.749] [PALE] [info] Board was successfully created! Board type: String.
+[2021-12-16 21:22:33.749] [PALE] [trace] Convertion on string type!
+[2021-12-16 21:22:33.750] [PALE] [trace] Result of the board assertion: Rows = false, Columns = false, Type = false, Board = false
+[2021-12-16 21:22:36.852] [PALE] [trace] Event occured! ApplicationCloseEvent: Exit timeout = 1000

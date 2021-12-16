@@ -2,7 +2,6 @@
 #include "spdlog/spdlog.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
 #include "spdlog/sinks/basic_file_sink.h"
-#include "Engine_Macros.h"
 
 enum LOGGING_METHOD {
 	BASIC = 0,

@@ -74,7 +74,7 @@ struct Move_Command {
 class PaleEngineException : public std::exception {
 
 public:
-	PaleEngineException(const char* msg, char type, std::string file, int line, std::string function, std::string info) 
+	PaleEngineException(const char* msg, char type, std::string file, int line, std::string function, std::string info)
 		: std::exception(msg), _type(type), _file(file), _line(line), _function(function), _info(info) {}
 
 	char GetType() const { return _type; }

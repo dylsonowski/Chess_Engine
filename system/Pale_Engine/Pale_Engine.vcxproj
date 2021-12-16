@@ -107,6 +107,10 @@
     <ClInclude Include="src\Pale\Engine_Macros.h" />
     <ClInclude Include="src\Pale\Log_System.h" />
     <ClInclude Include="src\Pale\User_Interface\Command_Line_UI\Command_Line_UI.h" />
+    <ClInclude Include="src\Pale\User_Interface\Event_System\Event_Emitter.h" />
+    <ClInclude Include="src\Pale\User_Interface\Event_System\Event_System.h" />
+    <ClInclude Include="src\Pale\User_Interface\Event_System\Events\Application_Events.h" />
+    <ClInclude Include="src\Pale\User_Interface\Event_System\Events\Game_Events.h" />
     <ClInclude Include="src\Pale\User_Interface\Graphical_UI\Graphical_UI.h" />
     <ClInclude Include="src\Pale\User_Interface\User_Interface.h" />
     <ClInclude Include="src\palepch.h" />
@@ -118,7 +122,9 @@
     <ClCompile Include="src\Pale\Chess_Module\Pieces\Pieces.cpp" />
     <ClCompile Include="src\Pale\Log_System.cpp" />
     <ClCompile Include="src\Pale\User_Interface\Command_Line_UI\Command_Line_UI.cpp" />
+    <ClCompile Include="src\Pale\User_Interface\Event_System\Event_System.cpp" />
     <ClCompile Include="src\Pale\User_Interface\Graphical_UI\Graphical_UI.cpp" />
+    <ClCompile Include="src\Pale\User_Interface\User_Interface.cpp" />
     <ClCompile Include="src\palepch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

@@ -5,7 +5,7 @@ int main(int argv, char** argc) {
 	try {
 		LOG_SYSTEM_INIT(LOGGING_METHOD::BASIC);
 		std::string testFileName = "Test_File1(8x8)";
-		std::vector<testing::TEST_TYPE> testsToExecute;
+		std::vector<Testing::TEST_TYPE> testsToExecute;
 
 		if(argv < 3)
 			throw PaleEngineException("Exception happened!", 'e', "Test_Core.cpp", 7, "main", TEST_TOO_FEW_ARGUMENTS);
@@ -16,13 +16,13 @@ int main(int argv, char** argc) {
 
 			if (argc[iterator] == "-t") {
 				if (argc[iterator] == "PIECE_MOVE")
-					testsToExecute.emplace_back(testing::TEST_TYPE::PIECE_MOVE);
+					testsToExecute.emplace_back(Testing::TEST_TYPE::PIECE_MOVE);
 				else if (argc[iterator] == "MOVE_GENERATE")
-					testsToExecute.emplace_back(testing::TEST_TYPE::MOVE_GENERATE);
+					testsToExecute.emplace_back(Testing::TEST_TYPE::MOVE_GENERATE);
 			}
 		}
 
-		testing::Automation_Tests newAutomationTest(testFileName);
+		Testing::Automation_Tests newAutomationTest(testFileName);
 		newAutomationTest.ExecuteTestCases(testsToExecute);
 	}
 	catch (PaleEngineException& exception) {

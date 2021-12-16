@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <typeinfo>
+#include <typeindex>
 #include <iostream>
 #include <sstream>
 #include <math.h>
@@ -11,8 +12,11 @@
 #include <vector>
 #include <utility>
 #include <string>
+#include <map>
 
 #include "Pale/Log_System.h"
+#include "Pale/Engine_Macros.h"
+#include "Pale.h"
 
 #ifdef PLATFORM_WINDOWS
 	#include <Windows.h>
