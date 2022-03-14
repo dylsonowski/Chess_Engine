@@ -10,6 +10,21 @@
     <Filter Include="Pale\Chess_Module\Pieces">
       <UniqueIdentifier>{797449C3-6599-9843-8EE4-7DD37A689761}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Pale\User_Interface">
+      <UniqueIdentifier>{05C47C85-7125-5A93-FA92-A04566F39052}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pale\User_Interface\Command_Line_UI">
+      <UniqueIdentifier>{F7101543-63CA-7FED-EC29-9AC758E2355D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pale\User_Interface\Event_System">
+      <UniqueIdentifier>{9A77E22E-86C8-CD70-AF2C-BC329BDC60DA}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pale\User_Interface\Event_System\Events">
+      <UniqueIdentifier>{3E52A6E1-AAE1-67CC-B3DD-48E41FECA2D8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pale\User_Interface\Graphical_UI">
+      <UniqueIdentifier>{9C6B7166-88BC-5CA8-B120-4B6A9DD0EF11}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Pale.h" />
@@ -31,6 +46,27 @@
     <ClInclude Include="src\Pale\Log_System.h">
       <Filter>Pale</Filter>
     </ClInclude>
+    <ClInclude Include="src\Pale\User_Interface\Command_Line_UI\Command_Line_UI.h">
+      <Filter>Pale\User_Interface\Command_Line_UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Pale\User_Interface\Event_System\Event_Emitter.h">
+      <Filter>Pale\User_Interface\Event_System</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Pale\User_Interface\Event_System\Event_System.h">
+      <Filter>Pale\User_Interface\Event_System</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Pale\User_Interface\Event_System\Events\Application_Events.h">
+      <Filter>Pale\User_Interface\Event_System\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Pale\User_Interface\Event_System\Events\Game_Events.h">
+      <Filter>Pale\User_Interface\Event_System\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Pale\User_Interface\Graphical_UI\Graphical_UI.h">
+      <Filter>Pale\User_Interface\Graphical_UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Pale\User_Interface\User_Interface.h">
+      <Filter>Pale\User_Interface</Filter>
+    </ClInclude>
     <ClInclude Include="src\palepch.h" />
   </ItemGroup>
   <ItemGroup>
@@ -48,6 +84,18 @@
     </ClCompile>
     <ClCompile Include="src\Pale\Log_System.cpp">
       <Filter>Pale</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Pale\User_Interface\Command_Line_UI\Command_Line_UI.cpp">
+      <Filter>Pale\User_Interface\Command_Line_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Pale\User_Interface\Event_System\Event_System.cpp">
+      <Filter>Pale\User_Interface\Event_System</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Pale\User_Interface\Graphical_UI\Graphical_UI.cpp">
+      <Filter>Pale\User_Interface\Graphical_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Pale\User_Interface\User_Interface.cpp">
+      <Filter>Pale\User_Interface</Filter>
     </ClCompile>
     <ClCompile Include="src\palepch.cpp" />
   </ItemGroup>

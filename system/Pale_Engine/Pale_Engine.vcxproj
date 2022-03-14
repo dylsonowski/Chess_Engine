@@ -57,31 +57,35 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>palepch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>PLATFORM_WINDOWS;_DEBUG_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>vendor\spdlog\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>PLATFORM_WINDOWS;SFML_STATIC;_DEBUG_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>vendor\spdlog\include;src;vendor\sfml\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalDependencies>freetype.lib;opengl32.lib;winmm.lib;gdi32.lib;sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-system-s-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>vendor\sfml\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>palepch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>PLATFORM_WINDOWS;_RELEASE_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>vendor\spdlog\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>PLATFORM_WINDOWS;SFML_STATIC;_RELEASE_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>vendor\spdlog\include;src;vendor\sfml\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -89,6 +93,10 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <Lib>
+      <AdditionalDependencies>freetype.lib;opengl32.lib;winmm.lib;gdi32.lib;sfml-graphics-s.lib;sfml-window-s.lib;sfml-system-s.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>vendor\sfml\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\Pale.h" />
@@ -98,6 +106,13 @@
     <ClInclude Include="src\Pale\Chess_Module\Pieces\Pieces.h" />
     <ClInclude Include="src\Pale\Engine_Macros.h" />
     <ClInclude Include="src\Pale\Log_System.h" />
+    <ClInclude Include="src\Pale\User_Interface\Command_Line_UI\Command_Line_UI.h" />
+    <ClInclude Include="src\Pale\User_Interface\Event_System\Event_Emitter.h" />
+    <ClInclude Include="src\Pale\User_Interface\Event_System\Event_System.h" />
+    <ClInclude Include="src\Pale\User_Interface\Event_System\Events\Application_Events.h" />
+    <ClInclude Include="src\Pale\User_Interface\Event_System\Events\Game_Events.h" />
+    <ClInclude Include="src\Pale\User_Interface\Graphical_UI\Graphical_UI.h" />
+    <ClInclude Include="src\Pale\User_Interface\User_Interface.h" />
     <ClInclude Include="src\palepch.h" />
   </ItemGroup>
   <ItemGroup>
@@ -106,6 +121,10 @@
     <ClCompile Include="src\Pale\Chess_Module\Pieces\Piece_Types.cpp" />
     <ClCompile Include="src\Pale\Chess_Module\Pieces\Pieces.cpp" />
     <ClCompile Include="src\Pale\Log_System.cpp" />
+    <ClCompile Include="src\Pale\User_Interface\Command_Line_UI\Command_Line_UI.cpp" />
+    <ClCompile Include="src\Pale\User_Interface\Event_System\Event_System.cpp" />
+    <ClCompile Include="src\Pale\User_Interface\Graphical_UI\Graphical_UI.cpp" />
+    <ClCompile Include="src\Pale\User_Interface\User_Interface.cpp" />
     <ClCompile Include="src\palepch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

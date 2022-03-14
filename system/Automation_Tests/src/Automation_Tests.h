@@ -1,7 +1,6 @@
 #pragma once
-#include <Pale.h>
 
-namespace testing {
+namespace Testing {
 	enum class TEST_TYPE {
 		NONE = 0,
 		PIECE_MOVE,
@@ -44,15 +43,10 @@ namespace testing {
 				throw PaleEngineException("Exception happened!", 'e', "Automation_Tests.h", 43, "AssertGivenValue", errorMessage);
 		}
 		catch (PaleEngineException& exception) {
-			if (exception.GetType() == 'e') {
-				PALE_ASSERTION_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-				std::cin.get();
-				exit(EXIT_FAILURE);
-			}
+			if (exception.GetType() == 'e')
+				PALE_ASSERTION_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
 			else if (exception.GetType() == 'w')
 				PALE_ASSERTION_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-
-			std::cin.get();
 		}
 	}
 }

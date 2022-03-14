@@ -1,20 +1,24 @@
 #pragma once
 
+//--- Flag which specify if program should wait for user input after every AI move. (This option is avaliable only when 2 AI instances are playing vs each others ---//
+#define FULLY_AUTOMATED	false
+
 //--- Errors codes ---//
 #define VEC_OUT_OF_RANGE "Read attempt from out of vector range!"
 #define FIGURE_BAD_OWNER "If the figure was created it needs proper owning side!"
 #define COPY_LIMIT_EXCEEDED "Attempt to create to many instancies of the chess piece!"
 #define BAD_TYPE_INSERTION "Attempt to insert value of the type different than board representaion!"
 #define BAD_TYPE_CONVERTION "Attempt to convert on incorrect type!"
-#define MOVE_COMMAND__WRONG_OWNER "Incorrect owner specify in move command!"
+#define WRONG_OWNER "Incorrect owner specify!"
 #define MOVE_COMMAND__WRONG_PIECE "Specified piece do not exist!"
 #define MOVE_COMMAND__COORDINATE_OUT_OF_RANGE "Specified coordinate was from out of range!"
-#define MOVE_COMMAND__NO_KING_ON_BOARD "Unable to find correct king piece on given board!"
 #define MOVE_COMMAND__INVALID_MOVE_DIRECTION "Given move is not rectilinear!"
 #define MOVE_COMMAND__NO_NEW_PIECE "Piece to change into wasn't specify!"
 #define READ_FILE_ERROR "Unable to open file!"
 #define TEST_CASE_SEARCH_FAIL "Type of test case that is searched for do not exist!"
 #define TEST_TOO_FEW_ARGUMENTS "Not enought arguments has been specified to start test run."
+#define UI_INVALID_AI_NUMBER "In case of chess game there can be only 2 players. Maximal number of AI instances is 2!"
+#define KING_NOT_FOUND	"Application was unable to locate king piece on the board. It could mean it has been removed or not placed at all. Game cannot continue without king piece!"
 
 //--- Warnings codes ---//
 #define INVALID_PIECE_ID "No coresponding chess piece of the given ID! Insertion failed!"
@@ -31,11 +35,25 @@ enum class OWNERS {
 	BLACK
 };
 
+
+//--- Enum of move types ---//
 enum class MOVE_TYPES {
 	BASIC = 0,
 	PROMOTION,
 	CASTLING,
 	EN_PASSANT
+};
+
+//-- Enum of UI types ---//
+enum class UI_TYPE {
+	COMMAND_LINE = 0,
+	GRAPHICAL
+};
+
+enum class APP_STATES { // TODO: Temporary solution! Remove when state machine will be implemented!
+	MAIN_MENU_STATE = 0,
+	GAME_STATE,
+	END_STATE
 };
 
 //--- Structure containing data passed by move command ---//
@@ -56,7 +74,7 @@ struct Move_Command {
 class PaleEngineException : public std::exception {
 
 public:
-	PaleEngineException(const char* msg, char type, std::string file, int line, std::string function, std::string info) 
+	PaleEngineException(const char* msg, char type, std::string file, int line, std::string function, std::string info)
 		: std::exception(msg), _type(type), _file(file), _line(line), _function(function), _info(info) {}
 
 	char GetType() const { return _type; }

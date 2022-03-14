@@ -1,7 +1,7 @@
 #include "palepch.h"
 #include "Automation_Tests.h"
 
-namespace testing {
+namespace Testing {
 	Automation_Tests::Automation_Tests(std::string fileName) {
 		std::string filePath = "test_scenarios/" + fileName + ".test";
 		_inputFilePath = filePath;
@@ -77,15 +77,10 @@ namespace testing {
 			}
 		}
 		catch (PaleEngineException& exception) {
-			if (exception.GetType() == 'e') {
-				PALE_TESTS_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-				std::cin.get();
-				exit(EXIT_FAILURE);
-			}
+			if (exception.GetType() == 'e')
+				PALE_TESTS_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
 			else if (exception.GetType() == 'w')
 				PALE_TESTS_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-
-			std::cin.get();
 		}
 	}
 
@@ -148,15 +143,10 @@ namespace testing {
 			PrintTestReport(passedTests, failedTests, skippedTests);
 		}
 		catch (PaleEngineException& exception) {
-			if (exception.GetType() == 'e') {
-				PALE_TESTS_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-				std::cin.get();
-				exit(EXIT_FAILURE);
-			}
+			if (exception.GetType() == 'e')
+				PALE_TESTS_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
 			else if (exception.GetType() == 'w')
 				PALE_TESTS_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
-
-			std::cin.get();
 		}
 	}
 
