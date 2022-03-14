@@ -1,17 +1,340 @@
-[2021-12-16 21:22:29.421] [PALE] [info] Board was successfully created! Board type: Object.
-[2021-12-16 21:22:29.422] [PALE] [info] Board was successfully created! Board type: String.
-[2021-12-16 21:22:29.422] [PALE] [trace] Convertion on string type!
-[2021-12-16 21:22:29.423] [PALE] [info] Board was successfully created! Board type: String.
-[2021-12-16 21:22:29.423] [PALE] [trace] Convertion on string type!
-[2021-12-16 21:22:29.520] [PALE] [info] Board was successfully created! Board type: String.
-[2021-12-16 21:22:29.521] [PALE] [trace] Convertion on string type!
-[2021-12-16 21:22:29.521] [PALE] [trace] Result of the board assertion: Rows = false, Columns = false, Type = false, Board = false
-[2021-12-16 21:22:33.666] [PALE] [trace] Event occured! GameTreeDepthSetupEvent: Game tree depth = 2
-[2021-12-16 21:22:33.707] [PALE] [info] Board was successfully created! Board type: String.
-[2021-12-16 21:22:33.707] [PALE] [trace] Convertion on string type!
-[2021-12-16 21:22:33.707] [PALE] [trace] Result of the board assertion: Rows = false, Columns = false, Type = false, Board = false
-[2021-12-16 21:22:33.707] [PALE] [info] Command line UI: Application state updated!
-[2021-12-16 21:22:33.749] [PALE] [info] Board was successfully created! Board type: String.
-[2021-12-16 21:22:33.749] [PALE] [trace] Convertion on string type!
-[2021-12-16 21:22:33.750] [PALE] [trace] Result of the board assertion: Rows = false, Columns = false, Type = false, Board = false
-[2021-12-16 21:22:36.852] [PALE] [trace] Event occured! ApplicationCloseEvent: Exit timeout = 1000
+[2022-03-14 19:26:10.398] [PALE] [info] Board was successfully created! Board type: Object.
+[2022-03-14 19:26:10.399] [PALE] [info] Board was successfully created! Board type: String.
+[2022-03-14 19:26:10.400] [PALE] [trace] Convertion on string type!
+[2022-03-14 19:26:10.400] [PALE] [trace] ->Following commands are printed by KingCheckMate function:
+[2022-03-14 19:26:10.400] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:26:10.400] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:26:10.400] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:26:10.400] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:26:10.400] [PALE] [trace] Number of moves for piece on cordinats (7, 4): 0
+[2022-03-14 19:26:10.400] [PALE] [trace] <-End of KingCheckMate function logs
+[2022-03-14 19:26:10.400] [PALE] [trace] ->Following commands are printed by KingCheckMate function:
+[2022-03-14 19:26:10.400] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:26:10.400] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:26:10.400] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:26:10.400] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:26:10.400] [PALE] [trace] Number of moves for piece on cordinats (0, 4): 0
+[2022-03-14 19:26:10.400] [PALE] [trace] <-End of KingCheckMate function logs
+[2022-03-14 19:26:10.400] [PALE] [info] White king piece has been located! Cords: 7, 4
+[2022-03-14 19:26:10.400] [PALE] [info] Black king piece has been located! Cords: 0, 4
+[2022-03-14 19:26:10.400] [PALE] [info] Board was successfully created! Board type: String.
+[2022-03-14 19:26:10.400] [PALE] [trace] Convertion on string type!
+[2022-03-14 19:26:10.400] [PALE] [trace] Result of the board assertion: Rows = false, Columns = false, Type = false, Board = false
+[2022-03-14 19:26:13.521] [PALE] [trace] Event occured! GameTreeDepthSetupEvent: Game tree depth = 3
+[2022-03-14 19:26:13.521] [PALE] [trace] ->Following commands are printed by KingCheckMate function:
+[2022-03-14 19:26:13.521] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:26:13.521] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:26:13.521] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:26:13.521] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:26:13.521] [PALE] [trace] Number of moves for piece on cordinats (7, 4): 0
+[2022-03-14 19:26:13.521] [PALE] [trace] <-End of KingCheckMate function logs
+[2022-03-14 19:26:13.521] [PALE] [trace] ->Following commands are printed by KingCheckMate function:
+[2022-03-14 19:26:13.521] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:26:13.521] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:26:13.521] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:26:13.521] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:26:13.521] [PALE] [trace] Number of moves for piece on cordinats (0, 4): 0
+[2022-03-14 19:26:13.521] [PALE] [trace] <-End of KingCheckMate function logs
+[2022-03-14 19:26:13.521] [PALE] [info] White king piece has been located! Cords: 7, 4
+[2022-03-14 19:26:13.521] [PALE] [info] Black king piece has been located! Cords: 0, 4
+[2022-03-14 19:26:13.521] [PALE] [info] Board was successfully created! Board type: String.
+[2022-03-14 19:26:13.521] [PALE] [trace] Convertion on string type!
+[2022-03-14 19:26:13.521] [PALE] [trace] Result of the board assertion: Rows = false, Columns = false, Type = false, Board = false
+[2022-03-14 19:26:13.521] [PALE] [info] Command line UI: Application state updated!
+[2022-03-14 19:26:25.337] [PALE] [trace] ->Following commands are printed by KingCheckMate function:
+[2022-03-14 19:26:25.337] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:26:25.337] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:26:25.337] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:26:25.337] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:26:25.337] [PALE] [trace] Number of moves for piece on cordinats (7, 4): 0
+[2022-03-14 19:26:25.337] [PALE] [trace] <-End of KingCheckMate function logs
+[2022-03-14 19:26:25.337] [PALE] [trace] ->Following commands are printed by KingCheckMate function:
+[2022-03-14 19:26:25.337] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:26:25.337] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:26:25.337] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:26:25.337] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:26:25.337] [PALE] [trace] Number of moves for piece on cordinats (0, 4): 0
+[2022-03-14 19:26:25.337] [PALE] [trace] <-End of KingCheckMate function logs
+[2022-03-14 19:26:25.337] [PALE] [info] White king piece has been located! Cords: 7, 4
+[2022-03-14 19:26:25.337] [PALE] [info] Black king piece has been located! Cords: 0, 4
+[2022-03-14 19:26:25.337] [PALE] [info] Board was successfully created! Board type: String.
+[2022-03-14 19:26:25.337] [PALE] [trace] Convertion on string type!
+[2022-03-14 19:26:25.337] [PALE] [trace] Result of the board assertion: Rows = false, Columns = false, Type = false, Board = false
+[2022-03-14 19:27:09.900] [PALE] [trace] Event occured! MakeMoveEvent: Move command = Pe2e4
+[2022-03-14 19:27:09.900] [PALE] [info] Move was successfully processed.
+[2022-03-14 19:27:09.901] [PALE] [info] Move was successfully made.
+[2022-03-14 19:27:09.901] [PALE] [trace] ->Following commands are printed by KingCheckMate function:
+[2022-03-14 19:27:09.901] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:27:09.901] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:27:09.901] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:27:09.901] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:27:09.901] [PALE] [trace] Number of moves for piece on cordinats (7, 4): 1
+[2022-03-14 19:27:09.901] [PALE] [trace] <-End of KingCheckMate function logs
+[2022-03-14 19:27:09.901] [PALE] [trace] ->Following commands are printed by KingCheckMate function:
+[2022-03-14 19:27:09.901] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:27:09.901] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:27:09.901] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:27:09.901] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:27:09.901] [PALE] [trace] Number of moves for piece on cordinats (0, 4): 0
+[2022-03-14 19:27:09.901] [PALE] [trace] <-End of KingCheckMate function logs
+[2022-03-14 19:27:09.901] [PALE] [info] White king piece has been located! Cords: 7, 4
+[2022-03-14 19:27:09.901] [PALE] [info] Black king piece has been located! Cords: 0, 4
+[2022-03-14 19:27:09.901] [PALE] [info] Board was successfully created! Board type: String.
+[2022-03-14 19:27:09.901] [PALE] [trace] Convertion on string type!
+[2022-03-14 19:27:09.901] [PALE] [info] Command line UI: Board updated!
+[2022-03-14 19:27:12.740] [PALE] [trace] ->Following commands are printed by KingCheckMate function:
+[2022-03-14 19:27:12.740] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:27:12.740] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:27:12.740] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:27:12.740] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:27:12.740] [PALE] [trace] Number of moves for piece on cordinats (7, 4): 1
+[2022-03-14 19:27:12.740] [PALE] [trace] <-End of KingCheckMate function logs
+[2022-03-14 19:27:12.740] [PALE] [trace] ->Following commands are printed by KingCheckMate function:
+[2022-03-14 19:27:12.740] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:27:12.740] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:27:12.740] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:27:12.740] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:27:12.740] [PALE] [trace] Number of moves for piece on cordinats (0, 4): 0
+[2022-03-14 19:27:12.740] [PALE] [trace] <-End of KingCheckMate function logs
+[2022-03-14 19:27:12.740] [PALE] [info] White king piece has been located! Cords: 7, 4
+[2022-03-14 19:27:12.740] [PALE] [info] Black king piece has been located! Cords: 0, 4
+[2022-03-14 19:27:12.741] [PALE] [info] Board was successfully created! Board type: String.
+[2022-03-14 19:27:12.741] [PALE] [trace] Convertion on string type!
+[2022-03-14 19:27:12.741] [PALE] [trace] Result of the board assertion: Rows = false, Columns = false, Type = false, Board = false
+[2022-03-14 19:27:31.520] [PALE] [trace] Event occured! MakeMoveEvent: Move command = Pe7e5
+[2022-03-14 19:27:31.520] [PALE] [info] Move was successfully processed.
+[2022-03-14 19:27:31.521] [PALE] [info] Move was successfully made.
+[2022-03-14 19:27:31.521] [PALE] [trace] ->Following commands are printed by KingCheckMate function:
+[2022-03-14 19:27:31.521] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:27:31.521] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:27:31.521] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:27:31.521] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:27:31.521] [PALE] [trace] Number of moves for piece on cordinats (7, 4): 1
+[2022-03-14 19:27:31.521] [PALE] [trace] <-End of KingCheckMate function logs
+[2022-03-14 19:27:31.521] [PALE] [trace] ->Following commands are printed by KingCheckMate function:
+[2022-03-14 19:27:31.521] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:27:31.521] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:27:31.521] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:27:31.521] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:27:31.521] [PALE] [trace] Number of moves for piece on cordinats (0, 4): 1
+[2022-03-14 19:27:31.521] [PALE] [trace] <-End of KingCheckMate function logs
+[2022-03-14 19:27:31.521] [PALE] [info] White king piece has been located! Cords: 7, 4
+[2022-03-14 19:27:31.521] [PALE] [info] Black king piece has been located! Cords: 0, 4
+[2022-03-14 19:27:31.521] [PALE] [info] Board was successfully created! Board type: String.
+[2022-03-14 19:27:31.521] [PALE] [trace] Convertion on string type!
+[2022-03-14 19:27:31.521] [PALE] [info] Command line UI: Board updated!
+[2022-03-14 19:27:35.585] [PALE] [trace] ->Following commands are printed by KingCheckMate function:
+[2022-03-14 19:27:35.585] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:27:35.585] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:27:35.585] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:27:35.585] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:27:35.585] [PALE] [trace] Number of moves for piece on cordinats (7, 4): 1
+[2022-03-14 19:27:35.585] [PALE] [trace] <-End of KingCheckMate function logs
+[2022-03-14 19:27:35.585] [PALE] [trace] ->Following commands are printed by KingCheckMate function:
+[2022-03-14 19:27:35.585] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:27:35.585] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:27:35.585] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:27:35.585] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:27:35.585] [PALE] [trace] Number of moves for piece on cordinats (0, 4): 1
+[2022-03-14 19:27:35.585] [PALE] [trace] <-End of KingCheckMate function logs
+[2022-03-14 19:27:35.585] [PALE] [info] White king piece has been located! Cords: 7, 4
+[2022-03-14 19:27:35.585] [PALE] [info] Black king piece has been located! Cords: 0, 4
+[2022-03-14 19:27:35.586] [PALE] [info] Board was successfully created! Board type: String.
+[2022-03-14 19:27:35.586] [PALE] [trace] Convertion on string type!
+[2022-03-14 19:27:35.586] [PALE] [trace] Result of the board assertion: Rows = false, Columns = false, Type = false, Board = false
+[2022-03-14 19:28:02.643] [PALE] [trace] Event occured! MakeMoveEvent: Move command = Qd1h5
+[2022-03-14 19:28:02.643] [PALE] [info] Move was successfully processed.
+[2022-03-14 19:28:02.643] [PALE] [info] Move was successfully made.
+[2022-03-14 19:28:02.643] [PALE] [trace] ->Following commands are printed by KingCheckMate function:
+[2022-03-14 19:28:02.644] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:28:02.644] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:28:02.644] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:28:02.644] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:28:02.644] [PALE] [trace] Number of moves for piece on cordinats (7, 4): 2
+[2022-03-14 19:28:02.644] [PALE] [trace] <-End of KingCheckMate function logs
+[2022-03-14 19:28:02.644] [PALE] [trace] ->Following commands are printed by KingCheckMate function:
+[2022-03-14 19:28:02.644] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:28:02.644] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:28:02.644] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:28:02.644] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:28:02.644] [PALE] [trace] Number of moves for piece on cordinats (0, 4): 1
+[2022-03-14 19:28:02.644] [PALE] [trace] <-End of KingCheckMate function logs
+[2022-03-14 19:28:02.644] [PALE] [info] White king piece has been located! Cords: 7, 4
+[2022-03-14 19:28:02.644] [PALE] [info] Black king piece has been located! Cords: 0, 4
+[2022-03-14 19:28:02.644] [PALE] [info] Board was successfully created! Board type: String.
+[2022-03-14 19:28:02.644] [PALE] [trace] Convertion on string type!
+[2022-03-14 19:28:02.644] [PALE] [info] Command line UI: Board updated!
+[2022-03-14 19:28:06.296] [PALE] [trace] ->Following commands are printed by KingCheckMate function:
+[2022-03-14 19:28:06.296] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:28:06.296] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:28:06.296] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:28:06.296] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:28:06.296] [PALE] [trace] Number of moves for piece on cordinats (7, 4): 2
+[2022-03-14 19:28:06.296] [PALE] [trace] <-End of KingCheckMate function logs
+[2022-03-14 19:28:06.296] [PALE] [trace] ->Following commands are printed by KingCheckMate function:
+[2022-03-14 19:28:06.296] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:28:06.296] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:28:06.296] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:28:06.296] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:28:06.296] [PALE] [trace] Number of moves for piece on cordinats (0, 4): 1
+[2022-03-14 19:28:06.296] [PALE] [trace] <-End of KingCheckMate function logs
+[2022-03-14 19:28:06.296] [PALE] [info] White king piece has been located! Cords: 7, 4
+[2022-03-14 19:28:06.296] [PALE] [info] Black king piece has been located! Cords: 0, 4
+[2022-03-14 19:28:06.297] [PALE] [info] Board was successfully created! Board type: String.
+[2022-03-14 19:28:06.297] [PALE] [trace] Convertion on string type!
+[2022-03-14 19:28:06.297] [PALE] [trace] Result of the board assertion: Rows = false, Columns = false, Type = false, Board = false
+[2022-03-14 19:28:33.080] [PALE] [trace] Event occured! MakeMoveEvent: Move command = Nb8c6
+[2022-03-14 19:28:33.080] [PALE] [info] Move was successfully processed.
+[2022-03-14 19:28:33.080] [PALE] [info] Move was successfully made.
+[2022-03-14 19:28:33.080] [PALE] [trace] ->Following commands are printed by KingCheckMate function:
+[2022-03-14 19:28:33.080] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:28:33.080] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:28:33.080] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:28:33.080] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:28:33.080] [PALE] [trace] Number of moves for piece on cordinats (7, 4): 2
+[2022-03-14 19:28:33.080] [PALE] [trace] <-End of KingCheckMate function logs
+[2022-03-14 19:28:33.080] [PALE] [trace] ->Following commands are printed by KingCheckMate function:
+[2022-03-14 19:28:33.080] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:28:33.080] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:28:33.080] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:28:33.080] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:28:33.080] [PALE] [trace] Number of moves for piece on cordinats (0, 4): 1
+[2022-03-14 19:28:33.080] [PALE] [trace] <-End of KingCheckMate function logs
+[2022-03-14 19:28:33.080] [PALE] [info] White king piece has been located! Cords: 7, 4
+[2022-03-14 19:28:33.080] [PALE] [info] Black king piece has been located! Cords: 0, 4
+[2022-03-14 19:28:33.080] [PALE] [info] Board was successfully created! Board type: String.
+[2022-03-14 19:28:33.080] [PALE] [trace] Convertion on string type!
+[2022-03-14 19:28:33.080] [PALE] [info] Command line UI: Board updated!
+[2022-03-14 19:28:37.662] [PALE] [trace] ->Following commands are printed by KingCheckMate function:
+[2022-03-14 19:28:37.662] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:28:37.662] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:28:37.662] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:28:37.662] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:28:37.662] [PALE] [trace] Number of moves for piece on cordinats (7, 4): 2
+[2022-03-14 19:28:37.662] [PALE] [trace] <-End of KingCheckMate function logs
+[2022-03-14 19:28:37.662] [PALE] [trace] ->Following commands are printed by KingCheckMate function:
+[2022-03-14 19:28:37.662] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:28:37.662] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:28:37.662] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:28:37.662] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:28:37.662] [PALE] [trace] Number of moves for piece on cordinats (0, 4): 1
+[2022-03-14 19:28:37.662] [PALE] [trace] <-End of KingCheckMate function logs
+[2022-03-14 19:28:37.662] [PALE] [info] White king piece has been located! Cords: 7, 4
+[2022-03-14 19:28:37.662] [PALE] [info] Black king piece has been located! Cords: 0, 4
+[2022-03-14 19:28:37.662] [PALE] [info] Board was successfully created! Board type: String.
+[2022-03-14 19:28:37.662] [PALE] [trace] Convertion on string type!
+[2022-03-14 19:28:37.662] [PALE] [trace] Result of the board assertion: Rows = false, Columns = false, Type = false, Board = false
+[2022-03-14 19:29:01.992] [PALE] [trace] Event occured! MakeMoveEvent: Move command = Bf1c4
+[2022-03-14 19:29:01.992] [PALE] [info] Move was successfully processed.
+[2022-03-14 19:29:01.992] [PALE] [info] Move was successfully made.
+[2022-03-14 19:29:01.992] [PALE] [trace] ->Following commands are printed by KingCheckMate function:
+[2022-03-14 19:29:01.993] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:29:01.993] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:29:01.993] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:29:01.993] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:29:01.993] [PALE] [trace] Number of moves for piece on cordinats (7, 4): 3
+[2022-03-14 19:29:01.993] [PALE] [trace] <-End of KingCheckMate function logs
+[2022-03-14 19:29:01.993] [PALE] [trace] ->Following commands are printed by KingCheckMate function:
+[2022-03-14 19:29:01.993] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:29:01.993] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:29:01.993] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:29:01.993] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:29:01.993] [PALE] [trace] Number of moves for piece on cordinats (0, 4): 1
+[2022-03-14 19:29:01.993] [PALE] [trace] <-End of KingCheckMate function logs
+[2022-03-14 19:29:01.993] [PALE] [info] White king piece has been located! Cords: 7, 4
+[2022-03-14 19:29:01.993] [PALE] [info] Black king piece has been located! Cords: 0, 4
+[2022-03-14 19:29:01.993] [PALE] [info] Board was successfully created! Board type: String.
+[2022-03-14 19:29:01.993] [PALE] [trace] Convertion on string type!
+[2022-03-14 19:29:01.993] [PALE] [info] Command line UI: Board updated!
+[2022-03-14 19:29:08.362] [PALE] [trace] ->Following commands are printed by KingCheckMate function:
+[2022-03-14 19:29:08.362] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:29:08.362] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:29:08.362] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:29:08.362] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:29:08.362] [PALE] [trace] Number of moves for piece on cordinats (7, 4): 3
+[2022-03-14 19:29:08.362] [PALE] [trace] <-End of KingCheckMate function logs
+[2022-03-14 19:29:08.362] [PALE] [trace] ->Following commands are printed by KingCheckMate function:
+[2022-03-14 19:29:08.362] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:29:08.362] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:29:08.362] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:29:08.362] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:29:08.362] [PALE] [trace] Number of moves for piece on cordinats (0, 4): 1
+[2022-03-14 19:29:08.362] [PALE] [trace] <-End of KingCheckMate function logs
+[2022-03-14 19:29:08.362] [PALE] [info] White king piece has been located! Cords: 7, 4
+[2022-03-14 19:29:08.362] [PALE] [info] Black king piece has been located! Cords: 0, 4
+[2022-03-14 19:29:08.362] [PALE] [info] Board was successfully created! Board type: String.
+[2022-03-14 19:29:08.362] [PALE] [trace] Convertion on string type!
+[2022-03-14 19:29:08.362] [PALE] [trace] Result of the board assertion: Rows = false, Columns = false, Type = false, Board = false
+[2022-03-14 19:29:34.133] [PALE] [trace] Event occured! MakeMoveEvent: Move command = Ng8f6
+[2022-03-14 19:29:34.133] [PALE] [info] Move was successfully processed.
+[2022-03-14 19:29:34.133] [PALE] [info] Move was successfully made.
+[2022-03-14 19:29:34.133] [PALE] [trace] ->Following commands are printed by KingCheckMate function:
+[2022-03-14 19:29:34.133] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:29:34.133] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:29:34.133] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:29:34.133] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:29:34.133] [PALE] [trace] Number of moves for piece on cordinats (7, 4): 3
+[2022-03-14 19:29:34.133] [PALE] [trace] <-End of KingCheckMate function logs
+[2022-03-14 19:29:34.133] [PALE] [trace] ->Following commands are printed by KingCheckMate function:
+[2022-03-14 19:29:34.133] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:29:34.133] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:29:34.133] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:29:34.133] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:29:34.133] [PALE] [trace] Number of moves for piece on cordinats (0, 4): 1
+[2022-03-14 19:29:34.133] [PALE] [trace] <-End of KingCheckMate function logs
+[2022-03-14 19:29:34.133] [PALE] [info] White king piece has been located! Cords: 7, 4
+[2022-03-14 19:29:34.133] [PALE] [info] Black king piece has been located! Cords: 0, 4
+[2022-03-14 19:29:34.133] [PALE] [info] Board was successfully created! Board type: String.
+[2022-03-14 19:29:34.133] [PALE] [trace] Convertion on string type!
+[2022-03-14 19:29:34.133] [PALE] [info] Command line UI: Board updated!
+[2022-03-14 19:29:41.717] [PALE] [trace] ->Following commands are printed by KingCheckMate function:
+[2022-03-14 19:29:41.718] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:29:41.718] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:29:41.718] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:29:41.718] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:29:41.718] [PALE] [trace] Number of moves for piece on cordinats (7, 4): 3
+[2022-03-14 19:29:41.718] [PALE] [trace] <-End of KingCheckMate function logs
+[2022-03-14 19:29:41.718] [PALE] [trace] ->Following commands are printed by KingCheckMate function:
+[2022-03-14 19:29:41.718] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:29:41.718] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:29:41.718] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:29:41.718] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:29:41.718] [PALE] [trace] Number of moves for piece on cordinats (0, 4): 1
+[2022-03-14 19:29:41.718] [PALE] [trace] <-End of KingCheckMate function logs
+[2022-03-14 19:29:41.718] [PALE] [info] White king piece has been located! Cords: 7, 4
+[2022-03-14 19:29:41.718] [PALE] [info] Black king piece has been located! Cords: 0, 4
+[2022-03-14 19:29:41.718] [PALE] [info] Board was successfully created! Board type: String.
+[2022-03-14 19:29:41.718] [PALE] [trace] Convertion on string type!
+[2022-03-14 19:29:41.718] [PALE] [trace] Result of the board assertion: Rows = false, Columns = false, Type = false, Board = false
+[2022-03-14 19:30:10.426] [PALE] [trace] Event occured! MakeMoveEvent: Move command = Qh5f7
+[2022-03-14 19:30:10.426] [PALE] [info] Move was successfully processed.
+[2022-03-14 19:30:10.426] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:30:10.426] [PALE] [info] Move was successfully made.
+[2022-03-14 19:30:10.426] [PALE] [trace] AddToDeathList() function -> Size of piece death list: 1
+[2022-03-14 19:30:10.426] [PALE] [trace] King is under check.
+[2022-03-14 19:30:10.426] [PALE] [info] Black king piece has been located! Cords: 0, 4
+[2022-03-14 19:30:10.427] [PALE] [trace] ->Following commands are printed by KingCheckMate function:
+[2022-03-14 19:30:10.427] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:30:10.427] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:30:10.427] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:30:10.427] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:30:10.427] [PALE] [trace] Number of moves for piece on cordinats (7, 4): 3
+[2022-03-14 19:30:10.427] [PALE] [trace] <-End of KingCheckMate function logs
+[2022-03-14 19:30:10.427] [PALE] [trace] ->Following commands are printed by KingCheckMate function:
+[2022-03-14 19:30:10.427] [PALE] [trace] King is under check.
+[2022-03-14 19:30:10.427] [PALE] [trace] King is under check.
+[2022-03-14 19:30:10.427] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:30:10.427] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:30:10.427] [PALE] [trace] Path is blocked by another piece.
+[2022-03-14 19:30:10.427] [PALE] [trace] King piece cannot perform special move.
+[2022-03-14 19:30:10.427] [PALE] [trace] Number of moves for piece on cordinats (0, 4): 0
+[2022-03-14 19:30:10.427] [PALE] [trace] King is under check.
+[2022-03-14 19:30:10.427] [PALE] [info] Black king check mate! White wins!
+[2022-03-14 19:30:10.427] [PALE] [trace] <-End of KingCheckMate function logs
+[2022-03-14 19:30:10.427] [PALE] [info] White king piece has been located! Cords: 7, 4
+[2022-03-14 19:30:10.427] [PALE] [info] Black king piece has been located! Cords: 0, 4
+[2022-03-14 19:30:10.427] [PALE] [info] Board was successfully created! Board type: String.
+[2022-03-14 19:30:10.427] [PALE] [trace] Convertion on string type!
+[2022-03-14 19:30:10.427] [PALE] [info] Command line UI: Board updated!
+[2022-03-14 19:30:10.427] [PALE] [info] Command line UI: Application state updated!
+[2022-03-14 19:30:16.916] [PALE] [trace] Event occured! ApplicationCloseEvent: Exit timeout = 1000

@@ -13,6 +13,8 @@
 #include <utility>
 #include <string>
 #include <map>
+#include <thread>
+#include <atomic>
 
 #include "Pale/Log_System.h"
 #include "Pale/Engine_Macros.h"

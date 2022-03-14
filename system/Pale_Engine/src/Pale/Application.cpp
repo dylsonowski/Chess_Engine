@@ -1,5 +1,4 @@
 #include "palepch.h"
-#include "Application.h"
 #include <SFML/Graphics.hpp>
 
 namespace Pale {
@@ -23,33 +22,98 @@ namespace Pale {
 
 	void Application::OnEvent() {
 		_UI->_eventEmitter.On<Pale::UI::Event_System::Application_Events::Game_Tree_Setup_Event>([this](Pale::UI::Event_System::Application_Events::Game_Tree_Setup_Event& gameTreeSetupEvent) {
+			//_eventOccured = true;
 			PALE_ENGINE_TRACE("Event occured! {0}", gameTreeSetupEvent.ToString());
 			_gameTreeDepth = gameTreeSetupEvent.GetGameTreeDepth();
 			_applicationState = APP_STATES::GAME_STATE;
+			ResetEnvironment();
 			}); // TODO: Implement when ResetEnvironment function will be finished
 
 		_UI->_eventEmitter.On<Pale::UI::Event_System::Game_Events::Reset_Environment_Event>([this](Pale::UI::Event_System::Game_Events::Reset_Environment_Event& resetEnvironmentEvent) {
+			//_eventOccured = true;
 			PALE_ENGINE_TRACE("Event occured! {0}", resetEnvironmentEvent.ToString());
 			_gameTreeDepth = resetEnvironmentEvent.GetNewGameTreeDepth();
 			}); // TODO: Implement when AI module will be finished
 
 		_UI->_eventEmitter.On<Pale::UI::Event_System::Game_Events::Make_Move_Event>([this](Pale::UI::Event_System::Game_Events::Make_Move_Event& makeMoveEvent) {
-			PALE_ENGINE_TRACE("Event occured! {0}", makeMoveEvent.ToString()); 
-			_turnCounter++;
+			//_eventOccured = true;
+			PALE_ENGINE_TRACE("Event occured! {0}", makeMoveEvent.ToString());
+			MakeMove(makeMoveEvent.GetMoveCommand());
+			//_turnCounter++; // Do not increment it here!
 			}); // TODO: Implement move hendling
 
 		_UI->_eventEmitter.On<Pale::UI::Event_System::Application_Events::Application_Close_Event>([this](Pale::UI::Event_System::Application_Events::Application_Close_Event& exitApplicationEvent) {
+			//_eventOccured = true;
 			PALE_ENGINE_TRACE("Event occured! {0}", exitApplicationEvent.ToString());
 			system("pause");
 			_isRunning = false;
 			});
 	}
 
+	void Application::ResetEnvironment() {
+		_turnCounter = 1;
+		//_boardRepresentation = std::make_shared<Pale::Chess_Logic::Board_Representation<std::shared_ptr<Pale::Chess_Logic::Pieces>>>(8, 8, false);
+
+		if(!_moveHistory.empty())
+			_moveHistory.clear();
+	}
+
+	void Application::MakeMove(std::string moveCommand)	{
+		Move_Command newMove = Pale::Chess_Logic::ProcessMoveCommand(moveCommand, _turnCounter % 2 != 0 ? OWNERS::WHITE : OWNERS::BLACK, *_boardRepresentation);
+		bool moveMade = _boardRepresentation->MovePiece(newMove, *_boardRepresentation->GetPlateValue(newMove.m_startPos.first, newMove.m_startPos.second));
+
+		if (moveMade)
+			_turnCounter++;
+	}
+
+	void Application::EndGame()	{
+		_applicationState = APP_STATES::END_STATE;
+	}
+
 	void Application::Run()	{
+		/*_boardRepresentation->SetPlateValue(0, 1, std::make_shared<Pale::Chess_Logic::Blank>(0, 1));
+
+		_boardRepresentation->SetPlateValue(2, 2, std::make_shared<Pale::Chess_Logic::Knight>(OWNERS::BLACK, std::make_pair(2, 2)));
+		_boardRepresentation->SetPlateValue(4, 2, std::make_shared<Pale::Chess_Logic::Bishop>(OWNERS::WHITE, std::make_pair(4, 2)));
+
+		_boardRepresentation->SetPlateValue(7, 3, std::make_shared<Pale::Chess_Logic::Blank>(7, 3));
+
+		_boardRepresentation->SetPlateValue(1, 4, std::make_shared<Pale::Chess_Logic::Blank>(1, 4));
+		_boardRepresentation->SetPlateValue(3, 4, std::make_shared<Pale::Chess_Logic::Pawn>(OWNERS::BLACK, std::make_pair(3, 4)));
+		_boardRepresentation->SetPlateValue(4, 4, std::make_shared<Pale::Chess_Logic::Pawn>(OWNERS::WHITE, std::make_pair(4, 4)));
+		_boardRepresentation->SetPlateValue(6, 4, std::make_shared<Pale::Chess_Logic::Blank>(6, 4));
+
+		_boardRepresentation->SetPlateValue(2, 5, std::make_shared<Pale::Chess_Logic::Knight>(OWNERS::BLACK, std::make_pair(2, 5)));
+		_boardRepresentation->SetPlateValue(7, 5, std::make_shared<Pale::Chess_Logic::Blank>(7, 5));
+
+		_boardRepresentation->SetPlateValue(0, 6, std::make_shared<Pale::Chess_Logic::Blank>(0, 6));
+
+		_boardRepresentation->SetPlateValue(3, 7, std::make_shared<Pale::Chess_Logic::Queen>(OWNERS::WHITE, std::make_pair(3, 7)));*/
+
 		while (_isRunning) {
-			_UI->Update(std::make_shared<Pale::Chess_Logic::Board_Representation<std::string>>(Pale::Chess_Logic::ConvertBoard<std::string>(*_boardRepresentation)), _applicationState, _turnCounter);
 			OnEvent();
+
+			if (Pale::Chess_Logic::KingIsChecked(_boardRepresentation->GetBoardRef(), OWNERS::WHITE)) {
+				std::pair<unsigned int, unsigned int> kingPos = _boardRepresentation->GetKingCords(OWNERS::WHITE);
+				std::static_pointer_cast<Pale::Chess_Logic::King>(_boardRepresentation->GetPlateValue(kingPos.first, kingPos.second))->SetKingStatus(true, true);
+			}
+
+			if (Pale::Chess_Logic::KingIsChecked(_boardRepresentation->GetBoardRef(), OWNERS::BLACK)) {
+				std::pair<unsigned int, unsigned int> kingPos = _boardRepresentation->GetKingCords(OWNERS::BLACK);
+				std::static_pointer_cast<Pale::Chess_Logic::King>(_boardRepresentation->GetPlateValue(kingPos.first, kingPos.second))->SetKingStatus(true, true);
+			}
+
+			if (Pale::Chess_Logic::KingCheckMate(_boardRepresentation->GetBoardRef(), OWNERS::WHITE) || Pale::Chess_Logic::KingCheckMate(_boardRepresentation->GetBoardRef(), OWNERS::BLACK))
+				EndGame();
+
+			std::pair<unsigned int, unsigned int> whiteKingPos = _boardRepresentation->GetKingCords(OWNERS::WHITE), blackKingPos = _boardRepresentation->GetKingCords(OWNERS::BLACK);
+			bool whiteKingStatus = std::static_pointer_cast<Pale::Chess_Logic::King>(_boardRepresentation->GetPlateValue(whiteKingPos.first, whiteKingPos.second))->GetKingStatus(true);
+			bool blackKingStatus = std::static_pointer_cast<Pale::Chess_Logic::King>(_boardRepresentation->GetPlateValue(blackKingPos.first, blackKingPos.second))->GetKingStatus(true);
+
+			_UI->Update(std::make_shared<Pale::Chess_Logic::Board_Representation<std::string>>(Pale::Chess_Logic::ConvertBoard<std::string>(*_boardRepresentation)), _applicationState, _turnCounter, whiteKingStatus, blackKingStatus);
 			_UI->Draw();
+
+			std::static_pointer_cast<Pale::UI::Command_Line_UI>(_UI)->UserInput();
 		}
 	}
 

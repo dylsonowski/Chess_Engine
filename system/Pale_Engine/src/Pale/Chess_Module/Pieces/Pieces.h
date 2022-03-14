@@ -56,11 +56,11 @@ namespace Pale::Chess_Logic {
 			}
 
 			if (!kingFound)
-				throw PaleEngineException("Exception happened!", 'e', "Pieces.cpp", 65, "KingIsChecked", MOVE_COMMAND__NO_KING_ON_BOARD);
+				throw PaleEngineException("Exception happened!", 'e', "Pieces.cpp", 65, "KingIsChecked", KING_NOT_FOUND);
 
 			//--- Check by rook or queen on the north ---//
-			for (int it = 0; it < board.size(); it++) {
-				if (kingPos.first - it < 0 || check)
+			for (int it = 1; it < board.size(); it++) {
+				if (static_cast<int>(kingPos.first - it) < 0 || check)
 					break;
 
 				if (whichTurn == OWNERS::BLACK) {
@@ -82,169 +82,183 @@ namespace Pale::Chess_Logic {
 			}
 
 			//--- Check by rook or queen on the south ---//
-			for (int it = 0; it < board.size(); it++) {
-				if (kingPos.first + it >= board.size() || check)
-					break;
+			if (!check) {
+				for (int it = 1; it < board.size(); it++) {
+					if (kingPos.first + it >= board.size() || check)
+						break;
 
-				if (whichTurn == OWNERS::BLACK) {
-					if (board.at(kingPos.first + it).at(kingPos.second)->GetValue() == 2 || board.at(kingPos.first + it).at(kingPos.second)->GetValue() == 5) {
-						check = true;
-						break;
+					if (whichTurn == OWNERS::BLACK) {
+						if (board.at(kingPos.first + it).at(kingPos.second)->GetValue() == 2 || board.at(kingPos.first + it).at(kingPos.second)->GetValue() == 5) {
+							check = true;
+							break;
+						}
+						else if (board.at(kingPos.first + it).at(kingPos.second)->GetOwner() == OWNERS::BLACK)
+							break;
 					}
-					else if (board.at(kingPos.first + it).at(kingPos.second)->GetOwner() == OWNERS::BLACK)
-						break;
-				}
-				else {
-					if (board.at(kingPos.first + it).at(kingPos.second)->GetValue() == -2 || board.at(kingPos.first + it).at(kingPos.second)->GetValue() == -5) {
-						check = true;
-						break;
+					else {
+						if (board.at(kingPos.first + it).at(kingPos.second)->GetValue() == -2 || board.at(kingPos.first + it).at(kingPos.second)->GetValue() == -5) {
+							check = true;
+							break;
+						}
+						else if (board.at(kingPos.first + it).at(kingPos.second)->GetOwner() == OWNERS::WHITE)
+							break;
 					}
-					else if (board.at(kingPos.first + it).at(kingPos.second)->GetOwner() == OWNERS::WHITE)
-						break;
 				}
 			}
 
 			//--- Check by rook or queen on the east ---//
-			for (int it = 0; it < board.size(); it++) {
-				if (kingPos.second + it >= board.size() || check)
-					break;
+			if (!check) {
+				for (int it = 1; it < board.size(); it++) {
+					if (kingPos.second + it >= board.size() || check)
+						break;
 
-				if (whichTurn == OWNERS::BLACK) {
-					if (board.at(kingPos.first).at(kingPos.second + it)->GetValue() == 2 || board.at(kingPos.first).at(kingPos.second + it)->GetValue() == 5) {
-						check = true;
-						break;
+					if (whichTurn == OWNERS::BLACK) {
+						if (board.at(kingPos.first).at(kingPos.second + it)->GetValue() == 2 || board.at(kingPos.first).at(kingPos.second + it)->GetValue() == 5) {
+							check = true;
+							break;
+						}
+						else if (board.at(kingPos.first).at(kingPos.second + it)->GetOwner() == OWNERS::BLACK)
+							break;
 					}
-					else if (board.at(kingPos.first).at(kingPos.second + it)->GetOwner() == OWNERS::BLACK)
-						break;
-				}
-				else {
-					if (board.at(kingPos.first).at(kingPos.second + it)->GetValue() == -2 || board.at(kingPos.first).at(kingPos.second + it)->GetValue() == -5) {
-						check = true;
-						break;
+					else {
+						if (board.at(kingPos.first).at(kingPos.second + it)->GetValue() == -2 || board.at(kingPos.first).at(kingPos.second + it)->GetValue() == -5) {
+							check = true;
+							break;
+						}
+						else if (board.at(kingPos.first).at(kingPos.second + it)->GetOwner() == OWNERS::WHITE)
+							break;
 					}
-					else if (board.at(kingPos.first).at(kingPos.second + it)->GetOwner() == OWNERS::WHITE)
-						break;
 				}
 			}
 
 			//--- Check by rook or queen on the west ---//
-			for (int it = 0; it < board.size(); it++) {
-				if (kingPos.second - it < 0 || check)
-					break;
+			if (!check) {
+				for (int it = 1; it < board.size(); it++) {
+					if (static_cast<int>(kingPos.second - it) < 0 || check)
+						break;
 
-				if (whichTurn == OWNERS::BLACK) {
-					if (board.at(kingPos.first).at(kingPos.second - it)->GetValue() == 2 || board.at(kingPos.first).at(kingPos.second - it)->GetValue() == 5) {
-						check = true;
-						break;
+					if (whichTurn == OWNERS::BLACK) {
+						if (board.at(kingPos.first).at(kingPos.second - it)->GetValue() == 2 || board.at(kingPos.first).at(kingPos.second - it)->GetValue() == 5) {
+							check = true;
+							break;
+						}
+						else if (board.at(kingPos.first).at(kingPos.second - it)->GetOwner() == OWNERS::BLACK)
+							break;
 					}
-					else if (board.at(kingPos.first).at(kingPos.second - it)->GetOwner() == OWNERS::BLACK)
-						break;
-				}
-				else {
-					if (board.at(kingPos.first).at(kingPos.second - it)->GetValue() == -2 || board.at(kingPos.first).at(kingPos.second - it)->GetValue() == -5) {
-						check = true;
-						break;
+					else {
+						if (board.at(kingPos.first).at(kingPos.second - it)->GetValue() == -2 || board.at(kingPos.first).at(kingPos.second - it)->GetValue() == -5) {
+							check = true;
+							break;
+						}
+						else if (board.at(kingPos.first).at(kingPos.second - it)->GetOwner() == OWNERS::WHITE)
+							break;
 					}
-					else if (board.at(kingPos.first).at(kingPos.second - it)->GetOwner() == OWNERS::WHITE)
-						break;
 				}
 			}
 
 			//--- Check by bishop or queen on the north - west ---//
-			for (int it = 0; it < board.size(); it++) {
-				if (kingPos.first - it < 0 || kingPos.second - it < 0 || check)
-					break;
+			if (!check) {
+				for (int it = 1; it < board.size(); it++) {
+					if (static_cast<int>(kingPos.first - it) < 0 || static_cast<int>(kingPos.second - it) < 0 || check)
+						break;
 
-				if (whichTurn == OWNERS::BLACK) {
-					if (board.at(kingPos.first - it).at(kingPos.second - it)->GetValue() == 4 || board.at(kingPos.first - it).at(kingPos.second - it)->GetValue() == 5) {
-						check = true;
-						break;
+					if (whichTurn == OWNERS::BLACK) {
+						if (board.at(kingPos.first - it).at(kingPos.second - it)->GetValue() == 4 || board.at(kingPos.first - it).at(kingPos.second - it)->GetValue() == 5) {
+							check = true;
+							break;
+						}
+						else if (board.at(kingPos.first - it).at(kingPos.second - it)->GetOwner() == OWNERS::BLACK)
+							break;
 					}
-					else if (board.at(kingPos.first - it).at(kingPos.second - it)->GetOwner() == OWNERS::BLACK)
-						break;
-				}
-				else {
-					if (board.at(kingPos.first - it).at(kingPos.second - it)->GetValue() == -4 || board.at(kingPos.first - it).at(kingPos.second - it)->GetValue() == -5) {
-						check = true;
-						break;
+					else {
+						if (board.at(kingPos.first - it).at(kingPos.second - it)->GetValue() == -4 || board.at(kingPos.first - it).at(kingPos.second - it)->GetValue() == -5) {
+							check = true;
+							break;
+						}
+						else if (board.at(kingPos.first - it).at(kingPos.second - it)->GetOwner() == OWNERS::WHITE)
+							break;
 					}
-					else if (board.at(kingPos.first - it).at(kingPos.second - it)->GetOwner() == OWNERS::WHITE)
-						break;
 				}
 			}
 
 			//--- Check by bishop or queen on the north - east ---//
-			for (int it = 0; it < board.size(); it++) {
-				if (kingPos.first - it < 0 || kingPos.second + it >= board.size() || check)
-					break;
+			if (!check) {
+				for (int it = 1; it < board.size(); it++) {
+					if (static_cast<int>(kingPos.first - it) < 0 || kingPos.second + it >= board.size() || check)
+						break;
 
-				if (whichTurn == OWNERS::BLACK) {
-					if (board.at(kingPos.first - it).at(kingPos.second + it)->GetValue() == 4 || board.at(kingPos.first - it).at(kingPos.second + it)->GetValue() == 5) {
-						check = true;
-						break;
+					if (whichTurn == OWNERS::BLACK) {
+						if (board.at(kingPos.first - it).at(kingPos.second + it)->GetValue() == 4 || board.at(kingPos.first - it).at(kingPos.second + it)->GetValue() == 5) {
+							check = true;
+							break;
+						}
+						else if (board.at(kingPos.first - it).at(kingPos.second + it)->GetOwner() == OWNERS::BLACK)
+							break;
 					}
-					else if (board.at(kingPos.first - it).at(kingPos.second + it)->GetOwner() == OWNERS::BLACK)
-						break;
-				}
-				else {
-					if (board.at(kingPos.first - it).at(kingPos.second + it)->GetValue() == -4 || board.at(kingPos.first - it).at(kingPos.second + it)->GetValue() == -5) {
-						check = true;
-						break;
+					else {
+						if (board.at(kingPos.first - it).at(kingPos.second + it)->GetValue() == -4 || board.at(kingPos.first - it).at(kingPos.second + it)->GetValue() == -5) {
+							check = true;
+							break;
+						}
+						else if (board.at(kingPos.first - it).at(kingPos.second + it)->GetOwner() == OWNERS::WHITE)
+							break;
 					}
-					else if (board.at(kingPos.first - it).at(kingPos.second + it)->GetOwner() == OWNERS::WHITE)
-						break;
 				}
 			}
 
 			//--- Check by bishop or queen on the south - east ---//
-			for (int it = 0; it < board.size(); it++) {
-				if (kingPos.first + it >= board.size() || kingPos.second + it >= board.size() || check)
-					break;
+			if (!check) {
+				for (int it = 1; it < board.size(); it++) {
+					if (kingPos.first + it >= board.size() || kingPos.second + it >= board.size() || check)
+						break;
 
-				if (whichTurn == OWNERS::BLACK) {
-					if (board.at(kingPos.first + it).at(kingPos.second + it)->GetValue() == 4 || board.at(kingPos.first + it).at(kingPos.second + it)->GetValue() == 5) {
-						check = true;
-						break;
+					if (whichTurn == OWNERS::BLACK) {
+						if (board.at(kingPos.first + it).at(kingPos.second + it)->GetValue() == 4 || board.at(kingPos.first + it).at(kingPos.second + it)->GetValue() == 5) {
+							check = true;
+							break;
+						}
+						else if (board.at(kingPos.first + it).at(kingPos.second + it)->GetOwner() == OWNERS::BLACK)
+							break;
 					}
-					else if (board.at(kingPos.first + it).at(kingPos.second + it)->GetOwner() == OWNERS::BLACK)
-						break;
-				}
-				else {
-					if (board.at(kingPos.first + it).at(kingPos.second + it)->GetValue() == -4 || board.at(kingPos.first + it).at(kingPos.second + it)->GetValue() == -5) {
-						check = true;
-						break;
+					else {
+						if (board.at(kingPos.first + it).at(kingPos.second + it)->GetValue() == -4 || board.at(kingPos.first + it).at(kingPos.second + it)->GetValue() == -5) {
+							check = true;
+							break;
+						}
+						else if (board.at(kingPos.first + it).at(kingPos.second + it)->GetOwner() == OWNERS::WHITE)
+							break;
 					}
-					else if (board.at(kingPos.first + it).at(kingPos.second + it)->GetOwner() == OWNERS::WHITE)
-						break;
 				}
 			}
 
 			//--- Check by bishop or queen on the south - west ---//
-			for (int it = 0; it < board.size(); it++) {
-				if (kingPos.first + it >= board.size() || kingPos.second - it < 0 || check)
-					break;
+			if (!check) {
+				for (int it = 1; it < board.size(); it++) {
+					if (kingPos.first + it >= board.size() || static_cast<int>(kingPos.second - it) < 0 || check)
+						break;
 
-				if (whichTurn == OWNERS::BLACK) {
-					if (board.at(kingPos.first + it).at(kingPos.second - it)->GetValue() == 4 || board.at(kingPos.first + it).at(kingPos.second - it)->GetValue() == 5) {
-						check = true;
-						break;
+					if (whichTurn == OWNERS::BLACK) {
+						if (board.at(kingPos.first + it).at(kingPos.second - it)->GetValue() == 4 || board.at(kingPos.first + it).at(kingPos.second - it)->GetValue() == 5) {
+							check = true;
+							break;
+						}
+						else if (board.at(kingPos.first + it).at(kingPos.second - it)->GetOwner() == OWNERS::BLACK)
+							break;
 					}
-					else if (board.at(kingPos.first + it).at(kingPos.second - it)->GetOwner() == OWNERS::BLACK)
-						break;
-				}
-				else {
-					if (board.at(kingPos.first + it).at(kingPos.second - it)->GetValue() == -4 || board.at(kingPos.first + it).at(kingPos.second - it)->GetValue() == -5) {
-						check = true;
-						break;
+					else {
+						if (board.at(kingPos.first + it).at(kingPos.second - it)->GetValue() == -4 || board.at(kingPos.first + it).at(kingPos.second - it)->GetValue() == -5) {
+							check = true;
+							break;
+						}
+						else if (board.at(kingPos.first + it).at(kingPos.second - it)->GetOwner() == OWNERS::WHITE)
+							break;
 					}
-					else if (board.at(kingPos.first + it).at(kingPos.second - it)->GetOwner() == OWNERS::WHITE)
-						break;
 				}
 			}
 
 			//--- Check by knight ---//
-			if (whichTurn == OWNERS::BLACK) {
-				if (!check) {
+			if (!check) {
+				if (whichTurn == OWNERS::BLACK) {
 					if (static_cast<int>(kingPos.first - 2) >= 0 && static_cast<int>(kingPos.second - 1) >= 0) {
 						if (board.at(kingPos.first - 2).at(kingPos.second - 1)->GetValue() == 3)
 							check = true;
@@ -285,9 +299,7 @@ namespace Pale::Chess_Logic {
 							check = true;
 					}
 				}
-			}
-			else {
-				if (!check) {
+				else {
 					if (static_cast<int>(kingPos.first - 2) >= 0 && static_cast<int>(kingPos.second - 1) >= 0) {
 						if (board.at(kingPos.first - 2).at(kingPos.second - 1)->GetValue() == -3)
 							check = true;
@@ -331,8 +343,8 @@ namespace Pale::Chess_Logic {
 			}
 
 			//--- Check by pawn ---//
-			if (whichTurn == OWNERS::BLACK) {
-				if (!check) {
+			if (!check) {
+				if (whichTurn == OWNERS::BLACK) {
 					if (kingPos.first + 1 < board.size() && static_cast<int>(kingPos.second - 1) >= 0) {
 						if (board.at(kingPos.first + 1).at(kingPos.second - 1)->GetValue() == 1)
 							check = true;
@@ -343,9 +355,7 @@ namespace Pale::Chess_Logic {
 							check = true;
 					}
 				}
-			}
-			else {
-				if (!check) {
+				else {
 					if (static_cast<int>(kingPos.first - 1) < board.size() && static_cast<int>(kingPos.second - 1) >= 0) {
 						if (board.at(kingPos.first - 1).at(kingPos.second - 1)->GetValue() == -1)
 							check = true;
@@ -359,15 +369,15 @@ namespace Pale::Chess_Logic {
 			}
 
 			//--- Check by king ---//
-			if (whichTurn == OWNERS::BLACK) {
-				if (!check) {
+			if (!check) {
+				if (whichTurn == OWNERS::BLACK) {
 					if (static_cast<int>(kingPos.first - 1) >= 0) {
-						if(board.at(kingPos.first - 1).at(kingPos.second)->GetValue() == 7)
+						if (board.at(kingPos.first - 1).at(kingPos.second)->GetValue() == 7)
 							check = true;
 					}
 
 					if (static_cast<int>(kingPos.first - 1) >= 0 && kingPos.second + 1 < board.size()) {
-						if(board.at(kingPos.first - 1).at(kingPos.second + 1)->GetValue() == 7)
+						if (board.at(kingPos.first - 1).at(kingPos.second + 1)->GetValue() == 7)
 							check = true;
 					}
 
@@ -401,9 +411,7 @@ namespace Pale::Chess_Logic {
 							check = true;
 					}
 				}
-			}
-			else {
-				if (!check) {
+				else {
 					if (static_cast<int>(kingPos.first - 1) >= 0) {
 						if (board.at(kingPos.first - 1).at(kingPos.second)->GetValue() == -7)
 							check = true;
@@ -459,6 +467,46 @@ namespace Pale::Chess_Logic {
 		}
 	}
 
+	static bool KingCheckMate(std::vector<std::vector<std::shared_ptr<Pieces>>>& board, OWNERS whichTurn) {
+		try {
+			bool checkMate = false, kingFound = false;
+			std::pair<unsigned int, unsigned int> kingPos;
+			for (int rowIt = 0; rowIt < board.size(); rowIt++) {
+				for (int columnIt = 0; columnIt < board.at(0).size(); columnIt++) {
+					if (whichTurn == OWNERS::BLACK && board.at(rowIt).at(columnIt)->GetValue() == -7) {
+						kingPos = std::make_pair(rowIt, columnIt);
+						kingFound = true;
+					}
+					else if (whichTurn == OWNERS::WHITE && board.at(rowIt).at(columnIt)->GetValue() == 7) {
+						kingPos = std::make_pair(rowIt, columnIt);
+						kingFound = true;
+					}
+				}
+			}
+
+			if (!kingFound)
+				throw PaleEngineException("Exception happened!", 'e', "Pieces.cpp", 65, "KingCheckMate", KING_NOT_FOUND);
+
+			PALE_ENGINE_TRACE("->Following commands are printed by KingCheckMate function:");
+			if (board.at(kingPos.first).at(kingPos.second)->GenerateLegitMoves(board).size() == 0 && KingIsChecked(board, whichTurn)) {
+				checkMate = true;
+				if (whichTurn == OWNERS::BLACK)
+					PALE_ENGINE_INFO("Black king check mate! White wins!");
+				else if (whichTurn == OWNERS::WHITE)
+					PALE_ENGINE_INFO("White king check mate! Black wins!");
+			}
+			PALE_ENGINE_TRACE("<-End of KingCheckMate function logs");
+
+			return checkMate;
+		}
+		catch (PaleEngineException& exception) {
+			if (exception.GetType() == 'e')
+				PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
+			else if (exception.GetType() == 'w')
+				PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+		}
+	}
+
 	static bool IsPathClear(std::pair<unsigned int, unsigned int> startPos, std::pair<unsigned int, unsigned int> endPos, std::vector<std::vector<std::shared_ptr<Pieces>>>& board) {
 		try {
 			bool pathClear = true;
@@ -499,7 +547,7 @@ namespace Pale::Chess_Logic {
 				//--- Move left ---//
 				if (startPos.second > endPos.second) {
 					for (int it = 1; it <= abs(static_cast<int>(startPos.second) - static_cast<int>(endPos.second)); it++) {
-						if (board.at(startPos.first).at(startPos.second - it) != 0) {
+						if (board.at(startPos.first).at(startPos.second - it)->GetValue() != 0) {
 							pathClear = false;
 							break;
 						}
@@ -508,7 +556,7 @@ namespace Pale::Chess_Logic {
 				//--- Move right ---//
 				else {
 					for (int it = 1; it <= abs(static_cast<int>(startPos.second) - static_cast<int>(endPos.second)); it++) {
-						if (board.at(startPos.first).at(startPos.second + it) != 0) {
+						if (board.at(startPos.first).at(startPos.second + it)->GetValue() != 0) {
 							pathClear = false;
 							break;
 						}
@@ -520,7 +568,7 @@ namespace Pale::Chess_Logic {
 				//--- Move up left ---//
 				if (startPos.first > endPos.first && startPos.second > endPos.second) {
 					for (int it = 1; it <= abs(static_cast<int>(startPos.first) - static_cast<int>(endPos.first)); it++) {
-						if (board.at(startPos.first - it).at(startPos.second - it)) {
+						if (board.at(startPos.first - it).at(startPos.second - it)->GetValue() != 0) {
 							pathClear = false;
 							break;
 						}
@@ -529,7 +577,7 @@ namespace Pale::Chess_Logic {
 				//--- Move up right ---/
 				else if (startPos.first > endPos.first && startPos.second < endPos.second) {
 					for (int it = 1; it <= abs(static_cast<int>(startPos.first) - static_cast<int>(endPos.first)); it++) {
-						if (board.at(startPos.first - it).at(startPos.second + it)) {
+						if (board.at(startPos.first - it).at(startPos.second + it)->GetValue() != 0) {
 							pathClear = false;
 							break;
 						}
@@ -538,7 +586,7 @@ namespace Pale::Chess_Logic {
 				//--- Move down right ---//
 				else if (startPos.first < endPos.first && startPos.second < endPos.second) {
 					for (int it = 1; it <= abs(static_cast<int>(startPos.first) - static_cast<int>(endPos.first)); it++) {
-						if (board.at(startPos.first + it).at(startPos.second + it)) {
+						if (board.at(startPos.first + it).at(startPos.second + it)->GetValue() != 0) {
 							pathClear = false;
 							break;
 						}
@@ -547,7 +595,7 @@ namespace Pale::Chess_Logic {
 				//--- Move down left ---//
 				else {
 					for (int it = 1; it <= abs(static_cast<int>(startPos.first) - static_cast<int>(endPos.first)); it++) {
-						if (board.at(startPos.first + it).at(startPos.second - it)) {
+						if (board.at(startPos.first + it).at(startPos.second - it)->GetValue() != 0) {
 							pathClear = false;
 							break;
 						}

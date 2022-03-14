@@ -144,7 +144,7 @@ namespace Pale::Chess_Logic {
 				if ((_owner == OWNERS::BLACK &&
 					!std::static_pointer_cast<Rook>(board.at(Piece_Starting_Positions::m_rookStartPos.first.at(0).first).at(Piece_Starting_Positions::m_rookStartPos.first.at(0).second))->DidNotMove()) ||
 					(_owner == OWNERS::WHITE &&
-						!std::static_pointer_cast<Rook>(board.at(Piece_Starting_Positions::m_rookStartPos.second.at(0).first).at(Piece_Starting_Positions::m_rookStartPos.second.at(0).second))->DidNotMove()))
+					!std::static_pointer_cast<Rook>(board.at(Piece_Starting_Positions::m_rookStartPos.second.at(0).first).at(Piece_Starting_Positions::m_rookStartPos.second.at(0).second))->DidNotMove()))
 					canPerform = false;
 			}
 
@@ -468,6 +468,12 @@ namespace Pale::Chess_Logic {
 				canMove = false;
 		}
 
+		//--- Queen piece can move on occupied plate if it will result in capturing opponents piece ---//
+		if (!canMove) {
+			if (board.at(endPos.first).at(endPos.second)->GetOwner() != OWNERS::NONE && board.at(endPos.first).at(endPos.second)->GetOwner() != _owner) // TODO: Implement it also in other pieces
+				canMove = true;
+		}
+
 		if (!canMove)
 			PALE_ENGINE_TRACE("Queen piece cannot move to this location.");
 		// TODO: Check if work properly
@@ -718,6 +724,12 @@ namespace Pale::Chess_Logic {
 			tempBoard.at(_positionCords.first).at(_positionCords.second) = std::make_shared<Blank>(_positionCords.first, _positionCords.second);
 			if (KingIsChecked(tempBoard, _owner))
 				canMove = false;
+		}
+
+		//--- Bishop piece can move on occupied plate if it will result in capturing opponents piece ---//
+		if (!canMove) {
+			if (board.at(endPos.first).at(endPos.second)->GetOwner() != OWNERS::NONE && board.at(endPos.first).at(endPos.second)->GetOwner() != _owner) // TODO: Implement it also in other pieces
+				canMove = true;
 		}
 
 		if(!canMove)
@@ -1093,6 +1105,12 @@ namespace Pale::Chess_Logic {
 				canMove = false;
 		}
 
+		//--- Rook piece can move on occupied plate if it will result in capturing opponents piece ---//
+		if (!canMove) {
+			if (board.at(endPos.first).at(endPos.second)->GetOwner() != OWNERS::NONE && board.at(endPos.first).at(endPos.second)->GetOwner() != _owner) // TODO: Implement it also in other pieces
+				canMove = true;
+		}
+
 		if (!canMove)
 			PALE_ENGINE_TRACE("Rook piece cannot move to this location.");
 		else {
@@ -1419,7 +1437,8 @@ namespace Pale::Chess_Logic {
 			canMove = false;
 
 		//--- Pawn piece cannot move on occupied plate ---//
-		if (board.at(endPos.first).at(endPos.second)->GetOwner() != OWNERS::NONE)
+		if ((abs(static_cast<int>(_positionCords.first) - static_cast<int>(endPos.first)) == 0 || (abs(static_cast<int>(_positionCords.second) - static_cast<int>(endPos.second)) == 0)) && 
+			board.at(endPos.first).at(endPos.second)->GetOwner() != OWNERS::NONE)
 			canMove = false;
 
 		//--- Potential move cannot put king under check ---//

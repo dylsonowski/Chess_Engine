@@ -2,7 +2,7 @@
 #include "Pieces/Piece_Types.h"
 
 namespace Pale::Chess_Logic {
-	static std::vector<int> s_deathList; //List which holds captured pieces. 
+	extern std::vector<int> s_deathList; //List which holds captured pieces. 
 
 	//--- Enum with types of board representation ---//
 	enum class BOARD_TYPE {
@@ -48,11 +48,12 @@ namespace Pale::Chess_Logic {
 			}
 		}
 		inline static bool IsFigureDead(int figure) {
-			if (std::find(s_deathList.begin(), s_deathList.end(), figure) != s_deathList.end())
+			if (std::find(Pale::Chess_Logic::s_deathList.begin(), Pale::Chess_Logic::s_deathList.end(), figure) != Pale::Chess_Logic::s_deathList.end())
 				return true;
 			else
 				return false;
 		}
+		const std::pair<unsigned int, unsigned int> GetKingCords(OWNERS kingOwner) const;
 
 		std::string ToString() const;
 
@@ -398,7 +399,9 @@ namespace Pale::Chess_Logic {
 			if (figure > 7 || figure == 6 || figure < -7 || figure == -6)
 				throw PaleEngineException("Exception happened!", 'w', "Board_Representation.h", 39, "AddToDeathList", INVALID_PIECE_ID);
 			else
-				s_deathList.emplace_back(figure);
+				Pale::Chess_Logic::s_deathList.push_back(figure);
+
+			PALE_ENGINE_TRACE("AddToDeathList() function -> Size of piece death list: {0}", Pale::Chess_Logic::s_deathList.size());
 		}
 		catch (PaleEngineException& exception) {
 			if (exception.GetType() == 'e')

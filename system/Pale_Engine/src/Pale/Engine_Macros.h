@@ -9,16 +9,16 @@
 #define COPY_LIMIT_EXCEEDED "Attempt to create to many instancies of the chess piece!"
 #define BAD_TYPE_INSERTION "Attempt to insert value of the type different than board representaion!"
 #define BAD_TYPE_CONVERTION "Attempt to convert on incorrect type!"
-#define MOVE_COMMAND__WRONG_OWNER "Incorrect owner specify in move command!"
+#define WRONG_OWNER "Incorrect owner specify!"
 #define MOVE_COMMAND__WRONG_PIECE "Specified piece do not exist!"
 #define MOVE_COMMAND__COORDINATE_OUT_OF_RANGE "Specified coordinate was from out of range!"
-#define MOVE_COMMAND__NO_KING_ON_BOARD "Unable to find correct king piece on given board!"
 #define MOVE_COMMAND__INVALID_MOVE_DIRECTION "Given move is not rectilinear!"
 #define MOVE_COMMAND__NO_NEW_PIECE "Piece to change into wasn't specify!"
 #define READ_FILE_ERROR "Unable to open file!"
 #define TEST_CASE_SEARCH_FAIL "Type of test case that is searched for do not exist!"
 #define TEST_TOO_FEW_ARGUMENTS "Not enought arguments has been specified to start test run."
 #define UI_INVALID_AI_NUMBER "In case of chess game there can be only 2 players. Maximal number of AI instances is 2!"
+#define KING_NOT_FOUND	"Application was unable to locate king piece on the board. It could mean it has been removed or not placed at all. Game cannot continue without king piece!"
 
 //--- Warnings codes ---//
 #define INVALID_PIECE_ID "No coresponding chess piece of the given ID! Insertion failed!"

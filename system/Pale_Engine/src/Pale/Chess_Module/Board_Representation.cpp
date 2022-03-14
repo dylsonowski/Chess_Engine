@@ -2,6 +2,8 @@
 #include "Board_Representation.h"
 
 namespace Pale::Chess_Logic {
+	std::vector<int> s_deathList;
+
 	//--- Set of constructors defined by object type ---//
 	template<>
 	Board_Representation<std::shared_ptr<Pieces>>::Board_Representation(unsigned int row, unsigned int column, bool blankBoard)
@@ -208,7 +210,7 @@ namespace Pale::Chess_Logic {
 	template<>
 	std::string Board_Representation<std::shared_ptr<Pieces>>::ToString() const {
 		std::stringstream ss;
-		int yLable = 9;
+		int yLable = 8;
 		char xLabel = 'a';
 
 		for (int rowIt = 0; rowIt < _row; rowIt++) {
@@ -258,7 +260,7 @@ namespace Pale::Chess_Logic {
 	template<>
 	std::string Board_Representation<int>::ToString() const {
 		std::stringstream ss;
-		int yLable = 9;
+		int yLable = 8;
 		char xLabel = 'a';
 
 		for (int rowIt = 0; rowIt < _row; rowIt++) {
@@ -312,7 +314,7 @@ namespace Pale::Chess_Logic {
 	template<>
 	std::string Board_Representation<std::string>::ToString() const {
 		std::stringstream ss;
-		int yLable = 9;
+		int yLable = 8;
 		char xLabel = 'a';
 
 		for (int rowIt = 0; rowIt < _row; rowIt++) {
@@ -726,6 +728,128 @@ namespace Pale::Chess_Logic {
 				throw PaleEngineException("Exception happened!", 'w', "Board_representation.cpp", 266, "SetPlateValue", INVALID_PIECE_ID);
 
 			_board.at(rowIt).at(columnIt) = value;
+		}
+		catch (PaleEngineException& exception) {
+			if (exception.GetType() == 'e')
+				PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
+			else if (exception.GetType() == 'w')
+				PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+		}
+	}
+
+	//--- Set of function returning coordinates of king piece ---//
+	// IMPORTANT: Use to determine if king is under checkmate
+	template<>
+	const std::pair<unsigned int, unsigned int> Board_Representation<std::shared_ptr<Pieces>>::GetKingCords(OWNERS kingOwner) const {
+		try {
+			if(kingOwner == OWNERS::NONE)
+				throw PaleEngineException("Exception happened!", 'e', "Board_representation.cpp", 241, "GetKingCords", WRONG_OWNER);
+
+			bool kingFound = false;
+			std::pair<unsigned int, unsigned int> kingCords;
+			for (int rowIt = 0; rowIt < _row; rowIt++) {
+				for (int columnIt = 0; columnIt < _column; columnIt++) {
+					if (kingOwner == OWNERS::BLACK && _board.at(rowIt).at(columnIt)->GetValue() == -7) {
+						kingCords = std::make_pair(rowIt, columnIt);
+						kingFound = true;
+					}
+					else if (kingOwner == OWNERS::WHITE && _board.at(rowIt).at(columnIt)->GetValue() == 7) {
+						kingCords = std::make_pair(rowIt, columnIt);
+						kingFound = true;
+					}
+				}
+			}
+
+			if (!kingFound)
+				throw PaleEngineException("Exception happened!", 'e', "Board_representation.cpp", 241, "GetKingCords", KING_NOT_FOUND);
+			else {
+				if (kingOwner == OWNERS::BLACK)
+					PALE_ENGINE_INFO("Black king piece has been located! Cords: {0}, {1}", kingCords.first, kingCords.second);
+				else if (kingOwner == OWNERS::WHITE)
+					PALE_ENGINE_INFO("White king piece has been located! Cords: {0}, {1}", kingCords.first, kingCords.second);
+			}
+
+			return kingCords;
+		}
+		catch (PaleEngineException& exception) {
+			if (exception.GetType() == 'e')
+				PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
+			else if (exception.GetType() == 'w')
+				PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+		}
+	}
+
+	template<>
+	const std::pair<unsigned int, unsigned int> Board_Representation<int>::GetKingCords(OWNERS kingOwner) const {
+		try {
+			if (kingOwner == OWNERS::NONE)
+				throw PaleEngineException("Exception happened!", 'e', "Board_representation.cpp", 241, "GetKingCords", WRONG_OWNER);
+
+			bool kingFound = false;
+			std::pair<unsigned int, unsigned int> kingCords;
+			for (int rowIt = 0; rowIt < _row; rowIt++) {
+				for (int columnIt = 0; columnIt < _column; columnIt++) {
+					if (kingOwner == OWNERS::BLACK && _board.at(rowIt).at(columnIt) == -7) {
+						kingCords = std::make_pair(rowIt, columnIt);
+						kingFound = true;
+					}
+					else if (kingOwner == OWNERS::WHITE && _board.at(rowIt).at(columnIt) == 7) {
+						kingCords = std::make_pair(rowIt, columnIt);
+						kingFound = true;
+					}
+				}
+			}
+
+			if (!kingFound)
+				throw PaleEngineException("Exception happened!", 'e', "Board_representation.cpp", 241, "GetKingCords", KING_NOT_FOUND);
+			else {
+				if (kingOwner == OWNERS::BLACK)
+					PALE_ENGINE_INFO("Black king piece has been located! Cords: {0}, {1}", kingCords.first, kingCords.second);
+				else if (kingOwner == OWNERS::WHITE)
+					PALE_ENGINE_INFO("White king piece has been located! Cords: {0}, {1}", kingCords.first, kingCords.second);
+			}
+
+			return kingCords;
+		}
+		catch (PaleEngineException& exception) {
+			if (exception.GetType() == 'e')
+				PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
+			else if (exception.GetType() == 'w')
+				PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+		}
+	}
+
+	template<>
+	const std::pair<unsigned int, unsigned int> Board_Representation<std::string>::GetKingCords(OWNERS kingOwner) const {
+		try {
+			if (kingOwner == OWNERS::NONE)
+				throw PaleEngineException("Exception happened!", 'e', "Board_representation.cpp", 241, "GetKingCords", WRONG_OWNER);
+
+			bool kingFound = false;
+			std::pair<unsigned int, unsigned int> kingCords;
+			for (int rowIt = 0; rowIt < _row; rowIt++) {
+				for (int columnIt = 0; columnIt < _column; columnIt++) {
+					if (kingOwner == OWNERS::BLACK && _board.at(rowIt).at(columnIt) == "bK") {
+						kingCords = std::make_pair(rowIt, columnIt);
+						kingFound = true;
+					}
+					else if (kingOwner == OWNERS::WHITE && _board.at(rowIt).at(columnIt) == "wK") {
+						kingCords = std::make_pair(rowIt, columnIt);
+						kingFound = true;
+					}
+				}
+			}
+
+			if (!kingFound)
+				throw PaleEngineException("Exception happened!", 'e', "Board_representation.cpp", 241, "GetKingCords", KING_NOT_FOUND);
+			else {
+				if (kingOwner == OWNERS::BLACK)
+					PALE_ENGINE_INFO("Black king piece has been located! Cords: {0}, {1}", kingCords.first, kingCords.second);
+				else if (kingOwner == OWNERS::WHITE)
+					PALE_ENGINE_INFO("White king piece has been located! Cords: {0}, {1}", kingCords.first, kingCords.second);
+			}
+
+			return kingCords;
 		}
 		catch (PaleEngineException& exception) {
 			if (exception.GetType() == 'e')

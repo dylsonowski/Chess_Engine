@@ -33,107 +33,103 @@ namespace Pale::UI {
 		_drawing = false;
 	}
 
-	void Command_Line_UI::Update(std::shared_ptr<Chess_Logic::Board_Representation<std::string>> boardRepresentation, APP_STATES applicationState, unsigned short int turn) {
-		if (!_drawing) {
-			//--- If board state was changed it needs to be updated ---//
-			if (*_boardRepresentation != *boardRepresentation) {
-				_boardRepresentation = boardRepresentation;
-				PALE_ENGINE_INFO("Command line UI: Board updated!");
-			}
+	void Command_Line_UI::Update(std::shared_ptr<Chess_Logic::Board_Representation<std::string>> boardRepresentation, APP_STATES applicationState, unsigned short int turn, bool whiteKingStatus, bool blackKingStatus) {
+		//--- If board state was changed it needs to be updated ---//
+		if (*_boardRepresentation != *boardRepresentation) {
+			_boardRepresentation = boardRepresentation;
+			PALE_ENGINE_INFO("Command line UI: Board updated!");
+		}
 
-			//--- If application state was changed it needs to be updated ---//
-			if (_applicationState != applicationState) {
-				_applicationState = applicationState;
-				PALE_ENGINE_INFO("Command line UI: Application state updated!");
+		//--- If application state was changed it needs to be updated ---//
+		if (_applicationState != applicationState) {
+			_applicationState = applicationState;
+			PALE_ENGINE_INFO("Command line UI: Application state updated!");
+		}
 
-				//--- Change of the application state have priaority over respecting user inputs ---//
-				_skipUserInput = true;
-			}
-			else
-				_skipUserInput = false;
+		//--- If turn counter was changed it needs to be updated ---//
+		_turnCounter = turn;
 
-			//--- If turn counter was changed it needs to be updated ---//
-			_turnCounter = turn;
+		//--- Change statuses of both kings to check if there are no check ---//
+		_whiteKingCheck = whiteKingStatus;
+		_blackKingCheck = blackKingStatus;
+	}
 
+	void Command_Line_UI::UserInput() {
+		if (!_skipUserInput) {
 			// IMPORTANT: Depending on appliacation state, different action handling needs to be used
 			switch (_applicationState) {
-				//--- Application state - Game state ---//
+			//--- Application state - Game state ---//
 			case APP_STATES::GAME_STATE: {
-				//--- No user help is needed ---//
-				if (!_skipUserInput) {
-					if (!_printHelp) {
-						if (_resetEnvironment) {
-							short unsigned int newTreeDepth;
-							std::cin >> newTreeDepth;
+				if (!_printHelp) {
+					if (_resetEnvironment) {
+						short unsigned int newTreeDepth;
+						std::cin >> newTreeDepth;
 
-							Event_System::Game_Events::Reset_Environment_Event resetEnvironmentEvent(newTreeDepth);
-							_eventEmitter.Emit(resetEnvironmentEvent);
+						Event_System::Game_Events::Reset_Environment_Event resetEnvironmentEvent(newTreeDepth);
+						_eventEmitter.Emit(resetEnvironmentEvent);
 
-							_resetEnvironment = false;
-						}
-						else if (_insertMoveCommand) {
-							//--- Hendling user input for move command ---//
-							std::string moveCommand;
-							std::cin >> moveCommand;
+						_resetEnvironment = false;
+					}
+					else if (_insertMoveCommand) {
+						//--- Hendling user input for move command ---//
+						std::string moveCommand;
+						std::cin >> moveCommand;
 
-							//--- Handling request for printing out user help ---//
-							if (moveCommand == "?")
-								_printHelp = true;
-							else {
-								Event_System::Game_Events::Make_Move_Event makeMoveEvent(moveCommand);
-								_eventEmitter.Emit(makeMoveEvent);
-								_insertMoveCommand = false;
-							}
-						}
-						else if (_invalidCommandInserted) {
-							//--- Hendling user input in case of invalid move command ---//
-							char command;
-							std::cin >> command;
-
-							if (command == 'Y' || command == 'y')
-								_printHelp = true;
-							else if (command == 'N' || command == 'n') {
-								_invalidCommandInserted = false;
-								_insertMoveCommand = true;
-							}
-						}
+						//--- Handling request for printing out user help ---//
+						if (moveCommand == "?")
+							_printHelp = true;
 						else {
-							//--- Hendling user input for menu command ---//
-							char command;
-							std::cin >> command;
-
-							//--- Reset whole environmantr and start new game ---//
-							if (command == 'N' || command == 'n') {
-								_resetEnvironment = true;
-							}
-							//--- Allow for inserting move command ---//
-							else if (command == 'M' || command == 'm') {
-								_insertMoveCommand = true;
-							}
-							//--- Stop the application ---//
-							else if (command == 'Q' || command == 'q') {
-								Event_System::Application_Events::Application_Close_Event applicationCloseEvent(1000);
-								_eventEmitter.Emit(applicationCloseEvent);
-							}
+							Event_System::Game_Events::Make_Move_Event makeMoveEvent(moveCommand);
+							_eventEmitter.Emit(makeMoveEvent);
+							_insertMoveCommand = false;
 						}
 					}
-					//--- User help is needed ---//
-					else {
-						system("pause");
+					else if (_invalidCommandInserted) {
+						//--- Hendling user input in case of invalid move command ---//
+						char command;
+						std::cin >> command;
 
-						_printHelp = false;
+						if (command == 'Y' || command == 'y')
+							_printHelp = true;
+						else if (command == 'N' || command == 'n') {
+							_invalidCommandInserted = false;
+							_insertMoveCommand = true;
+						}
 					}
+					else {
+						//--- Hendling user input for menu command ---//
+						char command;
+						std::cin >> command;
+
+						//--- Reset whole environmantr and start new game ---//
+						if (command == 'N' || command == 'n') {
+							_resetEnvironment = true;
+						}
+						//--- Allow for inserting move command ---//
+						else if (command == 'M' || command == 'm') {
+							_insertMoveCommand = true;
+						}
+						//--- Stop the application ---//
+						else if (command == 'Q' || command == 'q') {
+							Event_System::Application_Events::Application_Close_Event applicationCloseEvent(1000);
+							_eventEmitter.Emit(applicationCloseEvent);
+						}
+					}
+				}
+				else {
+					system("pause");
+					_printHelp = false;
 				}
 				break;
 			}
-									   //--- Application state - Ending state ---//
+			//--- Application state - Ending state ---//
 			case APP_STATES::END_STATE: {
 				system("pause");
 				Event_System::Application_Events::Application_Close_Event applicationCloseEvent(1000);
 				_eventEmitter.Emit(applicationCloseEvent);
 				break;
 			}
-									  //--- Application state - Main menu state ---//
+			//--- Application state - Main menu state ---//
 			default: {
 				short unsigned int treeDepth;
 				std::cin >> treeDepth;
@@ -144,9 +140,6 @@ namespace Pale::UI {
 			}
 			}
 		}
-
-		//--- Informe Update() function when drawing process has been finished ---//
-		_drawing = true;
 	}
 
 	void Command_Line_UI::RenderLogo() const {
@@ -167,7 +160,7 @@ namespace Pale::UI {
 	void Command_Line_UI::RenderBoard() const {
 		std::cout << "Captured pieces (WHITE): ";
 		//--- Converting 'int' piece ID into char for white player. ---//
-		for (const auto& iterator : Chess_Logic::s_deathList) {	
+		for (const auto& iterator : Pale::Chess_Logic::s_deathList) {	
 			switch (iterator) {
 			case 7: { std::cout << "K "; break; }
 			case 5: { std::cout << "Q "; break; }
@@ -181,7 +174,7 @@ namespace Pale::UI {
 		std::cout << "\n\n";
 		std::cout << "Captured pieces (BLACK): ";
 		//--- Converting 'int' piece ID into char for black player. ---//
-		for (const auto& iterator : Chess_Logic::s_deathList) {
+		for (const auto& iterator : Pale::Chess_Logic::s_deathList) {
 			switch (iterator) {
 			case -7: { std::cout << "K "; break; }
 			case -5: { std::cout << "Q "; break; }
@@ -191,6 +184,13 @@ namespace Pale::UI {
 			case -1: { std::cout << "P "; break; }
 			}
 		}
+
+		//--- Printing when one site king is under check ---//
+		if (_whiteKingCheck)
+			std::cout << "\n\nWhite king check!";
+
+		if (_blackKingCheck)
+			std::cout << "\n\nBlack king check!";
 
 		//--- Printing out board state. ---//
 		// IMPORTANT: Method which create 'string' from board state was defined inside 'Board_Representation' class.

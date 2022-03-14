@@ -9,8 +9,8 @@ namespace Pale::UI {
 		User_Interface() = delete;
 		virtual ~User_Interface() = default;
 
-		virtual void Draw() = 0; // TODO: Add necessary arguments!
-		virtual void Update(std::shared_ptr<Chess_Logic::Board_Representation<std::string>> boardRepresentation, APP_STATES applicationState, unsigned short int turn) = 0; // TODO: Add necessary arguments!
+		virtual void Draw() = 0;
+		virtual void Update(std::shared_ptr<Chess_Logic::Board_Representation<std::string>> boardRepresentation, APP_STATES applicationState, unsigned short int turn, bool whiteKingStatus, bool blackKingStatus) = 0;
 
 		void SetGameStatus(bool setCheck, bool value) {
 			if (setCheck)
@@ -20,7 +20,7 @@ namespace Pale::UI {
 		}
 		void UpdateBoardRepresentation(std::shared_ptr<Chess_Logic::Board_Representation<std::string>> boardRepresentation) {
 			_boardRepresentation = boardRepresentation;
-			_deathList = Chess_Logic::s_deathList;
+			_deathList = Pale::Chess_Logic::s_deathList;
 		}
 
 		//--- Instance of event emitter responsible for communication with application core according to hermetysation principal ---//
