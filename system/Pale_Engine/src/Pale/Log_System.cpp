@@ -1,6 +1,7 @@
 #include "palepch.h"
 
-namespace Pale {
+namespace Pale
+{
 	std::shared_ptr<spdlog::sinks::stdout_color_sink_mt> Log_System::s_consoleSink;
 	std::shared_ptr<spdlog::sinks::basic_file_sink_mt> Log_System::s_fileSink;
 	std::shared_ptr<spdlog::logger> Log_System::s_coreLogger;
@@ -8,13 +9,16 @@ namespace Pale {
 	std::shared_ptr<spdlog::logger> Log_System::s_testsLogger;
 	std::shared_ptr<spdlog::logger> Log_System::s_assertionLogger;
 
-	void Log_System::Init(LOGGING_METHOD methodOfLogging) {
+	void Log_System::Init(LOGGING_METHOD methodOfLogging)
+	{
 		static std::vector<spdlog::sink_ptr> sinks;
 		spdlog::set_pattern("%^[%l] [%T] %n: %v%$");
 
-		switch (methodOfLogging) {
-		case LOGGING_METHOD::FILE_ONLY: {
-			s_fileSink = std::make_shared<spdlog::sinks::basic_file_sink_mt>("logs/ApplicationRuntimeLogs.log", true);
+		switch (methodOfLogging)
+		{
+		case LOGGING_METHOD::FILE_ONLY:
+		{
+			s_fileSink = std::make_shared<spdlog::sinks::basic_file_sink_mt>("logs/ApplicationRuntime.log", true);
 			s_fileSink->set_level(spdlog::level::trace);
 
 			s_coreLogger = std::make_shared<spdlog::logger>("PALE", s_fileSink);
@@ -30,7 +34,8 @@ namespace Pale {
 			s_assertionLogger->set_level(spdlog::level::trace);
 			break;
 		}
-		case LOGGING_METHOD::TERMINAL_ONLY: {
+		case LOGGING_METHOD::TERMINAL_ONLY:
+		{
 			s_consoleSink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
 			s_consoleSink->set_level(spdlog::level::trace);
 
@@ -47,12 +52,13 @@ namespace Pale {
 			s_assertionLogger->set_level(spdlog::level::trace);
 			break;
 		}
-		case LOGGING_METHOD::FILE_AND_TERMINAL: {
+		case LOGGING_METHOD::FILE_AND_TERMINAL:
+		{
 			s_consoleSink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
 			s_consoleSink->set_level(spdlog::level::trace);
 			sinks.push_back(s_consoleSink);
 
-			s_fileSink = std::make_shared<spdlog::sinks::basic_file_sink_mt>("logs/ApplicationRuntimeLogs.log", true);
+			s_fileSink = std::make_shared<spdlog::sinks::basic_file_sink_mt>("logs/ApplicationRuntime.log", true);
 			s_fileSink->set_level(spdlog::level::trace);
 			sinks.push_back(s_fileSink);
 
@@ -69,12 +75,13 @@ namespace Pale {
 			s_assertionLogger->set_level(spdlog::level::trace);
 			break;
 		}
-		default: {
+		default:
+		{
 			s_consoleSink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
 			s_consoleSink->set_level(spdlog::level::err);
 			sinks.push_back(s_consoleSink);
 
-			s_fileSink = std::make_shared<spdlog::sinks::basic_file_sink_mt>("logs/ApplicationRuntimeLogs.log", true);
+			s_fileSink = std::make_shared<spdlog::sinks::basic_file_sink_mt>("logs/ApplicationRuntime.log", true);
 			s_fileSink->set_level(spdlog::level::trace);
 			sinks.push_back(s_fileSink);
 

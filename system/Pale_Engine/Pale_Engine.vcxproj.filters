@@ -77,6 +77,8 @@
       <Filter>Pale\User_Interface</Filter>
     </ClInclude>
     <ClInclude Include="src\palepch.h" />
+    <ClInclude Include="src\Pale\AI_Module\Artificial_Neural_Network\Neuron.h" />
+    <ClInclude Include="src\Pale\AI_Module\Artificial_Neural_Network\Layer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pale\Application.cpp">
@@ -108,5 +110,7 @@
     </ClCompile>
     <ClCompile Include="src\palepch.cpp" />
     <ClCompile Include="src\Pale\AI_Module\Math\Matrix.cpp" />
+    <ClCompile Include="src\Pale\AI_Module\Artificial_Neural_Network\Neuron.cpp" />
+    <ClCompile Include="src\Pale\AI_Module\Artificial_Neural_Network\Layer.cpp" />
   </ItemGroup>
 </Project>

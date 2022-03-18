@@ -9,6 +9,7 @@
 #include <optional>
 #include <fstream>
 #include <random>
+#include <functional>
 
 #include <vector>
 #include <utility>

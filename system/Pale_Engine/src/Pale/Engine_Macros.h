@@ -6,8 +6,8 @@
 //--- Errors codes ---//
 #define VEC_OUT_OF_RANGE "Read attempt from out of vector range!"
 #define FIGURE_BAD_OWNER "If the figure was created it needs proper owning side!"
-#define COPY_LIMIT_EXCEEDED "Attempt to create to many instancies of the chess piece!"
-#define BAD_TYPE_INSERTION "Attempt to insert value of the type different than board representaion!"
+#define COPY_LIMIT_EXCEEDED "Attempt to create to many instances of the chess piece!"
+#define BAD_TYPE_INSERTION "Attempt to insert value of the type different than board representation!"
 #define BAD_TYPE_CONVERTION "Attempt to convert on incorrect type!"
 #define WRONG_OWNER "Incorrect owner specify!"
 #define MOVE_COMMAND__WRONG_PIECE "Specified piece do not exist!"
@@ -16,18 +16,19 @@
 #define MOVE_COMMAND__NO_NEW_PIECE "Piece to change into wasn't specify!"
 #define READ_FILE_ERROR "Unable to open file!"
 #define TEST_CASE_SEARCH_FAIL "Type of test case that is searched for do not exist!"
-#define TEST_TOO_FEW_ARGUMENTS "Not enought arguments has been specified to start test run."
+#define TEST_TOO_FEW_ARGUMENTS "Not enough arguments has been specified to start test run."
 #define UI_INVALID_AI_NUMBER "In case of chess game there can be only 2 players. Maximal number of AI instances is 2!"
 #define KING_NOT_FOUND	"Application was unable to locate king piece on the board. It could mean it has been removed or not placed at all. Game cannot continue without king piece!"
-#define MATH__MATRICES_DIMENTIONS_INCORECT "Operation cannot be performed because some matrices are incorrect!"
+#define MATH__MATRICES_DIMENTIONS_INCORRECT "Operation cannot be performed because some matrices are incorrect!"
+#define NN__PREVIOUS_LAYER_INVALID_SIZE "Calculation interrupted! Passed layer have different size than input weights vector!"
 
 //--- Warnings codes ---//
-#define INVALID_PIECE_ID "No coresponding chess piece of the given ID! Insertion failed!"
+#define INVALID_PIECE_ID "No corresponding chess piece of the given ID! Insertion failed!"
 #define MOVE_COMMAND__INVALID_OCCUPATION "Incorrect command! This plate is occupied by different piece!"
 #define MOVE_COMMAND__INVALID_STARTING_POS "Given coordinates do not contains correct piece!"
-#define MOVE_COMMAND__INCOMPATIBLE_CORDS "Given coordinats are different than in piece object!"
+#define MOVE_COMMAND__INCOMPATIBLE_CORDS "Given coordinates are different than in piece object!"
 #define MOVE_COMMAND__NO_MOVE_NEEDED "Start and end coordinates are the same so no move is needed!"
-#define MOVE_COMMAND__INVALID_SPECIAL_USE "Given piece cannot perform this speciam move!"
+#define MOVE_COMMAND__INVALID_SPECIAL_USE "Given piece cannot perform this special move!"
 
 //--- Random number generating function ---//
 template<typename T>
@@ -38,7 +39,7 @@ static T GenerateRandomNumber(T minValue, T maxValue) {
 	return uniformDist(engine);
 }
 
-//--- Enum of avaliable players ---//
+//--- Enum of available players ---//
 enum class OWNERS {
 	NONE = 0,
 	WHITE,

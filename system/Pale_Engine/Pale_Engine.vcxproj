@@ -91,6 +91,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Pale\AI_Module\Artificial_Neural_Network\Layer.h" />
+    <ClInclude Include="src\Pale\AI_Module\Artificial_Neural_Network\Neuron.h" />
     <ClInclude Include="src\Pale.h" />
     <ClInclude Include="src\Pale\AI_Module\Math\Matrix.h" />
     <ClInclude Include="src\Pale\Application.h" />
@@ -109,6 +111,8 @@
     <ClInclude Include="src\palepch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Pale\AI_Module\Artificial_Neural_Network\Layer.cpp" />
+    <ClCompile Include="src\Pale\AI_Module\Artificial_Neural_Network\Neuron.cpp" />
     <ClCompile Include="src\Pale\AI_Module\Math\Matrix.cpp" />
     <ClCompile Include="src\Pale\Application.cpp" />
     <ClCompile Include="src\Pale\Chess_Module\Board_Representation.cpp" />

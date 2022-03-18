@@ -461,7 +461,7 @@ namespace Pale::Chess_Logic {
 				}
 			}
 
-			PALE_ENGINE_TRACE("Convertion on object type!");
+			PALE_ENGINE_TRACE("Board_Representation.cpp->Board_Representation<std::shared_ptr<Pieces>>|ConvertBoard<int> [464]: Convertion on object type!");
 			return newBoard;
 		}
 		catch (PaleEngineException& exception) {
@@ -481,7 +481,7 @@ namespace Pale::Chess_Logic {
 			}
 		}
 
-		PALE_ENGINE_TRACE("No convertion made!");
+		PALE_ENGINE_TRACE("Board_Representation.cpp->Board_Representation<int>|ConvertBoard<int> [484]: No convertion made!");
 		return newBoard;
 	}
 
@@ -534,7 +534,7 @@ namespace Pale::Chess_Logic {
 				}
 			}
 
-			PALE_ENGINE_TRACE("Convertion on string type!");
+			PALE_ENGINE_TRACE("Board_Representation.cpp->Board_Representation<std::string>|ConvertBoard<int> [537]: Convertion on string type!");
 			return newBoard;
 		}
 		catch (PaleEngineException& exception) {
@@ -609,7 +609,7 @@ namespace Pale::Chess_Logic {
 				}
 			}
 
-			PALE_ENGINE_TRACE("Convertion on object type!");
+			PALE_ENGINE_TRACE("Board_Representation.cpp->Board_Representation<std::shared_ptr<Pieces>>|ConvertBoard<std::string> [612]: Convertion on object type!");
 			return newBoard;
 		}
 		catch (PaleEngineException& exception) {
@@ -648,7 +648,7 @@ namespace Pale::Chess_Logic {
 				}
 			}
 
-			PALE_ENGINE_TRACE("Convertion on int type!");
+			PALE_ENGINE_TRACE("Board_Representation.cpp->Board_Representation<int>|ConvertBoard<std::string> [651]: Convertion on int type!");
 			return newBoard;
 		}
 		catch (PaleEngineException& exception) {
@@ -668,7 +668,7 @@ namespace Pale::Chess_Logic {
 			}
 		}
 
-		PALE_ENGINE_TRACE("No convertion made!");
+		PALE_ENGINE_TRACE("Board_Representation.cpp->Board_Representation<std::string>|ConvertBoard<std::string> [464]: No convertion made!");
 		return newBoard;
 	}
 
@@ -764,9 +764,9 @@ namespace Pale::Chess_Logic {
 				throw PaleEngineException("Exception happened!", 'e', "Board_representation.cpp", 241, "GetKingCords", KING_NOT_FOUND);
 			else {
 				if (kingOwner == OWNERS::BLACK)
-					PALE_ENGINE_INFO("Black king piece has been located! Cords: {0}, {1}", kingCords.first, kingCords.second);
+					PALE_ENGINE_INFO("Board_Representation.cpp->Board_Representation<std::shared_ptr<Pieces>>::GetKingCords() [767]: Black king piece has been located! Cords: {0}, {1}", kingCords.first, kingCords.second);
 				else if (kingOwner == OWNERS::WHITE)
-					PALE_ENGINE_INFO("White king piece has been located! Cords: {0}, {1}", kingCords.first, kingCords.second);
+					PALE_ENGINE_INFO("Board_Representation.cpp->Board_Representation<std::shared_ptr<Pieces>>::GetKingCords() [769]: White king piece has been located! Cords: {0}, {1}", kingCords.first, kingCords.second);
 			}
 
 			return kingCords;
@@ -804,9 +804,9 @@ namespace Pale::Chess_Logic {
 				throw PaleEngineException("Exception happened!", 'e', "Board_representation.cpp", 241, "GetKingCords", KING_NOT_FOUND);
 			else {
 				if (kingOwner == OWNERS::BLACK)
-					PALE_ENGINE_INFO("Black king piece has been located! Cords: {0}, {1}", kingCords.first, kingCords.second);
+					PALE_ENGINE_INFO("Board_Representation.cpp->Board_Representation<int>::GetKingCords() [807]: Black king piece has been located! Cords: {0}, {1}", kingCords.first, kingCords.second);
 				else if (kingOwner == OWNERS::WHITE)
-					PALE_ENGINE_INFO("White king piece has been located! Cords: {0}, {1}", kingCords.first, kingCords.second);
+					PALE_ENGINE_INFO("Board_Representation.cpp->Board_Representation<int>::GetKingCords() [809]: White king piece has been located! Cords: {0}, {1}", kingCords.first, kingCords.second);
 			}
 
 			return kingCords;
@@ -844,9 +844,9 @@ namespace Pale::Chess_Logic {
 				throw PaleEngineException("Exception happened!", 'e', "Board_representation.cpp", 241, "GetKingCords", KING_NOT_FOUND);
 			else {
 				if (kingOwner == OWNERS::BLACK)
-					PALE_ENGINE_INFO("Black king piece has been located! Cords: {0}, {1}", kingCords.first, kingCords.second);
+					PALE_ENGINE_INFO("Board_Representation.cpp->Board_Representation<std::string>::GetKingCords() [847]: Black king piece has been located! Cords: {0}, {1}", kingCords.first, kingCords.second);
 				else if (kingOwner == OWNERS::WHITE)
-					PALE_ENGINE_INFO("White king piece has been located! Cords: {0}, {1}", kingCords.first, kingCords.second);
+					PALE_ENGINE_INFO("Board_Representation.cpp->Board_Representation<std::string>::GetKingCords() [849]: White king piece has been located! Cords: {0}, {1}", kingCords.first, kingCords.second);
 			}
 
 			return kingCords;

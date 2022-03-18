@@ -37,13 +37,13 @@ namespace Pale::UI {
 		//--- If board state was changed it needs to be updated ---//
 		if (*_boardRepresentation != *boardRepresentation) {
 			_boardRepresentation = boardRepresentation;
-			PALE_ENGINE_INFO("Command line UI: Board updated!");
+			PALE_ENGINE_INFO("Command_Line_UI->Update() [40]: Command line UI: Board updated!");
 		}
 
 		//--- If application state was changed it needs to be updated ---//
 		if (_applicationState != applicationState) {
 			_applicationState = applicationState;
-			PALE_ENGINE_INFO("Command line UI: Application state updated!");
+			PALE_ENGINE_INFO("Command_Line_UI->Update() [46]: Command line UI: Application state updated!");
 		}
 
 		//--- If turn counter was changed it needs to be updated ---//
