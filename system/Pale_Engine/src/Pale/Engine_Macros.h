@@ -19,6 +19,7 @@
 #define TEST_TOO_FEW_ARGUMENTS "Not enought arguments has been specified to start test run."
 #define UI_INVALID_AI_NUMBER "In case of chess game there can be only 2 players. Maximal number of AI instances is 2!"
 #define KING_NOT_FOUND	"Application was unable to locate king piece on the board. It could mean it has been removed or not placed at all. Game cannot continue without king piece!"
+#define MATH__MATRICES_DIMENTIONS_INCORECT "Operation cannot be performed because some matrices are incorrect!"
 
 //--- Warnings codes ---//
 #define INVALID_PIECE_ID "No coresponding chess piece of the given ID! Insertion failed!"
@@ -28,13 +29,21 @@
 #define MOVE_COMMAND__NO_MOVE_NEEDED "Start and end coordinates are the same so no move is needed!"
 #define MOVE_COMMAND__INVALID_SPECIAL_USE "Given piece cannot perform this speciam move!"
 
+//--- Random number generating function ---//
+template<typename T>
+static T GenerateRandomNumber(T minValue, T maxValue) {
+	std::random_device device;
+	std::default_random_engine engine(device());
+	std::uniform_real_distribution<T> uniformDist(minValue, maxValue);
+	return uniformDist(engine);
+}
+
 //--- Enum of avaliable players ---//
 enum class OWNERS {
 	NONE = 0,
 	WHITE,
 	BLACK
 };
-
 
 //--- Enum of move types ---//
 enum class MOVE_TYPES {

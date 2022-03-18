@@ -44,9 +44,9 @@ namespace Testing {
 		}
 		catch (PaleEngineException& exception) {
 			if (exception.GetType() == 'e')
-				PALE_ASSERTION_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
+				PALE_ASSERTION_ERROR("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo())
 			else if (exception.GetType() == 'w')
-				PALE_ASSERTION_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+				PALE_ASSERTION_WARN("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo());
 		}
 	}
 }

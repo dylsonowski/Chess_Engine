@@ -1,5 +1,4 @@
 #include "palepch.h"
-#include <SFML/Graphics.hpp>
 
 namespace Pale {
 	Application::Application(const bool consoleUIVersion, unsigned short int numberOfAIInstances) 
@@ -23,7 +22,7 @@ namespace Pale {
 	void Application::OnEvent() {
 		_UI->_eventEmitter.On<Pale::UI::Event_System::Application_Events::Game_Tree_Setup_Event>([this](Pale::UI::Event_System::Application_Events::Game_Tree_Setup_Event& gameTreeSetupEvent) {
 			//_eventOccured = true;
-			PALE_ENGINE_TRACE("Event occured! {0}", gameTreeSetupEvent.ToString());
+			PALE_ENGINE_TRACE("Application.cpp->OnEvent() [25]: Event occured! {0}", gameTreeSetupEvent.ToString());
 			_gameTreeDepth = gameTreeSetupEvent.GetGameTreeDepth();
 			_applicationState = APP_STATES::GAME_STATE;
 			ResetEnvironment();
@@ -31,20 +30,20 @@ namespace Pale {
 
 		_UI->_eventEmitter.On<Pale::UI::Event_System::Game_Events::Reset_Environment_Event>([this](Pale::UI::Event_System::Game_Events::Reset_Environment_Event& resetEnvironmentEvent) {
 			//_eventOccured = true;
-			PALE_ENGINE_TRACE("Event occured! {0}", resetEnvironmentEvent.ToString());
+			PALE_ENGINE_TRACE("Application.cpp->OnEvent() [33]: Event occured! {0}", resetEnvironmentEvent.ToString());
 			_gameTreeDepth = resetEnvironmentEvent.GetNewGameTreeDepth();
 			}); // TODO: Implement when AI module will be finished
 
 		_UI->_eventEmitter.On<Pale::UI::Event_System::Game_Events::Make_Move_Event>([this](Pale::UI::Event_System::Game_Events::Make_Move_Event& makeMoveEvent) {
 			//_eventOccured = true;
-			PALE_ENGINE_TRACE("Event occured! {0}", makeMoveEvent.ToString());
+			PALE_ENGINE_TRACE("Application.cpp->OnEvent() [39]: Event occured! {0}", makeMoveEvent.ToString());
 			MakeMove(makeMoveEvent.GetMoveCommand());
 			//_turnCounter++; // Do not increment it here!
 			}); // TODO: Implement move hendling
 
 		_UI->_eventEmitter.On<Pale::UI::Event_System::Application_Events::Application_Close_Event>([this](Pale::UI::Event_System::Application_Events::Application_Close_Event& exitApplicationEvent) {
 			//_eventOccured = true;
-			PALE_ENGINE_TRACE("Event occured! {0}", exitApplicationEvent.ToString());
+			PALE_ENGINE_TRACE("Application.cpp->OnEvent() [46]:Event occured! {0}", exitApplicationEvent.ToString());
 			system("pause");
 			_isRunning = false;
 			});
@@ -52,7 +51,7 @@ namespace Pale {
 
 	void Application::ResetEnvironment() {
 		_turnCounter = 1;
-		//_boardRepresentation = std::make_shared<Pale::Chess_Logic::Board_Representation<std::shared_ptr<Pale::Chess_Logic::Pieces>>>(8, 8, false);
+		_boardRepresentation = std::make_shared<Pale::Chess_Logic::Board_Representation<std::shared_ptr<Pale::Chess_Logic::Pieces>>>(8, 8, false);
 
 		if(!_moveHistory.empty())
 			_moveHistory.clear();
@@ -71,25 +70,6 @@ namespace Pale {
 	}
 
 	void Application::Run()	{
-		/*_boardRepresentation->SetPlateValue(0, 1, std::make_shared<Pale::Chess_Logic::Blank>(0, 1));
-
-		_boardRepresentation->SetPlateValue(2, 2, std::make_shared<Pale::Chess_Logic::Knight>(OWNERS::BLACK, std::make_pair(2, 2)));
-		_boardRepresentation->SetPlateValue(4, 2, std::make_shared<Pale::Chess_Logic::Bishop>(OWNERS::WHITE, std::make_pair(4, 2)));
-
-		_boardRepresentation->SetPlateValue(7, 3, std::make_shared<Pale::Chess_Logic::Blank>(7, 3));
-
-		_boardRepresentation->SetPlateValue(1, 4, std::make_shared<Pale::Chess_Logic::Blank>(1, 4));
-		_boardRepresentation->SetPlateValue(3, 4, std::make_shared<Pale::Chess_Logic::Pawn>(OWNERS::BLACK, std::make_pair(3, 4)));
-		_boardRepresentation->SetPlateValue(4, 4, std::make_shared<Pale::Chess_Logic::Pawn>(OWNERS::WHITE, std::make_pair(4, 4)));
-		_boardRepresentation->SetPlateValue(6, 4, std::make_shared<Pale::Chess_Logic::Blank>(6, 4));
-
-		_boardRepresentation->SetPlateValue(2, 5, std::make_shared<Pale::Chess_Logic::Knight>(OWNERS::BLACK, std::make_pair(2, 5)));
-		_boardRepresentation->SetPlateValue(7, 5, std::make_shared<Pale::Chess_Logic::Blank>(7, 5));
-
-		_boardRepresentation->SetPlateValue(0, 6, std::make_shared<Pale::Chess_Logic::Blank>(0, 6));
-
-		_boardRepresentation->SetPlateValue(3, 7, std::make_shared<Pale::Chess_Logic::Queen>(OWNERS::WHITE, std::make_pair(3, 7)));*/
-
 		while (_isRunning) {
 			OnEvent();
 

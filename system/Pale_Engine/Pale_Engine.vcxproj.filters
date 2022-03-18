@@ -4,6 +4,12 @@
     <Filter Include="Pale">
       <UniqueIdentifier>{C7988A7C-B3CF-8B0D-5CBC-711048D2070F}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Pale\AI_Module">
+      <UniqueIdentifier>{E5C193E4-D18F-87EA-BA23-F810A690634F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pale\AI_Module\Math">
+      <UniqueIdentifier>{DE1DC005-4A7F-9D13-D3EC-E3C53F4DD4D2}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Pale\Chess_Module">
       <UniqueIdentifier>{1116EC27-7D2C-EABD-C6A3-75DF32F9BA45}</UniqueIdentifier>
     </Filter>
@@ -28,6 +34,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Pale.h" />
+    <ClInclude Include="src\Pale\AI_Module\Math\Matrix.h">
+      <Filter>Pale\AI_Module\Math</Filter>
+    </ClInclude>
     <ClInclude Include="src\Pale\Application.h">
       <Filter>Pale</Filter>
     </ClInclude>
@@ -98,5 +107,6 @@
       <Filter>Pale\User_Interface</Filter>
     </ClCompile>
     <ClCompile Include="src\palepch.cpp" />
+    <ClCompile Include="src\Pale\AI_Module\Math\Matrix.cpp" />
   </ItemGroup>
 </Project>

@@ -25,47 +25,23 @@ project "Pale_Engine"
 
     includedirs {
         "%{prj.name}/vendor/spdlog/include",
-        "%{prj.name}/src",
-        "%{prj.name}/vendor/sfml/include"
-    }
-
-    libdirs { "%{prj.name}/vendor/sfml/lib" }
-
-    links {
-        "opengl32.lib",
-        "freetype.lib",
-        "opengl32.lib",
-        "winmm.lib",
-        "gdi32.lib"
+        "%{prj.name}/src"
     }
 
     filter "system:windows"
         systemversion "latest"
 
         defines {
-            "PLATFORM_WINDOWS",
-            "SFML_STATIC"
+            "PLATFORM_WINDOWS"
         }
 
     filter "configurations:Debug"
         defines "_DEBUG_"
         symbols "on"
 
-        links {
-            "sfml-graphics-s-d.lib",
-            "sfml-window-s-d.lib",
-            "sfml-system-s-d.lib"
-        }
-
     filter "configurations:Release"
         defines "_RELEASE_"
         optimize "on"
-
-        links {
-            "sfml-graphics-s.lib",
-            "sfml-window-s.lib",
-            "sfml-system-s.lib"
-        }
 
 
 project "Chess_Game"
