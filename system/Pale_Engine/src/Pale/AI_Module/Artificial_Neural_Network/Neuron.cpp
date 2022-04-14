@@ -17,7 +17,7 @@ namespace Pale::AI_Module {
 				throw PaleEngineException("Exception happened!", 'e', "Neuron.cpp", 16, "CalculateNeuronValue()", NN__PREVIOUS_LAYER_INVALID_SIZE);
 
 			Math::Matrix inputWeightsMatrix(_weights.size(), 1, _weights), previousLayerMatrix = previousLayer;
-			double tempNeuronValue = Math::Matrix::ElementalSummary(inputWeightsMatrix, previousLayerMatrix, true).GetValue(0, 0);
+			double tempNeuronValue = Math::Matrix::HadamardMultiplication(inputWeightsMatrix, previousLayerMatrix, true).GetValue(0, 0);
 			_neuronValue = tempNeuronValue + bias;
 			ApplyActivationFunction(Math::SigmoidFunction);
 

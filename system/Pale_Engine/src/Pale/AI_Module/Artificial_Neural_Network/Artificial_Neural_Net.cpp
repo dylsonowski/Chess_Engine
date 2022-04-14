@@ -53,23 +53,53 @@ namespace Pale::AI_Module {
 			if(targetData.size() != _network.back()->GetLayerSize())
 				throw PaleEngineException("Exception happened!", 'e', "Artificial_Neural_Net.cpp", 54, "BackPropagation()", NN__INCORRECT_TARGET_SIZE);
 
-			//--- Computing error vector ---//
-			Math::Matrix targetDataMatrix(targetData.size(), 1, targetData), outputErrors = targetDataMatrix - _network.back()->ConvertToMatrix();
+			Math::Matrix layerErrors(_network.back()->GetLayerSize(), 1, false);
+			for (int networkIterator = _network.size() - 1; networkIterator > 0; networkIterator--) {
+				if (networkIterator == _network.size() - 1) {
+					//--- Computing output error vector ---//
+					Math::Matrix targerDataMatrix(targetData.size(), 1, targetData);
+					layerErrors = targerDataMatrix - _network.at(networkIterator)->ConvertToMatrix();
 
-			PALE_ENGINE_TRACE("Artificial_Neural_Net.cpp->BackPropagation() [59]: Output errors has been computed! Output errors: {0}", outputErrors.ToString(true));
+					PALE_ENGINE_TRACE("Artificial_Neural_Net.cpp->BackPropagation() [63]: Output errors has been computed! Output errors: {0}", layerErrors.ToString(true));
+				}
+				else {
+					//--- Computing error vector ---//
+					layerErrors = (~_network.at(networkIterator + 1)->GenerateWeightsMatrix()) * layerErrors;
 
-			//--- Computing hidden layer error vector ---//
-			Math::Matrix layerWeightsMatrix = _network.back()->GenerateWeightsMatrix();
-			Math::Matrix hiddenLayerErrors = (~layerWeightsMatrix) * outputErrors;
+					PALE_ENGINE_TRACE("Artificial_Neural_Net.cpp->BackPropagation() [69]: Errors of layer {0} has been computed! Errors values: {1}", _network.at(networkIterator)->GetLayerId(), layerErrors.ToString(true));
+				}
 
-			PALE_ENGINE_TRACE("Artificial_Neural_Net.cpp->BackPropagation() [65]: Errors of layer {0} has been computed! Errors values: {1}", _network.at(_topology.size() - 2)->GetLayerId(), hiddenLayerErrors.ToString(true));
+				//--- Computing delataWeights (learningRate * errors * gradient(derivative of sigmoid) * previousLayerValues) ---//
+				Math::Matrix gradient = _network.at(networkIterator)->ConvertToMatrix().Map(Math::DSigmoigFunction);
+				Math::Matrix layerDeltaWeights = Math::Matrix::HadamardMultiplication(layerErrors, gradient, false) * (~_network.at(networkIterator - 1)->ConvertToMatrix()) * _learningRate;
 
-			//-- Computing delataWeights (learningRate * errors * gradient(derivative of sigmoid) * previousLayerValues) ---//
-			Math::Matrix gradient = _network.back()->ConvertToMatrix().Map(Math::DSigmoigFunction);
-			Math::Matrix deltaOutputWeights = outputErrors * gradient * (~_network.at(_topology.size() - 2)->ConvertToMatrix());
-			deltaOutputWeights *= _learningRate;
+				PALE_ENGINE_TRACE("Artificial_Neural_Net.cpp->BackPropagation() [77]: Delta weights values for layer {0} have been computed! Delta weights values: {1}", _network.at(networkIterator)->GetLayerId(), layerDeltaWeights.ToString(true));
 
-			PALE_ENGINE_TRACE("Artificial_Neural_Net.cpp->BackPropagation() [72]: Delta weights values for layer {0} have been computed! Delta weights values: {1}", _network.back()->GetLayerId(), deltaOutputWeights.ToString(true));
+				Math::Matrix layerDeltaBiases = Math::Matrix::HadamardMultiplication(layerErrors, gradient, false) * _learningRate;
+
+				PALE_ENGINE_TRACE("Artificial_Neural_Net.cpp->BackPropagation() [81]: Delta biases values for layer {0} have been computed! Delta biases values: {1}", _network.at(networkIterator)->GetLayerId(), layerDeltaBiases.ToString(true));
+
+				//--- Update weights values ---//
+
+			}
+
+			////--- Computing error vector ---//
+			//Math::Matrix targetDataMatrix(targetData.size(), 1, targetData), outputErrors = targetDataMatrix - _network.back()->ConvertToMatrix();
+
+			//PALE_ENGINE_TRACE("Artificial_Neural_Net.cpp->BackPropagation() [59]: Output errors has been computed! Output errors: {0}", outputErrors.ToString(true));
+
+			////--- Computing hidden layer error vector ---//
+			//Math::Matrix layerWeightsMatrix = _network.back()->GenerateWeightsMatrix();
+			//Math::Matrix hiddenLayerErrors = (~layerWeightsMatrix) * outputErrors;
+
+			//PALE_ENGINE_TRACE("Artificial_Neural_Net.cpp->BackPropagation() [65]: Errors of layer {0} has been computed! Errors values: {1}", _network.at(_topology.size() - 2)->GetLayerId(), hiddenLayerErrors.ToString(true));
+
+			////-- Computing delataWeights (learningRate * errors * gradient(derivative of sigmoid) * previousLayerValues) ---//
+			//Math::Matrix gradient = _network.back()->ConvertToMatrix().Map(Math::DSigmoigFunction);
+			//Math::Matrix deltaOutputWeights = outputErrors * gradient * (~_network.at(_topology.size() - 2)->ConvertToMatrix());
+			//deltaOutputWeights *= _learningRate;
+
+			//PALE_ENGINE_TRACE("Artificial_Neural_Net.cpp->BackPropagation() [72]: Delta weights values for layer {0} have been computed! Delta weights values: {1}", _network.back()->GetLayerId(), deltaOutputWeights.ToString(true));
 		}
 		catch (PaleEngineException& exception) {
 			if (exception.GetType() == 'e')

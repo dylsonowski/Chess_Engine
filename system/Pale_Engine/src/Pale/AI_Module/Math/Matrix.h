@@ -99,6 +99,31 @@ namespace Pale::Math {
                     PALE_ENGINE_WARN("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo());
             }
         }
+        inline Matrix operator*=(const Matrix& other) {
+            try {
+                if (_columns != other._rows)
+                    throw PaleEngineException("Exception happened!", 'e', "Matrix.h", 60, "Matrix operator*", MATH__MATRICES_DIMENTIONS_INCORRECT);
+
+                for (int rowIterator = 0; rowIterator < _rows; rowIterator++) {
+                    for (int columnIterator = 0; columnIterator < other._columns; columnIterator++) {
+                        double tempCellValue = 0;
+                        for (int multiplicationIterator = 0; multiplicationIterator < _columns; multiplicationIterator++) {
+                            tempCellValue += _matrix.at(rowIterator).at(multiplicationIterator) * other._matrix.at(multiplicationIterator).at(columnIterator);
+                        }
+                        _matrix.at(rowIterator).at(columnIterator) = tempCellValue;
+                    }
+                }
+
+                PALE_ENGINE_TRACE("Matrix.h->Matrix operator*= [117]: Successful multiplication of 2 matrices. Output matrix dimensions: {0}x{1}. First matrix value: {2}", _rows, _columns, _matrix.at(0).at(0));
+                return *this;
+            }
+            catch (PaleEngineException& exception) {
+                if (exception.GetType() == 'e')
+                    PALE_ENGINE_ERROR("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo())
+                else if (exception.GetType() == 'w')
+                    PALE_ENGINE_WARN("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo());
+            }
+        }
         inline Matrix operator+(const double value) {
             Matrix tempMatrix(_rows, _columns, false);
             for (int rowIterator = 0; rowIterator < _rows; rowIterator++) {
@@ -188,15 +213,17 @@ namespace Pale::Math {
             else {
                 for (int rowIterator = 0; rowIterator < _rows; rowIterator++) {
                     for (int columnIterator = 0; columnIterator < _columns; columnIterator++) {
-                        ss << _matrix.at(rowIterator).at(columnIterator) << ", ";   
+                        if(columnIterator == _columns - 1)
+                            ss << _matrix.at(rowIterator).at(columnIterator) << ".";
+                        else
+                            ss << _matrix.at(rowIterator).at(columnIterator) << ", ";   
                     }
                 }
-                ss << ".";
             }
 
             return ss.str();
         }
-        inline static Matrix ElementalSummary(const Matrix& first, const Matrix& second, bool summAllElements) {
+        inline static Matrix HadamardMultiplication(const Matrix& first, const Matrix& second, bool summAllElements) {
             try {
                 if(first._rows != second._rows || first._columns != 1 || second._columns != 1)
                     throw PaleEngineException("Exception happened!", 'e', "Matrix.h", 166, "ElementalizeSummaring", MATH__MATRICES_DIMENTIONS_INCORRECT);
