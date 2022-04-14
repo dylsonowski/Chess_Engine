@@ -1,6 +1,6 @@
 #pragma once
 
-//--- Flag which specify if program should wait for user input after every AI move. (This option is avaliable only when 2 AI instances are playing vs each others ---//
+//--- Flag which specify if program should wait for user input after every AI move. (This option is available only when 2 AI instances are playing vs each others ---//
 #define FULLY_AUTOMATED	false
 
 //--- Errors codes ---//
@@ -24,6 +24,8 @@
 #define NN__INCORRECT_TOPOLOGY_SIZE "Specified topology size is incorrect! Neural network needs to have at least 1 hidden layer."
 #define NN__INCOMPATIBLE_BIASES_NUMBER "Number of biases have to be the same as layer size!"
 #define NN__INCORRECT_TARGET_SIZE "Vector of target data and output layer have different sizes!"
+#define NN__DELTA_WEIGHTS_MATRIX_INVALID_SIZE "One of delta weights matrix dimensions is incorrect!"
+#define NN__DELTA_BIASES_MATRIX_INVALID_SIZE "One of delta biases matrix dimensions is incorrect!"
 
 //--- Warnings codes ---//
 #define INVALID_PIECE_ID "No corresponding chess piece of the given ID! Insertion failed!"
@@ -92,3 +94,11 @@ private:
 	int _line;
 	std::string _file, _function, _info;
 };
+
+//--- Hack function to handle custom assertion ---//
+bool AssertionHandling(const bool assertion, std::string message) {
+	if (!assertion)
+		PALE_ASSERTION_ERROR(message);
+
+	return assertion;
+}

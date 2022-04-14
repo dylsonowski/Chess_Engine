@@ -65,6 +65,8 @@ namespace Pale::AI_Module {
 
 		//--- Void functions ---//
 		void RecalculateLayerValues(std::optional<Math::Matrix> previousLayer);
+		void UpdateLayerWeights(const Math::Matrix& deltaWeightsMatrix);
+		void UpdateLayerBiases(const Math::Matrix& deltaBiasesMatrix);
 
 		//--- Returning functions ---//
 		Math::Matrix ConvertToMatrix() const;

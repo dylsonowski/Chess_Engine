@@ -42,6 +42,43 @@ namespace Pale::AI_Module {
         }
     }
 
+    void Layer::UpdateLayerWeights(const Math::Matrix& deltaWeightsMatrix) {
+        try {
+            Math::Matrix tempWeightsMatrix = GenerateWeightsMatrix();
+            if(deltaWeightsMatrix.GetRowsNumber() != tempWeightsMatrix.GetRowsNumber() || deltaWeightsMatrix.GetColumnsNumber() != tempWeightsMatrix.GetColumnsNumber())
+                throw PaleEngineException("Exception happened!", 'e', "Layer.cpp", 49, "UpdateLayerWeights()", NN__DELTA_WEIGHTS_MATRIX_INVALID_SIZE);
+
+            unsigned int updatedWeightsNumber = 0;
+            for (int neuronIterator = 0; neuronIterator < _layer.size(); neuronIterator++) {
+                for (int neuronWeightIterator = 0; neuronWeightIterator < _layer.at(neuronIterator)->GetInputWeightsNumber(); neuronWeightIterator++) {
+                    _layer.at(neuronIterator)->SetInputWeight(neuronWeightIterator, _layer.at(neuronIterator)->GetWeight(neuronWeightIterator) + deltaWeightsMatrix.GetValue(neuronIterator, neuronWeightIterator));
+                    updatedWeightsNumber++;
+                }
+            }
+
+            PALE_ENGINE_INFO("Layer.cpp->UpdateLayerWeights() [59]: Weights values for layer {0} has been updated! Number of updated weights: {1}/{2}.", _layerId, updatedWeightsNumber, deltaWeightsMatrix.GetRowsNumber() * deltaWeightsMatrix.GetColumnsNumber());
+        }
+        catch (PaleEngineException& exception) {
+            if (exception.GetType() == 'e')
+                PALE_ENGINE_ERROR("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo())
+            else if (exception.GetType() == 'w')
+                PALE_ENGINE_WARN("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo());
+        }
+    }
+
+    void Layer::UpdateLayerBiases(const Math::Matrix& deltaBiasesMatrix) {
+        if (deltaBiasesMatrix.GetRowsNumber() != _biases.size() || deltaBiasesMatrix.GetColumnsNumber() != 1)
+            throw PaleEngineException("Exception happened!", 'e', "Layer.cpp", 49, "UpdateLayerBiases()", NN__DELTA_BIASES_MATRIX_INVALID_SIZE);
+
+        unsigned int updatedBiasesNumber = 0;
+        for (int biasIterator = 0; biasIterator < _biases.size(); biasIterator++) {
+            double tempBiasValue = _biases.at(biasIterator) + deltaBiasesMatrix.GetValue(biasIterator, 0);
+            _biases.at(biasIterator) += deltaBiasesMatrix.GetValue(biasIterator, 0);
+            assert(AssertionHandling(_biases.at(biasIterator) == tempBiasValue, "Layer.cpp->UpdateLayerBiases() [77]: Assertion failed! Bias value = " + std::to_string(_biases.at(biasIterator)) + " should be equal: " + std::to_string(tempBiasValue) + "!"));
+            updatedBiasesNumber++;
+        }
+    }
+
     Math::Matrix Layer::ConvertToMatrix() const {
         std::vector<double> tempLayerVector;
         for (const auto layerIterator : _layer) {

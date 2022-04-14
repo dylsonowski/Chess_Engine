@@ -80,7 +80,10 @@ namespace Pale::AI_Module {
 				PALE_ENGINE_TRACE("Artificial_Neural_Net.cpp->BackPropagation() [81]: Delta biases values for layer {0} have been computed! Delta biases values: {1}", _network.at(networkIterator)->GetLayerId(), layerDeltaBiases.ToString(true));
 
 				//--- Update weights values ---//
+				_network.at(networkIterator)->UpdateLayerWeights(layerDeltaWeights);
 
+				//--- Update biases values ---//
+				_network.at(networkIterator)->
 			}
 
 			////--- Computing error vector ---//
