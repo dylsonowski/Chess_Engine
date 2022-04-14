@@ -1,23 +1,46 @@
-[2022-04-14 15:17:51.625] [PALE] [info] Neuron.cpp->Neuron constructor [10]: New neuron has been created! Neuron ID: 0. Layer ID 0. Neuron value: 0. Input neuron: true. Size of input weights: 0.
-[2022-04-14 15:17:51.629] [PALE] [info] Neuron.cpp->Neuron constructor [10]: New neuron has been created! Neuron ID: 1. Layer ID 0. Neuron value: 0. Input neuron: true. Size of input weights: 0.
-[2022-04-14 15:17:51.629] [PALE] [info] Layer.cpp->Layer constructor [17]: New layer has been created! Layer ID: 0. Number of neurons: 2. Input layer: true. Output layer: false.
-[2022-04-14 15:17:51.694] [PALE] [info] Neuron.cpp->Neuron constructor [10]: New neuron has been created! Neuron ID: 0. Layer ID 1. Neuron value: 0. Input neuron: false. Size of input weights: 2.
-[2022-04-14 15:17:51.694] [PALE] [info] Neuron.cpp->Neuron constructor [10]: New neuron has been created! Neuron ID: 1. Layer ID 1. Neuron value: 0. Input neuron: false. Size of input weights: 2.
-[2022-04-14 15:17:51.694] [PALE] [info] Layer.cpp->Layer constructor [17]: New layer has been created! Layer ID: 1. Number of neurons: 2. Input layer: false. Output layer: false.
-[2022-04-14 15:17:51.694] [PALE] [info] Neuron.cpp->Neuron constructor [10]: New neuron has been created! Neuron ID: 0. Layer ID 2. Neuron value: 0. Input neuron: false. Size of input weights: 2.
-[2022-04-14 15:17:51.694] [PALE] [info] Layer.cpp->Layer constructor [17]: New layer has been created! Layer ID: 2. Number of neurons: 1. Input layer: false. Output layer: true.
-[2022-04-14 15:17:51.694] [PALE] [info] Artificial_Neural_Net.cpp->Artificial_Neural_Net constructor [20]: New instance of artificial neural network has been created! Network size: 3. Size of input layer: 2. Size of output layer: 1.
-[2022-04-14 15:17:51.694] [PALE] [trace] Artificial_Neural_Net.cpp->FeedForward() [35]: Values of input layer has been imported successfully.
-[2022-04-14 15:17:51.694] [PALE] [info] Layer.cpp->RecalculateLayerValues() [29]: Layer: 0 recalculation didn't happened!.
-[2022-04-14 15:17:51.695] [PALE] [info] Matrix.h->Matrix constructor [28]: New Matrix object has been created! Matrix dimensions: 2x1. First matrix value: 1
-[2022-04-14 15:17:51.695] [PALE] [info] Layer.cpp->ConvertToMatrix() [40]: Layer has been converted into Matrix! Matrix dimensions: 2x1.
-[2022-04-14 15:17:51.695] [PALE] [info] Matrix.h->Matrix constructor [28]: New Matrix object has been created! Matrix dimensions: 2x1. First matrix value: -0.06484469724638353
-[2022-04-14 15:17:51.695] [PALE] [info] Matrix.h->Matrix constructor [17]: New Matrix object has been created! Matrix dimensions: 2x1. First matrix value: 0
-[2022-04-14 15:17:51.695] [PALE] [info] Matrix.h->Matrix constructor [17]: New Matrix object has been created! Matrix dimensions: 1x1. First matrix value: 0
-[2022-04-14 15:17:51.695] [PALE] [trace] Matrix.h->ElementalSummary() [181]: Elemental summary of 2 matrices has been successful. Output matrix dimensions: 1x1. Output value: -1.003260186078247. Output matrix values has been summed into single value!
-[2022-04-14 15:17:51.695] [PALE] [info] Neuron.cpp->CalculateNeuronValue() [23]: Value of neuron: 0 from layer: 1 has been recalculated! Value: -0.0032601860782470737. Activated value 0.4991849542023522.
-[2022-04-14 15:17:51.695] [PALE] [info] Matrix.h->Matrix constructor [28]: New Matrix object has been created! Matrix dimensions: 2x1. First matrix value: 0.3380778235280808
-[2022-04-14 15:17:51.695] [PALE] [info] Matrix.h->Matrix constructor [17]: New Matrix object has been created! Matrix dimensions: 2x1. First matrix value: 0
-[2022-04-14 15:17:51.695] [PALE] [info] Matrix.h->Matrix constructor [17]: New Matrix object has been created! Matrix dimensions: 1x1. First matrix value: 0
-[2022-04-14 15:17:51.695] [PALE] [trace] Matrix.h->ElementalSummary() [181]: Elemental summary of 2 matrices has been successful. Output matrix dimensions: 1x1. Output value: 1.06550293172558. Output matrix values has been summed into single value!
-[2022-04-14 15:17:51.695] [PALE] [info] Neuron.cpp->CalculateNeuronValue() [23]: Value 
+[2022-04-15 15:47:01.475] [PALE] [info] Neuron.cpp->Neuron constructor [10]: New neuron has been created! Neuron ID: 0. Layer ID 0. Neuron value: 0. Input neuron: true. Size of input weights: 0.
+[2022-04-15 15:47:01.478] [PALE] [info] Neuron.cpp->Neuron constructor [10]: New neuron has been created! Neuron ID: 1. Layer ID 0. Neuron value: 0. Input neuron: true. Size of input weights: 0.
+[2022-04-15 15:47:01.478] [PALE] [info] Layer.cpp->Layer constructor [17]: New layer has been created! Layer ID: 0. Number of neurons: 2. Input layer: true. Output layer: false.
+[2022-04-15 15:47:01.505] [PALE] [info] Neuron.cpp->Neuron constructor [10]: New neuron has been created! Neuron ID: 0. Layer ID 1. Neuron value: 0. Input neuron: false. Size of input weights: 2.
+[2022-04-15 15:47:01.505] [PALE] [info] Neuron.cpp->Neuron constructor [10]: New neuron has been created! Neuron ID: 1. Layer ID 1. Neuron value: 0. Input neuron: false. Size of input weights: 2.
+[2022-04-15 15:47:01.505] [PALE] [info] Layer.cpp->Layer constructor [17]: New layer has been created! Layer ID: 1. Number of neurons: 2. Input layer: false. Output layer: false.
+[2022-04-15 15:47:01.505] [PALE] [info] Neuron.cpp->Neuron constructor [10]: New neuron has been created! Neuron ID: 0. Layer ID 2. Neuron value: 0. Input neuron: false. Size of input weights: 2.
+[2022-04-15 15:47:01.505] [PALE] [info] Layer.cpp->Layer constructor [17]: New layer has been created! Layer ID: 2. Number of neurons: 1. Input layer: false. Output layer: true.
+[2022-04-15 15:47:01.506] [PALE] [info] Artificial_Neural_Net.cpp->Artificial_Neural_Net constructor [20]: New instance of artificial neural network has been created! Network size: 3. Size of input layer: 2. Size of output layer: 1.
+[2022-04-15 15:47:01.506] [PALE] [trace] Artificial_Neural_Net.cpp->FeedForward() [35]: Values of input layer has been imported successfully.
+[2022-04-15 15:47:01.506] [PALE] [info] Layer.cpp->RecalculateLayerValues() [29]: Layer: 0 recalculation didn't happened!.
+[2022-04-15 15:47:01.506] [PALE] [info] Matrix.h->Matrix constructor [28]: New Matrix object has been created! Matrix dimensions: 2x1. First matrix value: 1
+[2022-04-15 15:47:01.506] [PALE] [info] Layer.cpp->ConvertToMatrix() [40]: Layer has been converted into Matrix! Matrix dimensions: 2x1.
+[2022-04-15 15:47:01.506] [PALE] [info] Matrix.h->Matrix constructor [28]: New Matrix object has been created! Matrix dimensions: 2x1. First matrix value: -0.35425315572976024
+[2022-04-15 15:47:01.506] [PALE] [info] Matrix.h->Matrix constructor [17]: New Matrix object has been created! Matrix dimensions: 2x1. First matrix value: 0
+[2022-04-15 15:47:01.506] [PALE] [info] Matrix.h->Matrix constructor [17]: New Matrix object has been created! Matrix dimensions: 1x1. First matrix value: 0
+[2022-04-15 15:47:01.506] [PALE] [trace] Matrix.h->ElementalSummary() [181]: Elemental summary of 2 matrices has been successful. Output matrix dimensions: 1x1. Output value: -0.866131574854455. Output matrix values has been summed into single value!
+[2022-04-15 15:47:01.506] [PALE] [info] Neuron.cpp->CalculateNeuronValue() [23]: Value of neuron: 0 from layer: 1 has been recalculated! Value: 0.13386842514554498. Activated value 0.5334172160398427.
+[2022-04-15 15:47:01.506] [PALE] [info] Matrix.h->Matrix constructor [28]: New Matrix object has been created! Matrix dimensions: 2x1. First matrix value: -0.44712643099084937
+[2022-04-15 15:47:01.506] [PALE] [info] Matrix.h->Matrix constructor [17]: New Matrix object has been created! Matrix dimensions: 2x1. First matrix value: 0
+[2022-04-15 15:47:01.506] [PALE] [info] Matrix.h->Matrix constructor [17]: New Matrix object has been created! Matrix dimensions: 1x1. First matrix value: 0
+[2022-04-15 15:47:01.506] [PALE] [trace] Matrix.h->ElementalSummary() [181]: Elemental summary of 2 matrices has been successful. Output matrix dimensions: 1x1. Output value: -0.7617160169390322. Output matrix values has been summed into single value!
+[2022-04-15 15:47:01.506] [PALE] [info] Neuron.cpp->CalculateNeuronValue() [23]: Value of neuron: 1 from layer: 1 has been recalculated! Value: 0.23828398306096776. Activated value 0.5592907206346398.
+[2022-04-15 15:47:01.506] [PALE] [info] Layer.cpp->RecalculateLayerValues() [25]: Layer: 1 has been recalculated! Value of first neuron in the layer: 0.5334172160398427.
+[2022-04-15 15:47:01.506] [PALE] [info] Matrix.h->Matrix constructor [28]: New Matrix object has been created! Matrix dimensions: 2x1. First matrix value: 0.5334172160398427
+[2022-04-15 15:47:01.506] [PALE] [info] Layer.cpp->ConvertToMatrix() [40]: Layer has been converted into Matrix! Matrix dimensions: 2x1.
+[2022-04-15 15:47:01.506] [PALE] [info] Matrix.h->Matrix constructor [28]: New Matrix object has been created! Matrix dimensions: 2x1. First matrix value: -0.15385385477794233
+[2022-04-15 15:47:01.506] [PALE] [info] Matrix.h->Matrix constructor [17]: New Matrix object has been created! Matrix dimensions: 2x1. First matrix value: 0
+[2022-04-15 15:47:01.506] [PALE] [info] Matrix.h->Matrix constructor [17]: New Matrix object has been created! Matrix dimensions: 1x1. First matrix value: 0
+[2022-04-15 15:47:01.506] [PALE] [trace] Matrix.h->ElementalSummary() [181]: Elemental summary of 2 matrices has been successful. Output matrix dimensions: 1x1. Output value: -0.05943191797419325. Output matrix values has been summed into single value!
+[2022-04-15 15:47:01.507] [PALE] [info] Neuron.cpp->CalculateNeuronValue() [23]: Value of neuron: 0 from layer: 2 has been recalculated! Value: 0.9405680820258068. Activated value 0.7192143930545649.
+[2022-04-15 15:47:01.507] [PALE] [info] Layer.cpp->RecalculateLayerValues() [25]: Layer: 2 has been recalculated! Value of first neuron in the layer: 0.7192143930545649.
+[2022-04-15 15:47:01.507] [PALE] [trace] Artificial_Neural_Net.cpp->FeedForward() [48]: FeefForward process has been finished successfully! Number of recalculated layers: 2. Number of recalculated neurons: 3. Output of the network: 0.719214.
+[2022-04-15 15:47:01.507] [PALE] [info] Matrix.h->Matrix constructor [28]: New Matrix object has been created! Matrix dimensions: 1x1. First matrix value: 0
+[2022-04-15 15:47:01.507] [PALE] [info] Matrix.h->Matrix constructor [28]: New Matrix object has been created! Matrix dimensions: 1x1. First matrix value: 0.7192143930545649
+[2022-04-15 15:47:01.507] [PALE] [info] Layer.cpp->ConvertToMatrix() [40]: Layer has been converted into Matrix! Matrix dimensions: 1x1.
+[2022-04-15 15:47:01.507] [PALE] [info] Matrix.h->Matrix constructor [17]: New Matrix object has been created! Matrix dimensions: 1x1. First matrix value: 0
+[2022-04-15 15:47:01.507] [PALE] [trace] Matrix.h->Matrix operator- [55]: Successful subtraction of 2 matrices. Output matrix dimensions: 1x1. First matrix value: -0.7192143930545649
+[2022-04-15 15:47:01.507] [PALE] [trace] Artificial_Neural_Net.cpp->BackPropagation() [59]: Output errors has been computed! Output errors: -0.719214, .
+[2022-04-15 15:47:01.507] [PALE] [info] Matrix.h->Matrix constructor [28]: New Matrix object has been created! Matrix dimensions: 1x2. First matrix value: -0.15385385477794233
+[2022-04-15 15:47:01.507] [PALE] [info] Layer.cpp->GenerateWeightsMatrix() [79]: Weights matrix of layer 2 has been generated! Matrix dimensions: 1x2. First matrix value: -0.15385385477794233.
+[2022-04-15 15:47:01.507] [PALE] [info] Matrix.h->Matrix constructor [17]: New Matrix object has been created! Matrix dimensions: 2x1. First matrix value: 0
+[2022-04-15 15:47:01.507] [PALE] [trace] Matrix.h->Matrix operator~ [133]: Successful transpose of the matrix. Output matrix dimensions: 2x1. First matrix value: -0.15385385477794233
+[2022-04-15 15:47:01.507] [PALE] [info] Matrix.h->Matrix constructor [17]: New Matrix object has been created! Matrix dimensions: 2x1. First matrix value: 0
+[2022-04-15 15:47:01.507] [PALE] [trace] Matrix.h->Matrix operator* [72]: Successful multiplication of 2 matrices. Output matrix dimensions: 2x1. First matrix value: 0.11065390678322297
+[2022-04-15 15:49:21.185] [PALE] [trace] Artificial_Neural_Net.cpp->BackPropagation() [65]: Errors of layer 1 has been computed! Errors values: 0.110654, -0.029109, .

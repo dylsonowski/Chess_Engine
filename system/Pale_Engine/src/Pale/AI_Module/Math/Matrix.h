@@ -164,12 +164,10 @@ namespace Pale::Math {
             else {
                 for (int rowIterator = 0; rowIterator < _rows; rowIterator++) {
                     for (int columnIterator = 0; columnIterator < _columns; columnIterator++) {
-                        if(columnIterator == _columns - 1)
-                            ss << _matrix.at(rowIterator).at(columnIterator) << ".";
-                        else
-                            ss << _matrix.at(rowIterator).at(columnIterator) << ", ";   
+                        ss << _matrix.at(rowIterator).at(columnIterator) << ", ";   
                     }
                 }
+                ss << ".";
             }
 
             return ss.str();
