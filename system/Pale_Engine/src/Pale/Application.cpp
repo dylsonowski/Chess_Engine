@@ -10,7 +10,7 @@ namespace Pale {
 		_boardRepresentation = std::make_shared<Pale::Chess_Logic::Board_Representation<std::shared_ptr<Pale::Chess_Logic::Pieces>>>(8, 8, false);
 
 		//--- Set up UI instance ---//
-		//--- Convertion board from object type to string type is neccessary because UI use string type for printing ---//
+		//--- Conversion board from object type to string type is necessary because UI use string type for printing ---//
 		std::shared_ptr<Pale::Chess_Logic::Board_Representation<std::string>> tempBoardRepresentation = std::make_shared<Pale::Chess_Logic::Board_Representation<std::string>>(Pale::Chess_Logic::ConvertBoard<std::string>(*_boardRepresentation));
 
 		if (consoleUIVersion)

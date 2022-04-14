@@ -4,9 +4,9 @@
 
 
 //--- Class responsible for communication between user interface and application core ---//
-// IMPORTANT: Use concept of 'Observer' designe pattern
+// IMPORTANT: Use concept of 'Observer' design pattern
 namespace Pale::UI::Event_System {
-	//--- Polimorphic class allowing to all kind of classes to be a 'subscriber' ---//
+	//--- Polymorphic class allowing to all kind of classes to be a 'subscriber' ---//
 	class Base_Listener {
 
 	public:
@@ -17,7 +17,7 @@ namespace Pale::UI::Event_System {
 		virtual ~Base_Listener() = default;
 	};
 
-	//--- Template class describing oe subscriber ---//
+	//--- Template class describing subscriber ---//
 	template<typename T>
 	class Listener : public Base_Listener {
 
@@ -28,7 +28,7 @@ namespace Pale::UI::Event_System {
 		void ExecuteCallback(T& type) { _callback(type); }
 
 	private:
-		//--- Callback function pointer executed if specific event occure ---//
+		//--- Callback function pointer executed if specific event occur ---//
 		std::function<void(T&)> _callback;
 	};
 

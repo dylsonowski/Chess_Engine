@@ -7,6 +7,9 @@
     <Filter Include="Pale\AI_Module">
       <UniqueIdentifier>{E5C193E4-D18F-87EA-BA23-F810A690634F}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Pale\AI_Module\Artificial_Neural_Network">
+      <UniqueIdentifier>{BB21B989-A79E-ACCC-D01B-ADE0BCF74860}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Pale\AI_Module\Math">
       <UniqueIdentifier>{DE1DC005-4A7F-9D13-D3EC-E3C53F4DD4D2}</UniqueIdentifier>
     </Filter>
@@ -34,6 +37,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Pale.h" />
+    <ClInclude Include="src\Pale\AI_Module\Artificial_Neural_Network\Artificial_Neural_Net.h">
+      <Filter>Pale\AI_Module\Artificial_Neural_Network</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Pale\AI_Module\Artificial_Neural_Network\Layer.h">
+      <Filter>Pale\AI_Module\Artificial_Neural_Network</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Pale\AI_Module\Artificial_Neural_Network\Neuron.h">
+      <Filter>Pale\AI_Module\Artificial_Neural_Network</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Pale\AI_Module\Math\Basic_Math.h">
+      <Filter>Pale\AI_Module\Math</Filter>
+    </ClInclude>
     <ClInclude Include="src\Pale\AI_Module\Math\Matrix.h">
       <Filter>Pale\AI_Module\Math</Filter>
     </ClInclude>
@@ -77,10 +92,23 @@
       <Filter>Pale\User_Interface</Filter>
     </ClInclude>
     <ClInclude Include="src\palepch.h" />
-    <ClInclude Include="src\Pale\AI_Module\Artificial_Neural_Network\Neuron.h" />
-    <ClInclude Include="src\Pale\AI_Module\Artificial_Neural_Network\Layer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Pale\AI_Module\Artificial_Neural_Network\Artificial_Neural_Net.cpp">
+      <Filter>Pale\AI_Module\Artificial_Neural_Network</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Pale\AI_Module\Artificial_Neural_Network\Layer.cpp">
+      <Filter>Pale\AI_Module\Artificial_Neural_Network</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Pale\AI_Module\Artificial_Neural_Network\Neuron.cpp">
+      <Filter>Pale\AI_Module\Artificial_Neural_Network</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Pale\AI_Module\Math\Basic_Math.cpp">
+      <Filter>Pale\AI_Module\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Pale\AI_Module\Math\Matrix.cpp">
+      <Filter>Pale\AI_Module\Math</Filter>
+    </ClCompile>
     <ClCompile Include="src\Pale\Application.cpp">
       <Filter>Pale</Filter>
     </ClCompile>
@@ -109,8 +137,5 @@
       <Filter>Pale\User_Interface</Filter>
     </ClCompile>
     <ClCompile Include="src\palepch.cpp" />
-    <ClCompile Include="src\Pale\AI_Module\Math\Matrix.cpp" />
-    <ClCompile Include="src\Pale\AI_Module\Artificial_Neural_Network\Neuron.cpp" />
-    <ClCompile Include="src\Pale\AI_Module\Artificial_Neural_Network\Layer.cpp" />
   </ItemGroup>
 </Project>

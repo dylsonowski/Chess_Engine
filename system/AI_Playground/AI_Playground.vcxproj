@@ -11,21 +11,21 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{9C61ADB4-0817-26AA-910B-2081FDBF1CAE}</ProjectGuid>
+    <ProjectGuid>{732A804E-DFEA-FB84-A825-450214A54061}</ProjectGuid>
     <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Pale_Engine</RootNamespace>
+    <RootNamespace>AI_Playground</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v142</PlatformToolset>
@@ -41,41 +41,41 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>..\bin\Pale_Engine_x86_64\Debug\</OutDir>
-    <IntDir>..\bin-int\Pale_Engine_x86_64\Debug\</IntDir>
-    <TargetName>Pale_Engine</TargetName>
-    <TargetExt>.lib</TargetExt>
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>..\bin\AI_Playground_x86_64\Debug\</OutDir>
+    <IntDir>..\bin-int\AI_Playground_x86_64\Debug\</IntDir>
+    <TargetName>AI_Playground</TargetName>
+    <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>..\bin\Pale_Engine_x86_64\Release\</OutDir>
-    <IntDir>..\bin-int\Pale_Engine_x86_64\Release\</IntDir>
-    <TargetName>Pale_Engine</TargetName>
-    <TargetExt>.lib</TargetExt>
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>..\bin\AI_Playground_x86_64\Release\</OutDir>
+    <IntDir>..\bin-int\AI_Playground_x86_64\Release\</IntDir>
+    <TargetName>AI_Playground</TargetName>
+    <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>palepch.h</PrecompiledHeaderFile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>PLATFORM_WINDOWS;_DEBUG_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>vendor\spdlog\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Pale_Engine\vendor\spdlog\include;..\Pale_Engine\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>palepch.h</PrecompiledHeaderFile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>PLATFORM_WINDOWS;_RELEASE_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>vendor\spdlog\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Pale_Engine\vendor\spdlog\include;..\Pale_Engine\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -85,51 +85,18 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\Pale.h" />
-    <ClInclude Include="src\Pale\AI_Module\Artificial_Neural_Network\Artificial_Neural_Net.h" />
-    <ClInclude Include="src\Pale\AI_Module\Artificial_Neural_Network\Layer.h" />
-    <ClInclude Include="src\Pale\AI_Module\Artificial_Neural_Network\Neuron.h" />
-    <ClInclude Include="src\Pale\AI_Module\Math\Basic_Math.h" />
-    <ClInclude Include="src\Pale\AI_Module\Math\Matrix.h" />
-    <ClInclude Include="src\Pale\Application.h" />
-    <ClInclude Include="src\Pale\Chess_Module\Board_Representation.h" />
-    <ClInclude Include="src\Pale\Chess_Module\Pieces\Piece_Types.h" />
-    <ClInclude Include="src\Pale\Chess_Module\Pieces\Pieces.h" />
-    <ClInclude Include="src\Pale\Engine_Macros.h" />
-    <ClInclude Include="src\Pale\Log_System.h" />
-    <ClInclude Include="src\Pale\User_Interface\Command_Line_UI\Command_Line_UI.h" />
-    <ClInclude Include="src\Pale\User_Interface\Event_System\Event_Emitter.h" />
-    <ClInclude Include="src\Pale\User_Interface\Event_System\Event_System.h" />
-    <ClInclude Include="src\Pale\User_Interface\Event_System\Events\Application_Events.h" />
-    <ClInclude Include="src\Pale\User_Interface\Event_System\Events\Game_Events.h" />
-    <ClInclude Include="src\Pale\User_Interface\Graphical_UI\Graphical_UI.h" />
-    <ClInclude Include="src\Pale\User_Interface\User_Interface.h" />
-    <ClInclude Include="src\palepch.h" />
+    <ClCompile Include="src\AI_Playground.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Pale\AI_Module\Artificial_Neural_Network\Artificial_Neural_Net.cpp" />
-    <ClCompile Include="src\Pale\AI_Module\Artificial_Neural_Network\Layer.cpp" />
-    <ClCompile Include="src\Pale\AI_Module\Artificial_Neural_Network\Neuron.cpp" />
-    <ClCompile Include="src\Pale\AI_Module\Math\Basic_Math.cpp" />
-    <ClCompile Include="src\Pale\AI_Module\Math\Matrix.cpp" />
-    <ClCompile Include="src\Pale\Application.cpp" />
-    <ClCompile Include="src\Pale\Chess_Module\Board_Representation.cpp" />
-    <ClCompile Include="src\Pale\Chess_Module\Pieces\Piece_Types.cpp" />
-    <ClCompile Include="src\Pale\Chess_Module\Pieces\Pieces.cpp" />
-    <ClCompile Include="src\Pale\Log_System.cpp" />
-    <ClCompile Include="src\Pale\User_Interface\Command_Line_UI\Command_Line_UI.cpp" />
-    <ClCompile Include="src\Pale\User_Interface\Event_System\Event_System.cpp" />
-    <ClCompile Include="src\Pale\User_Interface\Graphical_UI\Graphical_UI.cpp" />
-    <ClCompile Include="src\Pale\User_Interface\User_Interface.cpp" />
-    <ClCompile Include="src\palepch.cpp">
-      <PrecompiledHeader>Create</PrecompiledHeader>
-    </ClCompile>
+    <ProjectReference Include="..\Pale_Engine\Pale_Engine.vcxproj">
+      <Project>{9C61ADB4-0817-26AA-910B-2081FDBF1CAE}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

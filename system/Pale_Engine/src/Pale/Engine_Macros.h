@@ -19,8 +19,11 @@
 #define TEST_TOO_FEW_ARGUMENTS "Not enough arguments has been specified to start test run."
 #define UI_INVALID_AI_NUMBER "In case of chess game there can be only 2 players. Maximal number of AI instances is 2!"
 #define KING_NOT_FOUND	"Application was unable to locate king piece on the board. It could mean it has been removed or not placed at all. Game cannot continue without king piece!"
-#define MATH__MATRICES_DIMENTIONS_INCORRECT "Operation cannot be performed because some matrices are incorrect!"
+#define MATH__MATRICES_DIMENTIONS_INCORRECT "Operation cannot be performed because some dimensions are incorrect!"
 #define NN__PREVIOUS_LAYER_INVALID_SIZE "Calculation interrupted! Passed layer have different size than input weights vector!"
+#define NN__INCORRECT_TOPOLOGY_SIZE "Specified topology size is incorrect! Neural network needs to have at least 1 hidden layer."
+#define NN__INCOMPATIBLE_BIASES_NUMBER "Number of biases have to be the same as layer size!"
+#define NN__INCORRECT_TARGET_SIZE "Vector of target data and output layer have different sizes!"
 
 //--- Warnings codes ---//
 #define INVALID_PIECE_ID "No corresponding chess piece of the given ID! Insertion failed!"
@@ -29,15 +32,6 @@
 #define MOVE_COMMAND__INCOMPATIBLE_CORDS "Given coordinates are different than in piece object!"
 #define MOVE_COMMAND__NO_MOVE_NEEDED "Start and end coordinates are the same so no move is needed!"
 #define MOVE_COMMAND__INVALID_SPECIAL_USE "Given piece cannot perform this special move!"
-
-//--- Random number generating function ---//
-template<typename T>
-static T GenerateRandomNumber(T minValue, T maxValue) {
-	std::random_device device;
-	std::default_random_engine engine(device());
-	std::uniform_real_distribution<T> uniformDist(minValue, maxValue);
-	return uniformDist(engine);
-}
 
 //--- Enum of available players ---//
 enum class OWNERS {

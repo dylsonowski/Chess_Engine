@@ -11,6 +11,7 @@ namespace Pale::AI_Module {
 		~Layer() = default;
 
 		//--- Getters & Setters ---//
+		inline unsigned short int GetLayerId() const { return _layerId; }
 		inline double GetNeuronValue(unsigned short int neuronId) const { 
 			try {
 				if (neuronId >= _layer.size())
@@ -28,6 +29,7 @@ namespace Pale::AI_Module {
 		inline unsigned short int GetLayerSize() const { return _layer.size(); }
 		inline bool IsInputLayer() const { return _inputLayer; }
 		inline bool IsOutputLayer() const { return _outputLayer; }
+		inline double GetBiasValue(unsigned short int biasId) const { return _biases.at(biasId); }
 		inline void SetNeuronValue(unsigned short int neuronId, double value) { 
 			try {
 				if (neuronId >= _layer.size())
@@ -59,17 +61,20 @@ namespace Pale::AI_Module {
 					PALE_ENGINE_WARN("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo());
 			}
 		}
+		inline void SetBiasValue(unsigned short int biasId, double value) { _biases.at(biasId) = value; }
 
 		//--- Void functions ---//
-		void RecalculateLayerValues();
+		void RecalculateLayerValues(std::optional<Math::Matrix> previousLayer);
 
 		//--- Returning functions ---//
-		Math::Matrix& ConvertToMatrix() const;
+		Math::Matrix ConvertToMatrix() const;
+		std::string ToString(bool horizontalView = true) const;
+		Math::Matrix GenerateWeightsMatrix() const;
 
 	private:
 		unsigned short int _layerId;
 		bool _inputLayer, _outputLayer;
 		std::vector<std::shared_ptr<Neuron>> _layer;
-		double _bias;
+		std::vector<double> _biases;
 	};
 }

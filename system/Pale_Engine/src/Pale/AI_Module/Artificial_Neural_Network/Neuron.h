@@ -29,7 +29,7 @@ namespace Pale::AI_Module {
 		inline void SetNeuronValue(double value) { _neuronValue = value; }
 
 		//--- Void functions ---//
-		void CalculateNeuronValue(Math::Matrix& previousLayer, double bias);
+		void CalculateNeuronValue(const Math::Matrix& previousLayer, double bias);
 		inline void ApplyActivationFunction(std::function<double(double)> activationFunction) { _neuronValue = activationFunction(_neuronValue); }
 
 	private:
@@ -39,7 +39,4 @@ namespace Pale::AI_Module {
 		double _neuronValue;
 		std::vector<double> _weights;
 	};
-
-	//--- Activation functions ---//
-	inline double SigmoidFunction(double value) { return 1 / (1 + exp(-value)); }
 }

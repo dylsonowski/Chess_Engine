@@ -8,6 +8,7 @@ namespace Pale
 	std::shared_ptr<spdlog::logger> Log_System::s_clientLogger;
 	std::shared_ptr<spdlog::logger> Log_System::s_testsLogger;
 	std::shared_ptr<spdlog::logger> Log_System::s_assertionLogger;
+	std::shared_ptr<spdlog::logger> Log_System::s_aiLogger;
 
 	void Log_System::Init(LOGGING_METHOD methodOfLogging)
 	{
@@ -32,6 +33,9 @@ namespace Pale
 
 			s_assertionLogger = std::make_shared<spdlog::logger>("ASSERT", s_fileSink);
 			s_assertionLogger->set_level(spdlog::level::trace);
+
+			s_aiLogger = std::make_shared<spdlog::logger>("AI", s_fileSink);
+			s_aiLogger->set_level(spdlog::level::trace);
 			break;
 		}
 		case LOGGING_METHOD::TERMINAL_ONLY:
@@ -50,6 +54,9 @@ namespace Pale
 
 			s_assertionLogger = std::make_shared<spdlog::logger>("ASSERT", s_consoleSink);
 			s_assertionLogger->set_level(spdlog::level::trace);
+
+			s_aiLogger = std::make_shared<spdlog::logger>("AI", s_consoleSink);
+			s_aiLogger->set_level(spdlog::level::trace);
 			break;
 		}
 		case LOGGING_METHOD::FILE_AND_TERMINAL:
@@ -73,6 +80,9 @@ namespace Pale
 
 			s_assertionLogger = std::make_shared<spdlog::logger>("ASSERT", sinks.begin(), sinks.end());
 			s_assertionLogger->set_level(spdlog::level::trace);
+
+			s_aiLogger = std::make_shared<spdlog::logger>("AI", sinks.begin(), sinks.end());
+			s_aiLogger->set_level(spdlog::level::trace);
 			break;
 		}
 		default:
@@ -96,6 +106,9 @@ namespace Pale
 
 			s_assertionLogger = std::make_shared<spdlog::logger>("ASSERT", sinks.begin(), sinks.end());
 			s_assertionLogger->set_level(spdlog::level::trace);
+
+			s_aiLogger = std::make_shared<spdlog::logger>("AI", sinks.begin(), sinks.end());
+			s_aiLogger->set_level(spdlog::level::trace);
 			break;
 		}
 		}
