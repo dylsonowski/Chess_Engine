@@ -10,6 +10,7 @@
 #include <fstream>
 #include <random>
 #include <functional>
+#include <algorithm>
 
 #include <vector>
 #include <utility>

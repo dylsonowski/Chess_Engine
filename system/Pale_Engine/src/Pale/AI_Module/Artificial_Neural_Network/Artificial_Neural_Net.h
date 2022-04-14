@@ -6,7 +6,7 @@ namespace Pale::AI_Module {
 
 	public:
 		Artificial_Neural_Net() = delete;
-		Artificial_Neural_Net(std::vector<unsigned int> topology, std::string name);
+		Artificial_Neural_Net(std::vector<unsigned int> topology, std::string name, double learningRate = 0.01);
 		~Artificial_Neural_Net() = default;
 
 		//--- Void functions ---//
@@ -20,6 +20,7 @@ namespace Pale::AI_Module {
 		std::string _networkName;
 		std::vector<unsigned int> _topology;
 		std::vector<std::shared_ptr<Layer>> _network;
+		double _learningRate;
 	};
 
 	inline std::ostream& operator<<(std::ostream& os, const Artificial_Neural_Net& data) {

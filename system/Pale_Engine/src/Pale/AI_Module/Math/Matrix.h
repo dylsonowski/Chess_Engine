@@ -79,9 +79,9 @@ namespace Pale::Math {
                 if (_columns != other._rows)
                     throw PaleEngineException("Exception happened!", 'e', "Matrix.h", 60, "Matrix operator*", MATH__MATRICES_DIMENTIONS_INCORRECT);
 
-                Matrix tempMatrix(_rows, _columns, false);
+                Matrix tempMatrix(_rows, other._columns, false);
                 for (int rowIterator = 0; rowIterator < _rows; rowIterator++) {
-                    for (int columnIterator = 0; columnIterator < _columns; columnIterator++) {
+                    for (int columnIterator = 0; columnIterator < other._columns; columnIterator++) {
                         tempMatrix._matrix.at(rowIterator).at(columnIterator) = 0;
                         for (int multiplicationIterator = 0; multiplicationIterator < _columns; multiplicationIterator++) {
                             tempMatrix._matrix.at(rowIterator).at(columnIterator) += _matrix.at(rowIterator).at(multiplicationIterator) * other._matrix.at(multiplicationIterator).at(columnIterator);
@@ -132,6 +132,16 @@ namespace Pale::Math {
             PALE_ENGINE_TRACE("Matrix.h->Matrix operator* [122]: Successful multiplication of matrix and scalar. Output matrix dimensions: {0}x{1}. First matrix value: {2}", tempMatrix._rows, tempMatrix._columns, tempMatrix._matrix.at(0).at(0));
             return tempMatrix;
         }
+        inline Matrix operator*=(const double value) {
+            for (int rowIterator = 0; rowIterator < _rows; rowIterator++) {
+                for (int columnIterator = 0; columnIterator < _columns; columnIterator++) {
+                    _matrix.at(rowIterator).at(columnIterator) = _matrix.at(rowIterator).at(columnIterator) * value;
+                }
+            }
+
+            PALE_ENGINE_TRACE("Matrix.h->Matrix operator*= [142]: Successful multiplication of matrix and scalar. Output matrix dimensions: {0}x{1}. First matrix value: {2}", _rows, _columns, _matrix.at(0).at(0));
+            return *this;
+        }
         inline Matrix operator~() {
             Matrix tempMatrix(_columns, _rows, false);
             for (int rowIterator = 0; rowIterator < _rows; rowIterator++) {
@@ -144,6 +154,20 @@ namespace Pale::Math {
             return tempMatrix;
         }
 
+        //--- Void functions ---//
+        template<class _Fn>
+        inline Matrix Map(_Fn function) {
+            std::for_each(_matrix.begin(), _matrix.end(), [&function](std::vector<double>& matrixColumn) {
+                std::for_each(matrixColumn.begin(), matrixColumn.end(), [&function](double& element) {
+                    return element = function(element);
+                    });
+                });
+
+            PALE_ENGINE_INFO("Matrix.h->Map() [212]: Function has been sucesfully implemented on matrix values. First matrix value: {0}.", _matrix.at(0).at(0));
+            return *this;
+        }
+
+        //--- Returning functions ---//
         inline std::string ToString(bool listView = false) const {
             std::stringstream ss;
             if (!listView) {

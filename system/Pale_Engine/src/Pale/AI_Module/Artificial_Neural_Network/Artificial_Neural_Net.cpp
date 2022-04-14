@@ -2,7 +2,7 @@
 #include "Artificial_Neural_Net.h"
 
 namespace Pale::AI_Module {
-	Artificial_Neural_Net::Artificial_Neural_Net(std::vector<unsigned int> topology, std::string name) : _networkName(name) {
+	Artificial_Neural_Net::Artificial_Neural_Net(std::vector<unsigned int> topology, std::string name, double learningRate) : _networkName(name), _learningRate(learningRate) {
 		try {
 			if(topology.size() < 3)
 				throw PaleEngineException("Exception happened!", 'e', "Artificial_Neural_Net.cpp", 8, "Artificial_Neural_Net constructor", NN__INCORRECT_TOPOLOGY_SIZE);
@@ -63,6 +63,13 @@ namespace Pale::AI_Module {
 			Math::Matrix hiddenLayerErrors = (~layerWeightsMatrix) * outputErrors;
 
 			PALE_ENGINE_TRACE("Artificial_Neural_Net.cpp->BackPropagation() [65]: Errors of layer {0} has been computed! Errors values: {1}", _network.at(_topology.size() - 2)->GetLayerId(), hiddenLayerErrors.ToString(true));
+
+			//-- Computing delataWeights (learningRate * errors * gradient(derivative of sigmoid) * previousLayerValues) ---//
+			Math::Matrix gradient = _network.back()->ConvertToMatrix().Map(Math::DSigmoigFunction);
+			Math::Matrix deltaOutputWeights = outputErrors * gradient * (~_network.at(_topology.size() - 2)->ConvertToMatrix());
+			deltaOutputWeights *= _learningRate;
+
+			PALE_ENGINE_TRACE("Artificial_Neural_Net.cpp->BackPropagation() [72]: Delta weights values for layer {0} have been computed! Delta weights values: {1}", _network.back()->GetLayerId(), deltaOutputWeights.ToString(true));
 		}
 		catch (PaleEngineException& exception) {
 			if (exception.GetType() == 'e')

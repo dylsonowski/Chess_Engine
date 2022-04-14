@@ -5,6 +5,7 @@ int main(int argc, char** argv) {
 	//--- Matrix testing ---//
 	/*Pale::Math::Matrix firstMatrix(2, 1, {2,1,2,1}), secondMatrix(2, 1, {2,2,2,2});
 	std::cout << "A:\n" << firstMatrix << "\nB:\n" << secondMatrix << "\n\n";
+	std::cout << "Map function on matrix result:\n" << firstMatrix.Map(Pale::Math::DSigmoigFunction) << "\n\n\n";
 	std::cout << "Elemental matrix multiply result (without summing):\n" << Pale::Math::Matrix::ElementalSummary(firstMatrix, secondMatrix, false) << "\n\n\n";
 	std::cout << "Elemental matrix multiply result (with summing):\n" << Pale::Math::Matrix::ElementalSummary(firstMatrix, secondMatrix, true) << "\n\n\n";
 	std::cout << "Add matrices result:\n" << firstMatrix + secondMatrix << "\n\n\n";
