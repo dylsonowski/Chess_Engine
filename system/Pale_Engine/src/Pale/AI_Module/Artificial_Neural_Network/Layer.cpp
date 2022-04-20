@@ -7,13 +7,12 @@ namespace Pale::AI_Module {
             if (previousLayerSize.has_value()) {
                 _inputLayer = false;
                 _layer.emplace_back(std::make_shared<Neuron>(neuronsIterator, layerId, 0, false, previousLayerSize.value()));
+                _biases.emplace_back(biasValue);
             }
             else {
                 _inputLayer = true;
                 _layer.emplace_back(std::make_shared<Neuron>(neuronsIterator, layerId, 0, true, 0));
             }
-
-            _biases.emplace_back(biasValue);
         }
 
         PALE_ENGINE_INFO("Layer.cpp->Layer constructor [17]: New layer has been created! Layer ID: {0}. Number of neurons: {1}. Input layer: {2}. Output layer: {3}.", layerId, _layer.size(), _inputLayer, _outputLayer);
@@ -77,6 +76,8 @@ namespace Pale::AI_Module {
             assert(AssertionHandling(_biases.at(biasIterator) == tempBiasValue, "Layer.cpp->UpdateLayerBiases() [77]: Assertion failed! Bias value = " + std::to_string(_biases.at(biasIterator)) + " should be equal: " + std::to_string(tempBiasValue) + "!"));
             updatedBiasesNumber++;
         }
+
+        PALE_ENGINE_INFO("Layer.cpp->UpdateLayerBiases() [81]: Biases values for layer {0} has been updated! Number of updated biases: {1}/{2}.", _layerId, updatedBiasesNumber, deltaBiasesMatrix.GetRowsNumber() * deltaBiasesMatrix.GetColumnsNumber());
     }
 
     Math::Matrix Layer::ConvertToMatrix() const {

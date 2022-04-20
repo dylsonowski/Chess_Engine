@@ -26,6 +26,7 @@
 #define NN__INCORRECT_TARGET_SIZE "Vector of target data and output layer have different sizes!"
 #define NN__DELTA_WEIGHTS_MATRIX_INVALID_SIZE "One of delta weights matrix dimensions is incorrect!"
 #define NN__DELTA_BIASES_MATRIX_INVALID_SIZE "One of delta biases matrix dimensions is incorrect!"
+#define NN__INVALID_DATA_SIZE "Passed data size is invalid!"
 
 //--- Warnings codes ---//
 #define INVALID_PIECE_ID "No corresponding chess piece of the given ID! Insertion failed!"
@@ -96,7 +97,7 @@ private:
 };
 
 //--- Hack function to handle custom assertion ---//
-bool AssertionHandling(const bool assertion, std::string message) {
+inline bool AssertionHandling(const bool assertion, std::string message) {
 	if (!assertion)
 		PALE_ASSERTION_ERROR(message);
 

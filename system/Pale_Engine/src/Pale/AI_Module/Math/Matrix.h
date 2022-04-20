@@ -188,7 +188,7 @@ namespace Pale::Math {
                     });
                 });
 
-            PALE_ENGINE_INFO("Matrix.h->Map() [212]: Function has been sucesfully implemented on matrix values. First matrix value: {0}.", _matrix.at(0).at(0));
+            PALE_ENGINE_INFO("Matrix.h->Map() [212]: Function has been successfully implemented on matrix values. First matrix value: {0}.", _matrix.at(0).at(0));
             return *this;
         }
 
@@ -253,6 +253,17 @@ namespace Pale::Math {
                 else if (exception.GetType() == 'w')
                     PALE_ENGINE_WARN("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo());
             }
+        }
+        inline double AccumulateMatrixValues() const {
+            double accumulatedValues = 0;
+            for (int rowIterator = 0; rowIterator < _rows; rowIterator++) {
+                for (int columnIterator = 0; columnIterator < _columns; columnIterator++) {
+                    accumulatedValues += _matrix.at(rowIterator).at(columnIterator);
+                }
+            }
+
+            PALE_ENGINE_INFO("Matrix.h->AccumulateMatrixValues() [265]: Values of the matrix has been accumulated! Output value: {0}.", accumulatedValues);
+            return accumulatedValues;
         }
 
     private:

@@ -2,7 +2,7 @@
 #include "Artificial_Neural_Net.h"
 
 namespace Pale::AI_Module {
-	Artificial_Neural_Net::Artificial_Neural_Net(std::vector<unsigned int> topology, std::string name, double learningRate) : _networkName(name), _learningRate(learningRate) {
+	Artificial_Neural_Net::Artificial_Neural_Net(std::vector<unsigned int> topology, std::string name, double learningRate) : _networkName(name), _learningRate(learningRate), _accumulatedOutputError(0) {
 		try {
 			if(topology.size() < 3)
 				throw PaleEngineException("Exception happened!", 'e', "Artificial_Neural_Net.cpp", 8, "Artificial_Neural_Net constructor", NN__INCORRECT_TOPOLOGY_SIZE);
@@ -18,6 +18,43 @@ namespace Pale::AI_Module {
 			}
 
 			PALE_ENGINE_INFO("Artificial_Neural_Net.cpp->Artificial_Neural_Net constructor [20]: New instance of artificial neural network has been created! Network size: {0}. Size of input layer: {1}. Size of output layer: {2}.", _network.size(), _network.at(0)->GetLayerSize(), _network.at(_topology.size() - 1)->GetLayerSize());
+		}
+		catch (PaleEngineException& exception) {
+			if (exception.GetType() == 'e')
+				PALE_ENGINE_ERROR("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo())
+			else if (exception.GetType() == 'w')
+				PALE_ENGINE_WARN("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo());
+		}
+	}
+
+	void Artificial_Neural_Net::Train(const Data_Set& trainSet, const Data_Set& testSet, unsigned short int epochs, bool printErrors, unsigned short int acceptanceCriteria) {
+		try {
+			for (int epochIterator = 0; epochIterator <= epochs; epochIterator++) {
+				//--- Training ---//
+				if(trainSet.m_inputData.size() != trainSet.m_targetData.size())
+					throw PaleEngineException("Exception happened!", 'e', "Artificial_Neural_Net.cpp", 34, "Train()", NN__INCORRECT_TARGET_SIZE);
+
+				for (int trainingIterator = 0; trainingIterator < trainSet.m_dataSetSize; trainingIterator++) {
+					FeedForward(trainSet.m_inputData.at(trainingIterator));
+					BackPropagation(trainSet.m_targetData.at(trainingIterator));
+
+					if (printErrors)
+						std::cout << "Training execution " << trainingIterator << "/" << trainSet.m_dataSetSize << ". Output error: " << _accumulatedOutputError << ".";
+				}
+
+				//--- Testing ---//
+				if (testSet.m_inputData.size() != testSet.m_targetData.size())
+					throw PaleEngineException("Exception happened!", 'e', "Artificial_Neural_Net.cpp", 34, "Train()", NN__INCORRECT_TARGET_SIZE);
+
+				unsigned short int correctPredictions = 0;
+				for (int testingIterator = 0; testingIterator < testSet.m_dataSetSize; testingIterator++) {
+					std::vector<double> prediction = Predict(testSet.m_inputData.at(testingIterator));
+					for (const auto predictionIterator : prediction) {
+						if(Math::PrecentageCalculation(predictionIterator, testSet.m_targetData.at()))
+					}
+				}
+				std::cout << "EPOCH: " << epochIterator << "/" << epochs << ". Accuracy: " << Math::PrecentageCalculation(correctPredictions, testSet.m_dataSetSize) << ".\n\n\n";
+			}
 		}
 		catch (PaleEngineException& exception) {
 			if (exception.GetType() == 'e')
@@ -61,6 +98,8 @@ namespace Pale::AI_Module {
 					layerErrors = targerDataMatrix - _network.at(networkIterator)->ConvertToMatrix();
 
 					PALE_ENGINE_TRACE("Artificial_Neural_Net.cpp->BackPropagation() [63]: Output errors has been computed! Output errors: {0}", layerErrors.ToString(true));
+
+					_accumulatedOutputError = layerErrors.AccumulateMatrixValues();
 				}
 				else {
 					//--- Computing error vector ---//
@@ -83,8 +122,10 @@ namespace Pale::AI_Module {
 				_network.at(networkIterator)->UpdateLayerWeights(layerDeltaWeights);
 
 				//--- Update biases values ---//
-				_network.at(networkIterator)->
+				_network.at(networkIterator)->UpdateLayerBiases(layerDeltaBiases);
 			}
+
+			PALE_ENGINE_TRACE("Artificial_Neural_Net.cpp->BackPropagation() [88]: Back propagation process has been finished!");
 
 			////--- Computing error vector ---//
 			//Math::Matrix targetDataMatrix(targetData.size(), 1, targetData), outputErrors = targetDataMatrix - _network.back()->ConvertToMatrix();
@@ -110,6 +151,16 @@ namespace Pale::AI_Module {
 			else if (exception.GetType() == 'w')
 				PALE_ENGINE_WARN("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo());
 		}
+	}
+
+	const std::vector<double> Artificial_Neural_Net::Predict(const std::vector<double>& inputData) {
+		FeedForward(inputData);
+		std::vector<double> prediction;
+		for (int outputLayerIterator = 0; outputLayerIterator < _network.back()->GetLayerSize(); outputLayerIterator++) {
+			prediction.emplace_back(_network.back()->GetNeuronValue(outputLayerIterator));
+		}
+
+		return prediction;
 	}
 
 	std::string Artificial_Neural_Net::ToString() const	{
@@ -141,6 +192,7 @@ namespace Pale::AI_Module {
 				ss << _network.at(_topology.size() - 1)->GetNeuronValue(layerIterator) << ", ";
 		}
 
+		ss << "\n\nOutput error value: " << _accumulatedOutputError << ".";
 		return ss.str();
 	}
 }

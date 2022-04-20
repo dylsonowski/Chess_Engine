@@ -8,10 +8,13 @@ namespace Pale::Math {
 
 	//--- Random number generating function ---//
 	template<typename T>
-	static T GenerateRandomNumber(T minValue, T maxValue) {
+	inline T GenerateRandomNumber(T minValue, T maxValue) {
 		std::random_device device;
 		std::default_random_engine engine(device());
 		std::uniform_real_distribution<T> uniformDist(minValue, maxValue);
 		return uniformDist(engine);
 	}
+
+	//--- Basic math operations ---//
+	inline unsigned short int PrecentageCalculation(double value, double maxValue) { return (value * 100) / maxValue; }
 }
