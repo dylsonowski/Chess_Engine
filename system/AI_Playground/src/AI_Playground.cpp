@@ -25,11 +25,11 @@ int main(int argc, char** argv) {
 	std::cout << "Transpose matrix result:\n" << ~firstMatrix << "\n\n\n";*/
 
 	//--- AI testing ---//
-	Pale::AI_Module::Artificial_Neural_Net newNeuralNetwork({ 2,2,1 }, "XOR Recognizing Neural Net");
+	/*Pale::AI_Module::Artificial_Neural_Net newNeuralNetwork({ 2,2,1 }, "XOR Recognizing Neural Net");
 	newNeuralNetwork.FeedForward({ 1,1 });
 	newNeuralNetwork.BackPropagation({ 0 });
 
-	std::cout << newNeuralNetwork << "\n";
+	std::cout << newNeuralNetwork << "\n";*/
 	std::cin.get();
 	return 0;
 }
