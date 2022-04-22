@@ -2,6 +2,10 @@
 
 int main(int argc, char** argv) {
 	LOG_SYSTEM_INIT(LOGGING_METHOD::BASIC);
+	//--- Json reader testing ---// 
+	using json = nlohmann::json;
+
+
 	//--- Assertion testing ---//
 	/*assert(AssertionHandling(1 == 1, "AI_Playground.cpp->main() [6]: Assertion failed! Value = " + std::to_string(1) + " should be equal: " + std::to_string(1) + "!"));
 	assert(AssertionHandling(1 == 0, "AI_Playground.cpp->main() [6]: Assertion failed! Value = " + std::to_string(1) + " should be equal: " + std::to_string(0) + "!"));*/

@@ -49,11 +49,19 @@ namespace Pale::AI_Module {
 				unsigned short int correctPredictions = 0;
 				for (int testingIterator = 0; testingIterator < testSet.m_dataSetSize; testingIterator++) {
 					std::vector<double> prediction = Predict(testSet.m_inputData.at(testingIterator));
-					for (const auto predictionIterator : prediction) {
-						if(Math::PrecentageCalculation(predictionIterator, testSet.m_targetData.at()))
+					double predictionCorrectionPrecentage = 0;
+
+					for (int predictionIterator = 0; predictionIterator < prediction.size(); predictionIterator++) {
+						predictionCorrectionPrecentage += Math::PrecentageCalculation(prediction.at(predictionIterator), testSet.m_targetData.at(testingIterator).at(predictionIterator));
 					}
+
+					predictionCorrectionPrecentage /= prediction.size();
+
+					if(predictionCorrectionPrecentage >= acceptanceCriteria)
+						correctPredictions++;
 				}
-				std::cout << "EPOCH: " << epochIterator << "/" << epochs << ". Accuracy: " << Math::PrecentageCalculation(correctPredictions, testSet.m_dataSetSize) << ".\n\n\n";
+
+				std::cout << "EPOCH: " << epochIterator << "/" << epochs << ". Accuracy: " << Math::PrecentageCalculation(correctPredictions, testSet.m_dataSetSize) << "%.\n\n\n";
 			}
 		}
 		catch (PaleEngineException& exception) {

@@ -25,7 +25,8 @@ project "Pale_Engine"
 
     includedirs {
         "%{prj.name}/vendor/spdlog/include",
-        "%{prj.name}/src"
+        "%{prj.name}/src",
+        "%{prj.name}/vendor/json/single_include"
     }
 
     filter "system:windows"
@@ -61,7 +62,8 @@ project "Chess_Game"
     
     includedirs {
         "Pale_Engine/vendor/spdlog/include",
-        "Pale_Engine/src"
+        "Pale_Engine/src",
+        "Pale_Engine/vendor/json/single_include"
     }
 
     links {
@@ -101,7 +103,8 @@ project "Automation_Tests"
 
     includedirs {
         "Pale_Engine/vendor/spdlog/include",
-        "Pale_Engine/src"
+        "Pale_Engine/src",
+        "Pale_Engine/vendor/json/single_include"
     }
 
     links {
@@ -143,7 +146,8 @@ project "AI_Playground"
 
     includedirs {
         "Pale_Engine/vendor/spdlog/include",
-        "Pale_Engine/src"
+        "Pale_Engine/src",
+        "Pale_Engine/vendor/json/single_include"
     }
 
     links {

@@ -20,6 +20,7 @@
 #include "Pale/Log_System.h"
 #include "Pale/Engine_Macros.h"
 #include "Pale.h"
+#include "nlohmann/json.hpp"
 
 #ifdef PLATFORM_WINDOWS
 #include <Windows.h>
