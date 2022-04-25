@@ -27,41 +27,71 @@ namespace Pale::AI_Module {
 		}
 	}
 
-	void Artificial_Neural_Net::Train(const Data_Set& trainSet, const Data_Set& testSet, unsigned short int epochs, bool printErrors, unsigned short int acceptanceCriteria) {
+	void Artificial_Neural_Net::Train(const Data_Set& trainSet, const Data_Set& testSet, unsigned short int epochs, bool printErrors, float acceptanceCriteriaPerNeuron, bool pauseTraining) {
 		try {
+			unsigned short int correctPredictions;
 			for (int epochIterator = 0; epochIterator <= epochs; epochIterator++) {
 				//--- Training ---//
-				if(trainSet.m_inputData.size() != trainSet.m_targetData.size())
-					throw PaleEngineException("Exception happened!", 'e', "Artificial_Neural_Net.cpp", 34, "Train()", NN__INCORRECT_TARGET_SIZE);
-
 				for (int trainingIterator = 0; trainingIterator < trainSet.m_dataSetSize; trainingIterator++) {
-					FeedForward(trainSet.m_inputData.at(trainingIterator));
-					BackPropagation(trainSet.m_targetData.at(trainingIterator));
+					FeedForward(trainSet.m_data.at(trainingIterator).first);
+					BackPropagation(trainSet.m_data.at(trainingIterator).second);
 
 					if (printErrors)
-						std::cout << "Training execution " << trainingIterator << "/" << trainSet.m_dataSetSize << ". Output error: " << _accumulatedOutputError << ".";
+						std::cout << "Training execution " << trainingIterator << "/" << trainSet.m_dataSetSize << ". Output error: " << _accumulatedOutputError << ".\n";
 				}
 
 				//--- Testing ---//
-				if (testSet.m_inputData.size() != testSet.m_targetData.size())
-					throw PaleEngineException("Exception happened!", 'e', "Artificial_Neural_Net.cpp", 34, "Train()", NN__INCORRECT_TARGET_SIZE);
-
-				unsigned short int correctPredictions = 0;
+				correctPredictions = 0;
+				char continueTrainingAnswer;
 				for (int testingIterator = 0; testingIterator < testSet.m_dataSetSize; testingIterator++) {
-					std::vector<double> prediction = Predict(testSet.m_inputData.at(testingIterator));
+					std::vector<double> prediction = Predict(testSet.m_data.at(testingIterator).first);
 					double predictionCorrectionPrecentage = 0;
 
 					for (int predictionIterator = 0; predictionIterator < prediction.size(); predictionIterator++) {
-						predictionCorrectionPrecentage += Math::PrecentageCalculation(prediction.at(predictionIterator), testSet.m_targetData.at(testingIterator).at(predictionIterator));
+						predictionCorrectionPrecentage += Math::AbsoluteValueCalculation<double>(prediction.at(predictionIterator) - testSet.m_data.at(testingIterator).second.at(predictionIterator));
 					}
 
 					predictionCorrectionPrecentage /= prediction.size();
 
-					if(predictionCorrectionPrecentage >= acceptanceCriteria)
+					if(predictionCorrectionPrecentage <= acceptanceCriteriaPerNeuron * prediction.size())
 						correctPredictions++;
 				}
 
-				std::cout << "EPOCH: " << epochIterator << "/" << epochs << ". Accuracy: " << Math::PrecentageCalculation(correctPredictions, testSet.m_dataSetSize) << "%.\n\n\n";
+				auto var = Math::PrecentageCalculation(correctPredictions, testSet.m_dataSetSize);
+				std::cout << "EPOCH: " << epochIterator << "/" << epochs << ". Accuracy: " << var << "%.";
+				
+				if (pauseTraining) {
+					std::cout << "\nContinue training ? : ";
+					std::cin >> continueTrainingAnswer;
+
+					if (continueTrainingAnswer == 'N' || continueTrainingAnswer == 'n')
+						break;
+				}
+
+				std::cout << "\n\n";
+			}
+
+			PALE_ENGINE_INFO("Artificial_Neural_Net.cpp->Train() [66]: Training process of network named '{0}' has been finished! Final model accuracy: {1}.", _networkName, correctPredictions);
+		}
+		catch (PaleEngineException& exception) {
+			if (exception.GetType() == 'e')
+				PALE_ENGINE_ERROR("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo())
+			else if (exception.GetType() == 'w')
+				PALE_ENGINE_WARN("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo());
+		}
+	}
+
+	void Artificial_Neural_Net::SaveWeights(std::string fileName, std::string weightsFilePath) const {
+		try {
+			std::ofstream outputFile(_networkName + "(weights).json");
+
+			if (!outputFile.good())
+				throw PaleEngineException("Exception happened!", 'e', "Artificial_Neural_Net.cpp", 88, "SaveWeights()", FILE_OPEN_ERROR);
+
+			for (const auto networkIterator : _network) {
+				for (int layerIterator = 0; layerIterator < networkIterator->GetLayerSize(); layerIterator++) {
+					
+				}
 			}
 		}
 		catch (PaleEngineException& exception) {
