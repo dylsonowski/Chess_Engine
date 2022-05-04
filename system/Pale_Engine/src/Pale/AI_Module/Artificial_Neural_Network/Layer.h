@@ -62,11 +62,20 @@ namespace Pale::AI_Module {
 			}
 		}
 		inline void SetBiasValue(unsigned short int biasId, double value) { _biases.at(biasId) = value; }
+		inline std::vector<double> GetNeuronInputWeights(unsigned short int neuronId) const {
+			std::vector<double> neuronInputWeights;
+			for (int neuronInputWeightsIterator = 0; neuronInputWeightsIterator < _layer.at(neuronId)->GetInputWeightsNumber(); neuronInputWeightsIterator++) {
+				neuronInputWeights.emplace_back(_layer.at(neuronId)->GetWeight(neuronInputWeightsIterator));
+			}
+
+			return neuronInputWeights;
+		}
 
 		//--- Void functions ---//
 		void RecalculateLayerValues(std::optional<Math::Matrix> previousLayer);
 		void UpdateLayerWeights(const Math::Matrix& deltaWeightsMatrix);
 		void UpdateLayerBiases(const Math::Matrix& deltaBiasesMatrix);
+		void LoadNeuronInputWeights(unsigned short int neuronId, const std::vector<double>& weightsValues);
 
 		//--- Returning functions ---//
 		Math::Matrix ConvertToMatrix() const;

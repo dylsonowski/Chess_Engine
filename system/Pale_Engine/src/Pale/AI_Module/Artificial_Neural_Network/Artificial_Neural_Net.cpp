@@ -81,16 +81,65 @@ namespace Pale::AI_Module {
 		}
 	}
 
-	void Artificial_Neural_Net::SaveWeights(std::string fileName, std::string weightsFilePath) const {
+	void Artificial_Neural_Net::SaveWeights(std::optional<std::string> fileName, std::string weightsFilePath, bool extractionLogs) const {
 		try {
-			std::ofstream outputFile(_networkName + "(weights).json");
+			nlohmann::json weightsFile;
+			weightsFile["name"] = _networkName;
+			for (int networkIterator = 1; networkIterator < _network.size(); networkIterator++) {
+				for (int layerIterator = 0; layerIterator < _network.at(networkIterator)->GetLayerSize(); layerIterator++) {
+					weightsFile["layer" + std::to_string(networkIterator)].push_back(_network.at(networkIterator)->GetNeuronInputWeights(layerIterator));
+				}
+			}
 
+			if (extractionLogs)
+				PALE_ENGINE_TRACE("Artificial_Neural_Net.cpp->SaveWeights() [96]: Json file with weights values has been created! Json content: {0}.", weightsFile.dump());
+
+			std::string path;
+			if (!fileName.has_value())
+				path = weightsFilePath + "/" + _networkName + "(weights).json";
+			else
+				path = weightsFilePath + "/" + fileName.value() + ".json";
+
+			std::ofstream outputFile(path);
 			if (!outputFile.good())
-				throw PaleEngineException("Exception happened!", 'e', "Artificial_Neural_Net.cpp", 88, "SaveWeights()", FILE_OPEN_ERROR);
+				throw PaleEngineException("Exception happened!", 'e', "Artificial_Neural_Net.cpp", 89, "SaveWeights()", FILE_OPEN_ERROR);
 
+			outputFile << std::setw(4) << weightsFile;
+			outputFile.close();
+
+			PALE_ENGINE_INFO("Artificial_Neural_Net.cpp->SaveWeights() [102]: Weights data has been saved inside file: {0}.", path);
+		}
+		catch (PaleEngineException& exception) {
+			if (exception.GetType() == 'e')
+				PALE_ENGINE_ERROR("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo())
+			else if (exception.GetType() == 'w')
+				PALE_ENGINE_WARN("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo());
+		}
+	}
+
+	void Artificial_Neural_Net::LoadWeights(std::string fileName, std::string weightsFilePath, bool importLogs) {
+		try {
+			nlohmann::json weightsFile;
+			std::string path = weightsFilePath + "/" + fileName + ".json";
+			std::ifstream inputFile(path);
+
+			if (!inputFile.good())
+				throw PaleEngineException("Exception happened!", 'e', "Artificial_Neural_Net.cpp", 127, "LoadWeights()", FILE_OPEN_ERROR);
+
+			inputFile >> weightsFile;
+
+			if(importLogs)
+				PALE_ENGINE_TRACE("Artificial_Neural_Net.cpp->LoadWeights() [132]: Weights values has been imported! Json content: {0}.", weightsFile.dump());
+
+			//--- Importing "networkName" value ---//
+			_networkName = weightsFile["name"];
+			assert(AssertionHandling(_networkName == weightsFile["name"].get<std::string>(), "Artificial_Neural_Net.cpp->LoadWeights() [135]: Assertion failed! Value = " + _networkName + " should be equal: " + weightsFile["name"].get<std::string>() + "!"));
+
+			//--- Importing layers weights values ---//
 			for (const auto networkIterator : _network) {
 				for (int layerIterator = 0; layerIterator < networkIterator->GetLayerSize(); layerIterator++) {
-					
+					for()
+					networkIterator->SetNeuronWeight(layerIterator, )
 				}
 			}
 		}
@@ -137,7 +186,8 @@ namespace Pale::AI_Module {
 
 					PALE_ENGINE_TRACE("Artificial_Neural_Net.cpp->BackPropagation() [63]: Output errors has been computed! Output errors: {0}", layerErrors.ToString(true));
 
-					_accumulatedOutputError = layerErrors.AccumulateMatrixValues();
+					Math::Matrix tempLayerErrorsMatrix = layerErrors;
+					_accumulatedOutputError = tempLayerErrorsMatrix.Map(Math::AbsoluteValueCalculation<double>).AccumulateMatrixValues();
 				}
 				else {
 					//--- Computing error vector ---//
@@ -164,24 +214,6 @@ namespace Pale::AI_Module {
 			}
 
 			PALE_ENGINE_TRACE("Artificial_Neural_Net.cpp->BackPropagation() [88]: Back propagation process has been finished!");
-
-			////--- Computing error vector ---//
-			//Math::Matrix targetDataMatrix(targetData.size(), 1, targetData), outputErrors = targetDataMatrix - _network.back()->ConvertToMatrix();
-
-			//PALE_ENGINE_TRACE("Artificial_Neural_Net.cpp->BackPropagation() [59]: Output errors has been computed! Output errors: {0}", outputErrors.ToString(true));
-
-			////--- Computing hidden layer error vector ---//
-			//Math::Matrix layerWeightsMatrix = _network.back()->GenerateWeightsMatrix();
-			//Math::Matrix hiddenLayerErrors = (~layerWeightsMatrix) * outputErrors;
-
-			//PALE_ENGINE_TRACE("Artificial_Neural_Net.cpp->BackPropagation() [65]: Errors of layer {0} has been computed! Errors values: {1}", _network.at(_topology.size() - 2)->GetLayerId(), hiddenLayerErrors.ToString(true));
-
-			////-- Computing delataWeights (learningRate * errors * gradient(derivative of sigmoid) * previousLayerValues) ---//
-			//Math::Matrix gradient = _network.back()->ConvertToMatrix().Map(Math::DSigmoigFunction);
-			//Math::Matrix deltaOutputWeights = outputErrors * gradient * (~_network.at(_topology.size() - 2)->ConvertToMatrix());
-			//deltaOutputWeights *= _learningRate;
-
-			//PALE_ENGINE_TRACE("Artificial_Neural_Net.cpp->BackPropagation() [72]: Delta weights values for layer {0} have been computed! Delta weights values: {1}", _network.back()->GetLayerId(), deltaOutputWeights.ToString(true));
 		}
 		catch (PaleEngineException& exception) {
 			if (exception.GetType() == 'e')

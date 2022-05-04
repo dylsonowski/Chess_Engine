@@ -80,6 +80,16 @@ namespace Pale::AI_Module {
         PALE_ENGINE_INFO("Layer.cpp->UpdateLayerBiases() [81]: Biases values for layer {0} has been updated! Number of updated biases: {1}/{2}.", _layerId, updatedBiasesNumber, deltaBiasesMatrix.GetRowsNumber() * deltaBiasesMatrix.GetColumnsNumber());
     }
 
+    void Layer::LoadNeuronInputWeights(unsigned short int neuronId, const std::vector<double>& weightsValues) {
+        for (int neuronInputWeightsIterator = 0; neuronInputWeightsIterator < _layer.at(neuronId)->GetInputWeightsNumber(); neuronInputWeightsIterator++) {
+            _layer.at(neuronId)->SetInputWeight(neuronInputWeightsIterator, weightsValues.at(neuronInputWeightsIterator));
+
+            double actualWeightValue = _layer.at(neuronId)->GetWeight(neuronInputWeightsIterator), expectedWeightValue = weightsValues.at(neuronInputWeightsIterator);
+
+            assert(AssertionHandling(_layer.at(neuronId)->GetWeight(neuronInputWeightsIterator) == weightsValues.at(neuronInputWeightsIterator), "Artificial_Neural_Net.cpp->LoadNeuronInputWeights() [86]: Assertion failed! Value = " + std::to_string(actualWeightValue) + " should be equal: " + std::to_string(expectedWeightValue) + "!"));
+        }
+    }
+
     Math::Matrix Layer::ConvertToMatrix() const {
         std::vector<double> tempLayerVector;
         for (const auto layerIterator : _layer) {
