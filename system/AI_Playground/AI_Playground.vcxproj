@@ -11,10 +11,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{F4FC8274-E0B4-C4C1-49BC-9D1D35935FB2}</ProjectGuid>
+    <ProjectGuid>{732A804E-DFEA-FB84-A825-450214A54061}</ProjectGuid>
     <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Chess_Game</RootNamespace>
+    <RootNamespace>AI_Playground</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -42,16 +42,16 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>..\bin\Chess_Game_x86_64\Debug\</OutDir>
-    <IntDir>..\bin-int\Chess_Game_x86_64\Debug\</IntDir>
-    <TargetName>Chess_Game</TargetName>
+    <OutDir>..\bin\AI_Playground_x86_64\Debug\</OutDir>
+    <IntDir>..\bin-int\AI_Playground_x86_64\Debug\</IntDir>
+    <TargetName>AI_Playground</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\bin\Chess_Game_x86_64\Release\</OutDir>
-    <IntDir>..\bin-int\Chess_Game_x86_64\Release\</IntDir>
-    <TargetName>Chess_Game</TargetName>
+    <OutDir>..\bin\AI_Playground_x86_64\Release\</OutDir>
+    <IntDir>..\bin-int\AI_Playground_x86_64\Release\</IntDir>
+    <TargetName>AI_Playground</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -91,7 +91,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Chess_Game.cpp" />
+    <ClCompile Include="src\AI_Playground.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Pale_Engine\Pale_Engine.vcxproj">

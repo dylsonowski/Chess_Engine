@@ -27,9 +27,9 @@ int main(int argv, char** argc) {
 	}
 	catch (PaleEngineException& exception) {
 		if (exception.GetType() == 'e')
-			PALE_TESTS_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
+			PALE_TESTS_ERROR("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo())
 		else if (exception.GetType() == 'w')
-			PALE_TESTS_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+			PALE_TESTS_WARN("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo());
 	}
 
 	std::cin.get();

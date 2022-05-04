@@ -4,7 +4,7 @@ int main(int argc, char** argv) {
 	bool consoleUIVersion = true;
 	unsigned short int numberOfAIInstances = 0;
 	if (argc > 1) {
-		for (int iterator = 0; iterator > argc; iterator++) {
+		for (int iterator = 0; iterator < argc; iterator++) {
 			if (argv[iterator] == "-g")
 				consoleUIVersion = false;
 

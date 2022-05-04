@@ -5,3 +5,7 @@ bin-int/
 
 #Files
 *.user
+*.log
+system/Chess_Game/logs/*
+system/Automation_Tests/logs/*
+system/AI_Playground/logs/*

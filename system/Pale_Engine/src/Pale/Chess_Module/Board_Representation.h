@@ -42,9 +42,9 @@ namespace Pale::Chess_Logic {
 			}
 			catch (PaleEngineException& exception) {
 				if (exception.GetType() == 'e')
-					PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
+					PALE_ENGINE_ERROR("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo())
 				else if (exception.GetType() == 'w')
-					PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+					PALE_ENGINE_WARN("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo());
 			}
 		}
 		inline static bool IsFigureDead(int figure) {
@@ -61,7 +61,7 @@ namespace Pale::Chess_Logic {
 			if (this->_row != second._row || this->_column != second._column || this->_representationType != second._representationType || this->_board != second._board)
 				return true;
 
-			PALE_ENGINE_TRACE("Result of the board assertion: Rows = {0}, Columns = {1}, Type = {2}, Board = {3}", this->_row != second._row, this->_column != second._column, this->_representationType != second._representationType, this->_board != second._board);
+			PALE_ENGINE_TRACE("Board_Representation.h->operator!= [64]: Result of the board assertion: Rows = {0}, Columns = {1}, Type = {2}, Board = {3}", this->_row != second._row, this->_column != second._column, this->_representationType != second._representationType, this->_board != second._board);
 			return false;
 		}
 
@@ -105,7 +105,7 @@ namespace Pale::Chess_Logic {
 					throw PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 144, "MovePiece", MOVE_COMMAND__NO_NEW_PIECE);
 
 				if (piece.SpecialLogic(command.m_moveType, command.m_endPos, _board, command.m_newPiece)) {
-					PALE_ENGINE_INFO("Move was successfully made.");
+					PALE_ENGINE_INFO("Board_Representation.h->MovePiece() [108]: Move was successfully made.");
 
 #ifndef TESTING_ENV
 					if (command.m_capture) {
@@ -124,7 +124,7 @@ namespace Pale::Chess_Logic {
 					throw PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 152, "MovePiece", MOVE_COMMAND__INVALID_SPECIAL_USE);
 
 				if (piece.SpecialLogic(command.m_moveType, command.m_endPos, _board, std::optional<char>())) { //This last argument is optional!
-					PALE_ENGINE_INFO("Move was successfully made.");
+					PALE_ENGINE_INFO("Board_Representation.h->MovePiece() [127]: Move was successfully made.");
 
 #ifndef TESTING_ENV
 					piece.ExecuteSpecialMove();
@@ -138,7 +138,7 @@ namespace Pale::Chess_Logic {
 					throw PaleEngineException("Exception happened!", 'e', "Board_Representation.h", 158, "MovePiece", MOVE_COMMAND__INVALID_SPECIAL_USE);
 
 				if (piece.SpecialLogic(command.m_moveType, command.m_endPos, _board, std::optional<char>())) { //This last argument is optional!
-					PALE_ENGINE_INFO("Move was successfully made.");
+					PALE_ENGINE_INFO("Board_Representation.h->MovePiece() [141]: Move was successfully made.");
 
 #ifndef TESTING_ENV
 					piece.ExecuteSpecialMove();
@@ -149,7 +149,7 @@ namespace Pale::Chess_Logic {
 			}
 			default: {
 				if (piece.MoveLogic(command.m_endPos, _board)) {
-					PALE_ENGINE_INFO("Move was successfully made.");
+					PALE_ENGINE_INFO("Board_Representation.h->MovePiece() [152]: Move was successfully made.");
 
 #ifndef TESTING_ENV
 					if (command.m_capture) {
@@ -170,9 +170,9 @@ namespace Pale::Chess_Logic {
 		}
 		catch (PaleEngineException& exception) {
 			if (exception.GetType() == 'e')
-				PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
+				PALE_ENGINE_ERROR("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo())
 			else if (exception.GetType() == 'w')
-				PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+				PALE_ENGINE_WARN("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo());
 		}
 	}
 
@@ -383,14 +383,14 @@ namespace Pale::Chess_Logic {
 
 			processedMove.m_startPos = std::make_pair(startY, startX); //first cord := row, second cord := column
 			processedMove.m_endPos = std::make_pair(endY, endX);
-			PALE_ENGINE_INFO("Move was successfully processed.");
+			PALE_ENGINE_INFO("Board_Representation.h->ProcessMoveCommand() [386]: Move was successfully processed.");
 			return processedMove;
 		}
 		catch (PaleEngineException& exception) {
 			if (exception.GetType() == 'e')
-				PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
+				PALE_ENGINE_ERROR("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo())
 			else if (exception.GetType() == 'w')
-				PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+				PALE_ENGINE_WARN("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo());
 		}
 	}
 
@@ -401,11 +401,11 @@ namespace Pale::Chess_Logic {
 			else
 				Pale::Chess_Logic::s_deathList.push_back(figure);
 
-			PALE_ENGINE_TRACE("AddToDeathList() function -> Size of piece death list: {0}", Pale::Chess_Logic::s_deathList.size());
+			PALE_ENGINE_TRACE("Board_Representation.h->AddToDeathList() [404]: Size of piece death list: {0}", Pale::Chess_Logic::s_deathList.size());
 		}
 		catch (PaleEngineException& exception) {
 			if (exception.GetType() == 'e')
-				PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
+				PALE_ENGINE_ERROR("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo())
 			else if (exception.GetType() == 'w')
 				PALE_ENGINE_WARN("{0}[{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
 		}

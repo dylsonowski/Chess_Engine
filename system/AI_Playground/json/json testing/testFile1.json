@@ -1,0 +1,14 @@
+{
+    "layer1": {
+        "inputWeights": [
+            0.1,
+            0.4
+        ]
+    },
+    "layer2": {
+        "inputWeights": [
+            0.5
+        ]
+    },
+    "name": "NN 1"
+}

@@ -26,46 +26,23 @@ project "Pale_Engine"
     includedirs {
         "%{prj.name}/vendor/spdlog/include",
         "%{prj.name}/src",
-        "%{prj.name}/vendor/sfml/include"
-    }
-
-    libdirs { "%{prj.name}/vendor/sfml/lib" }
-
-    links {
-        "opengl32.lib",
-        "freetype.lib",
-        "opengl32.lib",
-        "winmm.lib",
-        "gdi32.lib"
+        "%{prj.name}/vendor/json/single_include"
     }
 
     filter "system:windows"
         systemversion "latest"
 
         defines {
-            "PLATFORM_WINDOWS",
-            "SFML_STATIC"
+            "PLATFORM_WINDOWS"
         }
 
     filter "configurations:Debug"
         defines "_DEBUG_"
         symbols "on"
 
-        links {
-            "sfml-graphics-s-d.lib",
-            "sfml-window-s-d.lib",
-            "sfml-system-s-d.lib"
-        }
-
     filter "configurations:Release"
         defines "_RELEASE_"
         optimize "on"
-
-        links {
-            "sfml-graphics-s.lib",
-            "sfml-window-s.lib",
-            "sfml-system-s.lib"
-        }
 
 
 project "Chess_Game"
@@ -85,7 +62,8 @@ project "Chess_Game"
     
     includedirs {
         "Pale_Engine/vendor/spdlog/include",
-        "Pale_Engine/src"
+        "Pale_Engine/src",
+        "Pale_Engine/vendor/json/single_include"
     }
 
     links {
@@ -125,7 +103,8 @@ project "Automation_Tests"
 
     includedirs {
         "Pale_Engine/vendor/spdlog/include",
-        "Pale_Engine/src"
+        "Pale_Engine/src",
+        "Pale_Engine/vendor/json/single_include"
     }
 
     links {
@@ -133,6 +112,47 @@ project "Automation_Tests"
     }
 
     defines "TESTING_ENV"
+
+    filter "system:windows"
+        systemversion "latest"
+
+        defines {
+            "PLATFORM_WINDOWS"
+        }
+
+    filter "configurations:Debug"
+        defines "_DEBUG_"
+        symbols "on"
+
+    filter "configurations:Release"
+        defines "_RELEASE_"
+        optimize "on"
+
+
+project "AI_Playground"
+    location "AI_Playground"
+    kind "ConsoleApp"
+    language "C++"
+    cppdialect "C++17"
+    staticruntime "off"
+
+    targetdir ("bin/%{prj.name}_%{cfg.architecture}/%{cfg.buildcfg}")
+    objdir ("bin-int/%{prj.name}_%{cfg.architecture}/%{cfg.buildcfg}")
+
+    files {
+        "%{prj.name}/src/**.h",
+        "%{prj.name}/src/**.cpp"
+    }
+
+    includedirs {
+        "Pale_Engine/vendor/spdlog/include",
+        "Pale_Engine/src",
+        "Pale_Engine/vendor/json/single_include"
+    }
+
+    links {
+        "Pale_Engine"
+    }
 
     filter "system:windows"
         systemversion "latest"

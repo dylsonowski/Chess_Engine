@@ -3,7 +3,7 @@
 #include "spdlog/sinks/stdout_color_sinks.h"
 #include "spdlog/sinks/basic_file_sink.h"
 
-enum LOGGING_METHOD {
+enum class LOGGING_METHOD {
 	BASIC = 0,
 	FILE_AND_TERMINAL,
 	FILE_ONLY,
@@ -23,6 +23,7 @@ namespace Pale {
 		inline static std::shared_ptr<spdlog::logger> GetClientLogger() { return s_clientLogger; }
 		inline static std::shared_ptr<spdlog::logger> GetTestsLogger() { return s_testsLogger; }
 		inline static std::shared_ptr<spdlog::logger> GetAssertionLogger() { return s_assertionLogger; }
+		inline static std::shared_ptr<spdlog::logger> GetAILogger() { return s_aiLogger; }
 
 	private:
 		static std::shared_ptr<spdlog::sinks::stdout_color_sink_mt> s_consoleSink;
@@ -31,6 +32,7 @@ namespace Pale {
 		static std::shared_ptr<spdlog::logger> s_clientLogger;
 		static std::shared_ptr<spdlog::logger> s_testsLogger;
 		static std::shared_ptr<spdlog::logger> s_assertionLogger;
+		static std::shared_ptr<spdlog::logger> s_aiLogger;
 	};
 }
 
@@ -55,3 +57,8 @@ namespace Pale {
 #define PALE_ASSERTION_INFO(...) ::Pale::Log_System::GetAssertionLogger()->info(__VA_ARGS__)
 #define PALE_ASSERTION_WARN(...) ::Pale::Log_System::GetAssertionLogger()->warn(__VA_ARGS__)
 #define PALE_ASSERTION_ERROR(...) { Pale::Log_System::GetAssertionLogger()->error(__VA_ARGS__); std::cin.get(); exit(EXIT_FAILURE); }
+
+#define PALE_AI_TRACE(...) ::Pale::Log_System::GetAILogger()->trace(__VA_ARGS__)
+#define PALE_AI_INFO(...) ::Pale::Log_System::GetAILogger()->info(__VA_ARGS__)
+#define PALE_AI_WARN(...) ::Pale::Log_System::GetAILogger()->warn(__VA_ARGS__)
+#define PALE_AI_ERROR(...) { Pale::Log_System::GetAILogger()->error(__VA_ARGS__); std::cin.get(); exit(EXIT_FAILURE); }

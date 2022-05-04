@@ -455,15 +455,15 @@ namespace Pale::Chess_Logic {
 			}
 
 			if (check)
-				PALE_ENGINE_TRACE("King is under check.");
+				PALE_ENGINE_TRACE("Piece.h->KingIsChecked() [458]: King is under check.");
 
 			return check;
 		}
 		catch (PaleEngineException& exception) {
 			if (exception.GetType() == 'e')
-				PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
+				PALE_ENGINE_ERROR("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo())
 			else if (exception.GetType() == 'w')
-				PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+				PALE_ENGINE_WARN("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo());
 		}
 	}
 
@@ -487,23 +487,21 @@ namespace Pale::Chess_Logic {
 			if (!kingFound)
 				throw PaleEngineException("Exception happened!", 'e', "Pieces.cpp", 65, "KingCheckMate", KING_NOT_FOUND);
 
-			PALE_ENGINE_TRACE("->Following commands are printed by KingCheckMate function:");
 			if (board.at(kingPos.first).at(kingPos.second)->GenerateLegitMoves(board).size() == 0 && KingIsChecked(board, whichTurn)) {
 				checkMate = true;
 				if (whichTurn == OWNERS::BLACK)
-					PALE_ENGINE_INFO("Black king check mate! White wins!");
+					PALE_ENGINE_INFO("Piece.h->KingCheckMate() [493]: Black king check mate! White wins!");
 				else if (whichTurn == OWNERS::WHITE)
-					PALE_ENGINE_INFO("White king check mate! Black wins!");
+					PALE_ENGINE_INFO("Piece.h->KingCheckMate() [495]: White king check mate! Black wins!");
 			}
-			PALE_ENGINE_TRACE("<-End of KingCheckMate function logs");
 
 			return checkMate;
 		}
 		catch (PaleEngineException& exception) {
 			if (exception.GetType() == 'e')
-				PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
+				PALE_ENGINE_ERROR("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo())
 			else if (exception.GetType() == 'w')
-				PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+				PALE_ENGINE_WARN("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo());
 		}
 	}
 
@@ -606,15 +604,15 @@ namespace Pale::Chess_Logic {
 			}
 
 			if (!pathClear)
-				PALE_ENGINE_TRACE("Path is blocked by another piece.");
+				PALE_ENGINE_TRACE("Piece.h->IsPathClear() [607]: Path is blocked by another piece.");
 
 			return pathClear;
 		}
 		catch (PaleEngineException& exception) {
 			if (exception.GetType() == 'e')
-				PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
+				PALE_ENGINE_ERROR("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo())
 			else if (exception.GetType() == 'w')
-				PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+				PALE_ENGINE_WARN("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo());
 		}
 	}	
 
@@ -682,6 +680,6 @@ namespace Pale::Chess_Logic {
 		None() : Special_Strategy() {}
 		~None() = default;
 
-		void Execute() override { PALE_ENGINE_INFO("This piece do not have any special move to execute!"); }
+		void Execute() override { PALE_ENGINE_INFO("Piece.h->None::Execute() [683]: This piece do not have any special move to execute!"); }
 	};
 }

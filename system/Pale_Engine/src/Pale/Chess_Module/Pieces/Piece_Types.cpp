@@ -57,9 +57,9 @@ namespace Pale::Chess_Logic {
 		}
 		catch (PaleEngineException& exception) {
 			if (exception.GetType() == 'e')
-				PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
+				PALE_ENGINE_ERROR("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo())
 			else if (exception.GetType() == 'w')
-				PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+				PALE_ENGINE_WARN("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo());
 		}
 	}
 
@@ -80,9 +80,9 @@ namespace Pale::Chess_Logic {
 		}
 		catch (PaleEngineException& exception) {
 			if (exception.GetType() == 'e')
-				PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
+				PALE_ENGINE_ERROR("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo())
 			else if (exception.GetType() == 'w')
-				PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+				PALE_ENGINE_WARN("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo());
 		}
 	}
 
@@ -108,7 +108,7 @@ namespace Pale::Chess_Logic {
 		}
 
 		if (!canMove)
-			PALE_ENGINE_TRACE("King piece cannot move to this location.");
+			PALE_ENGINE_TRACE("Piece_Type.cpp->King::MoveLogic() [111]: King piece cannot move to this location.");
 		else {
 			if (_firstMove)
 				_firstMove = false;
@@ -174,7 +174,7 @@ namespace Pale::Chess_Logic {
 			}
 
 			if (!canPerform)
-				PALE_ENGINE_TRACE("King piece cannot perform special move.");
+				PALE_ENGINE_TRACE("Piece_Type.cpp->King::SpecialLogic() [177]: King piece cannot perform special move.");
 			else {
 				if (_firstMove)
 					_firstMove = false;
@@ -237,7 +237,7 @@ namespace Pale::Chess_Logic {
 			}
 
 			if (!canPerform)
-				PALE_ENGINE_TRACE("King piece cannot perform special move.");
+				PALE_ENGINE_TRACE("Piece_Type.cpp->King::SpecialLogic() [240]: King piece cannot perform special move.");
 			else {
 				if (_firstMove)
 					_firstMove = false;
@@ -384,7 +384,7 @@ namespace Pale::Chess_Logic {
 			}
 		}
 
-		PALE_ENGINE_TRACE("Number of moves for piece on cordinats ({0}, {1}): {2}", _positionCords.first, _positionCords.second, tempMoveList.size());
+		PALE_ENGINE_TRACE("Piece_Type.cpp->King::GenerateLegitMoves() [387]: Number of moves for piece on cordinats ({0}, {1}): {2}", _positionCords.first, _positionCords.second, tempMoveList.size());
 		return tempMoveList;
 	}
 
@@ -415,9 +415,9 @@ namespace Pale::Chess_Logic {
 		}
 		catch (PaleEngineException& exception) {
 			if (exception.GetType() == 'e')
-				PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
+				PALE_ENGINE_ERROR("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo())
 			else if(exception.GetType() == 'w')
-				PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+				PALE_ENGINE_WARN("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo());
 		}
 	}
 
@@ -439,9 +439,9 @@ namespace Pale::Chess_Logic {
 		}
 		catch (PaleEngineException& exception) {
 			if (exception.GetType() == 'e')
-				PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
+				PALE_ENGINE_ERROR("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo())
 			else if (exception.GetType() == 'w')
-				PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+				PALE_ENGINE_WARN("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo());
 		}
 	}
 
@@ -475,7 +475,7 @@ namespace Pale::Chess_Logic {
 		}
 
 		if (!canMove)
-			PALE_ENGINE_TRACE("Queen piece cannot move to this location.");
+			PALE_ENGINE_TRACE("Piece_Type.cpp->Queen::MoveLogic() [478]: Queen piece cannot move to this location.");
 		// TODO: Check if work properly
 		return canMove;
 	}
@@ -643,7 +643,7 @@ namespace Pale::Chess_Logic {
 			}
 		}
 
-		PALE_ENGINE_TRACE("Number of moves for piece on cordinats ({0}, {1}): {2}", _positionCords.first, _positionCords.second, tempMoveList.size());
+		PALE_ENGINE_TRACE("Piece_Type.cpp->Queen::GenerateLegitMoves() [646]: Number of moves for piece on cordinats ({0}, {1}): {2}", _positionCords.first, _positionCords.second, tempMoveList.size());
 		return tempMoveList;
 	}
 
@@ -674,9 +674,9 @@ namespace Pale::Chess_Logic {
 		}
 		catch (PaleEngineException& exception) {
 			if (exception.GetType() == 'e')
-				PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
+				PALE_ENGINE_ERROR("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo())
 			else if (exception.GetType() == 'w')
-				PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+				PALE_ENGINE_WARN("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo());
 		}
 	}
 
@@ -698,9 +698,9 @@ namespace Pale::Chess_Logic {
 		}
 		catch (PaleEngineException& exception) {
 			if (exception.GetType() == 'e')
-				PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
+				PALE_ENGINE_ERROR("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo())
 			else if (exception.GetType() == 'w')
-				PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+				PALE_ENGINE_WARN("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo());
 		}
 	}
 
@@ -733,7 +733,7 @@ namespace Pale::Chess_Logic {
 		}
 
 		if(!canMove)
-			PALE_ENGINE_TRACE("Bishop piece cannot move to this location.");
+			PALE_ENGINE_TRACE("Piece_Type.cpp->Bishop::MoveLogic() [736]: Bishop piece cannot move to this location.");
 		// TODO: Check if work properly
 		return canMove;
 	}
@@ -821,7 +821,7 @@ namespace Pale::Chess_Logic {
 			}
 		}
 
-		PALE_ENGINE_TRACE("Number of moves for piece on cordinats ({0}, {1}): {2}", _positionCords.first, _positionCords.second, tempMoveList.size());
+		PALE_ENGINE_TRACE("Piece_Type.cpp->Bishop::GenerateLegitMoves() [824]: Number of moves for piece on cordinats ({0}, {1}): {2}", _positionCords.first, _positionCords.second, tempMoveList.size());
 		return tempMoveList;
 	}
 
@@ -852,9 +852,9 @@ namespace Pale::Chess_Logic {
 		}
 		catch (PaleEngineException& exception) {
 			if (exception.GetType() == 'e')
-				PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
+				PALE_ENGINE_ERROR("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo())
 			else if (exception.GetType() == 'w')
-				PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+				PALE_ENGINE_WARN("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo());
 		}
 	}
 
@@ -876,9 +876,9 @@ namespace Pale::Chess_Logic {
 		}
 		catch (PaleEngineException& exception) {
 			if (exception.GetType() == 'e')
-				PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
+				PALE_ENGINE_ERROR("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo())
 			else if (exception.GetType() == 'w')
-				PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+				PALE_ENGINE_WARN("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo());
 		}
 	}
 
@@ -905,7 +905,7 @@ namespace Pale::Chess_Logic {
 		}
 
 		if (!canMove)
-			PALE_ENGINE_TRACE("Knight piece cannot move to this location.");
+			PALE_ENGINE_TRACE("Piece_Type.cpp->Knight::MoveLogic() [908]: Knight piece cannot move to this location.");
 		// TODO: Check if work properly
 		return canMove;
 	}
@@ -1025,7 +1025,7 @@ namespace Pale::Chess_Logic {
 			}
 		}
 
-		PALE_ENGINE_TRACE("Number of moves for piece on cordinats ({0}, {1}): {2}", _positionCords.first, _positionCords.second, tempMoveList.size());
+		PALE_ENGINE_TRACE("Piece_Type.cpp->Knight::GenerateLegitMoves() [1028]: Number of moves for piece on cordinats ({0}, {1}): {2}", _positionCords.first, _positionCords.second, tempMoveList.size());
 		return tempMoveList;
 	}
 
@@ -1054,9 +1054,9 @@ namespace Pale::Chess_Logic {
 		}
 		catch (PaleEngineException& exception) {
 			if (exception.GetType() == 'e')
-				PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
+				PALE_ENGINE_ERROR("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo())
 			else if (exception.GetType() == 'w')
-				PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+				PALE_ENGINE_WARN("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo());
 		}
 	}
 
@@ -1077,9 +1077,9 @@ namespace Pale::Chess_Logic {
 		}
 		catch (PaleEngineException& exception) {
 			if (exception.GetType() == 'e')
-				PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
+				PALE_ENGINE_ERROR("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo())
 			else if (exception.GetType() == 'w')
-				PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+				PALE_ENGINE_WARN("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo());
 		}
 	}
 
@@ -1112,7 +1112,7 @@ namespace Pale::Chess_Logic {
 		}
 
 		if (!canMove)
-			PALE_ENGINE_TRACE("Rook piece cannot move to this location.");
+			PALE_ENGINE_TRACE("Piece_Type.cpp->Rook::MoveLogic() [1115]: Rook piece cannot move to this location.");
 		else {
 			if (_firstMove)
 				_firstMove = false;
@@ -1178,7 +1178,7 @@ namespace Pale::Chess_Logic {
 			}
 
 			if (!canPerform)
-				PALE_ENGINE_TRACE("Rook piece cannot perform special move.");
+				PALE_ENGINE_TRACE("Piece_Type.cpp->Rook::SpecialLogic() [1181]: Rook piece cannot perform special move.");
 			else {
 				if (_firstMove)
 					_firstMove = false;
@@ -1241,7 +1241,7 @@ namespace Pale::Chess_Logic {
 			}
 
 			if (!canPerform)
-				PALE_ENGINE_TRACE("Rook piece cannot perform special move.");
+				PALE_ENGINE_TRACE("Piece_Type.cpp->Rook::SpecialLogic() [1244]: Rook piece cannot perform special move.");
 			else {
 				if (_firstMove)
 					_firstMove = false;
@@ -1356,7 +1356,7 @@ namespace Pale::Chess_Logic {
 			}
 		}
 
-		PALE_ENGINE_TRACE("Number of moves for piece on cordinats ({0}, {1}): {2}", _positionCords.first, _positionCords.second, tempMoveList.size());
+		PALE_ENGINE_TRACE("Piece_Type.cpp->Rook::GenerateLegitMoves() [1359]: Number of moves for piece on cordinats ({0}, {1}): {2}", _positionCords.first, _positionCords.second, tempMoveList.size());
 		return tempMoveList;
 	}
 
@@ -1385,9 +1385,9 @@ namespace Pale::Chess_Logic {
 		}
 		catch (PaleEngineException& exception) {
 			if (exception.GetType() == 'e')
-				PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
+				PALE_ENGINE_ERROR("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo())
 			else if (exception.GetType() == 'w')
-				PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+				PALE_ENGINE_WARN("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo());
 		}
 	}
 
@@ -1408,9 +1408,9 @@ namespace Pale::Chess_Logic {
 		}
 		catch (PaleEngineException& exception) {
 			if (exception.GetType() == 'e')
-				PALE_ENGINE_ERROR("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo())
+				PALE_ENGINE_ERROR("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo())
 			else if (exception.GetType() == 'w')
-				PALE_ENGINE_WARN("{0} [{1}]: {2}", exception.GetFile(), exception.GetLine(), exception.GetInfo());
+				PALE_ENGINE_WARN("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo());
 		}
 	}
 
@@ -1451,7 +1451,7 @@ namespace Pale::Chess_Logic {
 		}
 
 		if (!canMove)
-			PALE_ENGINE_TRACE("Pawn piece cannot move to this location.");
+			PALE_ENGINE_TRACE("Piece_Type.cpp->Pawn::MoveLogic() [1454]: Pawn piece cannot move to this location.");
 		else {
 			if (abs(static_cast<int>(_positionCords.first) - static_cast<int>(endPos.first)) > 1 && _firstMove)
 				_movedByTwo = true;
@@ -1507,7 +1507,7 @@ namespace Pale::Chess_Logic {
 			}
 
 			if (!canPerform)
-				PALE_ENGINE_TRACE("Pawn piece cannot perform special move.");
+				PALE_ENGINE_TRACE("Piece_Type.cpp->Pawn::SpecialLogic() [1510]: Pawn piece cannot perform special move.");
 			else
 				_specialMove = std::make_shared<Promotion>(_positionCords, endPos, board, newPiece.value());
 		}
@@ -1552,7 +1552,7 @@ namespace Pale::Chess_Logic {
 			}
 
 			if (!canPerform)
-				PALE_ENGINE_TRACE("Pawn piece cannot perform special move.");
+				PALE_ENGINE_TRACE("Piece_Type.cpp->Pawn::SpecialLogic() [1555]: Pawn piece cannot perform special move.");
 			else
 				_specialMove = std::make_shared<En_Passant>(_positionCords, endPos, board, _owner);
 		}
@@ -1787,7 +1787,7 @@ namespace Pale::Chess_Logic {
 			}
 		}
 
-		PALE_ENGINE_TRACE("Number of moves for piece on cordinats ({0}, {1}): {2}", _positionCords.first, _positionCords.second, tempMoveList.size());
+		PALE_ENGINE_TRACE("Piece_Type.cpp->Pawn::GenerateLegitMoves() [1790]: Number of moves for piece on cordinats ({0}, {1}): {2}", _positionCords.first, _positionCords.second, tempMoveList.size());
 		return tempMoveList;
 	}
 }
