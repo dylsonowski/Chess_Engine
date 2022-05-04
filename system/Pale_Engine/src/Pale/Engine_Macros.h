@@ -28,6 +28,7 @@
 #define NN__DELTA_WEIGHTS_MATRIX_INVALID_SIZE "One of delta weights matrix dimensions is incorrect!"
 #define NN__DELTA_BIASES_MATRIX_INVALID_SIZE "One of delta biases matrix dimensions is incorrect!"
 #define NN__INVALID_DATA_SIZE "Passed data size is invalid!"
+#define NN__INVALID_LAYER "Cannot perform this operation on specified layer type!"
 
 //--- Warnings codes ---//
 #define INVALID_PIECE_ID "No corresponding chess piece of the given ID! Insertion failed!"

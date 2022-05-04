@@ -69,10 +69,10 @@ namespace Pale::AI_Module {
 		return os << data.ToString();
 	}
 
-	inline std::pair<Data_Set, Data_Set> SplitDataSet(const Data_Set& dataSet, unsigned short int splitDistribution) {
+	inline std::pair<Data_Set, Data_Set> SplitDataSet(const Data_Set& dataSet, float splitDistribution) {
 		std::vector<std::vector<double>> inputDataSet1, targetDataSet1, inputDataSet2, targetDataSet2;
 
-		const unsigned short int dataSet1Size = Math::ProportionCalculation(splitDistribution, dataSet.m_dataSetSize);
+		const unsigned short int dataSet1Size = Math::ProportionCalculation(splitDistribution * 100, dataSet.m_dataSetSize);
 		for (int dataSetIterator = 0; dataSetIterator < dataSet.m_dataSetSize; dataSetIterator++) {
 			if (dataSetIterator < dataSet1Size) {
 				inputDataSet1.emplace_back(dataSet.m_data.at(dataSetIterator).first);

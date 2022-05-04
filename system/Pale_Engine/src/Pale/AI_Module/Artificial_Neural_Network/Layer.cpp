@@ -81,12 +81,31 @@ namespace Pale::AI_Module {
     }
 
     void Layer::LoadNeuronInputWeights(unsigned short int neuronId, const std::vector<double>& weightsValues) {
-        for (int neuronInputWeightsIterator = 0; neuronInputWeightsIterator < _layer.at(neuronId)->GetInputWeightsNumber(); neuronInputWeightsIterator++) {
-            _layer.at(neuronId)->SetInputWeight(neuronInputWeightsIterator, weightsValues.at(neuronInputWeightsIterator));
+        try {
+            if(_inputLayer)
+                throw PaleEngineException("Exception happened!", 'e', "Layer.cpp", 86, "LoadNeuronInputWeights()", NN__INVALID_LAYER);
+            
+            if (neuronId >= _layer.size())
+                throw PaleEngineException("Exception happened!", 'e', "Layer.cpp", 89, "LoadNeuronInputWeights()", VEC_OUT_OF_RANGE);
 
-            double actualWeightValue = _layer.at(neuronId)->GetWeight(neuronInputWeightsIterator), expectedWeightValue = weightsValues.at(neuronInputWeightsIterator);
+            if(weightsValues.size() != _layer.at(neuronId)->GetInputWeightsNumber())
+                throw PaleEngineException("Exception happened!", 'e', "Layer.cpp", 92, "LoadNeuronInputWeights()", NN__INVALID_DATA_SIZE);
 
-            assert(AssertionHandling(_layer.at(neuronId)->GetWeight(neuronInputWeightsIterator) == weightsValues.at(neuronInputWeightsIterator), "Artificial_Neural_Net.cpp->LoadNeuronInputWeights() [86]: Assertion failed! Value = " + std::to_string(actualWeightValue) + " should be equal: " + std::to_string(expectedWeightValue) + "!"));
+            for (int neuronInputWeightsIterator = 0; neuronInputWeightsIterator < _layer.at(neuronId)->GetInputWeightsNumber(); neuronInputWeightsIterator++) {
+                _layer.at(neuronId)->SetInputWeight(neuronInputWeightsIterator, weightsValues.at(neuronInputWeightsIterator));
+
+                double actualWeightValue = _layer.at(neuronId)->GetWeight(neuronInputWeightsIterator), expectedWeightValue = weightsValues.at(neuronInputWeightsIterator);
+
+                assert(AssertionHandling(_layer.at(neuronId)->GetWeight(neuronInputWeightsIterator) == weightsValues.at(neuronInputWeightsIterator), "Artificial_Neural_Net.cpp->LoadNeuronInputWeights() [99]: Assertion failed! Value = " + std::to_string(actualWeightValue) + " should be equal: " + std::to_string(expectedWeightValue) + "!"));
+            }
+
+            PALE_ENGINE_INFO("Artificial_Neural_Net.cpp->LoadNeuronInputWeights() [102]: Input weights loading process for neuron {0} in layer {1} ended up successfully!", neuronId, _layerId);
+        }
+        catch (PaleEngineException& exception) {
+            if (exception.GetType() == 'e')
+                PALE_ENGINE_ERROR("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo())
+            else if (exception.GetType() == 'w')
+                PALE_ENGINE_WARN("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo());
         }
     }
 

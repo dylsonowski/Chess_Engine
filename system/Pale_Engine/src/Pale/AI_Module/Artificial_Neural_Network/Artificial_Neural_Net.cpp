@@ -17,7 +17,7 @@ namespace Pale::AI_Module {
 					_network.emplace_back(std::make_shared<Layer>(networkIterator, topology.at(networkIterator), 1, false, topology.at(networkIterator - 1)));
 			}
 
-			PALE_ENGINE_INFO("Artificial_Neural_Net.cpp->Artificial_Neural_Net constructor [20]: New instance of artificial neural network has been created! Network size: {0}. Size of input layer: {1}. Size of output layer: {2}.", _network.size(), _network.at(0)->GetLayerSize(), _network.at(_topology.size() - 1)->GetLayerSize());
+			PALE_ENGINE_INFO("Artificial_Neural_Net.cpp->Artificial_Neural_Net constructor [20]: New instance of artificial neural network of name '{0}' has been created! Network size: {1}. Size of input layer: {2}. Size of output layer: {3}.", _networkName, _network.size(), _network.at(0)->GetLayerSize(), _network.at(_topology.size() - 1)->GetLayerSize());
 		}
 		catch (PaleEngineException& exception) {
 			if (exception.GetType() == 'e')
@@ -127,6 +127,7 @@ namespace Pale::AI_Module {
 				throw PaleEngineException("Exception happened!", 'e', "Artificial_Neural_Net.cpp", 127, "LoadWeights()", FILE_OPEN_ERROR);
 
 			inputFile >> weightsFile;
+			inputFile.close();
 
 			if(importLogs)
 				PALE_ENGINE_TRACE("Artificial_Neural_Net.cpp->LoadWeights() [132]: Weights values has been imported! Json content: {0}.", weightsFile.dump());
@@ -136,12 +137,14 @@ namespace Pale::AI_Module {
 			assert(AssertionHandling(_networkName == weightsFile["name"].get<std::string>(), "Artificial_Neural_Net.cpp->LoadWeights() [135]: Assertion failed! Value = " + _networkName + " should be equal: " + weightsFile["name"].get<std::string>() + "!"));
 
 			//--- Importing layers weights values ---//
-			for (const auto networkIterator : _network) {
-				for (int layerIterator = 0; layerIterator < networkIterator->GetLayerSize(); layerIterator++) {
-					for()
-					networkIterator->SetNeuronWeight(layerIterator, )
+			for (int networkIterator = 1; networkIterator < _network.size(); networkIterator++) {
+				for (int layerIterator = 0; layerIterator < _network.at(networkIterator)->GetLayerSize(); layerIterator++) {
+					std::vector<double> tempImportingWeightsVector = weightsFile["layer" + std::to_string(networkIterator)][layerIterator].get<std::vector<double>>();
+					_network.at(networkIterator)->LoadNeuronInputWeights(layerIterator, tempImportingWeightsVector);
 				}
 			}
+
+			PALE_ENGINE_INFO("Artificial_Neural_Net.cpp->LoadWeights() [146]: Weights values from file {0} has been loaded into network: {1}.", path, _networkName);
 		}
 		catch (PaleEngineException& exception) {
 			if (exception.GetType() == 'e')
