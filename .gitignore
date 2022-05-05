@@ -9,3 +9,14 @@ bin-int/
 system/Chess_Game/logs/*
 system/Automation_Tests/logs/*
 system/AI_Playground/logs/*
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.lof
+*.log
+*.lot
+*.out
+*.toc
+*.xml
+*.gz
