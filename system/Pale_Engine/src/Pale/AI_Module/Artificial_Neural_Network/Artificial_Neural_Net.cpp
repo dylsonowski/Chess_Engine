@@ -72,6 +72,35 @@ namespace Pale::AI_Module {
 			}
 
 			PALE_ENGINE_INFO("Artificial_Neural_Net.cpp->Train() [66]: Training process of network named '{0}' has been finished! Final model accuracy: {1}.", _networkName, correctPredictions);
+
+			char saveWeightsAnswer;
+			std::cout << "Training process finished! Save network weights values?: ";
+			std::cin >> saveWeightsAnswer;
+
+			if (saveWeightsAnswer == 'Y' || saveWeightsAnswer == 'y') {
+				std::string fileName, filePath;
+				char logEverything;
+				bool logEverythingBool = false;
+
+				std::cout << "\nFile name (insert '-' to skip): ";
+				std::cin >> fileName;
+
+				std::cout << "\nPath to file (insert '-' to skip): ";
+				std::cin >> filePath;
+
+				std::cout << "\nLog everything? (insert '-' to skip): ";
+				std::cin >> logEverything;
+
+				if (logEverything != '-' && (logEverything == 'Y' || logEverything == 'y'))
+					logEverythingBool = true;
+
+				if (fileName != "-" && filePath != "-")
+					SaveWeights(fileName, filePath, logEverythingBool);
+				else if (fileName != "-" && filePath == "-")
+					SaveWeights(fileName);
+				else
+					SaveWeights(std::optional<std::string>());
+			}
 		}
 		catch (PaleEngineException& exception) {
 			if (exception.GetType() == 'e')

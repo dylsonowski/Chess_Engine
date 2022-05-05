@@ -48,8 +48,8 @@ namespace Pale::AI_Module {
 
 		//--- Void functions ---//
 		void Train(const Data_Set& trainSet, const Data_Set& testSet, unsigned short int epochs, bool printErrors = false, float acceptanceCriteriaPerNeuron = 0.2f, bool pauseTraining = false);
-		void SaveWeights(std::optional<std::string> fileName, std::string weightsFilePath = "./Saved Weights/", bool extractionLogs = false) const;
-		void LoadWeights(std::string fileName, std::string weightsFilePath = "./Saved Weights/", bool importLogs = false);
+		void SaveWeights(std::optional<std::string> fileName, std::string weightsFilePath = "./weights", bool extractionLogs = false) const;
+		void LoadWeights(std::string fileName, std::string weightsFilePath = "./weights", bool importLogs = false);
 
 		//--- Returning functions ---//
 		std::string ToString() const;

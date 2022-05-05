@@ -68,14 +68,13 @@ int main(int argc, char** argv) {
 		Pale::AI_Module::Data_Set xorDataSet(inputData, targetData);
 		std::pair<Pale::AI_Module::Data_Set, Pale::AI_Module::Data_Set> splitedDataSet = Pale::AI_Module::SplitDataSet(xorDataSet, 0.7f);
 		Pale::AI_Module::Artificial_Neural_Net newNeuralNetwork({ 2,2,1 }, "XOR Recognizing Neural Net", 0.1f);
-		//newNeuralNetwork.Train(splitedDataSet.first.ShuffleDataSet(), splitedDataSet.second, 50, false, 0.2f);
-		newNeuralNetwork.SaveWeights("SaveWeightsTestFile", "./Saved Weights/testing", true);
+		newNeuralNetwork.Train(splitedDataSet.first.ShuffleDataSet(), splitedDataSet.second, 50, false, 0.2f);
 
-		Pale::AI_Module::Artificial_Neural_Net freshNeuralNetwork({ 2,2,1 }, "Newly created XOR Neural Net");
-		freshNeuralNetwork.LoadWeights("SaveWeightsTestFile", "./Saved Weights/testing", true);
+		/*Pale::AI_Module::Artificial_Neural_Net freshNeuralNetwork({ 2,2,1 }, "Newly created XOR Neural Net");
+		freshNeuralNetwork.LoadWeights("SaveWeightsTestFile", "./weights/testing", true);*/
 
 		std::cout << newNeuralNetwork << "\n";
-		std::cout << freshNeuralNetwork << "\n";
+		//std::cout << freshNeuralNetwork << "\n";
 		std::cin.get();
 	}
 	catch (PaleEngineException& exception) {
