@@ -92,6 +92,7 @@
       <Filter>Pale\User_Interface</Filter>
     </ClInclude>
     <ClInclude Include="src\palepch.h" />
+    <ClInclude Include="src\Pale\AI_Module\Game_Tree\Game_Tree.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pale\AI_Module\Artificial_Neural_Network\Artificial_Neural_Net.cpp">
@@ -137,5 +138,6 @@
       <Filter>Pale\User_Interface</Filter>
     </ClCompile>
     <ClCompile Include="src\palepch.cpp" />
+    <ClCompile Include="src\Pale\AI_Module\Game_Tree\Game_Tree.cpp" />
   </ItemGroup>
 </Project>
