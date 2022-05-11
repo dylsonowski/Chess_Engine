@@ -737,6 +737,11 @@ namespace Pale::Chess_Logic {
 		}
 	}
 
+	template<typename T>
+	void Board_Representation<T>::SetPlateValue(unsigned int rowIt, unsigned int columnIt, T value) {
+		throw PaleEngineException("Exception happened!", 'w', "Board_Representation.cpp", 742, "SetPlateValue()", INVALID_FUNCTION_TEMPLATE_TYPE);
+	}
+
 	//--- Set of function returning coordinates of king piece ---//
 	// IMPORTANT: Use to determine if king is under checkmate
 	template<>
@@ -857,5 +862,29 @@ namespace Pale::Chess_Logic {
 			else if (exception.GetType() == 'w')
 				PALE_ENGINE_WARN("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo());
 		}
+	}
+
+	//--- Set of function returning list of legit moves for given board situation ---//
+	template<>
+	std::vector<Move_Command> Board_Representation<std::shared_ptr<Pieces>>::GenerateLegitMovesList(OWNERS whichPlayerTurn) const {
+		std::vector<std::vector<std::shared_ptr<Pieces>>> tempBoard = _board;
+		std::vector<Move_Command> tempLegitMovesList;
+		for (const auto rowsIterator : _board) {
+			for (const auto columnIterator : rowsIterator) {
+				if (columnIterator->GetOwner() == whichPlayerTurn) {
+					std::vector<Move_Command> tempPieceLegitMoves = columnIterator->GenerateLegitMoves(tempBoard);
+					tempLegitMovesList.insert(tempLegitMovesList.end(), tempPieceLegitMoves.begin(), tempPieceLegitMoves.end());
+				}
+			}
+		}
+
+		PALE_ENGINE_INFO("Board_Representation.cpp->Board_Representation<std::shared_ptr<Pieces>>::GenerateLegitMovesList() [879]: List of all legit moves for given board situation has been generated! Size of legit moves list: {0}.", tempLegitMovesList.size());
+
+		return tempLegitMovesList;
+	}
+
+	template<typename T>
+	std::vector<Move_Command> Board_Representation<T>::GenerateLegitMovesList(OWNERS whichPlayerTurn) const {
+		throw PaleEngineException("Exception happened!", 'w', "Board_Representation.cpp", 874, "SetPlateValue()", INVALID_FUNCTION_TEMPLATE_TYPE);
 	}
 }

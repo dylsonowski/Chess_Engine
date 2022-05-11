@@ -51,30 +51,30 @@ int main(int argc, char** argv) {
 		std::cout << "Transpose matrix result:\n" << ~firstMatrix << "\n\n\n";*/
 
 		//--- AI testing ---//
-		std::vector<std::pair<std::vector<double>, std::vector<double>>> xor = {
-			{{0, 0}, {0}},
-			{{0, 1}, {1}},
-			{{1, 0}, {1}},
-			{{1, 1}, {0}}
-		};
+		//std::vector<std::pair<std::vector<double>, std::vector<double>>> xor = {
+		//	{{0, 0}, {0}},
+		//	{{0, 1}, {1}},
+		//	{{1, 0}, {1}},
+		//	{{1, 1}, {0}}
+		//};
 
-		std::vector<std::vector<double>> inputData, targetData;
-		for (int dataSetIterator = 0; dataSetIterator < 1000; dataSetIterator++) {
-			auto chosenEntry = xor.at(Pale::Math::GenerateRandomNumber<int>(0, xor.size() - 1));
-			inputData.emplace_back(chosenEntry.first);
-			targetData.emplace_back(chosenEntry.second);
-		}
+		//std::vector<std::vector<double>> inputData, targetData;
+		//for (int dataSetIterator = 0; dataSetIterator < 1000; dataSetIterator++) {
+		//	auto chosenEntry = xor.at(Pale::Math::GenerateRandomNumber<int>(0, xor.size() - 1));
+		//	inputData.emplace_back(chosenEntry.first);
+		//	targetData.emplace_back(chosenEntry.second);
+		//}
 
-		Pale::AI_Module::Data_Set xorDataSet(inputData, targetData);
-		std::pair<Pale::AI_Module::Data_Set, Pale::AI_Module::Data_Set> splitedDataSet = Pale::AI_Module::SplitDataSet(xorDataSet, 0.7f);
-		Pale::AI_Module::Artificial_Neural_Net newNeuralNetwork({ 2,2,1 }, "XOR Recognizing Neural Net", 0.1f);
-		newNeuralNetwork.Train(splitedDataSet.first.ShuffleDataSet(), splitedDataSet.second, 50, false, 0.2f);
+		//Pale::AI_Module::Data_Set xorDataSet(inputData, targetData);
+		//std::pair<Pale::AI_Module::Data_Set, Pale::AI_Module::Data_Set> splitedDataSet = Pale::AI_Module::SplitDataSet(xorDataSet, 0.7f);
+		//Pale::AI_Module::Artificial_Neural_Net newNeuralNetwork({ 2,2,1 }, "XOR Recognizing Neural Net", 0.1f);
+		//newNeuralNetwork.Train(splitedDataSet.first.ShuffleDataSet(), splitedDataSet.second, 50, false, 0.2f);
 
-		/*Pale::AI_Module::Artificial_Neural_Net freshNeuralNetwork({ 2,2,1 }, "Newly created XOR Neural Net");
-		freshNeuralNetwork.LoadWeights("SaveWeightsTestFile", "./weights/testing", true);*/
+		///*Pale::AI_Module::Artificial_Neural_Net freshNeuralNetwork({ 2,2,1 }, "Newly created XOR Neural Net");
+		//freshNeuralNetwork.LoadWeights("SaveWeightsTestFile", "./weights/testing", true);*/
 
-		std::cout << newNeuralNetwork << "\n";
-		//std::cout << freshNeuralNetwork << "\n";
+		//std::cout << newNeuralNetwork << "\n";
+		////std::cout << freshNeuralNetwork << "\n";
 		std::cin.get();
 	}
 	catch (PaleEngineException& exception) {

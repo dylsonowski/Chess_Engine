@@ -54,6 +54,7 @@ namespace Pale::Chess_Logic {
 				return false;
 		}
 		const std::pair<unsigned int, unsigned int> GetKingCords(OWNERS kingOwner) const;
+		std::vector<Move_Command> GenerateLegitMovesList(OWNERS whichPlayerTurn) const;
 
 		std::string ToString() const;
 
