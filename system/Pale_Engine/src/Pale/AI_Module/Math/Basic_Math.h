@@ -3,8 +3,9 @@
 namespace Pale::Math {
 	//--- Activation functions ---//
 	inline double SigmoidFunction(double value) { return 1 / (1 + exp(-value)); }
-
 	inline double DSigmoigFunction(double value) { return value * (1 - value); }
+
+	inline double ReLuFunction(double value) { return std::max(static_cast<double>(0), value); }
 
 	//--- Random number generating function ---//
 	template<typename T>
@@ -26,4 +27,5 @@ namespace Pale::Math {
 	inline unsigned short int PrecentageCalculation(double value, double maxValue) { return (value * 100) / maxValue; }
 	inline unsigned short int ProportionCalculation(unsigned short int precentage, double maxValue) { return (precentage * maxValue) / 100; }
 	template<typename T> inline T AbsoluteValueCalculation(T value) { return std::abs(value); }
+	template<typename T, class _Fn> inline T MapCoordinatesValue(T value, _Fn mappingFunction) { return mappingFunction(value); }
 }

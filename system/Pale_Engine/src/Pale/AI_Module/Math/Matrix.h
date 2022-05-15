@@ -36,6 +36,7 @@ namespace Pale::Math {
         inline unsigned short int GetRowsNumber() const { return _rows; }
         inline unsigned short int GetColumnsNumber() const { return _columns; }
         inline double GetValue(unsigned short int row, unsigned short int column) const { return _matrix.at(row).at(column); }
+        inline std::pair<unsigned short int, unsigned short int> GetMatrixSize() const { return std::make_pair(_rows, _columns); }
 
         //--- Overloaded operators ---//
         inline Matrix operator+(const Matrix& other) {
@@ -264,6 +265,37 @@ namespace Pale::Math {
 
             PALE_ENGINE_INFO("Matrix.h->AccumulateMatrixValues() [265]: Values of the matrix has been accumulated! Output value: {0}.", accumulatedValues);
             return accumulatedValues;
+        }
+        inline static Matrix ConvolutionOperation(const Matrix& input, const Matrix& kernel, const Matrix& bias, unsigned short int stride = 1) {
+            try {
+                unsigned short int outputYDimention = MapCoordinatesValue<unsigned short int>(input._rows, [&kernel, &stride](unsigned short int value) {
+                    return floor((value - kernel.GetRowsNumber()) / stride) + 1;
+                    });
+
+                unsigned short int outputXDimention = MapCoordinatesValue<unsigned short int>(input._columns, [&kernel, &stride](unsigned short int value) {
+                    return floor((value - kernel.GetColumnsNumber()) / stride) + 1;
+                    });
+
+                Matrix outputMatrix(outputYDimention, outputXDimention, false);
+                if (outputMatrix.GetMatrixSize() != bias.GetMatrixSize())
+                    throw PaleEngineException("Exception happened!", 'e', "Matrix.h", 281, "ConvolutionOperation()", MATH__MATRICES_DIMENTIONS_INCORRECT);
+
+                for (int inputRowsIterator = 0; inputRowsIterator < input._rows; inputRowsIterator++) {
+                    for (int inputColumnsIterator = 0; inputColumnsIterator < input._columns; inputColumnsIterator++) {
+                        for (int kernelRowsIterator = 0; kernelRowsIterator < kernel._rows; kernelRowsIterator++) {
+                            for (int kernelColumnsIterator = 0; kernelColumnsIterator < kernel._columns; kernelColumnsIterator++) {
+
+                            }
+                        }
+                    }
+                }
+            }
+            catch (PaleEngineException& exception) {
+                if (exception.GetType() == 'e')
+                    PALE_ENGINE_ERROR("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo())
+                else if (exception.GetType() == 'w')
+                    PALE_ENGINE_WARN("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo());
+            }
         }
 
     private:
