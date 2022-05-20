@@ -21,6 +21,7 @@
 #define UI_INVALID_AI_NUMBER "In case of chess game there can be only 2 players. Maximal number of AI instances is 2!"
 #define KING_NOT_FOUND	"Application was unable to locate king piece on the board. It could mean it has been removed or not placed at all. Game cannot continue without king piece!"
 #define MATH__MATRICES_DIMENTIONS_INCORRECT "Operation cannot be performed because some dimensions are incorrect!"
+#define MATH__INPUT_VECTOR_INVALID_SIZE "Specified input vector have incompatible size!"
 #define NN__PREVIOUS_LAYER_INVALID_SIZE "Calculation interrupted! Passed layer have different size than input weights vector!"
 #define NN__INCORRECT_TOPOLOGY_SIZE "Specified topology size is incorrect! Neural network needs to have at least 1 hidden layer."
 #define NN__INCOMPATIBLE_BIASES_NUMBER "Number of biases have to be the same as layer size!"

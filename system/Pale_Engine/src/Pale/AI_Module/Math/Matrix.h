@@ -18,12 +18,34 @@ namespace Pale::Math {
             PALE_ENGINE_INFO("Matrix.h->Matrix constructor [17]: New Matrix object has been created! Matrix dimensions: {0}x{1}. First matrix value: {2}", _rows, _columns, _matrix.at(0).at(0));
         }
         Matrix(unsigned short int rows, unsigned short int columns, std::vector<double> values): _rows(rows), _columns(columns) {
-            int vectorIterator = 0;
+            try {
+                if (values.size() != rows * columns)
+                    throw PaleEngineException("Exception happened!", 'e', "Matrix.h", 23, "Matrix constructor", MATH__INPUT_VECTOR_INVALID_SIZE);
+
+                int vectorIterator = 0;
+                for (int rowIterator = 0; rowIterator < rows; rowIterator++) {
+                    std::vector<double> tempRow;
+                    for (int columnIterator = 0; columnIterator < columns; columnIterator++) {
+                        tempRow.emplace_back(values.at(vectorIterator));
+                        vectorIterator++;
+                    }
+                    _matrix.emplace_back(tempRow);
+                }
+
+                PALE_ENGINE_INFO("Matrix.h->Matrix constructor [28]: New Matrix object has been created! Matrix dimensions: {0}x{1}. First matrix value: {2}", _rows, _columns, _matrix.at(0).at(0));
+            }
+            catch (PaleEngineException& exception) {
+                if (exception.GetType() == 'e')
+                    PALE_ENGINE_ERROR("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo())
+                else if (exception.GetType() == 'w')
+                    PALE_ENGINE_WARN("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo());
+            }
+        }
+        Matrix(unsigned short int rows, unsigned short int columns, double fillValue) : _rows(rows), _columns(columns) {
             for (int rowIterator = 0; rowIterator < rows; rowIterator++) {
                 std::vector<double> tempRow;
                 for (int columnIterator = 0; columnIterator < columns; columnIterator++) {
-                    tempRow.emplace_back(values.at(vectorIterator));
-                    vectorIterator++;
+                    tempRow.emplace_back(fillValue);
                 }
                 _matrix.emplace_back(tempRow);
             }
@@ -276,19 +298,27 @@ namespace Pale::Math {
                     return floor((value - kernel.GetColumnsNumber()) / stride) + 1;
                     });
 
-                Matrix outputMatrix(outputYDimention, outputXDimention, false);
-                if (outputMatrix.GetMatrixSize() != bias.GetMatrixSize())
+                std::vector<double> tempOutputValues;
+                if (outputYDimention != bias.GetRowsNumber() || outputXDimention != bias.GetColumnsNumber())
                     throw PaleEngineException("Exception happened!", 'e', "Matrix.h", 281, "ConvolutionOperation()", MATH__MATRICES_DIMENTIONS_INCORRECT);
 
-                for (int inputRowsIterator = 0; inputRowsIterator < input._rows; inputRowsIterator++) {
-                    for (int inputColumnsIterator = 0; inputColumnsIterator < input._columns; inputColumnsIterator++) {
-                        for (int kernelRowsIterator = 0; kernelRowsIterator < kernel._rows; kernelRowsIterator++) {
-                            for (int kernelColumnsIterator = 0; kernelColumnsIterator < kernel._columns; kernelColumnsIterator++) {
-
+                for (int inputRowsIterator = 0; inputRowsIterator < input._rows; inputRowsIterator+=stride) {
+                    for (int inputColumnsIterator = 0; inputColumnsIterator < input._columns; inputColumnsIterator+=stride) {
+                        if (inputRowsIterator + kernel._rows <= input._rows && inputColumnsIterator + kernel._columns <= input._columns) {
+                            double tempSum = 0;
+                            for (int kernelRowsIterator = 0; kernelRowsIterator < kernel._rows; kernelRowsIterator++) {
+                                for (int kernelColumnsIterator = 0; kernelColumnsIterator < kernel._columns; kernelColumnsIterator++) {
+                                    tempSum += input.GetValue(inputRowsIterator + kernelRowsIterator, inputColumnsIterator + kernelColumnsIterator) * kernel.GetValue(kernelRowsIterator, kernelColumnsIterator);
+                                }
                             }
+                            tempOutputValues.emplace_back(tempSum);
                         }
                     }
                 }
+
+                PALE_ENGINE_INFO("Matrix.h->ConvolutionOperation() [306]: Successfully performed convolution operation! Output matrix dimension: {0}x{1}. First matrix value: {2}.", outputYDimention, outputXDimention, tempOutputValues.at(0));
+
+                return Matrix(outputYDimention, outputXDimention, tempOutputValues) + bias;
             }
             catch (PaleEngineException& exception) {
                 if (exception.GetType() == 'e')

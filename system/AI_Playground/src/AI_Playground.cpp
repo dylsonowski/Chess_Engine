@@ -3,6 +3,15 @@
 int main(int argc, char** argv) {
 	try {
 		LOG_SYSTEM_INIT(LOGGING_METHOD::BASIC);
+		//--- Convolutional neural network testing ---//
+		Pale::Math::Matrix input(5, 5, { 1,1,1,0,0,0,1,1,1,0,0,0,1,1,1,0,0,1,1,0,0,1,1,0,0 });
+		Pale::Math::Matrix kernel(3, 3, { 1,0,1,0,1,0,1,0,1 });
+		Pale::Math::Matrix bias(3, 3, 1.f);
+		std::cout << "Input matrix:\n" << input << "\n\n";
+		std::cout << "Kernel matrix:\n" << kernel << "\n\n";
+		std::cout << "Bias matrix:\n" << bias << "\n\n\n\n";
+		std::cout << "Convolution operation output matrix:\n" << Pale::Math::Matrix::ConvolutionOperation(input, kernel, bias) << "\n";
+
 		//--- Json handling testing ---//
 		/*nlohmann::json file1 = {
 			{"name", "NN 1"},
