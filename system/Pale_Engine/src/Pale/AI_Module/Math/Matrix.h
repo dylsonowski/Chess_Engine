@@ -290,20 +290,15 @@ namespace Pale::Math {
         }
         inline static Matrix ConvolutionOperation(const Matrix& input, const Matrix& kernel, const Matrix& bias, unsigned short int stride = 1) {
             try {
-                unsigned short int outputYDimention = MapCoordinatesValue<unsigned short int>(input._rows, [&kernel, &stride](unsigned short int value) {
-                    return floor((value - kernel.GetRowsNumber()) / stride) + 1;
-                    });
-
-                unsigned short int outputXDimention = MapCoordinatesValue<unsigned short int>(input._columns, [&kernel, &stride](unsigned short int value) {
-                    return floor((value - kernel.GetColumnsNumber()) / stride) + 1;
-                    });
+                unsigned short int outputYDimention = floor((input._rows - kernel._rows) / stride) + 1;
+                unsigned short int outputXDimention = floor((input._columns - kernel._columns) / stride) + 1;
 
                 std::vector<double> tempOutputValues;
                 if (outputYDimention != bias.GetRowsNumber() || outputXDimention != bias.GetColumnsNumber())
-                    throw PaleEngineException("Exception happened!", 'e', "Matrix.h", 281, "ConvolutionOperation()", MATH__MATRICES_DIMENTIONS_INCORRECT);
+                    throw PaleEngineException("Exception happened!", 'e', "Matrix.h", 303, "ConvolutionOperation()", MATH__MATRICES_DIMENTIONS_INCORRECT);
 
-                for (int inputRowsIterator = 0; inputRowsIterator < input._rows; inputRowsIterator+=stride) {
-                    for (int inputColumnsIterator = 0; inputColumnsIterator < input._columns; inputColumnsIterator+=stride) {
+                for (int inputRowsIterator = 0; inputRowsIterator < input._rows; inputRowsIterator += stride) {
+                    for (int inputColumnsIterator = 0; inputColumnsIterator < input._columns; inputColumnsIterator += stride) {
                         if (inputRowsIterator + kernel._rows <= input._rows && inputColumnsIterator + kernel._columns <= input._columns) {
                             double tempSum = 0;
                             for (int kernelRowsIterator = 0; kernelRowsIterator < kernel._rows; kernelRowsIterator++) {
@@ -326,6 +321,45 @@ namespace Pale::Math {
                 else if (exception.GetType() == 'w')
                     PALE_ENGINE_WARN("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo());
             }
+        }
+        inline static Matrix MaxPoolingOperation(const Matrix& input, unsigned short int windowSize = 2, unsigned short int stride = 2) {
+            if ((windowSize % 2 == 0 && (input._rows % 2 != 0 || input._columns % 2 != 0)) || (windowSize % 2 != 0 && (input._rows % 2 == 0 || input._columns % 2 == 0)))
+                PALE_ENGINE_WARN("Matrix.h->MaxPoolingOperation() [327]: {0}", POSSIBLE_DATA_LOSS);
+
+            unsigned short int outputYDimention = floor((input._rows - windowSize) / stride) + 1;
+            unsigned short int outputXDimention = floor((input._columns - windowSize) / stride) + 1;
+
+            std::vector<double> tempOutputValues;
+            for (int inputRowsIterator = 0; inputRowsIterator < input._rows; inputRowsIterator += stride) {
+                for (int inputColumnsIterator = 0; inputColumnsIterator < input._columns; inputColumnsIterator += stride) {
+                    if (inputRowsIterator + windowSize <= input._rows && inputColumnsIterator + windowSize <= input._columns) {
+                        std::vector<double> tempWindowValues;
+                        for (int windowRowIterator = 0; windowRowIterator < windowSize; windowRowIterator++) {
+                            for (int windowColumnIterator = 0; windowColumnIterator < windowSize; windowColumnIterator++) {
+                                tempWindowValues.emplace_back(input.GetValue(inputRowsIterator + windowRowIterator, inputColumnsIterator + windowColumnIterator));
+                            }
+                        }
+
+                        tempOutputValues.emplace_back(*std::max_element(tempWindowValues.begin(), tempWindowValues.end()));
+                    }
+                }
+            }
+
+            PALE_ENGINE_INFO("Matrix.h->MaxPoolingOperation() [348]: Successfully performed max pooling operation! Output matrix dimension: {0}x{1}. First matrix value: {2}.", outputYDimention, outputXDimention, tempOutputValues.at(0));
+
+            return Matrix(outputYDimention, outputXDimention, tempOutputValues);
+        }
+        inline std::vector<double> ConvertToVector() const {
+            std::vector<double> matrixValuesVector;
+            for (int matrixRowIterator = 0; matrixRowIterator < _rows; matrixRowIterator++) {
+                for (int matrixColumnsIterator = 0; matrixColumnsIterator < _columns; matrixColumnsIterator++) {
+                    matrixValuesVector.emplace_back(_matrix.at(matrixRowIterator).at(matrixColumnsIterator));
+                }
+            }
+
+            PALE_ENGINE_INFO("Matrix.h->ConvertToVector() [360]: Matrix has been successfully converted into vector! Output vector size: {0}. First vector value: {1}.", matrixValuesVector.size(), matrixValuesVector.at(0));
+
+            return matrixValuesVector;
         }
 
     private:

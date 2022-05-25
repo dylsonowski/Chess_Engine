@@ -39,6 +39,7 @@
 #define MOVE_COMMAND__NO_MOVE_NEEDED "Start and end coordinates are the same so no move is needed!"
 #define MOVE_COMMAND__INVALID_SPECIAL_USE "Given piece cannot perform this special move!"
 #define INVALID_FUNCTION_TEMPLATE_TYPE "Specified template type is not supported by this function!"
+#define POSSIBLE_DATA_LOSS "Some data can be skipped or lost!"
 
 //--- Enum of available players ---//
 enum class OWNERS {
