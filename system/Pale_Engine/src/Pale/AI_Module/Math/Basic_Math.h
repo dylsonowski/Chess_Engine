@@ -6,6 +6,7 @@ namespace Pale::Math {
 	inline double DSigmoigFunction(double value) { return value * (1 - value); }
 
 	inline double ReLuFunction(double value) { return std::max(static_cast<double>(0), value); }
+	inline double DReLuFunction(double value) { return value > 0; }
 
 	//--- Random number generating function ---//
 	template<typename T>

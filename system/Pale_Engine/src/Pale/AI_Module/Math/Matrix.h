@@ -5,7 +5,11 @@ namespace Pale::Math {
     class Matrix {
 
     public:
-        Matrix() = delete;
+        Matrix() : _rows(1), _columns(1) { 
+            _matrix = { {0} };
+
+            PALE_ENGINE_INFO("Matrix.h->Matrix constructor [11]: New Matrix object has been created! Matrix dimensions: {0}x{1}. First matrix value: {2}", _rows, _columns, _matrix.at(0).at(0));
+        }
         Matrix(unsigned short int rows, unsigned short int columns, bool randValues): _rows(rows), _columns(columns) {
             for (int rowIterator = 0; rowIterator < rows; rowIterator++) {
                 std::vector<double> tempRow;
@@ -288,14 +292,11 @@ namespace Pale::Math {
             PALE_ENGINE_INFO("Matrix.h->AccumulateMatrixValues() [265]: Values of the matrix has been accumulated! Output value: {0}.", accumulatedValues);
             return accumulatedValues;
         }
-        inline static Matrix ConvolutionOperation(const Matrix& input, const Matrix& kernel, const Matrix& bias, unsigned short int stride = 1) {
+        inline static Matrix CrossCorrelationOperation(const Matrix& input, const Matrix& kernel, unsigned short int stride = 1) {
             try {
                 unsigned short int outputYDimention = floor((input._rows - kernel._rows) / stride) + 1;
                 unsigned short int outputXDimention = floor((input._columns - kernel._columns) / stride) + 1;
-
                 std::vector<double> tempOutputValues;
-                if (outputYDimention != bias.GetRowsNumber() || outputXDimention != bias.GetColumnsNumber())
-                    throw PaleEngineException("Exception happened!", 'e', "Matrix.h", 303, "ConvolutionOperation()", MATH__MATRICES_DIMENTIONS_INCORRECT);
 
                 for (int inputRowsIterator = 0; inputRowsIterator < input._rows; inputRowsIterator += stride) {
                     for (int inputColumnsIterator = 0; inputColumnsIterator < input._columns; inputColumnsIterator += stride) {
@@ -313,7 +314,7 @@ namespace Pale::Math {
 
                 PALE_ENGINE_INFO("Matrix.h->ConvolutionOperation() [306]: Successfully performed convolution operation! Output matrix dimension: {0}x{1}. First matrix value: {2}.", outputYDimention, outputXDimention, tempOutputValues.at(0));
 
-                return Matrix(outputYDimention, outputXDimention, tempOutputValues) + bias;
+                return Matrix(outputYDimention, outputXDimention, tempOutputValues);
             }
             catch (PaleEngineException& exception) {
                 if (exception.GetType() == 'e')
