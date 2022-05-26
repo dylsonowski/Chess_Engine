@@ -16,6 +16,7 @@
 #include <utility>
 #include <string>
 #include <map>
+#include <array>
 
 #include "Pale/Log_System.h"
 #include "Pale/Engine_Macros.h"

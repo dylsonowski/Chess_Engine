@@ -1,24 +1,24 @@
 #include "palepch.h"
-#include "Layer.h"
+#include "Artificial_Layer.h"
 
 namespace Pale::AI_Module {
-    Layer::Layer(unsigned short int layerId, unsigned short int neuronsNumber, double biasValue, bool outputLayer, std::optional<unsigned short int> previousLayerSize) : _layerId(layerId), _outputLayer(outputLayer) {
+    Artificial_Layer::Artificial_Layer(unsigned short int layerId, unsigned short int neuronsNumber, double biasValue, bool outputLayer, std::optional<unsigned short int> previousLayerSize) : _layerId(layerId), _outputLayer(outputLayer) {
         for (int neuronsIterator = 0; neuronsIterator < neuronsNumber; neuronsIterator++) {
             if (previousLayerSize.has_value()) {
                 _inputLayer = false;
-                _layer.emplace_back(std::make_shared<Neuron>(neuronsIterator, layerId, 0, false, previousLayerSize.value()));
+                _layer.emplace_back(std::make_shared<Artificial_Neuron>(neuronsIterator, layerId, 0, false, previousLayerSize.value()));
                 _biases.emplace_back(biasValue);
             }
             else {
                 _inputLayer = true;
-                _layer.emplace_back(std::make_shared<Neuron>(neuronsIterator, layerId, 0, true, 0));
+                _layer.emplace_back(std::make_shared<Artificial_Neuron>(neuronsIterator, layerId, 0, true, 0));
             }
         }
 
         PALE_ENGINE_INFO("Layer.cpp->Layer constructor [17]: New layer has been created! Layer ID: {0}. Number of neurons: {1}. Input layer: {2}. Output layer: {3}.", layerId, _layer.size(), _inputLayer, _outputLayer);
     }
 
-    void Layer::RecalculateLayerValues(std::optional<Math::Matrix> previousLayer) {
+    void Artificial_Layer::RecalculateLayerValues(std::optional<Math::Matrix> previousLayer) {
         try {
             if (previousLayer.has_value()) {
                 if(_layer.size() != _biases.size())
@@ -41,7 +41,7 @@ namespace Pale::AI_Module {
         }
     }
 
-    void Layer::UpdateLayerWeights(const Math::Matrix& deltaWeightsMatrix) {
+    void Artificial_Layer::UpdateLayerWeights(const Math::Matrix& deltaWeightsMatrix) {
         try {
             Math::Matrix tempWeightsMatrix = GenerateWeightsMatrix();
             if(deltaWeightsMatrix.GetRowsNumber() != tempWeightsMatrix.GetRowsNumber() || deltaWeightsMatrix.GetColumnsNumber() != tempWeightsMatrix.GetColumnsNumber())
@@ -65,7 +65,7 @@ namespace Pale::AI_Module {
         }
     }
 
-    void Layer::UpdateLayerBiases(const Math::Matrix& deltaBiasesMatrix) {
+    void Artificial_Layer::UpdateLayerBiases(const Math::Matrix& deltaBiasesMatrix) {
         if (deltaBiasesMatrix.GetRowsNumber() != _biases.size() || deltaBiasesMatrix.GetColumnsNumber() != 1)
             throw PaleEngineException("Exception happened!", 'e', "Layer.cpp", 49, "UpdateLayerBiases()", NN__DELTA_BIASES_MATRIX_INVALID_SIZE);
 
@@ -80,7 +80,7 @@ namespace Pale::AI_Module {
         PALE_ENGINE_INFO("Layer.cpp->UpdateLayerBiases() [81]: Biases values for layer {0} has been updated! Number of updated biases: {1}/{2}.", _layerId, updatedBiasesNumber, deltaBiasesMatrix.GetRowsNumber() * deltaBiasesMatrix.GetColumnsNumber());
     }
 
-    void Layer::LoadNeuronInputWeights(unsigned short int neuronId, const std::vector<double>& weightsValues) {
+    void Artificial_Layer::LoadNeuronInputWeights(unsigned short int neuronId, const std::vector<double>& weightsValues) {
         try {
             if(_inputLayer)
                 throw PaleEngineException("Exception happened!", 'e', "Layer.cpp", 86, "LoadNeuronInputWeights()", NN__INVALID_LAYER);
@@ -109,7 +109,7 @@ namespace Pale::AI_Module {
         }
     }
 
-    Math::Matrix Layer::ConvertToMatrix() const {
+    Math::Matrix Artificial_Layer::ConvertToMatrix() const {
         std::vector<double> tempLayerVector;
         for (const auto layerIterator : _layer) {
             tempLayerVector.push_back(layerIterator->GetNeuronValue());
@@ -121,7 +121,7 @@ namespace Pale::AI_Module {
         return tempLayerMatrix;
     }
     
-    std::string Layer::ToString(bool horizontalView) const {
+    std::string Artificial_Layer::ToString(bool horizontalView) const {
         std::stringstream ss;
         for (int layerIterator = 0; layerIterator < _layer.size(); layerIterator++) {
             if (layerIterator == _layer.size() - 1)
@@ -133,7 +133,7 @@ namespace Pale::AI_Module {
         return ss.str();
     }
 
-    Math::Matrix Layer::GenerateWeightsMatrix() const {
+    Math::Matrix Artificial_Layer::GenerateWeightsMatrix() const {
         std::vector<double> tempWeightsVector;
         for (const auto layerIterator : _layer) {
             for (int neuronWeightsIterator = 0; neuronWeightsIterator < layerIterator->GetInputWeightsNumber(); neuronWeightsIterator++) {

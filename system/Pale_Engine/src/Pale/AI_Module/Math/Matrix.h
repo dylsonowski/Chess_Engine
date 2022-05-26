@@ -87,6 +87,28 @@ namespace Pale::Math {
                     PALE_ENGINE_WARN("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo());
             }
         }
+        inline Matrix operator+=(const Matrix& other) {
+            try {
+                if (_rows != other._rows || _columns != other._columns)
+                    throw PaleEngineException("Exception happened!", 'e', "Matrix.h", 25, "Matrix operator+", MATH__MATRICES_DIMENTIONS_INCORRECT);
+
+                for (int rowIterator = 0; rowIterator < _rows; rowIterator++) {
+                    for (int columnIterator = 0; columnIterator < _columns; columnIterator++) {
+                        _matrix.at(rowIterator).at(columnIterator) += other._matrix.at(rowIterator).at(columnIterator);
+                    }
+                }
+
+                PALE_ENGINE_TRACE("Matrix.h->Matrix operator+ [34]: Successful summation of 2 matrices. Output matrix dimensions: {0}x{1}. First matrix value: {2}", _rows, _columns, _matrix.at(0).at(0));
+
+                return *this;
+            }
+            catch (PaleEngineException& exception) {
+                if (exception.GetType() == 'e')
+                    PALE_ENGINE_ERROR("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo())
+                else if (exception.GetType() == 'w')
+                    PALE_ENGINE_WARN("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo());
+            }
+        }
         inline Matrix operator-(const Matrix& other) {
             if (_rows != other._rows || _columns != other._columns)
                 throw PaleEngineException("Exception happened!", 'e', "Matrix.h", 46, "Matrix operator-", MATH__MATRICES_DIMENTIONS_INCORRECT);

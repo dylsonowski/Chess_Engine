@@ -1,5 +1,5 @@
 #pragma once
-#include "Layer.h"
+#include "Artificial_Layer.h"
 
 namespace Pale::AI_Module {
 	struct Data_Set {
@@ -61,7 +61,7 @@ namespace Pale::AI_Module {
 
 		std::string _networkName;
 		std::vector<unsigned int> _topology;
-		std::vector<std::shared_ptr<Layer>> _network;
+		std::vector<std::shared_ptr<Artificial_Layer>> _network;
 		double _learningRate, _accumulatedOutputError;
 	};
 

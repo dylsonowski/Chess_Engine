@@ -1,14 +1,14 @@
 #pragma once
-#include "Neuron.h"
+#include "Artificial_Neuron.h"
 #include "../Math/Matrix.h"
 
 namespace Pale::AI_Module {
-	class Layer	{
+	class Artificial_Layer	{
 
 	public:
-		Layer() = delete;
-		Layer(unsigned short int layerId, unsigned short int neuronsNumber, double biasValue, bool outputLayer, std::optional<unsigned short int> previousLayerSize);
-		~Layer() = default;
+		Artificial_Layer() = delete;
+		Artificial_Layer(unsigned short int layerId, unsigned short int neuronsNumber, double biasValue, bool outputLayer, std::optional<unsigned short int> previousLayerSize);
+		~Artificial_Layer() = default;
 
 		//--- Getters & Setters ---//
 		inline unsigned short int GetLayerId() const { return _layerId; }
@@ -85,7 +85,7 @@ namespace Pale::AI_Module {
 	private:
 		unsigned short int _layerId;
 		bool _inputLayer, _outputLayer;
-		std::vector<std::shared_ptr<Neuron>> _layer;
+		std::vector<std::shared_ptr<Artificial_Neuron>> _layer;
 		std::vector<double> _biases;
 	};
 }
