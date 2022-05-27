@@ -12,10 +12,9 @@ namespace Pale::AI_Module {
 		inline unsigned short int GetLayerId() const { return _layerId; }
 		inline bool IsInputLayer() const { return _inputLayer; }
 		inline bool IsOutputLayer() const { return _outputLayer; }
-		inline const Math::Matrix GetLayerOutput() const { return _layerOutput; }
 
 		//--- Void functions ---//
-		virtual void FeedForward(const Math::Matrix& previousLayer) = 0;
+		virtual std::vector<Math::Matrix> FeedForward(const std::vector<Math::Matrix>& previousLayer) = 0;
 		virtual void BackPropagation(const Math::Matrix& previousLayer) = 0;
 
 	protected:
@@ -23,6 +22,5 @@ namespace Pale::AI_Module {
 
 		unsigned short int _layerId;
 		bool _inputLayer, _outputLayer;
-		Math::Matrix _layerOutput;
 	};
 }

@@ -10,13 +10,13 @@ namespace Pale::AI_Module {
 		~Convolutional_Layer() = default;
 
 		//--- Void functions ---//
-		void FeedForward(const Math::Matrix& previousLayer) override;
-		void BackPropagation(const Math::Matrix& previousLayer) override;
+		std::vector<Math::Matrix> FeedForward(const std::vector<Math::Matrix>& previousLayer) override;
+		void BackPropagation(const Math::Matrix& previousLayer) override; // TODO: Needs to be implemented!
 
 	private:
 		unsigned short int _stride;
-		std::pair<unsigned short int, unsigned short int> _outputSize;
-		std::vector<Math::Matrix> _layer, _biases;
+		std::array<unsigned short int, 3> _inputSize, _outputSize;
+		std::vector<Math::Matrix> _biases;
 		std::vector<std::vector<Math::Matrix>> _kernels;
 	};
 }

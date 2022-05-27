@@ -10,11 +10,11 @@ namespace Pale::AI_Module {
 			_topology = topology;
 			for (int networkIterator = 0; networkIterator < topology.size(); networkIterator++) {
 				if (networkIterator == 0)
-					_network.emplace_back(std::make_shared<Layer>(networkIterator, topology.at(networkIterator), 1, false, std::optional<unsigned short int>()));
+					_network.emplace_back(std::make_shared<Artificial_Layer>(networkIterator, topology.at(networkIterator), 1, false, std::optional<unsigned short int>()));
 				else if (networkIterator == topology.size() - 1)
-					_network.emplace_back(std::make_shared<Layer>(networkIterator, topology.at(networkIterator), 1, true, topology.at(networkIterator - 1)));
+					_network.emplace_back(std::make_shared<Artificial_Layer>(networkIterator, topology.at(networkIterator), 1, true, topology.at(networkIterator - 1)));
 				else
-					_network.emplace_back(std::make_shared<Layer>(networkIterator, topology.at(networkIterator), 1, false, topology.at(networkIterator - 1)));
+					_network.emplace_back(std::make_shared<Artificial_Layer>(networkIterator, topology.at(networkIterator), 1, false, topology.at(networkIterator - 1)));
 			}
 
 			PALE_ENGINE_INFO("Artificial_Neural_Net.cpp->Artificial_Neural_Net constructor [20]: New instance of artificial neural network of name '{0}' has been created! Network size: {1}. Size of input layer: {2}. Size of output layer: {3}.", _networkName, _network.size(), _network.at(0)->GetLayerSize(), _network.at(_topology.size() - 1)->GetLayerSize());

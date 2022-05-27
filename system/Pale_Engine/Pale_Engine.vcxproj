@@ -91,13 +91,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\Pale.h" />
-    <ClInclude Include="src\Pale\AI_Module\Artificial_Neural_Network\Artificial_Neural_Net.h" />
-    <ClInclude Include="src\Pale\AI_Module\Artificial_Neural_Network\Layer.h" />
-    <ClInclude Include="src\Pale\AI_Module\Artificial_Neural_Network\Neuron.h" />
+    <ClInclude Include="src\Pale\AI_Module\Convolutional_Neural_Network\Layer\Pooling_Layer.h" />
     <ClInclude Include="src\Pale\AI_Module\Convolutional_Neural_Network\Layer\Convolutional_Layer.h" />
     <ClInclude Include="src\Pale\AI_Module\Convolutional_Neural_Network\Layer\Layer.h" />
     <ClInclude Include="src\Pale\AI_Module\Game_Tree\Game_Tree.h" />
+    <ClInclude Include="src\Pale.h" />
+    <ClInclude Include="src\Pale\AI_Module\Artificial_Neural_Network\Artificial_Neural_Net.h" />
+    <ClInclude Include="src\Pale\AI_Module\Artificial_Neural_Network\Artificial_Layer.h" />
+    <ClInclude Include="src\Pale\AI_Module\Artificial_Neural_Network\Artificial_Neuron.h" />
     <ClInclude Include="src\Pale\AI_Module\Math\Basic_Math.h" />
     <ClInclude Include="src\Pale\AI_Module\Math\Matrix.h" />
     <ClInclude Include="src\Pale\Application.h" />
@@ -116,11 +117,13 @@
     <ClInclude Include="src\palepch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Pale\AI_Module\Artificial_Neural_Network\Artificial_Neural_Net.cpp" />
-    <ClCompile Include="src\Pale\AI_Module\Artificial_Neural_Network\Layer.cpp" />
-    <ClCompile Include="src\Pale\AI_Module\Artificial_Neural_Network\Neuron.cpp" />
+    <ClCompile Include="src\Pale\AI_Module\Convolutional_Neural_Network\Layer\Pooling_Layer.cpp" />
     <ClCompile Include="src\Pale\AI_Module\Convolutional_Neural_Network\Layer\Convolutional_Layer.cpp" />
+    <ClCompile Include="src\Pale\AI_Module\Convolutional_Neural_Network\Layer\Layer.cpp" />
     <ClCompile Include="src\Pale\AI_Module\Game_Tree\Game_Tree.cpp" />
+    <ClCompile Include="src\Pale\AI_Module\Artificial_Neural_Network\Artificial_Neural_Net.cpp" />
+    <ClCompile Include="src\Pale\AI_Module\Artificial_Neural_Network\Artificial_Layer.cpp" />
+    <ClCompile Include="src\Pale\AI_Module\Artificial_Neural_Network\Artificial_Neuron.cpp" />
     <ClCompile Include="src\Pale\AI_Module\Math\Basic_Math.cpp" />
     <ClCompile Include="src\Pale\AI_Module\Math\Matrix.cpp" />
     <ClCompile Include="src\Pale\Application.cpp" />

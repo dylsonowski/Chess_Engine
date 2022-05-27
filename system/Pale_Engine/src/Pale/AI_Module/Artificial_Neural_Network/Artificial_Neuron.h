@@ -1,12 +1,12 @@
 #pragma once
 
 namespace Pale::AI_Module {
-	class Neuron {
+	class Artificial_Neuron {
 
 	public:
-		Neuron() = delete;
-		Neuron(unsigned short int neuronId, unsigned short int layerId, double initialValue, bool inputNeuron, unsigned int inputWeightsNumber);
-		~Neuron() = default;
+		Artificial_Neuron() = delete;
+		Artificial_Neuron(unsigned short int neuronId, unsigned short int layerId, double initialValue, bool inputNeuron, unsigned int inputWeightsNumber);
+		~Artificial_Neuron() = default;
 
 		//--- Getters & Setters ---//
 		inline double GetNeuronValue() const { return _neuronValue; }
