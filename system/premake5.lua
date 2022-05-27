@@ -11,6 +11,7 @@ project "Pale_Engine"
     language "C++"
     cppdialect "C++17"
     staticruntime "off"
+    toolset "v143"
 
     targetdir ("bin/%{prj.name}_%{cfg.architecture}/%{cfg.buildcfg}")
     objdir ("bin-int/%{prj.name}_%{cfg.architecture}/%{cfg.buildcfg}")
@@ -51,6 +52,7 @@ project "Chess_Game"
     language "C++"
     cppdialect "C++17"
     staticruntime "off"
+    toolset "v143"
     
     targetdir ("bin/%{prj.name}_%{cfg.architecture}/%{cfg.buildcfg}")
     objdir ("bin-int/%{prj.name}_%{cfg.architecture}/%{cfg.buildcfg}")
@@ -92,6 +94,7 @@ project "Automation_Tests"
     language "C++"
     cppdialect "C++17"
     staticruntime "off"
+    toolset "v143"
 
     targetdir ("bin/%{prj.name}_%{cfg.architecture}/%{cfg.buildcfg}")
     objdir ("bin-int/%{prj.name}_%{cfg.architecture}/%{cfg.buildcfg}")
@@ -135,6 +138,7 @@ project "AI_Playground"
     language "C++"
     cppdialect "C++17"
     staticruntime "off"
+    toolset "v143"
 
     targetdir ("bin/%{prj.name}_%{cfg.architecture}/%{cfg.buildcfg}")
     objdir ("bin-int/%{prj.name}_%{cfg.architecture}/%{cfg.buildcfg}")

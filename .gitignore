@@ -1,5 +1,6 @@
 #Directorys
 .vs/
+.vscode/
 bin/
 bin-int/
 
