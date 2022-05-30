@@ -2,9 +2,11 @@
 #include "Artificial_Neural_Net.h"
 
 namespace Pale::AI_Module {
-	Artificial_Neural_Net::Artificial_Neural_Net(std::vector<unsigned int> topology, std::string name, double learningRate) : _networkName(name), _learningRate(learningRate), _accumulatedOutputError(0) {
+	Artificial_Neural_Net::Artificial_Neural_Net(std::vector<unsigned int> topology, std::string name, double learningRate): _networkName(name),
+																															 _learningRate(learningRate),
+																															 _accumulatedOutputError(0) {
 		try {
-			if(topology.size() < 3)
+			if (topology.size() < 3)
 				throw PaleEngineException("Exception happened!", 'e', "Artificial_Neural_Net.cpp", 8, "Artificial_Neural_Net constructor", NN__INCORRECT_TOPOLOGY_SIZE);
 
 			_topology = topology;
@@ -18,8 +20,7 @@ namespace Pale::AI_Module {
 			}
 
 			PALE_ENGINE_INFO("Artificial_Neural_Net.cpp->Artificial_Neural_Net constructor [20]: New instance of artificial neural network of name '{0}' has been created! Network size: {1}. Size of input layer: {2}. Size of output layer: {3}.", _networkName, _network.size(), _network.at(0)->GetLayerSize(), _network.at(_topology.size() - 1)->GetLayerSize());
-		}
-		catch (PaleEngineException& exception) {
+		} catch (PaleEngineException& exception) {
 			if (exception.GetType() == 'e')
 				PALE_ENGINE_ERROR("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo())
 			else if (exception.GetType() == 'w')
@@ -53,13 +54,13 @@ namespace Pale::AI_Module {
 
 					predictionCorrectionPrecentage /= prediction.size();
 
-					if(predictionCorrectionPrecentage <= acceptanceCriteriaPerNeuron * prediction.size())
+					if (predictionCorrectionPrecentage <= acceptanceCriteriaPerNeuron * prediction.size())
 						correctPredictions++;
 				}
 
-				auto var = Math::PrecentageCalculation(correctPredictions, testSet.m_dataSetSize);
+				auto var = Math::PercentageCalculation(correctPredictions, testSet.m_dataSetSize);
 				std::cout << "EPOCH: " << epochIterator << "/" << epochs << ". Accuracy: " << var << "%.";
-				
+
 				if (pauseTraining) {
 					std::cout << "\nContinue training ? : ";
 					std::cin >> continueTrainingAnswer;
@@ -101,8 +102,7 @@ namespace Pale::AI_Module {
 				else
 					SaveWeights(std::optional<std::string>());
 			}
-		}
-		catch (PaleEngineException& exception) {
+		} catch (PaleEngineException& exception) {
 			if (exception.GetType() == 'e')
 				PALE_ENGINE_ERROR("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo())
 			else if (exception.GetType() == 'w')
@@ -137,8 +137,7 @@ namespace Pale::AI_Module {
 			outputFile.close();
 
 			PALE_ENGINE_INFO("Artificial_Neural_Net.cpp->SaveWeights() [102]: Weights data has been saved inside file: {0}.", path);
-		}
-		catch (PaleEngineException& exception) {
+		} catch (PaleEngineException& exception) {
 			if (exception.GetType() == 'e')
 				PALE_ENGINE_ERROR("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo())
 			else if (exception.GetType() == 'w')
@@ -158,7 +157,7 @@ namespace Pale::AI_Module {
 			inputFile >> weightsFile;
 			inputFile.close();
 
-			if(importLogs)
+			if (importLogs)
 				PALE_ENGINE_TRACE("Artificial_Neural_Net.cpp->LoadWeights() [132]: Weights values has been imported! Json content: {0}.", weightsFile.dump());
 
 			//--- Importing "networkName" value ---//
@@ -174,8 +173,7 @@ namespace Pale::AI_Module {
 			}
 
 			PALE_ENGINE_INFO("Artificial_Neural_Net.cpp->LoadWeights() [146]: Weights values from file {0} has been loaded into network: {1}.", path, _networkName);
-		}
-		catch (PaleEngineException& exception) {
+		} catch (PaleEngineException& exception) {
 			if (exception.GetType() == 'e')
 				PALE_ENGINE_ERROR("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo())
 			else if (exception.GetType() == 'w')
@@ -206,7 +204,7 @@ namespace Pale::AI_Module {
 
 	void Artificial_Neural_Net::BackPropagation(const std::vector<double>& targetData) {
 		try {
-			if(targetData.size() != _network.back()->GetLayerSize())
+			if (targetData.size() != _network.back()->GetLayerSize())
 				throw PaleEngineException("Exception happened!", 'e', "Artificial_Neural_Net.cpp", 54, "BackPropagation()", NN__INCORRECT_TARGET_SIZE);
 
 			Math::Matrix layerErrors(_network.back()->GetLayerSize(), 1, false);
@@ -220,8 +218,7 @@ namespace Pale::AI_Module {
 
 					Math::Matrix tempLayerErrorsMatrix = layerErrors;
 					_accumulatedOutputError = tempLayerErrorsMatrix.Map(Math::AbsoluteValueCalculation<double>).AccumulateMatrixValues();
-				}
-				else {
+				} else {
 					//--- Computing error vector ---//
 					layerErrors = (~_network.at(networkIterator + 1)->GenerateWeightsMatrix()) * layerErrors;
 
@@ -229,7 +226,7 @@ namespace Pale::AI_Module {
 				}
 
 				//--- Computing delataWeights (learningRate * errors * gradient(derivative of sigmoid) * previousLayerValues) ---//
-				Math::Matrix gradient = _network.at(networkIterator)->ConvertToMatrix().Map(Math::DSigmoigFunction);
+				Math::Matrix gradient = _network.at(networkIterator)->ConvertToMatrix().Map(Math::DSigmoidFunction);
 				Math::Matrix layerDeltaWeights = Math::Matrix::HadamardMultiplication(layerErrors, gradient, false) * (~_network.at(networkIterator - 1)->ConvertToMatrix()) * _learningRate;
 
 				PALE_ENGINE_TRACE("Artificial_Neural_Net.cpp->BackPropagation() [77]: Delta weights values for layer {0} have been computed! Delta weights values: {1}", _network.at(networkIterator)->GetLayerId(), layerDeltaWeights.ToString(true));
@@ -246,8 +243,7 @@ namespace Pale::AI_Module {
 			}
 
 			PALE_ENGINE_TRACE("Artificial_Neural_Net.cpp->BackPropagation() [88]: Back propagation process has been finished!");
-		}
-		catch (PaleEngineException& exception) {
+		} catch (PaleEngineException& exception) {
 			if (exception.GetType() == 'e')
 				PALE_ENGINE_ERROR("{0}->{1} [{2}]: {3}", exception.GetFile(), exception.GetFunction(), exception.GetLine(), exception.GetInfo())
 			else if (exception.GetType() == 'w')
@@ -265,14 +261,14 @@ namespace Pale::AI_Module {
 		return prediction;
 	}
 
-	std::string Artificial_Neural_Net::ToString() const	{
+	std::string Artificial_Neural_Net::ToString() const {
 		std::stringstream ss;
 		ss << "//--- " << _networkName << " ---//\n\n";
 		ss << "Network topology:\n";
 		for (int topologyIterator = 0; topologyIterator < _topology.size(); topologyIterator++) {
 			if (topologyIterator == 0)
 				ss << "[" << _topology.at(topologyIterator) << " input] -> ";
-			else if(topologyIterator == _topology.size() - 1)
+			else if (topologyIterator == _topology.size() - 1)
 				ss << "[" << _topology.at(topologyIterator) << " output]";
 			else
 				ss << "[" << _topology.at(topologyIterator) << " neurons] -> ";
@@ -297,4 +293,4 @@ namespace Pale::AI_Module {
 		ss << "\n\nOutput error value: " << _accumulatedOutputError << ".";
 		return ss.str();
 	}
-}
+} // namespace Pale::AI_Module

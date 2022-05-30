@@ -11,7 +11,7 @@ namespace Pale::AI_Module {
 
 		//--- Void functions ---//
 		std::vector<Math::Matrix> FeedForward(const std::vector<Math::Matrix>& previousLayer) override;
-		void BackPropagation(const Math::Matrix& previousLayer) override; // TODO: Needs to be implemented!
+		std::vector<Math::Matrix> BackPropagation(const std::vector<Math::Matrix>& previousLayer) override { return { Math::Matrix() }; } // TODO: Needs to be implemented!
 
 	private:
 		unsigned short int _stride;
@@ -19,4 +19,4 @@ namespace Pale::AI_Module {
 		std::vector<Math::Matrix> _biases;
 		std::vector<std::vector<Math::Matrix>> _kernels;
 	};
-}
+} // namespace Pale::AI_Module

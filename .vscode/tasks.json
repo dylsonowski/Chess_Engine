@@ -1,0 +1,58 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "process",
+            "label": "C/C++ MSVC: Build Project(Debug-x64)",
+            "command": "C:/Program Files/Microsoft Visual Studio/2022/Community/Msbuild/Current/Bin/msbuild.exe",
+            "args": [
+                "${workspaceFolder}/system/Chess_Engine.sln",
+                "/p:Configuration=Debug;Platform=x64",
+                "/fl",
+                "/flp:LogFile=${workspaceFolder}/system/logs/msbuild.log"
+            ],
+            "problemMatcher": "$msCompile",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "type": "process",
+            "label": "C/C++ MSVC: Build Project(Release-x64)",
+            "command": "C:/Program Files/Microsoft Visual Studio/2022/Community/Msbuild/Current/Bin/msbuild.exe",
+            "args": [
+                "${workspaceFolder}/system/Chess_Engine.sln",
+                "/p:Configuration=Release;Platform=x64",
+                "/fl",
+                "/flp:LogFile=${workspaceFolder}/system/logs/msbuild.log"
+            ],
+            "problemMatcher": "$msCompile",
+            "group": "build"
+        },
+        {
+            "type": "shell",
+            "label": "Run Release: Chess_Game",
+            "command": "${workspaceFolder}/system/bin/Chess_Game_x86_64/Release/Chess_Game.exe",
+            "args": [],
+            "dependsOn": ["C/C++ MSVC: Build Project(Release-x64)"],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "type": "shell",
+            "label": "Run Release: Automation_Tests",
+            "command": "${workspaceFolder}/system/bin/Automation_Tests_x86_64/Release/Automation_Tests.exe",
+            "args": [],
+            "dependsOn": ["C/C++ MSVC: Build Project(Release-x64)"],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "type": "shell",
+            "label": "Run Release: AI_Playground",
+            "command": "${workspaceFolder}/system/bin/AI_Playground_x86_64/Release/AI_Playground.exe",
+            "args": [],
+            "dependsOn": ["C/C++ MSVC: Build Project(Release-x64)"],
+            "problemMatcher": "$msCompile"
+        }
+    ]
+}

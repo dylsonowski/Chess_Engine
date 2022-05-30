@@ -1,6 +1,6 @@
 #Directorys
 .vs/
-.vscode/
+# .vscode/
 bin/
 bin-int/
 
@@ -10,3 +10,4 @@ bin-int/
 system/Chess_Game/logs/*
 system/Automation_Tests/logs/*
 system/AI_Playground/logs/*
+system/logs/*

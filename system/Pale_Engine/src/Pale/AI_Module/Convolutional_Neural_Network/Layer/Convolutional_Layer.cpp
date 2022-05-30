@@ -2,7 +2,9 @@
 #include "Convolutional_Layer.h"
 
 namespace Pale::AI_Module {
-	Convolutional_Layer::Convolutional_Layer(unsigned short int layerId, bool inputLayer, std::pair<unsigned short int, unsigned short int> inputSize, unsigned short int inputDepth, unsigned short int kernelSize, unsigned short int numOfKernels, unsigned short int stride) : Layer(layerId, inputLayer, false), _stride(stride) {
+	Convolutional_Layer::Convolutional_Layer(unsigned short int layerId, bool inputLayer, std::pair<unsigned short int, unsigned short int> inputSize, unsigned short int inputDepth, unsigned short int kernelSize, unsigned short int numOfKernels, unsigned short int stride)
+		: Layer(layerId, inputLayer, false),
+		  _stride(stride) {
 		for (int kernelsIterator = 0; kernelsIterator < numOfKernels; kernelsIterator++) {
 			std::vector<Math::Matrix> tempKernel;
 			for (int kernelDepthIterator = 0; kernelDepthIterator < inputDepth; kernelDepthIterator++) {
@@ -26,7 +28,7 @@ namespace Pale::AI_Module {
 	std::vector<Math::Matrix> Convolutional_Layer::FeedForward(const std::vector<Math::Matrix>& previousLayer) {
 		assert(AssertionHandling(previousLayer.size() == _inputSize[2], "Convolutional_Layer.cpp->FeedForward() [27]: Assertion failed! Value = " + std::to_string(previousLayer.size()) + " should be equal: " + std::to_string(_inputSize[2]) + "!"));
 
-		assert(AssertionHandling(previousLayer.at(0).GetMatrixSize() == std::make_pair(_inputSize[0], _inputSize[1]), "Convolutional_Layer.cpp->FeedForward() [29]: Assertion failed! Input of the convolutional layer of id " + std::to_string(_layerId) + " is incompatible"));
+		assert(AssertionHandling(previousLayer.at(0).GetMatrixSize() == std::make_pair(_inputSize[0], _inputSize[1]), "Convolutional_Layer.cpp->FeedForward() [29]: Assertion failed! Input of the convolutional layer of id " + std::to_string(_layerId) + " is incompatible!"));
 
 		std::vector<Math::Matrix> tempOutput;
 		for (int kernalsIterator = 0; kernalsIterator < _kernels.size(); kernalsIterator++) {
@@ -34,7 +36,7 @@ namespace Pale::AI_Module {
 			for (int inputDepthIterator = 0; inputDepthIterator < previousLayer.size(); inputDepthIterator++) {
 				Math::Matrix tempCrossCorrelationResult = Math::Matrix::CrossCorrelationOperation(previousLayer.at(inputDepthIterator), _kernels.at(kernalsIterator).at(inputDepthIterator));
 
-				assert(AssertionHandling(tempCrossCorrelationResult.GetMatrixSize() == std::make_pair(_outputSize[0], _outputSize[1]), "Convolutional_Layer.cpp->FeedForward() [30]: " MATH__MATRICES_DIMENTIONS_INCORRECT));
+				assert(AssertionHandling(tempCrossCorrelationResult.GetMatrixSize() == std::make_pair(_outputSize[0], _outputSize[1]), "Convolutional_Layer.cpp->FeedForward() [30]: Cross correlation output. " MATH__MATRICES_DIMENSIONS_INCORRECT));
 
 				tempOutputMatrix += tempCrossCorrelationResult;
 			}
@@ -47,4 +49,4 @@ namespace Pale::AI_Module {
 
 		return tempOutput;
 	}
-}
+} // namespace Pale::AI_Module

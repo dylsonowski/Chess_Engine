@@ -15,12 +15,14 @@ namespace Pale::AI_Module {
 
 		//--- Void functions ---//
 		virtual std::vector<Math::Matrix> FeedForward(const std::vector<Math::Matrix>& previousLayer) = 0;
-		virtual void BackPropagation(const Math::Matrix& previousLayer) = 0;
+		virtual std::vector<Math::Matrix> BackPropagation(const std::vector<Math::Matrix>& previousLayer) = 0;
 
 	protected:
-		Layer(unsigned short int layerId, bool inputLayer, bool outputLayer) : _layerId(layerId), _inputLayer(inputLayer), _outputLayer(outputLayer) {}
+		Layer(unsigned short int layerId, bool inputLayer, bool outputLayer): _layerId(layerId),
+																			  _inputLayer(inputLayer),
+																			  _outputLayer(outputLayer) {}
 
 		unsigned short int _layerId;
 		bool _inputLayer, _outputLayer;
 	};
-}
+} // namespace Pale::AI_Module
