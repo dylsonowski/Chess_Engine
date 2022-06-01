@@ -20,3 +20,5 @@ system/AI_Playground/logs/*
 *.toc
 *.xml
 *.gz
+*.fls
+*.fdb_latexmk
