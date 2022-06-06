@@ -148,9 +148,18 @@ escapeinside={@*}{*@},%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%%%%%%%%%%% Chess module %%%%%%%%%%%%%%%
+\usepackage{skak}
+\usepackage{xskak}
+\usepackage{subcaption}
+\usepackage{enumitem}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-
+%%%%%%%%%%%% ALIEN PHRASES %%%%%%%%%%%%%%%
+\newcommand{\alien}[1]{\emph{#1}}
+\newcommand{\french}[1]{{\selectlanguage{french}\alien{#1}}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 
@@ -178,7 +187,7 @@ escapeinside={@*}{*@},%
 \newcommand{\Type}{MASTER THESIS}
 \newcommand{\Faculty}{Faculty of Automatic Control, Electronics and Computer Science}
 \newcommand{\Polsl}{Silesian University of Technology}
-\newcommand{\Logo}{graf/politechnika_sl_logo_bw_pion_en.pdf}
+\newcommand{\Logo}{dependencies/politechnika_sl_logo_bw_pion_en.pdf}
 \newcommand{\LeftId}{Student identification number}
 \newcommand{\LeftProgram}{Programme}
 \newcommand{\LeftSpecialisation}{Specialisation}
