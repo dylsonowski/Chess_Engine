@@ -1,0 +1,41 @@
+{
+    "version": "2.0.0",
+    "configurations": [        
+        {
+            "name": "Debug Application: Chess_Game",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/system/bin/Chess_Game_x86_64/Debug/Chess_Game.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "console": "externalTerminal",
+            "preLaunchTask": "C/C++ MSVC: Build Project(Debug-x64)"
+        },
+        {
+            "name": "Debug Application: Automation_Tests",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/system/bin/Automation_Tests_x86_64/Debug/Automation_Tests.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "console": "externalTerminal",
+            "preLaunchTask": "C/C++ MSVC: Build Project(Debug-x64)"
+        },
+        {
+            "name": "Debug Application: AI_Playground",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/system/bin/AI_Playground_x86_64/Debug/AI_Playground.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "console": "externalTerminal",
+            "preLaunchTask": "C/C++ MSVC: Build Project(Debug-x64)"
+        }
+    ]
+}
