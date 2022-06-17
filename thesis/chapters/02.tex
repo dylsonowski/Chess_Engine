@@ -1,5 +1,5 @@
 
-\chapter{[Chess playing AI]}
+\chapter{Chess playing AI}
 Before further discussion about thesis topic, it is require to analyze main components and issues related to it. To make those speculations easier to understand and internalize, they will be divided into two main sections: chess game logic and application logic. Both of those topics will be described in each distinct sections, starting with chess game logic.
     \section{Chess}
     Chess is a board game in which two players compete against each others by using 16 chess pieces \cite{bib:book-chess-bible}. Each game is started by white site player an after that both players performs their actions sequentially, one by one. There are three ways to end the game. First option is to left enemy king piece without any moves. This manoeuver is called \textbf{checkmate}. One more thing that needs to be achieved to perform checkmate is to put enemy king in the \textbf{check} situation (threatened with capture by enemy piece) \cite{bib:book-chess-bible,bib:internet-learn-how-to-play-chess}. 
@@ -8,12 +8,12 @@ Before further discussion about thesis topic, it is require to analyze main comp
 
     Last option to end chess game is to force enemy player to resign. In that case, situation is simple and player who resigned, loses the game. 
     
-    As it was mentioned before, every player need to use their 16 chess pieces and adapt the strategy to make opponent lose. In the \hyperref[id:tab:chessPiecesList]{table \ref*{id:tab:chessPiecesList}} are shown all chess pieces types with their unique move patterns and special properties. Quick remark: in the table, pieces are not differentiate by its color because either white and black piece work the same way. Mentioned chess pieces are deployed on the chess board of dimensions $8 \times 8$ (as it is shown on \hyperref[fig:beginning-chessboard-layout]{figure \ref*{fig:beginning-chessboard-layout}}), then the game starts by white site player move \cite{bib:book-chess-bible,bib:book-bobby-fisher-teaches-chess,bib:book-mastering-chess-logic}.
+    As it was mentioned before, every player need to use their 16 chess pieces and adapt the strategy to make opponent lose. In the \hyperref[tab:chess-pieces-list]{tab. \ref*{tab:chess-pieces-list}} are shown all chess pieces types with their unique move patterns and special properties. Quick remark: in the table, pieces are not differentiate by its color because either white and black piece work the same way. Mentioned chess pieces are deployed on the chess board of dimensions $8 \times 8$ (as it is shown on \hyperref[fig:beginning-chessboard-layout]{fig. \ref*{fig:beginning-chessboard-layout}}), then the game starts by white site player move \cite{bib:book-chess-bible,bib:book-bobby-fisher-teaches-chess,bib:book-mastering-chess-logic}.
 
     \begin{table}
         \centering
         \caption{The list of chess pieces.}
-        \label{id:tab:chessPiecesList}
+        \label{tab:chess-pieces-list}
         \begin{tabular}{ccp{0.4\textwidth}p{0.3\textwidth}}
         \toprule
             \textbf{symbol} & \textbf{name} & \textbf{moving pattern} & \textbf{special properties}\\
@@ -48,7 +48,7 @@ Before further discussion about thesis topic, it is require to analyze main comp
             \item squares between both pieces needs to be blank and not attacked by enemy pieces,
             \item king cannot be under check and performing castling manoeuver cannot result in this situation.
         \end{itemize}
-        There are two types of castling (short castling and long castling) which are presented on \hyperref[fig:castling-manoeuver]{figure \ref*{fig:castling-manoeuver}}. In the past there were third type of castling which has been performing by rook created by promotion manoeuver. Unfortunately, this manoeuver has been outlawed in 1972.
+        There are two types of castling (short castling and long castling) which are presented on \hyperref[fig:castling-manoeuver]{fig. \ref*{fig:castling-manoeuver}}. In the past there were third type of castling which has been performing by rook created by promotion manoeuver. Unfortunately, this manoeuver has been outlawed in 1972.
 
         \begin{figure}
             \centering
@@ -64,7 +64,7 @@ Before further discussion about thesis topic, it is require to analyze main comp
             \label{fig:castling-manoeuver}
         \end{figure}
 
-        \item[Jumping over other pieces] is an manoeuver which can be performed only by knight piece. It consist in moving knight piece on the destination square even if path is blocked by other piece. Jumping manoeuver is presented on \hyperref[fig:jumping-manoeuver]{figure \ref*{fig:jumping-manoeuver}}.
+        \item[Jumping over other pieces] is an manoeuver which can be performed only by knight piece. It consist in moving knight piece on the destination square even if path is blocked by other piece. Jumping manoeuver is presented on \hyperref[fig:jumping-manoeuver]{fig. \ref*{fig:jumping-manoeuver}}.
         
         \begin{figure}
             \centering
@@ -80,7 +80,7 @@ Before further discussion about thesis topic, it is require to analyze main comp
             \label{fig:jumping-manoeuver}
         \end{figure}
 
-        \item[Promotion] in an specific manoeuver which can be performed only by pawn piece. It happens when one of pawns reach enemy site of the chessboard. In that situation player chooses any piece of the same color (except king) on which he want to replace pawn which performed promotion. This manoeuver allows for situation in which, for example there will be more than 1 queen in the same game. Promotion manoeuver is presented on \hyperref[fig:promotion-manoeuver]{figure \ref*{fig:promotion-manoeuver}}.
+        \item[Promotion] in an specific manoeuver which can be performed only by pawn piece. It happens when one of pawns reach enemy site of the chessboard. In that situation player chooses any piece of the same color (except king) on which he want to replace pawn which performed promotion. This manoeuver allows for situation in which, for example there will be more than 1 queen in the same game. Promotion manoeuver is presented on \hyperref[fig:promotion-manoeuver]{fig. \ref*{fig:promotion-manoeuver}}.
         
         \begin{figure}
             \centering
@@ -108,7 +108,7 @@ Before further discussion about thesis topic, it is require to analyze main comp
             \label{fig:promotion-manoeuver}
         \end{figure}
 
-        \item[\french{En Passant}] is an special variant of capturing, assigned to pawn piece. This capturing can be performed if enemy pawn made move by two squares and crossed square that is attacked by performing pawn. In that situation, capturing pawn is moved on attacking square and enemy pawn gets removed from chessboard. One last requirements to perform \french{en passant} is to perform it directly after enemy pawn move. \french{En Passant} manoeuver is presented on \hyperref[fig:en-passant-manoeuver]{figure \ref*{fig:en-passant-manoeuver}}.
+        \item[\french{En Passant}] is an special variant of capturing, assigned to pawn piece. This capturing can be performed if enemy pawn made move by two squares and crossed square that is attacked by performing pawn. In that situation, capturing pawn is moved on attacking square and enemy pawn gets removed from chessboard. One last requirements to perform \french{en passant} is to perform it directly after enemy pawn move. \french{En Passant} manoeuver is presented on \hyperref[fig:en-passant-manoeuver]{fig. \ref*{fig:en-passant-manoeuver}}.
         
         \begin{figure}
             \centering
@@ -155,7 +155,7 @@ Before further discussion about thesis topic, it is require to analyze main comp
     Hexapawn was created by american mathematician Martin Gardner in March 1962 \cite{bib:article-hexapawn}. Hexapawn has been created to demonstrate first AI machine. This game fits perfectly for this usage because of its relatively small game tree. For the purpure of this thesis, Hexapawn has been simplified to just 2 pawns for each player and board of dimensions $2 \times 3$. Rest of the rules, mentioned before, are unchanged.
 
     \subsection{Game tree building process}
-    Due to the relatively low degree of complexity, previously mentioned game will be used as an example in game tree building process. As in all tree based graphs, building process starts from \textbf{root node} which is a first node that will be basis of the entire structure. After generating root node, next level of nodes is generated and attached to root node. Process of generating entire tree level base on actual situation on the board. In that case number of nodes in the layer depends on number of moves that player can perform in given situation. After first level of the game tree has been generated, the same process is applied to further levels. It is important to remember that players performs their moves alternately, which mean next generated tree level will be generated with second player point of view. Completely generated game tree for used version of Hexapawn is presented on \hyperref[fig:complete-game-tree-hexapawn]{figure \ref*{fig:complete-game-tree-hexapawn}}.
+    Due to the relatively low degree of complexity, previously mentioned game will be used as an example in game tree building process. As in all tree based graphs, building process starts from \textbf{root node} which is a first node that will be basis of the entire structure. After generating root node, next level of nodes is generated and attached to root node. Process of generating entire tree level base on actual situation on the board. In that case number of nodes in the layer depends on number of moves that player can perform in given situation. After first level of the game tree has been generated, the same process is applied to further levels. It is important to remember that players performs their moves alternately, which mean next generated tree level will be generated with second player point of view. Completely generated game tree for used version of Hexapawn is presented on \hyperref[fig:complete-game-tree-hexapawn]{fig. \ref*{fig:complete-game-tree-hexapawn}}.
     \begin{figure}
         \centering
         \includegraphics[width=\textwidth]{dependencies/pictures/Complete_Game_Tree.png}
@@ -167,7 +167,7 @@ Before further discussion about thesis topic, it is require to analyze main comp
     \subsection{Min-max algorithm}\label{sec:min-max-algorithm}
     Even if game trees are crucial components while constructing AI, this component won't allow created instance for making decisions. To make those kind of operations \textbf{min-max tree} can be used. This structure i basically a game tree but every tree node consists also from evaluation value. Second difference between game tree and min-max tree is the fact that in second structure uses search algorithm called \textbf{min-max algorithm}. Before describing how min-max algorithm works it is important to explain how to evaluate each tree node. To calculate evaluation value for each nodes in the game tree evaluation functions are used. This type of function take as an input content of the tree node and return evaluation that needs to be assign to this node. More about evaluation functions in scope of this thesis can be found in section \ref{sec:game-tree-optimizations}.
 
-    To explain how min-max algorithm works, generated game tree from \hyperref[fig:complete-game-tree-hexapawn]{figure \ref*{fig:complete-game-tree-hexapawn}} will be used. Because generated tree present whole game (it is possible to see all outcomes), very simple evaluation function has been used. If given node resulted in white site player win, evaluation will be equal to $1$. Otherwise, evaluation will be equal to $-1$. The calculated values were assigned to proper nodes as it is presented on \hyperref[fig:min-max-tree-hexapawn]{figure \ref*{fig:min-max-tree-hexapawn}}.
+    To explain how min-max algorithm works, generated game tree from \hyperref[fig:complete-game-tree-hexapawn]{fig. \ref*{fig:complete-game-tree-hexapawn}} will be used. Because generated tree present whole game (it is possible to see all outcomes), very simple evaluation function has been used. If given node resulted in white site player win, evaluation will be equal to $1$. Otherwise, evaluation will be equal to $-1$. The calculated values were assigned to proper nodes as it is presented on \hyperref[fig:min-max-tree-hexapawn]{fig. \ref*{fig:min-max-tree-hexapawn}}.
     \begin{figure}
         \centering
         \includegraphics[width=0.8\textwidth]{dependencies/pictures/MinMax_Example.png}
@@ -175,9 +175,9 @@ Before further discussion about thesis topic, it is require to analyze main comp
         \label{fig:min-max-tree-hexapawn}
     \end{figure}
 
-    As it can be seen on \hyperref[fig:min-max-tree-hexapawn]{figure \ref*{fig:min-max-tree-hexapawn}}, it present also usage of min-max algorithm which will be now described.
+    As it can be seen on \hyperref[fig:min-max-tree-hexapawn]{fig. \ref*{fig:min-max-tree-hexapawn}}, it present also usage of min-max algorithm which will be now described.
 
-    Structure analysis begins from is leafs. In the first iteration two nodes containing values $-1$ and $-1$ are compared. Because this layer represent opponent move, node with the lowest value got chosen (marked with red color). It happens because by definition, the opponent will make optimal moves, leading to a favorable situation for him. In the given situation, when both values are equal, first encountered value get chosen. After node comparison, chosen value is moved to node above for further comparisons. The same actions has been performed for rest nodes in this layer. After all nodes in last layer get compared, layer above needs to be analyze next. In case of this layer, comparing process is similar to te previous layer. Because analyzing layer represent AI move, among comparing nodes, the one with the highest value gets chosen (from both first nodes, value $1$ gets chosen and marked with green color). Similar like in last layer all chosen values are moved to layer above for further comparisons. By using this workflow, all root nodes evaluations needs to be calculated. Situation presented on \hyperref[fig:min-max-tree-hexapawn]{figure \ref*{fig:min-max-tree-hexapawn}} shows that both root nodes have the same evaluation value so first encountered value get chosen \cite{bib:article-comparizon-of-search-algorithms}.
+    Structure analysis begins from is leafs. In the first iteration two nodes containing values $-1$ and $-1$ are compared. Because this layer represent opponent move, node with the lowest value got chosen (marked with red color). It happens because by definition, the opponent will make optimal moves, leading to a favorable situation for him. In the given situation, when both values are equal, first encountered value get chosen. After node comparison, chosen value is moved to node above for further comparisons. The same actions has been performed for rest nodes in this layer. After all nodes in last layer get compared, layer above needs to be analyze next. In case of this layer, comparing process is similar to te previous layer. Because analyzing layer represent AI move, among comparing nodes, the one with the highest value gets chosen (from both first nodes, value $1$ gets chosen and marked with green color). Similar like in last layer all chosen values are moved to layer above for further comparisons. By using this workflow, all root nodes evaluations needs to be calculated. Situation presented on \hyperref[fig:min-max-tree-hexapawn]{fig. \ref*{fig:min-max-tree-hexapawn}} shows that both root nodes have the same evaluation value so first encountered value get chosen \cite{bib:article-comparizon-of-search-algorithms}.
 
     \subsection{Game tree optimizations}\label{sec:game-tree-optimizations}
     Simplify version of game Hexapawn is simple enough it is possible to generate full game tree (resolve the game). Unfortunately, game that is a topic of this thesis is much more complex which means, resolving chess game is unreachable. Basing on average branching factor for chess game $b \approx 35$, and average game length $m \approx 70$, Victor Allis estimate complexity of the average game of chess to be $10^{123}$ \cite{bib:book-search-for-solutions-in-games}. That big complexity is potentially problematic because of big memorial and computational complexity of entire structure. Because of this complexity, a common practice is optimizing game tree size \cite{bib:article-optimal-on-game-trees}.
@@ -209,14 +209,14 @@ Before further discussion about thesis topic, it is require to analyze main comp
         \end{itemize}
         \item[Bias] is a additional neuron in each layer which is used for output regulations. This neuron also have weight value, that is why this weight value can be skipped in output calculations. Value of the bias is added to final sum of neuron values and their weights as it has been shown in equation \ref{eq:ann-neuron-value}. Value of the bias is the second modifiable parameters, changed in learning process.
     \end{description}
-    For better understanding of neural network structure, on \hyperref[fig:ann-example]{figure \ref*{fig:ann-example}} has been shown simple example of this kind of network. As it can be seen, this network consists of 3 layers (1 input layer, 1 hidden layer and 1 output layer) and value from input layer gets propagated through all other layers.
+    For better understanding of neural network structure, on \hyperref[fig:ann-example]{fig. \ref*{fig:ann-example}} has been shown simple example of this kind of network. As it can be seen, this network consists of 3 layers (1 input layer, 1 hidden layer and 1 output layer) and value from input layer gets propagated through all other layers.
     \begin{figure}
         \centering
         \includegraphics[width=0.8\textwidth]{dependencies/pictures/NN_example.png}
         \caption{Artificial neural network example.}
         \label{fig:ann-example}
     \end{figure}
-    Process shown of \hyperref[fig:ann-example]{figure \ref*{fig:ann-example}} is called \textbf{feed forward algorithm} and constitute whole process of resolving problems in neural networks. Feed forward process begins from loading input data into input layer. Then, by using equation presented in \ref{eq:ann-neuron-value}, those values are propagated through all hidden layers (if their exist) and lastly, final answer can be seen in output layer \cite{bib:book-make-own-neural-network,bib:article-application-of-feedforward-for-grade-estimation,bib:internet-neural-network-and-deep-learning}. It was decided to use this type of neural network, for chess game problem, because it is the most basic type of neural network so it will be very good comparison point for other used models.
+    Process shown of \hyperref[fig:ann-example]{fig. \ref*{fig:ann-example}} is called \textbf{feed forward algorithm} and constitute whole process of resolving problems in neural networks. Feed forward process begins from loading input data into input layer. Then, by using equation presented in \ref{eq:ann-neuron-value}, those values are propagated through all hidden layers (if their exist) and lastly, final answer can be seen in output layer \cite{bib:book-make-own-neural-network,bib:article-application-of-feedforward-for-grade-estimation,bib:internet-neural-network-and-deep-learning}. It was decided to use this type of neural network, for chess game problem, because it is the most basic type of neural network so it will be very good comparison point for other used models.
 
     \subsection{Convolutional neural network}
     As it was mentioned before, scope of this thesis is to compare two neural network models and decide which one performs better in case of chess game problem. Second type of neural network that will be used for this task is Convolutional Neural Network. Why this type of network? Convolutional neural networks (CNN) act as pattern detecting algorithm. The most common usages of this model are: cancer detection, picture classifications, face detection, recognizing hand-written digits etc. \cite{bib:internet-real-world-applications-of-cnn}. Because of this fantastic performance while detecting patterns, this type of neural network can also be able to detect patterns on chessboard which will result in good evaluation of chessboard situations. To see how good this model will perform with this problem, it will be compared with the most basic neural network described in section \ref{sec:artificial-neural-network}.
@@ -228,7 +228,7 @@ Before further discussion about thesis topic, it is require to analyze main comp
         \item[Pooling layer] is a type of layer which reduce size of input matrix. This layer is used to reduce time and memory consumption and to make sure that only ,,important'' sections of the input matrix will be used for further computations. More information about this layer can be found in section \ref{sec:pooling-layer}.
         \item[Activation layer] is a type of layer which apply activation function on the input matrix. There are a lot of possible choices for activation function, like sigmoid function (see section \ref{sec:artificial-neural-network}), but in scope of this thesis, ReLU (Rectified Linear Unit) activation function has been used. ReLU function can be described by equation $f(x) = max(0, x)$. To simplify, all negative numbers are changed to $0$ and all positive numbers stays unchanged \cite{bib:internet-relu-function}.
     \end{description}
-    Basic structure of convolutional neural network is presented on \hyperref[fig:cnn-example]{figure \ref*{fig:cnn-example}}
+    Basic structure of convolutional neural network is presented on \hyperref[fig:cnn-example]{fig. \ref*{fig:cnn-example}}
     \begin{figure}
         \centering
         \includegraphics[width=\textwidth]{dependencies/pictures/CNN_example.png}
@@ -250,7 +250,7 @@ Before further discussion about thesis topic, it is require to analyze main comp
     \begin{itemize}[label=]
         \item $G[i, j]$ -- output matrix value of indexes $i$ and $j$, $l$ -- size of the input matrix, $k$ -- size of the kernel, $h$ -- kernel, $F$ -- input matrix \cite{bib:article-cross-correlation}.
     \end{itemize}
-    Example of cross-correlation operation can be seen on \hyperref[fig:cross-correlation-example]{figure \ref*{fig:cross-correlation-example}}.
+    Example of cross-correlation operation can be seen on \hyperref[fig:cross-correlation-example]{fig. \ref*{fig:cross-correlation-example}}.
     \begin{figure}
         \centering
         \includegraphics[width=\textwidth]{dependencies/pictures/Cross-correlation_example.png}
@@ -278,7 +278,7 @@ Before further discussion about thesis topic, it is require to analyze main comp
     \subsubsection*{Pooling layer}\label{sec:pooling-layer}
     Pooling layer is the second distinctive element of convolutional neural network. As it was mentioned before, main purpure of pooling layer is to reduce size of the matrix that is used for calculations. There are a lot of possible functions that can be performed in this layer but two the most common are \textbf{Max Pooling} and \textbf{Average Pooling} \cite{bib:book-pooling-methods}. In case of this thesis, Max Pooling method has been used. 
 
-    Max pooling method is also used to highlight the most important parts of the feature map. This operation works in the similar way to cross-correlation operation. Each pooling layer consists of window of the specific size which slide over input matrix, with specific stride (similar like in cross-correlation operation). While sliding over input matrix, algorithm pick maximal value and pass it into output matrix. Max pooling example can be seen on \hyperref[fig:max-pooling-example]{figure \ref*{fig:max-pooling-example}}
+    Max pooling method is also used to highlight the most important parts of the feature map. This operation works in the similar way to cross-correlation operation. Each pooling layer consists of window of the specific size which slide over input matrix, with specific stride (similar like in cross-correlation operation). While sliding over input matrix, algorithm pick maximal value and pass it into output matrix. Max pooling example can be seen on \hyperref[fig:max-pooling-example]{fig. \ref*{fig:max-pooling-example}}
     \begin{figure}
         \centering
         \includegraphics[width=\textwidth]{dependencies/pictures/Max_Pooling_example.png}
@@ -322,6 +322,11 @@ Before further discussion about thesis topic, it is require to analyze main comp
         \item Update values of all weights and biases.
     \end{enumerate}
     After processing all examples from training set, test set is used to check model accuracy. If accuracy is to low, it is necessary to repeat training process. This sequence of action can be repeated until obtained accuracy will be acceptable (potentially, global minimum of the loss function will be achieved) \cite{bib:internet-aa-cnn-lecture,bib:book-make-own-neural-network}. To improve, obtained results and to increase probability of finding global minimum of the loss function, there is 1 modification of backpropagation algorithm that will be used in scope of this thesis. There is parameter called \textbf{learning rate} \cite{bib:internet-learning-rate}. This is value which define how big changes will be applied to weights and biases. Because final goal of the backpropagation algorithm is finding global minimum of the loss function, if the changes will be to big, it can result in constant passing the proper minimum value. Usage of proper learning rate value reduce probability of it happening.
+
+    \section{Other approaches to the problem}
+    After describing problem approach that will be used in scope of this thesis, it is important to mention what other solutions to the Chess AI problem can be found. First approach is very similar to described solution because it uses all mentioned components except of neural network instance. This solution assumes usage of complex mathematical equations to evaluate chessboard situation. This type of approach is caller /textbf{heuristic approach} \cite{bib:article-computer-chess-move-ordering,bib:internet-step-by-step-chess-ai}. The main problem of heuristic approach is the fact that this solution is very time consuming and require big knowledge of chess game to implement correctly. Another disadvantage of this approach is the fact that it is very linear solution and it is hard to implement some unpredictability which can result in small effectivity against more advanced chess players.
+
+    Second possible approach looks much more promising but it is also much harder to implement. This approach assumes usage of self-improving neural network. Mentioned before AlphaZero software uses this exact method for playing \cite{bib:internet-alphazero}. Basic idea behind this approach is to create some kind of algorithm which will be building and modifying neural network structure while playing with real opponent. This method is very popular and very efficient in game theory because it can result in creating ,,unbeatable'' AI. Main advantage of this solution is the fact that the more games will be played by AI instance, the smartest it gets \cite{bib:article-self-improving-nn}. Usage of this method can result in very interesting results but it is also very hard to implement. Another problem regarding this solution is time consumption and quality of ,,training resources''. If created AI will play with the best players, it will learn a lot but in the other case it can stop improving.
 
 % References to 
 % book \cite{bib:book},

@@ -1,3 +1,43 @@
+\chapter{Experiments}
+The first important thing that needs to be discussed before describing experiments is machine on which experiments have been performed. Experimental machines properties looks as follows:
+\begin{itemize}
+    \item Operating system: Windows 10 Professional,
+    \item Processor: Intel(R) Core i5-11400F
+    \begin{itemize}
+        \item 11th generation,
+        \item 2.60GHz
+    \end{itemize}
+    \item RAM: 16 GB DDR4,
+    \item Graphical card: NVIDIA GeForce GTX 970,
+    \item Hard drive: 500 GB SSD.
+\end{itemize}
+Those parameter can be changed but it is important to remember that used game tree structure is very memory consuming and neural network training require a lot of computation power. It is recommended to use specified parameters of higher. Last important thing to mention is the fact that result application has been created for Windows operating system only and wasn't tested on other operating systems.
+
+\section{Methodology}
+Performed tests was divided into three sets of tests:
+\begin{description}
+    \item[Neural network training] this set of tets was based on training created neural network instances. It allows for finding the most optimal values of learning rate parameter. After that, AI instances were tested for number of iterations (epochs) require to get the best accuracy and number of data require for training. More information about datasets used for training can be found in section \ref{sec:data-sets}.
+    \item[Manual testing] this set of tests relied on playing against AI instances in ,,player vs AI'' scenario. This set of tests covered test case in which player play against trained and untrained AI instance. Important thing to mention is the fact that this set of tests required both neural networks to be trained on the same size of data set. Otherwise, experiment would be unreliable.
+    \item[Automated testing] this set of test was performed in ,,AI vs AI'' scenario. The main goal of this testing was to perform small ,,tournament'' to check which AI instance performs better. Similarly to te manual testing, this set of test has been performed with trained and untrained neural networks. Both neural networks was trained with the same data set.
+\end{description}
+
+\subsection{Chess application}
+To perform mentioned tests, it was necessary to have application that allows for chess game. Application has been created and while starting it it is possible to specify which execution scenario needs to be performed. Because application uses command line interface, execution configuration is passed by input parameters. By specifying \texttt{--exScenario} parameter, application can be started in one of 3 modes:
+\begin{itemize}
+    \item parameter value: \texttt{0} - application will start in mode ,,player vs player'',
+    \item parameter value: \texttt{1} - application will start in mode ,,player vs AI'',
+    \item parameter value: \texttt{2} - application will start in mode ,,AI vs AI''.
+\end{itemize}
+Default value of this parameter is set on \texttt{0}. If \texttt{--exScenario} parameter will have value \texttt{1} or \texttt{2} application will ask for game tree limit to be specified (). If user won't specify this parameter, its value will be set on $3$.
+\begin{figure}
+    \centering
+    \VerbatimInput{dependencies/PGN_Example.txt}
+    \caption{Menu allowing for specify game tree depth.}
+    \label{fig:setting-game-tree-depth}
+\end{figure}
+
+\section{Data sets}\label{sec:data-sets}
+
 %\chapter{Experiments}
 %
 %This chapter presents the experiments. It is a crucial part of the thesis and has to dominate in the thesis. 
