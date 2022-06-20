@@ -1,0 +1,38 @@
+
+                 .d8888b.  888
+                d88P  Y88b 888
+                888    888 888
+                888        88888b.   .d88b.  .d8888b  .d8888b
+                888        888 "88b d8P  Y8b 88K      88K
+                888    888 888  888 88888888 "Y8888b. "Y8888b.
+                Y88b  d88P 888  888 Y8b.          X88      X88
+                 "Y8888P"  888  888  "Y8888   88888P'  88888P'
+
+Captured pieces (WHITE):                        # List of captured white 
+                                                # colored pieces
+Captured pieces (BLACK):                        # List of captured black 
+                                                # colored pieces
+    --   --   --   --   --   --   --   --
+8 | bR | bN | bB | bQ | bK | bB | bN | bR |     # Chessboard representation
+    --   --   --   --   --   --   --   --
+7 | bP | bP | bP | bP | bP | bP | bP | bP |
+    --   --   --   --   --   --   --   --
+6 |    |    |    |    |    |    |    |    |
+    --   --   --   --   --   --   --   --
+5 |    |    |    |    |    |    |    |    |
+    --   --   --   --   --   --   --   --
+4 |    |    |    |    |    |    |    |    |
+    --   --   --   --   --   --   --   --
+3 |    |    |    |    |    |    |    |    |
+    --   --   --   --   --   --   --   --
+2 | wP | wP | wP | wP | wP | wP | wP | wP |
+    --   --   --   --   --   --   --   --
+1 | wR | wN | wB | wQ | wK | wB | wN | wR |
+    --   --   --   --   --   --   --   --
+    a    b    c    d    e    f    g    h
+
+Turn 1(WHITE)                                   # Turn counter
+Commands: (N)ew game     (M)ove  (Q)uit         # Main menu
+
+Insert command here --> M                       # Field for user input
+Type '?' to see move command help. Insert command here -->
