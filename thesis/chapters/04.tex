@@ -1,4 +1,4 @@
-\chapter{Experiments}
+\chapter{Experiments}\label{sec:experiments}
 The first important thing that needs to be discussed before describing experiments is machine on which experiments have been performed. Experimental machines properties looks as follows:
 \begin{itemize}
     \item Operating system: Windows 10 Professional,
@@ -123,7 +123,7 @@ In conclusion, every training example consists of chessboard situation and evalu
 \section{Results}
 Like it can be seen in section \ref{sec:methodology}, tests has been divided into three main parts. To facilitate reading, results description will also be divided into three sections.
 
-\subsection{Neural networks training}
+\subsection{Neural networks training}\label{sec:neural-network-training}
 First test that has been performed in this test set was time consumption in relation to number of processed examples.Because number of epochs is irrelevant to this experiment, all tests runs has been executed with number of epochs equal to $1$. In total, 5 test runs has been performed with data set split ratio of $0.7$ and following data set sizes: $500$, $1000$, $2000$, $5000$ and $10000$. Results of the experiment are shown on \hyperref[fig:training-time-consumpption]{fig. \ref*{fig:training-time-consumpption}}.
 % ANN training times: 350examples - 44.4s, 700examples - 85.2s, 1400examples - 171.6s, 3500examples - 429.2, 7000examples - 869.2
 % CNN training times: 350examples - 62.5s, 700examples - 124.5s, 1400examples - 202.4s, 3500examples - 499.5, 7000examples - 1048.9

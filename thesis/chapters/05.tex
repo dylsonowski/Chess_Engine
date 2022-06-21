@@ -1,8 +1,47 @@
 \chapter{Summary}
-\begin{itemize}
-\item synthetic description of performed work
-\item conclusions
-\item  future development, potential future research
-\item Has the objective been reached?
-\end{itemize}
+As it was mentioned in section \ref{sec:topic-analysis}, aim of this thesis was to test level of chess game effectivity depending on type of used neural network. Two types of neural networks has been tested in scope of this thesis: artificial neural network and convolutional neural network. Both of the created neural networks has been trained to evaluate chessboard situation. During implementation and testing process, there were couple of problematic topics that has been encountered. First problematic thing was implementation of convolutional neural network. In contrast to artificial neural network, implementing CNN instance required much more research and understanding much more complex mathematical algorithms. Furthermore, there are not that many valid resources which describe implementing convolutional neural network from scratch. A lot of publications describe usage of predefined libraries in Python programing language. One of the main goal of the final project was to make it as efficient as possible which Python language do not provide. Another encountered problem was training process. As it was presented in section \ref{sec:neural-network-training}, a lot of training sessions has been performed. Those experiments has been very time consuming and it was important to control resource usage during this process. During training sessions there were couple of situations in which an overfitting of the network has been noted. When overfitting happened, training session needed to be renewed. Another problematic aspect of the testing phase was finding optimal game tree size. As it was mentioned in section \ref{sec:game-tree-optimizations}, this structure can become very complex in a short time and local machine can become overloaded. That was an aspect that needed to be controlled during this experiment. Last problematic aspect that has been encountered was controlling automated AI tests. Because both AI instances has been trained on the same data set, it was possible that their level of playing will be similar. Because of it, not promising situations needed to be interrupted. In conclusion, testing process was very time consuming and required big interaction from user.
+
+Results presented in section \ref{sec:experiments}, shows that both instances of created AI can compete with intermediate and beginning chess players. Both manual and automated testing sessions, shows that convolutional neural network performs better in task of evaluating chessboard situations. It is important to notice that both used solutions have advantages and disadvantages which are presented in \hyperref[tab:solutions-pros-cons]{tab. \ref*{tab:solutions-pros-cons}}.
+\begin{table}
+	\centering
+	\caption{Advantages and disadvantages of proposed solutions.}
+	\label{tab:solutions-pros-cons}
+	\begin{tabular}{p{3.5cm}p{6.5cm}p{6.5cm}}
+	\toprule
+        \textbf{Solution} & \textbf{Advantages} & \textbf{Disadvantages}\\
+		\hline
+			AI that uses ANN & \begin{minipage}[t]{\linewidth}\begin{itemize}
+                \item medium learning time,
+                \item require smalldata set,
+                \item medium difficulty implementation,
+                \item easy to validate,
+                \item acceptable level of playing
+            \end{itemize}\end{minipage} & \begin{minipage}[t]{\linewidth}\begin{itemize}
+                \item bad performance at the beginning of the game,
+                \item often overfitting
+            \end{itemize}\end{minipage}\\
+            \hline
+			AI that uses CNN & \begin{minipage}[t]{\linewidth}\begin{itemize}
+                \item almost professional level of playing,
+                \item good opening maneuvers,
+                \item performs professional maneuvers,
+                \item very customizable
+            \end{itemize}\end{minipage} & \begin{minipage}[t]{\linewidth}\begin{itemize}
+                \item long learning time,
+                \item require big data set,
+                \item very complex implementation,
+            \end{itemize}\end{minipage}\\
+	\end{tabular}
+\end{table}
+Even if second solution (AI using CNN) have more disadvantages and less advantages, it is a better solution for the given problem. Most of its problems result from much more complex learning process. in process of creating chess playing AI, learning process complexity is less important than how it perform during a game. In conclusion, usage of artificial neural network is easier solution to implement and train but performs slightly worse. Otherwise, usage of convolutional neural network is harder solution to implement and train but gives much better results.
+
+Last thing, worth discussing is further research potential of the project. First potential modification is to implement AI instance which uses only heuristic approach. All previous experiments will be performed again to check how god added AI instance perform in comparison to already used solutions. Second possible modification is to add neural network that uses genetic algorithm as it was described in section \ref{sec:other-approaches-to-problem}.
+
+% \chapter{Summary}
+% \begin{itemize}
+% \item synthetic description of performed work
+% \item conclusions
+% \item future development, potential future research
+% \item Has the objective been reached?
+% \end{itemize}
 
