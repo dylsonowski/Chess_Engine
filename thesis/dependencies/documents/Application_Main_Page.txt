@@ -8,12 +8,12 @@
                 Y88b  d88P 888  888 Y8b.          X88      X88
                  "Y8888P"  888  888  "Y8888   88888P'  88888P'
 
-Captured pieces (WHITE):                        # List of captured white 
-                                                # colored pieces
-Captured pieces (BLACK):                        # List of captured black 
-                                                # colored pieces
+Captured pieces (WHITE):                    # List of captured white 
+                                            # colored pieces
+Captured pieces (BLACK):                    # List of captured black 
+                                            # colored pieces
     --   --   --   --   --   --   --   --
-8 | bR | bN | bB | bQ | bK | bB | bN | bR |     # Chessboard representation
+8 | bR | bN | bB | bQ | bK | bB | bN | bR | # Chessboard representation
     --   --   --   --   --   --   --   --
 7 | bP | bP | bP | bP | bP | bP | bP | bP |
     --   --   --   --   --   --   --   --
@@ -31,8 +31,8 @@ Captured pieces (BLACK):                        # List of captured black
     --   --   --   --   --   --   --   --
     a    b    c    d    e    f    g    h
 
-Turn 1(WHITE)                                   # Turn counter
-Commands: (N)ew game     (M)ove  (Q)uit         # Main menu
+Turn 1(WHITE)                               # Turn counter
+Commands: (N)ew game     (M)ove  (Q)uit     # Main menu
 
-Insert command here --> M                       # Field for user input
+Insert command here --> M                   # Field for user input
 Type '?' to see move command help. Insert command here -->

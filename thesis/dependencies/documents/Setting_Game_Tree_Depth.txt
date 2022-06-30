@@ -11,4 +11,4 @@
 Welcome in Chess AI program!
 
  How deep should the AI look for moves?
- Warning: values above 3 will be very slow. [n]? -->
+ Warning: Values above 3 will cause slow program execution. [n]? -->
